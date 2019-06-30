@@ -1,0 +1,4 @@
+# windows查看域名解析、跟踪路由
+nslookup www.baidu.com
+# 查看端口是否可以ping通
+telnet 127.0.0.1 8080

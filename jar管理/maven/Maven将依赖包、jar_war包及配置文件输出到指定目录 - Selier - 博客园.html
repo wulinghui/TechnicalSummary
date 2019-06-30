@@ -1,0 +1,3502 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.cnblogs.com/selier/p/9510326.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>Maven将依赖包、jar/war包及配置文件输出到指定目录 - Selier - 博客园</title>
+    <meta property="og:description" content="使用Maven插件将依赖包 jar包 war包及配置文件输出到指定目录">
+    <link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/blog-common.css">
+<link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/453150.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/bundle-SimpleMemory-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/selier/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/selier/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/selier/wlwmanifest.xml">
+    <script src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/amp4ads-host-v0.js.下载"></script><script async="" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/analytics.js.下载"></script><script src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/pubads_impl_rendering_2019061102.js.下载"></script><script src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=453150;var currentBlogApp='selier',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/f.txt"></script><link rel="preload" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/f(1).txt" as="script"><script type="text/javascript" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/f(1).txt"></script><script src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/pubads_impl_2019061102.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ToProgress" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/ToProgress.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="rotate" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/jquery.rotate.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="snapSvg" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/snap.svg-min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="tools" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/tools.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="js/css.min" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/css.min.js.下载"></script><link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/optiscroll.min.css"><link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/menu_bubble.min.css"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="classie" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/classie.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="optiscroll" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/jquery.optiscroll.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="main4" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/main4.min.js.下载"></script><link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/font_543384_hfku19m6z8ouhaor.css"><link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/5a531cbbf629dc07a8fbd011.css"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="base" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/base.min.js.下载"></script><link rel="shortcut icon" href="https://gitee.com/selierlin/cnblogs-theme/raw/master/img/blog_logo.gif"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="RibbonsEffect" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/RibbonsEffect.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="articleStatement" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/articleStatement.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="TweenMax" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/TweenMax.min.js.下载"></script><link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/baguetteBox.min.css"><link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/gallery-clean.min.css"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="title" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/articleTitle.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="bootstrap" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/bootstrap.min.js.下载"></script><link type="text/css" rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/marvin.nav2.min.css"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="MyTween" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/MyTween.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="baguetteBox" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/baguetteBox.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="marvin" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/marvin.nav2.min.js.下载"></script></head>
+<body style="overflow: auto;">
+<a name="top"></a>
+
+<!--PageBeginHtml Block Begin-->
+<!-- Loading 底层遮罩 -->
+<div id="loading" style="display: none;"></div>
+<!--PageBeginHtml Block End-->
+
+<!--done-->
+<div id="home" style="margin-top: 40vh;">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/selier/"><img id="blogLogo" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/selier/">Selier</a></h1>
+<h2>分享美的价值</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/selier/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Selier">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/selier/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/selier/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 23&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 9</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2 post-del-title" href="https://www.cnblogs.com/selier/p/9510326.html">Maven将依赖包、jar/war包及配置文件输出到指定目录</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown"><blockquote>
+<p>使用Maven插件将依赖包 jar包 war包及配置文件输出到指定目录</p>
+</blockquote>
+<span title-type="h1" class="header__span"><h1 id="autoid-0-0-0" class="header__dev"><b class="dev__fe"><i>1</i></b><span class="dev__slash">|</span><b class="dev__ux"><i>0</i></b><b class="dev__developer"><span class="dev__title">写在前面</span></b></h1></span><br>
+<p>​ 最近遇到一个朋友遇到一个项目需要将 maven 的依赖包和配置文件分开打包然后用脚本执行程序。这样的好处在于可以随时修改配置文件内容及查看 jar 包。如果将所有打成一个 jar 包就会有个问题（例如：修改数据库连接位置需要重新打包这样就失去了使用配置文件的有优点）。</p>
+<blockquote>
+<p>本文利用Maven插件将依赖包、jar/war包及配置文件输出到指定目录</p>
+</blockquote>
+<span title-type="h2" class="header__span"><h2 id="autoid-1-0-0" class="header__dev"><b class="dev__fe"><i>1</i></b><span class="dev__slash">|</span><b class="dev__ux"><i>1</i></b><b class="dev__developer"><span class="dev__title">1. 使用 maven-dependency-plugin 插件将依赖包导出到指定文件夹</span></b></h2></span><br>
+<pre class="xml" style="border-width: 1px 1px 1px 2px; border-style: dashed dashed dashed solid; border-color: rgb(170, 170, 170) rgb(170, 170, 170) rgb(170, 170, 170) rgb(108, 226, 108); border-image: initial;"><code class="hljs"><span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-dependency-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>copy-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">phase</span>&gt;</span>package<span class="hljs-tag">&lt;/<span class="hljs-name">phase</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>copy-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+                        <span class="hljs-comment">&lt;!--${project.build.directory} class的输出目录不做设置的话默认代表项目根目录的target目录；
+                            也可以使用“自定义文件夹/自定义文件夹 例如：a/b”，也可以使用绝对路径如：“D:\test” --&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">outputDirectory</span>&gt;</span>${project.build.directory}/lib<span class="hljs-tag">&lt;/<span class="hljs-name">outputDirectory</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">excludeTransitive</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">excludeTransitive</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">stripVersion</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">stripVersion</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">includeScope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">includeScope</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span></code></pre>
+<blockquote>
+<p>以下步骤将会省略掉build plugins节点</p>
+</blockquote>
+<span title-type="h2" class="header__span"><h2 id="autoid-1-1-0" class="header__dev"><b class="dev__fe"><i>1</i></b><span class="dev__slash">|</span><b class="dev__ux"><i>2</i></b><b class="dev__developer"><span class="dev__title">2. 使用 maven-war-plugin 插件将war打包到指定路径</span></b></h2></span><br>
+<blockquote>
+<p>打Jar包时，与此类似</p>
+</blockquote>
+<pre class="xml" style="border-width: 1px 1px 1px 2px; border-style: dashed dashed dashed solid; border-color: rgb(170, 170, 170) rgb(170, 170, 170) rgb(170, 170, 170) rgb(108, 226, 108); border-image: initial;"><code class="hljs"><span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-war-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">outputDirectory</span>&gt;</span>d:\test<span class="hljs-tag">&lt;/<span class="hljs-name">outputDirectory</span>&gt;</span>
+        <span class="hljs-comment">&lt;!--表示将所有的webapps项目下的文件拷贝到相应路径--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">webappDirectory</span>&gt;</span>d:\test<span class="hljs-tag">&lt;/<span class="hljs-name">webappDirectory</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span></code></pre>
+<span title-type="h2" class="header__span"><h2 id="autoid-1-2-0" class="header__dev"><b class="dev__fe"><i>1</i></b><span class="dev__slash">|</span><b class="dev__ux"><i>3</i></b><b class="dev__developer"><span class="dev__title">3. 使用 maven-jar-plugin 插件移除配置文件将其不打包进 jar 包中，并可以将打包后的 jar 包输出到指定路径</span></b></h2></span><br>
+<pre class="xml" style="border-width: 1px 1px 1px 2px; border-style: dashed dashed dashed solid; border-color: rgb(170, 170, 170) rgb(170, 170, 170) rgb(170, 170, 170) rgb(108, 226, 108); border-image: initial;"><code class="hljs"><span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-jar-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- 指定打包的jar包输出路径--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">outputDirectory</span>&gt;</span>
+            ${project.build.directory}/lib
+        <span class="hljs-tag">&lt;/<span class="hljs-name">outputDirectory</span>&gt;</span>   
+        <span class="hljs-comment">&lt;!--不打入jar包的文件类型或者路径--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">excludes</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>**/*.properties<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>**/*.xml<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>**/*.yml<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>static/**<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>templates/**<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">excludes</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span></code></pre>
+<span title-type="h2" class="header__span"><h2 id="autoid-1-3-0" class="header__dev"><b class="dev__fe"><i>1</i></b><span class="dev__slash">|</span><b class="dev__ux"><i>4</i></b><b class="dev__developer"><span class="dev__title">4. 使用 maven-resources-plugin 插件将需要复制的文件复制到指定路径（例：将配置文件提取到指定路径）</span></b></h2></span><br>
+<pre class="xml" style="border-width: 1px 1px 1px 2px; border-style: dashed dashed dashed solid; border-color: rgb(170, 170, 170) rgb(170, 170, 170) rgb(170, 170, 170) rgb(108, 226, 108); border-image: initial;"><code class="hljs"><span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-resources-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>copy-resources<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">phase</span>&gt;</span>package<span class="hljs-tag">&lt;/<span class="hljs-name">phase</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>copy-resources<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">encoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">encoding</span>&gt;</span>
+                <span class="hljs-comment">&lt;!--打成jar包后复制到的路径--&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">outputDirectory</span>&gt;</span>
+                    ${project.build.directory}/conf
+                <span class="hljs-tag">&lt;/<span class="hljs-name">outputDirectory</span>&gt;</span>  
+                <span class="hljs-tag">&lt;<span class="hljs-name">resources</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">resource</span>&gt;</span>
+                        <span class="hljs-comment">&lt;!--项目中的路径--&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">directory</span>&gt;</span>src/main/resources/<span class="hljs-tag">&lt;/<span class="hljs-name">directory</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">resource</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">resources</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+        <span class="hljs-comment">&lt;!--可配置多个提取复制路径只需要 “&lt;id&gt;”名字不一样即可--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>copy-bulid<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">phase</span>&gt;</span>package<span class="hljs-tag">&lt;/<span class="hljs-name">phase</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>copy-resources<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">encoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">encoding</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">outputDirectory</span>&gt;</span>
+                    ${project.build.directory}/bin
+                <span class="hljs-tag">&lt;/<span class="hljs-name">outputDirectory</span>&gt;</span>   
+                <span class="hljs-tag">&lt;<span class="hljs-name">resources</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">resource</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">directory</span>&gt;</span>build/<span class="hljs-tag">&lt;/<span class="hljs-name">directory</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">resource</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">resources</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span></code></pre>
+<span title-type="h2" class="header__span"><h2 id="autoid-1-4-0" class="header__dev"><b class="dev__fe"><i>1</i></b><span class="dev__slash">|</span><b class="dev__ux"><i>5</i></b><b class="dev__developer"><span class="dev__title">使用 maven 命令执行打包命令</span></b></h2></span><br>
+<pre style="border-width: 1px 1px 1px 2px; border-style: dashed dashed dashed solid; border-color: rgb(170, 170, 170) rgb(170, 170, 170) rgb(170, 170, 170) rgb(108, 226, 108); border-image: initial;"><code class="hljs go">mvn clean <span class="hljs-keyword">package</span></code></pre>
+<p>转自：<a href="https://www.cnblogs.com/willvi624/p/9456239.html" class="uri">https://www.cnblogs.com/willvi624/p/9456239.html</a></p>
+<br><p style="font-weight:  bold;font-size: 16px;text-align:  center;color: #ddd;">__EOF__</p><p style="font-family: Microsoft YaHei,微软雅黑,MicrosoftJhengHei,华文细黑,STHeiti,MingLiu;font-size: 14px;background: hsl(220, 23%, 98%)!important;padding: 17px;border: 1px solid hsl(220, 16%, 94%)!important;border-radius: 3px;color: #414857;"><span style="font-weight: bold; white-space:nowrap;">作　　者</span>：<strong><span style="font-size: 12px; color: red;"><a href="https://www.cnblogs.com/selier" target="_blank">Selier</a></span></strong><br><span style="font-weight: bold; white-space:nowrap;">出　　处</span>：<a href="https://www.cnblogs.com/selier/p/9510326.html" target="_blank">https://www.cnblogs.com/selier/p/9510326.html</a><br><span style="font-weight: bold; white-space:nowrap;">关于博主</span>：编程路上的小学生，热爱技术，喜欢专研。评论和私信会在第一时间回复。或者<a href="http://msg.cnblogs.com/msg/send/selier" target="_blank">直接私信</a>我。<br><span style="font-weight: bold; white-space:nowrap;">版权声明</span>：署名 - 非商业性使用 - 禁止演绎，<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" alt="协议普通文本" title="协议普通文本" target="_blank">协议普通文本</a> | <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode" alt="协议法律文本" title="协议法律文本" target="_blank">协议法律文本</a>。<br><span style="font-weight: bold; white-space:nowrap;">声援博主</span>：如果您觉得文章对您有帮助，可以点击文章右下角<strong><span style="color: #ff0000; font-size: 12pt;">【<a id="post-up" onclick="votePost(9510326,&#39;Digg&#39;)" href="javascript:void(0);">推荐</a>】</span></strong>一下。您的鼓励是博主的最大动力！<br></p></div><div id="MySignature" style="display: block;">编程路上的小学生，热爱技术，喜欢专研。
+如果你和我一样对软件工具热爱，爱玩新奇的东西，
+那么可以加群和我们一块讨论：913529257</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/selier/category/1283457.html" target="_blank">Maven</a></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/selier/tag/maven/">maven</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(9510326,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;38fd1892-1b84-4faf-063a-08d605d156ae&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/selier/" target="_blank"><img src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/20180929215537.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/selier/">Selier</a><br>
+            <a href="https://home.cnblogs.com/u/selier/followees">关注 - 1</a><br>
+            <a href="https://home.cnblogs.com/u/selier/followers">粉丝 - 17</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;38fd1892-1b84-4faf-063a-08d605d156ae&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(9510326,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(9510326,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/selier/p/9507402.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/selier/p/9507402.html" title="发布于2018-08-20 19:06">Markdown 进阶</a><br><a href="https://www.cnblogs.com/selier/p/9510924.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/selier/p/9510924.html" title="发布于2018-08-21 13:54">Maven 变量及常见插件配置详解</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2018-08-21 11:24</span> <a href="https://www.cnblogs.com/selier/">Selier</a> 阅读(<span id="post_view_count">5356</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=9510326" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/selier/p/9510326.html#" onclick="AddToWz(9510326);return false;">收藏</a></div>
+	</div>
+	<script src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/highlight.min.js.下载"></script><script>markdown_highlight();</script><script type="text/javascript">var allowComments=true,cb_blogId=453150,cb_entryId=9510326,cb_blogApp=currentBlogApp,cb_blogUserGuid='38fd1892-1b84-4faf-063a-08d605d156ae',cb_entryCreatedDate='2018/8/21 11:24:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=true;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/selier/p/9510326.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/selier/p/9510326.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://ke.qq.com/adActivity.html?name=xiangxueketang2" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-享学&#39;)">【培训】阿里P8面试官：什么样的人能进阿里</a><br><a href="https://q.cnblogs.com/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博问&#39;)">【推荐】程序员问答平台，解决您开发中遇到的技术难题</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block" style="">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CMGD1MuG8OICFUMJvQod9SgIqA"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true" src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news"></div>
+<div id="cnblogs_c2" class="c_ad_block" style="">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CMKD1MuG8OICFUMJvQod9SgIqA"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none; width: 468px; height: 60px;"></div></div>
+</div>
+<div id="under_post_kb"></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><!-- menu html -->
+<div class="container">
+    <div class="menu-wrap optiscroll is-enabled" id="menuWrap" style="display:none"><div class="optiscroll-content" style="right: -19px; bottom: -19px;">
+        <nav class="menu">
+
+            <!-- 个人简介 -->
+            <div class="introduce-box">
+                <div class="introduce-head">
+                    <div class="introduce-via" id="menuBlogAvatar"><img src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/20180820112323.png"></div>
+                </div>
+                <div id="introduce">昵称：<a href="https://home.cnblogs.com/u/selier/">Selier</a><br>园龄：<a href="https://home.cnblogs.com/u/selier/" title="入园时间：2018-08-20">9个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/selier/followers/">17</a><br>关注：<a href="https://home.cnblogs.com/u/selier/followees/">1</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;38fd1892-1b84-4faf-063a-08d605d156ae&#39;)">+加关注</a></div></div>
+            </div>
+
+            <!-- 导航 -->
+            <div class="nav-title"></div>
+            <div class="icon-list">
+                <ul>
+                    <li><a href="https://www.cnblogs.com/selier/" target="_self">首页</a></li>
+                    <li><a href="https://msg.cnblogs.com/send/selier" target="_blank">联系</a></li>
+                    <li><a href="https://www.cnblogs.com/selier/rss" target="_blank">订阅</a></li>
+                    <li><a href="https://i.cnblogs.com/" target="_blank">管理</a></li>
+                    <li><a href="https://github.com/selierlin" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.cnblogs.com/" target="_blank">CNBlogs</a></li>
+                </ul>
+            </div>
+
+            <!-- 最新随笔 -->
+            <div class="m-list-title"><span>最新随笔</span></div>
+            <div class="m-icon-list" id="sb-sidebarRecentposts"></div>
+
+            <!-- 随笔分类 -->
+            <div class="m-list-title"><span>随笔分类</span></div>
+            <div class="m-icon-list" id="sb-classify">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/selier/category/1284336.html">Apache(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/selier/category/1291032.html">Git(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/selier/category/1291037.html">Github(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/selier/category/1283460.html">Hibernate</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/selier/category/1283478.html">Idea</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/selier/category/1283458.html">Java</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/selier/category/1283462.html">JDBC</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/selier/category/1283463.html">Jquery</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/selier/category/1359477.html">JS(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/selier/category/1283465.html">Linux</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/selier/category/1283466.html">Log4j</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/selier/category/1283461.html">Markdown(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/selier/category/1283457.html">Maven(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/selier/category/1283467.html">Mybatis</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/selier/category/1283469.html">MySQL(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/selier/category/1283470.html">Oracle</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="https://www.cnblogs.com/selier/category/1284325.html">PHP(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="https://www.cnblogs.com/selier/category/1283468.html">Redis</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="https://www.cnblogs.com/selier/category/1283471.html">Servlet</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="https://www.cnblogs.com/selier/category/1283459.html">Spring</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="https://www.cnblogs.com/selier/category/1283472.html">SpringMVC</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="https://www.cnblogs.com/selier/category/1283474.html">Struts2</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="https://www.cnblogs.com/selier/category/1283475.html">SVN</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_23" href="https://www.cnblogs.com/selier/category/1283476.html">Tomcat</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_24" href="https://www.cnblogs.com/selier/category/1301240.html">Tool(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_25" href="https://www.cnblogs.com/selier/category/1283456.html">Windows(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_26" href="https://www.cnblogs.com/selier/category/1283477.html">XML</a> </li>
+
+</ul>
+
+</div>
+
+            <!-- 随笔档案 -->
+            <div class="m-list-title"><span>随笔档案</span></div>
+            <div class="m-icon-list" id="sb-record">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/selier/archive/2018/12.html">2018年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/selier/archive/2018/09.html">2018年9月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/selier/archive/2018/08.html">2018年8月 (14)</a> </li>
+
+</ul>
+
+</div>
+
+            <!-- 最新评论 -->
+            <div class="m-list-title"><span>最新随笔</span></div>
+            <div class="m-icon-list" id="sb-RecentCommentsBlock"></div>
+
+            <!-- 阅读排行 -->
+            <div class="m-list-title"><span>阅读排行</span></div>
+            <div class="m-icon-list" id="sb-topview"><div><ul><li><a href="https://www.cnblogs.com/selier/p/9532955.html">微擎安装使用及插件模块安装(11502)</a></li><li><a href="https://www.cnblogs.com/selier/p/9649064.html">Xmanager power suit 6 最新版注册激活(9251)</a></li><li><a href="https://www.cnblogs.com/selier/p/9510326.html">Maven将依赖包、jar/war包及配置文件输出到指定目录(5354)</a></li><li><a href="https://www.cnblogs.com/selier/p/9533382.html">IIS 反向代理到 Apache、Tomcat(1639)</a></li><li><a href="https://www.cnblogs.com/selier/p/9649386.html">Jetbrains IntelliJ IDEA PyCharm 注册激活(2018最新)(698)</a></li></ul></div></div>
+
+            <!-- 推荐排行 -->
+            <div class="m-list-title"><span>推荐排行</span></div>
+            <div class="m-icon-list" id="sb-topDiggPosts"><div><ul><li><a href="https://www.cnblogs.com/selier/p/9649158.html">渗透测试常用工具(3)</a></li><li><a href="https://www.cnblogs.com/selier/p/9649064.html">Xmanager power suit 6 最新版注册激活(2)</a></li><li><a href="https://www.cnblogs.com/selier/p/9510326.html">Maven将依赖包、jar/war包及配置文件输出到指定目录(1)</a></li></ul></div></div>
+
+        </nav>
+        <button class="close-button" id="close-button">Close Menu</button>
+        <div class="morph-shape" id="morph-shape" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none">
+                <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"></path>
+            <desc>Created with Snap</desc><defs></defs></svg>
+        </div>
+    </div><div class="optiscroll-v"><b class="optiscroll-vtrack"></b></div><div class="optiscroll-h"><b class="optiscroll-htrack"></b></div></div>
+    <button class="menu-button" id="open-button">MENU</button>
+    <div class="content-wrap" id="content-wrap"></div><!-- /content-wrap -->
+</div>
+<!-- menu html end -->
+
+<!-- banner html -->
+<div class="main-header" style="height: 40vh; background: url(&quot;https://gitee.com/selierlin/cnblogs-theme/raw/master/img/wallhaven-569548.jpg&quot;) center center / cover no-repeat rgb(34, 34, 34);">
+    <div class="vertical" style="display: none;">
+        <div class="main-header-content inner">
+            <h1 class="page-title cssf79d1841e1b313" id="homeTopTitle">Selier</h1>
+            <h2 class="page-description" id="hitokoto"></h2>
+            <h3 class="page-author" id="hitokotoAuthor"></h3>
+        </div>
+    </div>
+    <a class="scroll-down" href="javascript:void(0);" data-offset="-45" style="display: none;">
+        <span class="hidden">Scroll Down</span>
+        <i class="scroll-down-icon iconfont icon-fanhui"></i>
+    </a>
+    <canvas id="myTopCanvas" style="position: absolute; margin: auto; width: 100%; height: 100%; top: 0px; bottom: 0px; left: 0px; right: 0px; display: none;" width="1707" height="300"></canvas>
+</div>
+<!-- banner html end -->
+
+<!-- global var -->
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['1']();</script>
+<!-- global var end --><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/selier/">Selier</a><br>园龄：<a href="https://home.cnblogs.com/u/selier/" title="入园时间：2018-08-20">9个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/selier/followers/">17</a><br>关注：<a href="https://home.cnblogs.com/u/selier/followees/">1</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;38fd1892-1b84-4faf-063a-08d605d156ae&#39;)">+加关注</a></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script>window['__document_write_ajax_callbacks__']['2']();</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display: block;"><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/05/01&#39;);return false;">&lt;</a></td><td align="center">2019年6月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/07/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td class="CalWeekendDay" align="center">1</td></tr><tr><td class="CalWeekendDay" align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalWeekendDay" align="center">8</td></tr><tr><td class="CalWeekendDay" align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td class="CalWeekendDay" align="center">15</td></tr><tr><td class="CalWeekendDay" align="center">16</td><td class="CalTodayDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td class="CalWeekendDay" align="center">22</td></tr><tr><td class="CalWeekendDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalWeekendDay" align="center">29</td></tr><tr><td class="CalWeekendDay" align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/selier/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/selier/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/selier/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/selier/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/selier/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/selier/tag/dos/">dos</a>(6)</li><li><a href="https://www.cnblogs.com/selier/tag/git/">git</a>(3)</li><li><a href="https://www.cnblogs.com/selier/tag/github/">github</a>(3)</li><li><a href="https://www.cnblogs.com/selier/tag/Windows/">Windows</a>(3)</li><li><a href="https://www.cnblogs.com/selier/tag/markdown/">markdown</a>(2)</li><li><a href="https://www.cnblogs.com/selier/tag/maven/">maven</a>(2)</li><li><a href="https://www.cnblogs.com/selier/tag/mysql/">mysql</a>(2)</li><li><a href="https://www.cnblogs.com/selier/tag/php/">php</a>(2)</li><li><a href="https://www.cnblogs.com/selier/tag/hexo/">hexo</a>(2)</li><li><a href="https://www.cnblogs.com/selier/tag/Idea/">Idea</a>(1)</li><li><a href="https://www.cnblogs.com/selier/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/selier/category/1284336.html">Apache(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/selier/category/1291032.html">Git(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/selier/category/1291037.html">Github(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/selier/category/1283460.html">Hibernate</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/selier/category/1283478.html">Idea</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/selier/category/1283458.html">Java</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/selier/category/1283462.html">JDBC</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/selier/category/1283463.html">Jquery</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/selier/category/1359477.html">JS(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/selier/category/1283465.html">Linux</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/selier/category/1283466.html">Log4j</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/selier/category/1283461.html">Markdown(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/selier/category/1283457.html">Maven(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/selier/category/1283467.html">Mybatis</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/selier/category/1283469.html">MySQL(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/selier/category/1283470.html">Oracle</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="https://www.cnblogs.com/selier/category/1284325.html">PHP(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="https://www.cnblogs.com/selier/category/1283468.html">Redis</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="https://www.cnblogs.com/selier/category/1283471.html">Servlet</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="https://www.cnblogs.com/selier/category/1283459.html">Spring</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="https://www.cnblogs.com/selier/category/1283472.html">SpringMVC</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="https://www.cnblogs.com/selier/category/1283474.html">Struts2</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="https://www.cnblogs.com/selier/category/1283475.html">SVN</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_23" href="https://www.cnblogs.com/selier/category/1283476.html">Tomcat</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_24" href="https://www.cnblogs.com/selier/category/1301240.html">Tool(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_25" href="https://www.cnblogs.com/selier/category/1283456.html">Windows(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_26" href="https://www.cnblogs.com/selier/category/1283477.html">XML</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/selier/archive/2018/12.html">2018年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/selier/archive/2018/09.html">2018年9月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/selier/archive/2018/08.html">2018年8月 (14)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	14865
+	</li>
+	<li class="liRank">
+		排名 -	38544
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/selier/p/9649158.html#4268003">1. Re:渗透测试常用工具</a></li>
+        <li class="recent_comment_body">楼主也是做网络信息安全的吗？可以交流下？<br>我实习三个月了</li>
+        <li class="recent_comment_author">--啊牙疼啊</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/selier/p/9649158.html#4149105">2. Re:渗透测试常用工具</a></li>
+        <li class="recent_comment_body">同求此模板</li>
+        <li class="recent_comment_author">--蓉城浪子</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/selier/p/9649064.html#4122913">3. Re:Xmanager power suit 6 最新版注册激活</a></li>
+        <li class="recent_comment_body">感谢，6.0.0010下载：<br><a href="https://www.cnblogs.com/selier/p/9510326.html" target="_blank"></a></li>
+        <li class="recent_comment_author">--拥剑公子</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/selier/p/9649158.html#4089235">4. Re:渗透测试常用工具</a></li>
+        <li class="recent_comment_body">@Selier这次看到了 刚才我瞄了一眼居然没看到 哈哈...</li>
+        <li class="recent_comment_author">--Lyle_Dong</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/selier/p/9649158.html#4089233">5. Re:渗透测试常用工具</a></li>
+        <li class="recent_comment_body">@Lyle_Dong主题吗 看我页脚...</li>
+        <li class="recent_comment_author">--Selier</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/selier/p/9532955.html">1. 微擎安装使用及插件模块安装(11502)</a></li><li><a href="https://www.cnblogs.com/selier/p/9649064.html">2. Xmanager power suit 6 最新版注册激活(9251)</a></li><li><a href="https://www.cnblogs.com/selier/p/9510326.html">3. Maven将依赖包、jar/war包及配置文件输出到指定目录(5354)</a></li><li><a href="https://www.cnblogs.com/selier/p/9533382.html">4. IIS 反向代理到 Apache、Tomcat(1639)</a></li><li><a href="https://www.cnblogs.com/selier/p/9649386.html">5. Jetbrains IntelliJ IDEA PyCharm 注册激活(2018最新)(698)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/selier/p/9649158.html">1. 渗透测试常用工具(7)</a></li><li><a href="https://www.cnblogs.com/selier/p/9649064.html">2. Xmanager power suit 6 最新版注册激活(1)</a></li><li><a href="https://www.cnblogs.com/selier/p/9505209.html">3. 关于主题(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/selier/p/9649158.html">1. 渗透测试常用工具(3)</a></li><li><a href="https://www.cnblogs.com/selier/p/9649064.html">2. Xmanager power suit 6 最新版注册激活(2)</a></li><li><a href="https://www.cnblogs.com/selier/p/9510326.html">3. Maven将依赖包、jar/war包及配置文件输出到指定目录(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer"><div class="footer-image"></div><div class="footer-image"></div>
+		
+<!--done-->
+Copyright ©2019 Selier
+	<i class="iconfont icon-odps-data cnzz" style="position: relative;top: 2px;left: 3px;cursor: pointer;"></i><span id="amazingStatSpan"></span><div>【事实并非理所当然<span id="footerTextIcon">❤️</span>世界总是欲盖弥彰】</div><div><span id="blogRunTimeSpan">This blog has running : 301 d 10 h 12 m 0 s</span><span class="my-face">ღゝ◡╹)ノ♡</span></div><div id="blogrollInfo">友情链接：<a href="https://www.cnblogs.com/selier/p/9510326.html#" target="_blank">申请坑位</a></div><div id="cnzzInfo"></div><p id="ThemeAuthors" style="color: #444;z-index: 999;">- Theme Authors：<a href="https://www.cnblogs.com/bndong/" target="_blank" style="color:#444;">BNDong</a> -</p></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+<!--PageEndHtml Block Begin-->
+<!-- 滚动进度 -->
+<div id="bottomProgressBar"><div id="top-progress-bar" style="position: relative; top: 0px; left: 0px; right: 0px; background-color: rgb(119, 182, 255); height: 2px; width: 0%; transition: width 0.2s ease 0s, opacity 0.6s ease 0s; opacity: 1;"></div></div>
+
+<!-- 音乐播放器 -->
+<link rel="stylesheet" href="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/APlayer.min.css">
+<script src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/APlayer.min.js.下载"></script>
+<div id="aplayer" class="aplayer aplayer-withlist aplayer-fixed aplayer-narrow" data-id="316722029" data-lrctype="0" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true">
+<div class="aplayer-list aplayer-list-hide" style="max-height: 250px">
+    <ol style="max-height: 250px">
+        
+<li class="aplayer-list-light">
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">1</span>
+    <span class="aplayer-list-title">worst mistake</span>
+    <span class="aplayer-list-author">park bird</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">2</span>
+    <span class="aplayer-list-title">Freak On (Radio Edit)</span>
+    <span class="aplayer-list-author">Karlyn / Charming Horses</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">3</span>
+    <span class="aplayer-list-title">Favours</span>
+    <span class="aplayer-list-author">Brett</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">4</span>
+    <span class="aplayer-list-title">Whenever</span>
+    <span class="aplayer-list-author">Kris Kross Amsterdam / The Boy Next Door / Conor Maynard</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">5</span>
+    <span class="aplayer-list-title">生而为人</span>
+    <span class="aplayer-list-author">尚士达</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">6</span>
+    <span class="aplayer-list-title">Daily</span>
+    <span class="aplayer-list-author">Rival &amp; Cadmium / Jon Becker</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">7</span>
+    <span class="aplayer-list-title">盆踊り</span>
+    <span class="aplayer-list-author">宮良牧子</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">8</span>
+    <span class="aplayer-list-title">Girl From LA</span>
+    <span class="aplayer-list-author">Franke</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">9</span>
+    <span class="aplayer-list-title">心跳(原味版)</span>
+    <span class="aplayer-list-author">于文文</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">10</span>
+    <span class="aplayer-list-title">多想在平庸的生活拥抱你</span>
+    <span class="aplayer-list-author">隔壁老樊</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">11</span>
+    <span class="aplayer-list-title">你是人间四月天</span>
+    <span class="aplayer-list-author">解忧邵帅</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">12</span>
+    <span class="aplayer-list-title">Break Up in a Small Town</span>
+    <span class="aplayer-list-author">Sam Hunt</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">13</span>
+    <span class="aplayer-list-title">Make Them Wheels Roll</span>
+    <span class="aplayer-list-author">SAFIA</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">14</span>
+    <span class="aplayer-list-title">Gold</span>
+    <span class="aplayer-list-author">The Tech Thieves</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">15</span>
+    <span class="aplayer-list-title">Broken </span>
+    <span class="aplayer-list-author">Tom Bailey / Bjonr</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">16</span>
+    <span class="aplayer-list-title">Boy&nbsp;Next&nbsp;Door</span>
+    <span class="aplayer-list-author">放假君FJJ / Billy Herrington / Van Darkholme</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">17</span>
+    <span class="aplayer-list-title">我还年轻 我还年轻</span>
+    <span class="aplayer-list-author">老王乐队</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">18</span>
+    <span class="aplayer-list-title">Don’t Come Home</span>
+    <span class="aplayer-list-author">Navarra</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">19</span>
+    <span class="aplayer-list-title">出山</span>
+    <span class="aplayer-list-author">花粥 / 王胜娚</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">20</span>
+    <span class="aplayer-list-title">Everything I Need (Film Version)</span>
+    <span class="aplayer-list-author">Skylar Grey</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">21</span>
+    <span class="aplayer-list-title">浪子回头</span>
+    <span class="aplayer-list-author">茄子蛋</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">22</span>
+    <span class="aplayer-list-title">Missile</span>
+    <span class="aplayer-list-author">DOROTHY</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">23</span>
+    <span class="aplayer-list-title">Sevgi</span>
+    <span class="aplayer-list-author">Furqat Ro'zmatov</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">24</span>
+    <span class="aplayer-list-title">i love Poland</span>
+    <span class="aplayer-list-author">苏冬涛 / 昊林</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">25</span>
+    <span class="aplayer-list-title">Nympho</span>
+    <span class="aplayer-list-author">Christopher</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">26</span>
+    <span class="aplayer-list-title">Monsters</span>
+    <span class="aplayer-list-author">Saara Aalto</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">27</span>
+    <span class="aplayer-list-title">I Miss U</span>
+    <span class="aplayer-list-author">Alok / Selva</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">28</span>
+    <span class="aplayer-list-title">Pretty Stranger</span>
+    <span class="aplayer-list-author">Prismo</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">29</span>
+    <span class="aplayer-list-title">看透以后</span>
+    <span class="aplayer-list-author">音阙诗听 / 王梓钰</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">30</span>
+    <span class="aplayer-list-title">You</span>
+    <span class="aplayer-list-author">Future of Forestry</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">31</span>
+    <span class="aplayer-list-title">「二胡」典狱司</span>
+    <span class="aplayer-list-author">柠露</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">32</span>
+    <span class="aplayer-list-title">失语者</span>
+    <span class="aplayer-list-author">蔡健雅</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">33</span>
+    <span class="aplayer-list-title">坠落</span>
+    <span class="aplayer-list-author">蔡健雅</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">34</span>
+    <span class="aplayer-list-title">Photomaton</span>
+    <span class="aplayer-list-author">Jabberwocky</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">35</span>
+    <span class="aplayer-list-title">去年夏天（Cover：家家）</span>
+    <span class="aplayer-list-author">杨梓琪呀</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">36</span>
+    <span class="aplayer-list-title">Любовьстрела</span>
+    <span class="aplayer-list-author">Daria</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">37</span>
+    <span class="aplayer-list-title">That Girl</span>
+    <span class="aplayer-list-author">Olly Murs</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">38</span>
+    <span class="aplayer-list-title">往后余生</span>
+    <span class="aplayer-list-author">王贰浪</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">39</span>
+    <span class="aplayer-list-title">Un Ange Frappe à Ma Porte</span>
+    <span class="aplayer-list-author">Natasha St. Pier</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">40</span>
+    <span class="aplayer-list-title">You and I (Original Mix)</span>
+    <span class="aplayer-list-author">Charming Horses / Emma Carn</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">41</span>
+    <span class="aplayer-list-title">Shelter (Pure 100% Remix)</span>
+    <span class="aplayer-list-author">Pure 100% / Porter Robinson / Madeon</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">42</span>
+    <span class="aplayer-list-title">Nuvole Bianche</span>
+    <span class="aplayer-list-author">Ludovico Einaudi / Martin Jacoby</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">43</span>
+    <span class="aplayer-list-title">暗涌</span>
+    <span class="aplayer-list-author">王菲</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">44</span>
+    <span class="aplayer-list-title">Take Me To Infinity</span>
+    <span class="aplayer-list-author">Consoul Trainin</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">45</span>
+    <span class="aplayer-list-title">Messy&nbsp;girl(Silence&nbsp;Lu&nbsp;Remix)</span>
+    <span class="aplayer-list-author">Silence&nbsp;Lu / Morri3on(喬凡三) / Shauna Cardwell</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">46</span>
+    <span class="aplayer-list-title">ナツのテーマ</span>
+    <span class="aplayer-list-author">高梨康治</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">47</span>
+    <span class="aplayer-list-title">China</span>
+    <span class="aplayer-list-author">习谱予</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">48</span>
+    <span class="aplayer-list-title">Time (Official)</span>
+    <span class="aplayer-list-author">MKJ</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">49</span>
+    <span class="aplayer-list-title">Criminal</span>
+    <span class="aplayer-list-author">Britney Spears</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">50</span>
+    <span class="aplayer-list-title">Love Is A Temple</span>
+    <span class="aplayer-list-author">Alok / Iro</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">51</span>
+    <span class="aplayer-list-title">No More You</span>
+    <span class="aplayer-list-author">Akon</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">52</span>
+    <span class="aplayer-list-title">California</span>
+    <span class="aplayer-list-author">Akia</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">53</span>
+    <span class="aplayer-list-title">Keep Up</span>
+    <span class="aplayer-list-author">Akon</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">54</span>
+    <span class="aplayer-list-title">Golden Fleece</span>
+    <span class="aplayer-list-author">Songs To Your Eyes</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">55</span>
+    <span class="aplayer-list-title">Awake</span>
+    <span class="aplayer-list-author">Full Tilt</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">56</span>
+    <span class="aplayer-list-title">Амыран / Amyran (Amyr Akchin style of singing)</span>
+    <span class="aplayer-list-author">AltaiKAI</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">57</span>
+    <span class="aplayer-list-title">走歌人</span>
+    <span class="aplayer-list-author">暗杠</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">58</span>
+    <span class="aplayer-list-title">Together(loskop remix)</span>
+    <span class="aplayer-list-author">loskop / Paradise / Grace</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">59</span>
+    <span class="aplayer-list-title">安阳安阳</span>
+    <span class="aplayer-list-author">李晋</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">60</span>
+    <span class="aplayer-list-title">卡尔加里路</span>
+    <span class="aplayer-list-author">丢火车</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">61</span>
+    <span class="aplayer-list-title">途中</span>
+    <span class="aplayer-list-author">陈鸿宇</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">62</span>
+    <span class="aplayer-list-title">The Garden of Escapism</span>
+    <span class="aplayer-list-author">Miro</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">63</span>
+    <span class="aplayer-list-title">Another Shot (Charming Horses Remix)</span>
+    <span class="aplayer-list-author">Vigiland / Charming Horses</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">64</span>
+    <span class="aplayer-list-title">Thank You (Miki Mouse &amp; Krocodile Remix)</span>
+    <span class="aplayer-list-author">Miki Mouse</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">65</span>
+    <span class="aplayer-list-title">Coming Home-失控（小白羊HUSH Remix）</span>
+    <span class="aplayer-list-author">小白羊HUSH</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">66</span>
+    <span class="aplayer-list-title">Glitter &amp; Gold</span>
+    <span class="aplayer-list-author">Barns Courtney</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">67</span>
+    <span class="aplayer-list-title">丰碑</span>
+    <span class="aplayer-list-author">李常超 (Lao乾妈) / 满汉全席</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">68</span>
+    <span class="aplayer-list-title">白兰鸽巡游记</span>
+    <span class="aplayer-list-author">丢火车</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">69</span>
+    <span class="aplayer-list-title">阿刁</span>
+    <span class="aplayer-list-author">赵雷</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">70</span>
+    <span class="aplayer-list-title">Turn It Up</span>
+    <span class="aplayer-list-author">Jonny Rose / PRFFTT / Svyable</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">71</span>
+    <span class="aplayer-list-title">Without U</span>
+    <span class="aplayer-list-author">Sergio</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">72</span>
+    <span class="aplayer-list-title">Superstar</span>
+    <span class="aplayer-list-author">Beatrich</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">73</span>
+    <span class="aplayer-list-title">山下</span>
+    <span class="aplayer-list-author">方拾贰</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">74</span>
+    <span class="aplayer-list-title">求醉</span>
+    <span class="aplayer-list-author">广东雨神</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">75</span>
+    <span class="aplayer-list-title">Bazaar (Official Sunburn Goa 2015 Anthem) [Extended Mix]</span>
+    <span class="aplayer-list-author">KSHMR / Marnik</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">76</span>
+    <span class="aplayer-list-title">Whisper Something</span>
+    <span class="aplayer-list-author">Aaron Sprinkle</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">77</span>
+    <span class="aplayer-list-title">项羽虞姬</span>
+    <span class="aplayer-list-author">毛不易</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">78</span>
+    <span class="aplayer-list-title">谎（无念白版）</span>
+    <span class="aplayer-list-author">凯瑟喵</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">79</span>
+    <span class="aplayer-list-title">Dj Mr.Zi - 七色云彩（DJ Mr.Zi remix）</span>
+    <span class="aplayer-list-author">DJ&nbsp;Mr.Zi</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">80</span>
+    <span class="aplayer-list-title">为你我受冷风吹 (Live)</span>
+    <span class="aplayer-list-author">林忆莲</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">81</span>
+    <span class="aplayer-list-title">Caravan</span>
+    <span class="aplayer-list-author">a_hisa</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">82</span>
+    <span class="aplayer-list-title">Take Me Home (Tiësto Remix)</span>
+    <span class="aplayer-list-author">Tiësto / Jess Glynne</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">83</span>
+    <span class="aplayer-list-title">You Are The Reason (Tiësto's AFTR:HRS Remix)</span>
+    <span class="aplayer-list-author">Calum Scott / Tiësto</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">84</span>
+    <span class="aplayer-list-title">Secrets (Radio Edit)</span>
+    <span class="aplayer-list-author">Tiësto / KSHMR / Vassy</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">85</span>
+    <span class="aplayer-list-title">Carry You Home</span>
+    <span class="aplayer-list-author">Tiësto / Aloe Blacc / StarGate</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">86</span>
+    <span class="aplayer-list-title">Secrets (Original Mix)</span>
+    <span class="aplayer-list-author">Tiësto / KSHMR / Vassy</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">87</span>
+    <span class="aplayer-list-title">你的样子</span>
+    <span class="aplayer-list-author">刘莱斯</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">88</span>
+    <span class="aplayer-list-title">断线</span>
+    <span class="aplayer-list-author">Shang / lil sophy</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">89</span>
+    <span class="aplayer-list-title">起风了</span>
+    <span class="aplayer-list-author">买辣椒也用券</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">90</span>
+    <span class="aplayer-list-title">来不及</span>
+    <span class="aplayer-list-author">刘瑞琦</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">91</span>
+    <span class="aplayer-list-title">一些规律</span>
+    <span class="aplayer-list-author">许飞 / 姚晨</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">92</span>
+    <span class="aplayer-list-title">Down By the Salley Gardens</span>
+    <span class="aplayer-list-author">Joanie Madden</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">93</span>
+    <span class="aplayer-list-title">侧脸</span>
+    <span class="aplayer-list-author">于果</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">94</span>
+    <span class="aplayer-list-title">High (Radio Edit)</span>
+    <span class="aplayer-list-author">Mida / Addal</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">95</span>
+    <span class="aplayer-list-title">Last&nbsp;Night,Good&nbsp;Night（Cover 初音ミク）</span>
+    <span class="aplayer-list-author">米白</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">96</span>
+    <span class="aplayer-list-title">Lines of the Broken</span>
+    <span class="aplayer-list-author">DROELOE / Cut_ / San Holo</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">97</span>
+    <span class="aplayer-list-title">Freedom Hearts</span>
+    <span class="aplayer-list-author">Olivia Garcia</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">98</span>
+    <span class="aplayer-list-title">篝火旁</span>
+    <span class="aplayer-list-author">吕大叶</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">99</span>
+    <span class="aplayer-list-title">Let Me Know</span>
+    <span class="aplayer-list-author">习谱予 / 文颖秋（CΛNDY）</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">100</span>
+    <span class="aplayer-list-title">FAIRY TAIL メインテーマ</span>
+    <span class="aplayer-list-author">高梨康治</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">101</span>
+    <span class="aplayer-list-title">Dwarven Stone Upon Dwarven Stone</span>
+    <span class="aplayer-list-author">Adam Skorupa / Krzysztof Wierzynkiewicz</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">102</span>
+    <span class="aplayer-list-title">summer</span>
+    <span class="aplayer-list-author">徐梦圆</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">103</span>
+    <span class="aplayer-list-title">不必说抱歉</span>
+    <span class="aplayer-list-author">胡66</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">104</span>
+    <span class="aplayer-list-title">Try</span>
+    <span class="aplayer-list-author">P!nk</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">105</span>
+    <span class="aplayer-list-title">Fire</span>
+    <span class="aplayer-list-author">Gavin Degraw</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">106</span>
+    <span class="aplayer-list-title">Soldier</span>
+    <span class="aplayer-list-author">Samantha Jade</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">107</span>
+    <span class="aplayer-list-title">Stupid</span>
+    <span class="aplayer-list-author">Tone Damli Aaberge</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">108</span>
+    <span class="aplayer-list-title">只想说声爱你</span>
+    <span class="aplayer-list-author">白小白 / 朱鸽</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">109</span>
+    <span class="aplayer-list-title">夜长梦多</span>
+    <span class="aplayer-list-author">李上安</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">110</span>
+    <span class="aplayer-list-title">Arco-Iris</span>
+    <span class="aplayer-list-author">ABSOLUTE CASTAWAY</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">111</span>
+    <span class="aplayer-list-title">Cold Ain't For Me</span>
+    <span class="aplayer-list-author">Oceans</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">112</span>
+    <span class="aplayer-list-title">Look Back</span>
+    <span class="aplayer-list-author">Tone Damli Aaberge</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">113</span>
+    <span class="aplayer-list-title">只只</span>
+    <span class="aplayer-list-author">孟凡明</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">114</span>
+    <span class="aplayer-list-title">アイロニ</span>
+    <span class="aplayer-list-author">H△G</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">115</span>
+    <span class="aplayer-list-title">生きていたんだよな</span>
+    <span class="aplayer-list-author">あいみょん</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">116</span>
+    <span class="aplayer-list-title">再也没有</span>
+    <span class="aplayer-list-author">永彬Ryan.B / AY楊佬叁</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">117</span>
+    <span class="aplayer-list-title">Take me hand</span>
+    <span class="aplayer-list-author">DAISHI DANCE / Cecile Corbel</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">118</span>
+    <span class="aplayer-list-title">Welcome to Planet Urf</span>
+    <span class="aplayer-list-author">英雄联盟</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">119</span>
+    <span class="aplayer-list-title">最美的期待</span>
+    <span class="aplayer-list-author">周笔畅</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">120</span>
+    <span class="aplayer-list-title">Weekend</span>
+    <span class="aplayer-list-author">Itro / SmK / Lisa de Novo</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">121</span>
+    <span class="aplayer-list-title">Young</span>
+    <span class="aplayer-list-author">January May</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">122</span>
+    <span class="aplayer-list-title">Run</span>
+    <span class="aplayer-list-author">Kassandra</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">123</span>
+    <span class="aplayer-list-title">请别说爱我</span>
+    <span class="aplayer-list-author">胡66</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">124</span>
+    <span class="aplayer-list-title">Keepers</span>
+    <span class="aplayer-list-author">Miracle Of Sound / Marcin Przybyłowicz</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">125</span>
+    <span class="aplayer-list-title">Spikeroog</span>
+    <span class="aplayer-list-author">Marcin Przybyłowicz</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">126</span>
+    <span class="aplayer-list-title">只为找到你</span>
+    <span class="aplayer-list-author">SEVEN TANG / 盛哲</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">127</span>
+    <span class="aplayer-list-title">琼花房</span>
+    <span class="aplayer-list-author">胡碧乔</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">128</span>
+    <span class="aplayer-list-title">Mama Mariya</span>
+    <span class="aplayer-list-author">Zhanna Friske</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">129</span>
+    <span class="aplayer-list-title">如风过境</span>
+    <span class="aplayer-list-author">哎哟蔚蔚</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">130</span>
+    <span class="aplayer-list-title">一夜成长(原味版)</span>
+    <span class="aplayer-list-author">于文文</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">131</span>
+    <span class="aplayer-list-title">谎</span>
+    <span class="aplayer-list-author">凯瑟喵</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">132</span>
+    <span class="aplayer-list-title">成都</span>
+    <span class="aplayer-list-author">曲肖冰</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">133</span>
+    <span class="aplayer-list-title">惊鸿一面（Cover 许嵩、黄龄）</span>
+    <span class="aplayer-list-author">萧忆情Alex / 西瓜JUN</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">134</span>
+    <span class="aplayer-list-title">不将就</span>
+    <span class="aplayer-list-author">李荣浩</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">135</span>
+    <span class="aplayer-list-title">You Have Loved Enough</span>
+    <span class="aplayer-list-author">Leonard Cohen</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">136</span>
+    <span class="aplayer-list-title">写给我第一个喜欢的女孩的歌</span>
+    <span class="aplayer-list-author">凯瑟喵</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">137</span>
+    <span class="aplayer-list-title">盗心贼</span>
+    <span class="aplayer-list-author">黑龙</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">138</span>
+    <span class="aplayer-list-title">扇子舞</span>
+    <span class="aplayer-list-author">李常超 (Lao乾妈) / 满汉全席</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">139</span>
+    <span class="aplayer-list-title">外婆的话【不才】</span>
+    <span class="aplayer-list-author">不才</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">140</span>
+    <span class="aplayer-list-title">第三人称（Cover Hush！）</span>
+    <span class="aplayer-list-author">买辣椒也用券</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">141</span>
+    <span class="aplayer-list-title">白夜（Cover 尹姝贻）</span>
+    <span class="aplayer-list-author">凯瑟喵</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">142</span>
+    <span class="aplayer-list-title">我是真的爱上你</span>
+    <span class="aplayer-list-author">曲肖冰</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">143</span>
+    <span class="aplayer-list-title">广东十年爱情故事</span>
+    <span class="aplayer-list-author">广东雨神</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">144</span>
+    <span class="aplayer-list-title">作曲家</span>
+    <span class="aplayer-list-author">李荣浩</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">145</span>
+    <span class="aplayer-list-title">ありがとう</span>
+    <span class="aplayer-list-author">大橋卓弥</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">146</span>
+    <span class="aplayer-list-title">Legends Never Die</span>
+    <span class="aplayer-list-author">Against the Current</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">147</span>
+    <span class="aplayer-list-title">I Believe</span>
+    <span class="aplayer-list-author">Dave Koz</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">148</span>
+    <span class="aplayer-list-title">尽头</span>
+    <span class="aplayer-list-author">赵方婧</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">149</span>
+    <span class="aplayer-list-title">秋桜</span>
+    <span class="aplayer-list-author">柴田淳</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">150</span>
+    <span class="aplayer-list-title">Summer</span>
+    <span class="aplayer-list-author">吴宇深</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">151</span>
+    <span class="aplayer-list-title">谁是对的人</span>
+    <span class="aplayer-list-author">桑娜</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">152</span>
+    <span class="aplayer-list-title">When a Man Loves a Woman</span>
+    <span class="aplayer-list-author">Michael Bolton</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">153</span>
+    <span class="aplayer-list-title">Sailing</span>
+    <span class="aplayer-list-author">Rod Stewart</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">154</span>
+    <span class="aplayer-list-title">Careless Whisper</span>
+    <span class="aplayer-list-author">Sam Levine</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">155</span>
+    <span class="aplayer-list-title">老街</span>
+    <span class="aplayer-list-author">李荣浩</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">156</span>
+    <span class="aplayer-list-title">摆渡</span>
+    <span class="aplayer-list-author">吕行</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">157</span>
+    <span class="aplayer-list-title">装蒜</span>
+    <span class="aplayer-list-author">蒋蒋</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">158</span>
+    <span class="aplayer-list-title">Vacation</span>
+    <span class="aplayer-list-author">Damon Empero / Veronica</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">159</span>
+    <span class="aplayer-list-title">拜你所赐</span>
+    <span class="aplayer-list-author">蒋家驹（蒋蒋） / 朱贺</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">160</span>
+    <span class="aplayer-list-title">一生所爱</span>
+    <span class="aplayer-list-author">莫文蔚</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">161</span>
+    <span class="aplayer-list-title">All Out of Love (Single)</span>
+    <span class="aplayer-list-author">Sara Lov</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">162</span>
+    <span class="aplayer-list-title">Lo Sbaglio (Quaglio Mix)</span>
+    <span class="aplayer-list-author">Dottor Dag</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">163</span>
+    <span class="aplayer-list-title">终点起点</span>
+    <span class="aplayer-list-author">LOKEY低调组合</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">164</span>
+    <span class="aplayer-list-title">继续</span>
+    <span class="aplayer-list-author">IIYC / NaCho / Chey E</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">165</span>
+    <span class="aplayer-list-title">妈是心中的茉莉花</span>
+    <span class="aplayer-list-author">张雪飞</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">166</span>
+    <span class="aplayer-list-title">离人殇</span>
+    <span class="aplayer-list-author">赵方婧 / 音阙诗听</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">167</span>
+    <span class="aplayer-list-title">感谢你曾来过</span>
+    <span class="aplayer-list-author">阿涵 / Ayo97</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">168</span>
+    <span class="aplayer-list-title">吟游诗人</span>
+    <span class="aplayer-list-author">李常超 (Lao乾妈)</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">169</span>
+    <span class="aplayer-list-title">Whatever She's Got</span>
+    <span class="aplayer-list-author">David Nail</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">170</span>
+    <span class="aplayer-list-title">Raincheck</span>
+    <span class="aplayer-list-author">Hannah Jane Lewis</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">171</span>
+    <span class="aplayer-list-title">世界以痛吻我</span>
+    <span class="aplayer-list-author">初夏小溪</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">172</span>
+    <span class="aplayer-list-title">Long Hot Summer</span>
+    <span class="aplayer-list-author">Keith Urban</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">173</span>
+    <span class="aplayer-list-title">失う（Cover VY1V4）</span>
+    <span class="aplayer-list-author">米白</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">174</span>
+    <span class="aplayer-list-title">牛奶香槟（Cover 乐正绫）</span>
+    <span class="aplayer-list-author">三无MarBlue</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">175</span>
+    <span class="aplayer-list-title">When You Love Someone</span>
+    <span class="aplayer-list-author">Kenny Rogers</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">176</span>
+    <span class="aplayer-list-title">アスノヨゾラ哨戒班。明日的夜空哨戒班（Cover IA）</span>
+    <span class="aplayer-list-author">Akie秋绘 / 夏璃夜</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">177</span>
+    <span class="aplayer-list-title">Scotty</span>
+    <span class="aplayer-list-author">Allan Taylor</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">178</span>
+    <span class="aplayer-list-title">Inferno</span>
+    <span class="aplayer-list-author">Hechmann</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">179</span>
+    <span class="aplayer-list-title">Dive</span>
+    <span class="aplayer-list-author">Ed Sheeran</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">180</span>
+    <span class="aplayer-list-title">君だったら（Cover Happy birthday）</span>
+    <span class="aplayer-list-author">十九遥</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">181</span>
+    <span class="aplayer-list-title">僕が死のうと思ったのは/曾经我也想过一了百了（Cover 中岛美嘉）</span>
+    <span class="aplayer-list-author">芝麻Mochi</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">182</span>
+    <span class="aplayer-list-title">Fetish</span>
+    <span class="aplayer-list-author">Madilyn Bailey</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">183</span>
+    <span class="aplayer-list-title">Seek&nbsp;The&nbsp;Peace&nbsp;feat.&nbsp;soratan小空（For&nbsp;the&nbsp;peace&nbsp;cover：Yisabel）（Cover 齐栾）</span>
+    <span class="aplayer-list-author">齐栾</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">184</span>
+    <span class="aplayer-list-title">夢と葉桜（Cover 初音ミク）</span>
+    <span class="aplayer-list-author">Nanaka</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">185</span>
+    <span class="aplayer-list-title">Seven Nation Army</span>
+    <span class="aplayer-list-author">Ben l'oncle Soul</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">186</span>
+    <span class="aplayer-list-title">Where Is The Love（Soule Rework)</span>
+    <span class="aplayer-list-author">Clément Bcx / Black Eyed Peas / Ellena Soule</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">187</span>
+    <span class="aplayer-list-title">Gettin Close (Metyou Remix)</span>
+    <span class="aplayer-list-author">Metyou</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">188</span>
+    <span class="aplayer-list-title">九九八十一 piano ver.</span>
+    <span class="aplayer-list-author">纪川久</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">189</span>
+    <span class="aplayer-list-title">大圣娶妻之片头曲</span>
+    <span class="aplayer-list-author">赵季平</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">190</span>
+    <span class="aplayer-list-title">Honest</span>
+    <span class="aplayer-list-author">The Chainsmokers</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">191</span>
+    <span class="aplayer-list-title">你爱我像谁</span>
+    <span class="aplayer-list-author">张卫健</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">192</span>
+    <span class="aplayer-list-title">R.I.O. Megamix (Continuous DJ Mix)</span>
+    <span class="aplayer-list-author">R.I.O.</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">193</span>
+    <span class="aplayer-list-title">Enemy</span>
+    <span class="aplayer-list-author">Jennifer March</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">194</span>
+    <span class="aplayer-list-title">Just another Night [Anthem 4]</span>
+    <span class="aplayer-list-author">Manian / Floorfilla</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">195</span>
+    <span class="aplayer-list-title">Cold as Ice</span>
+    <span class="aplayer-list-author">The Main Level</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">196</span>
+    <span class="aplayer-list-title">Thinking Out Loud</span>
+    <span class="aplayer-list-author">Ed Sheeran</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">197</span>
+    <span class="aplayer-list-title">Out Of My Hands</span>
+    <span class="aplayer-list-author">Jason Mraz</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">198</span>
+    <span class="aplayer-list-title">Light</span>
+    <span class="aplayer-list-author">San Holo</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">199</span>
+    <span class="aplayer-list-title">It's Amazing</span>
+    <span class="aplayer-list-author">Jem</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">200</span>
+    <span class="aplayer-list-title">相思</span>
+    <span class="aplayer-list-author">毛阿敏</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">201</span>
+    <span class="aplayer-list-title">当安静的公园披上了夜网, 东方的夜莺徒然向玫瑰花歌唱</span>
+    <span class="aplayer-list-author">饭碗的彼岸</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">202</span>
+    <span class="aplayer-list-title">Good Luck</span>
+    <span class="aplayer-list-author">Lenachka</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">203</span>
+    <span class="aplayer-list-title">Lost Without You</span>
+    <span class="aplayer-list-author">Josh Vietti</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">204</span>
+    <span class="aplayer-list-title">Only Wish</span>
+    <span class="aplayer-list-author">Nicholas Cheung</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">205</span>
+    <span class="aplayer-list-title">Into The Fire</span>
+    <span class="aplayer-list-author">Thirteen Senses</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">206</span>
+    <span class="aplayer-list-title">Liekkas - Warm</span>
+    <span class="aplayer-list-author">Sofia Jannok</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">207</span>
+    <span class="aplayer-list-title">The Devil &amp; The Huntsman</span>
+    <span class="aplayer-list-author">Daniel Pemberton</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">208</span>
+    <span class="aplayer-list-title">More Than I Can Say</span>
+    <span class="aplayer-list-author">Leo Sayer</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">209</span>
+    <span class="aplayer-list-title">Release The Pain</span>
+    <span class="aplayer-list-author">Lora</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">210</span>
+    <span class="aplayer-list-title">It's So Easy (1977)</span>
+    <span class="aplayer-list-author">Linda Ronstadt</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">211</span>
+    <span class="aplayer-list-title">Safe and Sound</span>
+    <span class="aplayer-list-author">Capital Cities</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">212</span>
+    <span class="aplayer-list-title">Diese kalte Nacht</span>
+    <span class="aplayer-list-author">Faun</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">213</span>
+    <span class="aplayer-list-title">My Radio (DJ Tool Radio Edit)</span>
+    <span class="aplayer-list-author">Empyre One / Energizer</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">214</span>
+    <span class="aplayer-list-title">ツナ覚醒</span>
+    <span class="aplayer-list-author">佐橋俊彦</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">215</span>
+    <span class="aplayer-list-title">Paper Stars</span>
+    <span class="aplayer-list-author">West Coast Massive / Cappa</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">216</span>
+    <span class="aplayer-list-title">Toca Toca (Radio Edit)</span>
+    <span class="aplayer-list-author">Fly Project</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">217</span>
+    <span class="aplayer-list-title">越过山丘</span>
+    <span class="aplayer-list-author">杨宗纬</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">218</span>
+    <span class="aplayer-list-title">不觉晴光老</span>
+    <span class="aplayer-list-author">江城原创音乐团队</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">219</span>
+    <span class="aplayer-list-title">Why We Try</span>
+    <span class="aplayer-list-author">Matthew Mayfield / Chelsea Lankes</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">220</span>
+    <span class="aplayer-list-title">红色高跟鞋</span>
+    <span class="aplayer-list-author">蔡健雅</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">221</span>
+    <span class="aplayer-list-title">Universe (Radio Edit)</span>
+    <span class="aplayer-list-author">Don Diablo / Emeni</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">222</span>
+    <span class="aplayer-list-title">Lose You Tonight</span>
+    <span class="aplayer-list-author">Kristina Train</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">223</span>
+    <span class="aplayer-list-title">远走高飞</span>
+    <span class="aplayer-list-author">金志文</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">224</span>
+    <span class="aplayer-list-title">山外小楼夜听雨</span>
+    <span class="aplayer-list-author">任然</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">225</span>
+    <span class="aplayer-list-title">黯然销魂</span>
+    <span class="aplayer-list-author">玄觞</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">226</span>
+    <span class="aplayer-list-title">Children Of A Miracle (Marnik Chill Mix)</span>
+    <span class="aplayer-list-author">Don Diablo / Marnik</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">227</span>
+    <span class="aplayer-list-title">Where The Love Goes</span>
+    <span class="aplayer-list-author">Anjulie</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">228</span>
+    <span class="aplayer-list-title">One Day (Album Version)</span>
+    <span class="aplayer-list-author">Emblem3</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">229</span>
+    <span class="aplayer-list-title">I Shall Not Want</span>
+    <span class="aplayer-list-author">Audrey Assad</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">230</span>
+    <span class="aplayer-list-title">Maraca</span>
+    <span class="aplayer-list-author">Mohombi</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">231</span>
+    <span class="aplayer-list-title">温柔乡</span>
+    <span class="aplayer-list-author">陈雅森</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">232</span>
+    <span class="aplayer-list-title">Praying</span>
+    <span class="aplayer-list-author">Kesha</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">233</span>
+    <span class="aplayer-list-title">勉为其难</span>
+    <span class="aplayer-list-author">王冕</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">234</span>
+    <span class="aplayer-list-title">Eclipse</span>
+    <span class="aplayer-list-author">Ryos</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">235</span>
+    <span class="aplayer-list-title">Raincoat</span>
+    <span class="aplayer-list-author">Timeflies / SHY Martin</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">236</span>
+    <span class="aplayer-list-title">Panama</span>
+    <span class="aplayer-list-author">Matteo</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">237</span>
+    <span class="aplayer-list-title">Samsara</span>
+    <span class="aplayer-list-author">Tungevaag &amp; Raaban</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">238</span>
+    <span class="aplayer-list-title">I'm the One</span>
+    <span class="aplayer-list-author">Justin Bieber / Lil Wayne / Chance the Rapper / Quavo / DJ Khaled</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">239</span>
+    <span class="aplayer-list-title">Keep Me From You</span>
+    <span class="aplayer-list-author">Morten / Oda</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">240</span>
+    <span class="aplayer-list-title">There Will Be A Day</span>
+    <span class="aplayer-list-author">Jeremy Camp</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">241</span>
+    <span class="aplayer-list-title">Stay</span>
+    <span class="aplayer-list-author">Sam Tsui</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">242</span>
+    <span class="aplayer-list-title">Hero</span>
+    <span class="aplayer-list-author">Finding Favour</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">243</span>
+    <span class="aplayer-list-title">Good Fight</span>
+    <span class="aplayer-list-author">Unspoken</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">244</span>
+    <span class="aplayer-list-title">Addicted to Your Love (ConKi Edit)</span>
+    <span class="aplayer-list-author">ConKi / The Shady Brothers</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">245</span>
+    <span class="aplayer-list-title">Revolution</span>
+    <span class="aplayer-list-author">The Score</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">246</span>
+    <span class="aplayer-list-title">Battle Symphony</span>
+    <span class="aplayer-list-author">Linkin Park</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">247</span>
+    <span class="aplayer-list-title">Stand By You</span>
+    <span class="aplayer-list-author">Alex Goot / Kurt Hugo Schneider / Megan Nicole</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">248</span>
+    <span class="aplayer-list-title">Grave Digger</span>
+    <span class="aplayer-list-author">Matt Maeson</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">249</span>
+    <span class="aplayer-list-title">Miracle</span>
+    <span class="aplayer-list-author">The Score</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">250</span>
+    <span class="aplayer-list-title">Bring Back The Summer (Not Your Dope Remix)</span>
+    <span class="aplayer-list-author">Not Your Dope / Rain Man</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">251</span>
+    <span class="aplayer-list-title">Little Do You Know</span>
+    <span class="aplayer-list-author">Campsite Dream</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">252</span>
+    <span class="aplayer-list-title">Party Time (Radio Edit)</span>
+    <span class="aplayer-list-author">Alien Cut &amp; Dino Brown</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">253</span>
+    <span class="aplayer-list-title">Good Good</span>
+    <span class="aplayer-list-author">Perttu / Yates</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">254</span>
+    <span class="aplayer-list-title">Collide</span>
+    <span class="aplayer-list-author">Built By Titan / Jonathan Thulin</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">255</span>
+    <span class="aplayer-list-title">The Devil's Tears (Goldwave Remixed)</span>
+    <span class="aplayer-list-author">Goldwave / Angus &amp; Julia Stone</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">256</span>
+    <span class="aplayer-list-title">Stay With You</span>
+    <span class="aplayer-list-author">Cheat Codes / CADE</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">257</span>
+    <span class="aplayer-list-title">I Don't Wanna Live Forever</span>
+    <span class="aplayer-list-author">Madilyn Bailey</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">258</span>
+    <span class="aplayer-list-title">Lendo Calendo</span>
+    <span class="aplayer-list-author">Dan Bălan</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">259</span>
+    <span class="aplayer-list-title">One of Us</span>
+    <span class="aplayer-list-author">New Politics</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">260</span>
+    <span class="aplayer-list-title">Vacation</span>
+    <span class="aplayer-list-author">Truslow</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">261</span>
+    <span class="aplayer-list-title">Lost In You</span>
+    <span class="aplayer-list-author">Lena</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">262</span>
+    <span class="aplayer-list-title">Sound of Walking Away</span>
+    <span class="aplayer-list-author">ILLENIUM / Kerli</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">263</span>
+    <span class="aplayer-list-title">What Are You Waiting For</span>
+    <span class="aplayer-list-author">DEAMN</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">264</span>
+    <span class="aplayer-list-title">Take My Hand (Sound Up! Remix)</span>
+    <span class="aplayer-list-author">Various Artists</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">265</span>
+    <span class="aplayer-list-title">Good Life</span>
+    <span class="aplayer-list-author">Kiso / YVETTE</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">266</span>
+    <span class="aplayer-list-title">Smoke and Fire</span>
+    <span class="aplayer-list-author">Cuebrick / Karra</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">267</span>
+    <span class="aplayer-list-title">Fractures</span>
+    <span class="aplayer-list-author">ILLENIUM / Nevve</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">268</span>
+    <span class="aplayer-list-title">LA LA LAND (Extended Mix)</span>
+    <span class="aplayer-list-author">DVBBS / Shaun Frank / Delaney Jane</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">269</span>
+    <span class="aplayer-list-title">Changing [Goldsmyth Edition]</span>
+    <span class="aplayer-list-author">SIGMA / Paloma Faith</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">270</span>
+    <span class="aplayer-list-title">Find You</span>
+    <span class="aplayer-list-author">HIDDN / Beatrich</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">271</span>
+    <span class="aplayer-list-title">Six Feet Under</span>
+    <span class="aplayer-list-author">Billie Eilish</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">272</span>
+    <span class="aplayer-list-title">花儿纳吉（Cover：洛天依&amp;言和）</span>
+    <span class="aplayer-list-author">奇然 / 排骨教主 / 横颜君 / Braska / 沈谧仁</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">273</span>
+    <span class="aplayer-list-title">Give Me Your Love</span>
+    <span class="aplayer-list-author">DEAMN</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">274</span>
+    <span class="aplayer-list-title">倾城一笑</span>
+    <span class="aplayer-list-author">郑国锋</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">275</span>
+    <span class="aplayer-list-title">It's Summer Now</span>
+    <span class="aplayer-list-author">Beatnerz  / LaJo / Hoski</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">276</span>
+    <span class="aplayer-list-title">ECHO (LET GO)</span>
+    <span class="aplayer-list-author">Breathe Carolina / IZII</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">277</span>
+    <span class="aplayer-list-title">Love Will Save The Day (Radio Edit)</span>
+    <span class="aplayer-list-author">DJ Fait</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">278</span>
+    <span class="aplayer-list-title">Extreme </span>
+    <span class="aplayer-list-author">Bassjackers / KSHMR / Sidnie Tipton</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">279</span>
+    <span class="aplayer-list-title">【二胡】霜雪千年</span>
+    <span class="aplayer-list-author">小胡仙儿</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">280</span>
+    <span class="aplayer-list-title">Opening</span>
+    <span class="aplayer-list-author">Craig Armstrong</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">281</span>
+    <span class="aplayer-list-title">Angel With A Shotgun  </span>
+    <span class="aplayer-list-author">Nightcore</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">282</span>
+    <span class="aplayer-list-title">永久の宴</span>
+    <span class="aplayer-list-author">Aiobahn / YUC'e</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">283</span>
+    <span class="aplayer-list-title">戦国HOP</span>
+    <span class="aplayer-list-author">YUC'e</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">284</span>
+    <span class="aplayer-list-title">Frontier (Cargo Remix)</span>
+    <span class="aplayer-list-author">Cargo / VINAI / SCNDL</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">285</span>
+    <span class="aplayer-list-title">Bloodstain</span>
+    <span class="aplayer-list-author">Stephen Wrabel</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">286</span>
+    <span class="aplayer-list-title">罪章残像</span>
+    <span class="aplayer-list-author">小爱的妈</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">287</span>
+    <span class="aplayer-list-title">Look At Me</span>
+    <span class="aplayer-list-author">Alan Jackson</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">288</span>
+    <span class="aplayer-list-title">儿时</span>
+    <span class="aplayer-list-author">刘昊霖</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">289</span>
+    <span class="aplayer-list-title">没什么大不了（なんでもないや）（女声翻唱remix）</span>
+    <span class="aplayer-list-author">Maxone / 夏璃夜</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">290</span>
+    <span class="aplayer-list-title">Fragments</span>
+    <span class="aplayer-list-author">千坂</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">291</span>
+    <span class="aplayer-list-title">回忆那么伤 </span>
+    <span class="aplayer-list-author">孙子涵</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">292</span>
+    <span class="aplayer-list-title">夢燈籠&nbsp;(R7CKY&nbsp;你的名字&nbsp;Mix)</span>
+    <span class="aplayer-list-author">R7CKY</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">293</span>
+    <span class="aplayer-list-title">Make A Shadow</span>
+    <span class="aplayer-list-author">Meg Myers</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">294</span>
+    <span class="aplayer-list-title">野花</span>
+    <span class="aplayer-list-author">田震</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">295</span>
+    <span class="aplayer-list-title">Goodbye (Album Version)</span>
+    <span class="aplayer-list-author">Sophie Zelmani</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">296</span>
+    <span class="aplayer-list-title">Michael Meets Mozart - 1 Piano, 2 Guys, 100 Cello Tracks</span>
+    <span class="aplayer-list-author">Jon Schmidt / Steven Sharp Nelson</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">297</span>
+    <span class="aplayer-list-title">Here with Me</span>
+    <span class="aplayer-list-author">Robot Koch / Susie Suh</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">298</span>
+    <span class="aplayer-list-title">The Flood</span>
+    <span class="aplayer-list-author">Joshua Hyslop</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">299</span>
+    <span class="aplayer-list-title">皆非</span>
+    <span class="aplayer-list-author">马頔</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">300</span>
+    <span class="aplayer-list-title">Counting Sheep</span>
+    <span class="aplayer-list-author">SAFIA</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">301</span>
+    <span class="aplayer-list-title">风月</span>
+    <span class="aplayer-list-author">黄龄</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">302</span>
+    <span class="aplayer-list-title">Blue</span>
+    <span class="aplayer-list-author">Keith Hanley</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">303</span>
+    <span class="aplayer-list-title">Reminisce</span>
+    <span class="aplayer-list-author">Silencyde</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">304</span>
+    <span class="aplayer-list-title">爱呀</span>
+    <span class="aplayer-list-author">金玟岐</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">305</span>
+    <span class="aplayer-list-title">再见</span>
+    <span class="aplayer-list-author">G.E.M.邓紫棋</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">306</span>
+    <span class="aplayer-list-title">那盏茶</span>
+    <span class="aplayer-list-author">金志文</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">307</span>
+    <span class="aplayer-list-title">苏幕遮</span>
+    <span class="aplayer-list-author">张晓棠</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">308</span>
+    <span class="aplayer-list-title">鹃</span>
+    <span class="aplayer-list-author">Tacke竹桑 / 小曲儿</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">309</span>
+    <span class="aplayer-list-title">Good Day</span>
+    <span class="aplayer-list-author">Lucky Stroke</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">310</span>
+    <span class="aplayer-list-title">光年之外</span>
+    <span class="aplayer-list-author">G.E.M.邓紫棋</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">311</span>
+    <span class="aplayer-list-title">Romeo's Tune</span>
+    <span class="aplayer-list-author">Pajaro Sunrise</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">312</span>
+    <span class="aplayer-list-title">成都</span>
+    <span class="aplayer-list-author">赵雷</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">313</span>
+    <span class="aplayer-list-title">Lovers On The Sun (Radio Edit)</span>
+    <span class="aplayer-list-author">David Guetta / Sam Martin</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">314</span>
+    <span class="aplayer-list-title">My Personal Song</span>
+    <span class="aplayer-list-author">The Bosshoss</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">315</span>
+    <span class="aplayer-list-title">Autumn</span>
+    <span class="aplayer-list-author">Kozoro</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">316</span>
+    <span class="aplayer-list-title">Last Goodbye</span>
+    <span class="aplayer-list-author">Denny White</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">317</span>
+    <span class="aplayer-list-title">And Then You</span>
+    <span class="aplayer-list-author">Greg Laswell</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">318</span>
+    <span class="aplayer-list-title">Free&nbsp;Fall</span>
+    <span class="aplayer-list-author">The Workday Release</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">319</span>
+    <span class="aplayer-list-title">Send It </span>
+    <span class="aplayer-list-author">Austin Mahone / Rich Homie Quan</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">320</span>
+    <span class="aplayer-list-title">Bricks</span>
+    <span class="aplayer-list-author">Leihoku</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">321</span>
+    <span class="aplayer-list-title">Gonna Get There Someday</span>
+    <span class="aplayer-list-author">Dierks Bentley</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">322</span>
+    <span class="aplayer-list-title">Let It Out</span>
+    <span class="aplayer-list-author">Frances</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">323</span>
+    <span class="aplayer-list-title">Raindrops</span>
+    <span class="aplayer-list-author">Eliane</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">324</span>
+    <span class="aplayer-list-title">Let It Die</span>
+    <span class="aplayer-list-author">Tayler Buono</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">325</span>
+    <span class="aplayer-list-title">One Day</span>
+    <span class="aplayer-list-author">Matisyahu</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">326</span>
+    <span class="aplayer-list-title">I Love You</span>
+    <span class="aplayer-list-author">Stewart Mac</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">327</span>
+    <span class="aplayer-list-title">Fast Car (Radio Edit)</span>
+    <span class="aplayer-list-author">Jonas Blue / Dakota</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">328</span>
+    <span class="aplayer-list-title">Somebody That I Used To Know</span>
+    <span class="aplayer-list-author">Gotye / Kimbra</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">329</span>
+    <span class="aplayer-list-title">All of Me</span>
+    <span class="aplayer-list-author">John Legend</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">330</span>
+    <span class="aplayer-list-title">Wake Me Up (TYMA Remix)</span>
+    <span class="aplayer-list-author">TYMA / Madilyn Bailey</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">331</span>
+    <span class="aplayer-list-title">Locked Away</span>
+    <span class="aplayer-list-author">OutaMatic / Maddie Wilson / Madilyn Paige</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">332</span>
+    <span class="aplayer-list-title">Cool Kids</span>
+    <span class="aplayer-list-author">Echosmith</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">333</span>
+    <span class="aplayer-list-title">Beauty and a Beat</span>
+    <span class="aplayer-list-author">Alex Goot / Kurt Hugo Schneider</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">334</span>
+    <span class="aplayer-list-title">7 Years</span>
+    <span class="aplayer-list-author">Lukas Graham</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">335</span>
+    <span class="aplayer-list-title">Because of You</span>
+    <span class="aplayer-list-author">Kelly Clarkson</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">336</span>
+    <span class="aplayer-list-title">Color Blind</span>
+    <span class="aplayer-list-author">Matt B</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">337</span>
+    <span class="aplayer-list-title">Everglow</span>
+    <span class="aplayer-list-author">Coldplay / Gwyneth Paltrow</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">338</span>
+    <span class="aplayer-list-title">Heart Of Gold</span>
+    <span class="aplayer-list-author">Johnny Cash</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">339</span>
+    <span class="aplayer-list-title">Hall of Fame</span>
+    <span class="aplayer-list-author">The Script / will.i.am</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">340</span>
+    <span class="aplayer-list-title">Lone Ranger</span>
+    <span class="aplayer-list-author">Rachel Platten</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">341</span>
+    <span class="aplayer-list-title">Listen To Your Heart</span>
+    <span class="aplayer-list-author">Roxette</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">342</span>
+    <span class="aplayer-list-title">Angelina</span>
+    <span class="aplayer-list-author">Lou Bega</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">343</span>
+    <span class="aplayer-list-title">Reality</span>
+    <span class="aplayer-list-author">Lost Frequencies / Janieck</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">344</span>
+    <span class="aplayer-list-title">Best of 2015: Style / What Do You Mean / Uptown Funk / Love Me Like You Do / Watch Me / See You Again</span>
+    <span class="aplayer-list-author">Anthem Lights</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">345</span>
+    <span class="aplayer-list-title">Talking to the Moon</span>
+    <span class="aplayer-list-author">Bruno Mars</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">346</span>
+    <span class="aplayer-list-title">You're Beautiful</span>
+    <span class="aplayer-list-author">James Blunt</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">347</span>
+    <span class="aplayer-list-title">L-Holidays (Radio Edit)</span>
+    <span class="aplayer-list-author">Remady</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">348</span>
+    <span class="aplayer-list-title">Pray For You</span>
+    <span class="aplayer-list-author">Jaron and the Long Road to Love</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">349</span>
+    <span class="aplayer-list-title">Viva La Vida</span>
+    <span class="aplayer-list-author">Coldplay</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">350</span>
+    <span class="aplayer-list-title">Teenage Dream</span>
+    <span class="aplayer-list-author">Katy Perry</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">351</span>
+    <span class="aplayer-list-title">Gotta Have You</span>
+    <span class="aplayer-list-author">The Weepies</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">352</span>
+    <span class="aplayer-list-title">Rather Be</span>
+    <span class="aplayer-list-author">Clean Bandit / Jess Glynne</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">353</span>
+    <span class="aplayer-list-title">Feel This Moment (Feat. Christina Aguilera)</span>
+    <span class="aplayer-list-author">Pitbull</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">354</span>
+    <span class="aplayer-list-title">On My Own</span>
+    <span class="aplayer-list-author">Ashes Remain</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">355</span>
+    <span class="aplayer-list-title">Payphone</span>
+    <span class="aplayer-list-author">Maroon 5 / Wiz Khalifa</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">356</span>
+    <span class="aplayer-list-title">Need You Now</span>
+    <span class="aplayer-list-author">Lady Antebellum</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">357</span>
+    <span class="aplayer-list-title">I Really Like You</span>
+    <span class="aplayer-list-author">Anthem Lights</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">358</span>
+    <span class="aplayer-list-title">Ship In The Sand</span>
+    <span class="aplayer-list-author">Marble Sounds</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">359</span>
+    <span class="aplayer-list-title">You Are a Lover</span>
+    <span class="aplayer-list-author">The Unbending Trees</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">360</span>
+    <span class="aplayer-list-title">Taylor Swift Mash-Up</span>
+    <span class="aplayer-list-author">Anthem Lights</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">361</span>
+    <span class="aplayer-list-title">Roar</span>
+    <span class="aplayer-list-author">Katy Perry</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">362</span>
+    <span class="aplayer-list-title">Nonstop Pop 2012</span>
+    <span class="aplayer-list-author">Isosine</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">363</span>
+    <span class="aplayer-list-title">Over And Over</span>
+    <span class="aplayer-list-author">Rachael Yamagata</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">364</span>
+    <span class="aplayer-list-title">River Flows In You</span>
+    <span class="aplayer-list-author">Tim</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">365</span>
+    <span class="aplayer-list-title">夏恋</span>
+    <span class="aplayer-list-author">Otokaze</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">366</span>
+    <span class="aplayer-list-title">The Love Of The Lord Endures</span>
+    <span class="aplayer-list-author">Joy Williams</span>
+</li>
+
+<li>
+    <span class="aplayer-list-cur" style="background-color: #2980b9;"></span>
+    <span class="aplayer-list-index">367</span>
+    <span class="aplayer-list-title">逆流成河</span>
+    <span class="aplayer-list-author">金南玲</span>
+</li>
+
+    </ol>
+</div>
+<div class="aplayer-body" style="width: 382px;">
+    <div class="aplayer-pic" style="background-image: url(&quot;https://api.i-meto.com/meting/api?server=netease&amp;type=pic&amp;id=109951163062656601&amp;auth=835977147180d4550e7987c70901bd4310baf67fca8e9707d2c86c4031c1f268&quot;);background-color: #2980b9;">
+        <div class="aplayer-button aplayer-play"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 31"><path d="M15.552 15.168q0.448 0.32 0.448 0.832 0 0.448-0.448 0.768l-13.696 8.512q-0.768 0.512-1.312 0.192t-0.544-1.28v-16.448q0-0.96 0.544-1.28t1.312 0.192z"></path></svg></div>
+    </div>
+    <div class="aplayer-info" style="display: block;">
+        <div class="aplayer-music">
+            <span class="aplayer-title">worst mistake</span>
+            <span class="aplayer-author"> - park bird</span>
+        </div>
+        <div class="aplayer-controller">
+            <div class="aplayer-bar-wrap">
+                <div class="aplayer-bar">
+                    <div class="aplayer-loaded" style="width: 57.2006%;"></div>
+                    <div class="aplayer-played" style="width: 0; background: #2980b9;">
+                        <span class="aplayer-thumb" style="background: #2980b9;">
+                            <span class="aplayer-loading-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32"><path d="M4 16c0-6.6 5.4-12 12-12s12 5.4 12 12c0 1.2-0.8 2-2 2s-2-0.8-2-2c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c1.2 0 2 0.8 2 2s-0.8 2-2 2c-6.6 0-12-5.4-12-12z"></path></svg></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="aplayer-time aplayer-time-narrow">
+                <span class="aplayer-time-inner">
+                    <span class="aplayer-ptime">00:00</span> / <span class="aplayer-dtime">02:24</span>
+                </span>
+                <span class="aplayer-icon aplayer-icon-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32"><path d="M25.468 6.947c-0.326-0.172-0.724-0.151-1.030 0.057l-6.438 4.38v-3.553c0-0.371-0.205-0.71-0.532-0.884-0.326-0.172-0.724-0.151-1.030 0.057l-12 8.164c-0.274 0.186-0.438 0.496-0.438 0.827s0.164 0.641 0.438 0.827l12 8.168c0.169 0.115 0.365 0.174 0.562 0.174 0.16 0 0.321-0.038 0.468-0.116 0.327-0.173 0.532-0.514 0.532-0.884v-3.556l6.438 4.382c0.169 0.115 0.365 0.174 0.562 0.174 0.16 0 0.321-0.038 0.468-0.116 0.327-0.173 0.532-0.514 0.532-0.884v-16.333c0-0.371-0.205-0.71-0.532-0.884z"></path></svg>
+                </span>
+                <span class="aplayer-icon aplayer-icon-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 31"><path d="M15.552 15.168q0.448 0.32 0.448 0.832 0 0.448-0.448 0.768l-13.696 8.512q-0.768 0.512-1.312 0.192t-0.544-1.28v-16.448q0-0.96 0.544-1.28t1.312 0.192z"></path></svg>
+                </span>
+                <span class="aplayer-icon aplayer-icon-forward">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32"><path d="M25.468 6.947c-0.326-0.172-0.724-0.151-1.030 0.057l-6.438 4.38v-3.553c0-0.371-0.205-0.71-0.532-0.884-0.326-0.172-0.724-0.151-1.030 0.057l-12 8.164c-0.274 0.186-0.438 0.496-0.438 0.827s0.164 0.641 0.438 0.827l12 8.168c0.169 0.115 0.365 0.174 0.562 0.174 0.16 0 0.321-0.038 0.468-0.116 0.327-0.173 0.532-0.514 0.532-0.884v-3.556l6.438 4.382c0.169 0.115 0.365 0.174 0.562 0.174 0.16 0 0.321-0.038 0.468-0.116 0.327-0.173 0.532-0.514 0.532-0.884v-16.333c0-0.371-0.205-0.71-0.532-0.884z"></path></svg>
+                </span>
+                <div class="aplayer-volume-wrap">
+                    <button type="button" class="aplayer-icon aplayer-icon-volume-down"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 28 32"><path d="M13.728 6.272v19.456q0 0.448-0.352 0.8t-0.8 0.32-0.8-0.32l-5.952-5.952h-4.672q-0.48 0-0.8-0.352t-0.352-0.8v-6.848q0-0.48 0.352-0.8t0.8-0.352h4.672l5.952-5.952q0.32-0.32 0.8-0.32t0.8 0.32 0.352 0.8zM20.576 16q0 1.344-0.768 2.528t-2.016 1.664q-0.16 0.096-0.448 0.096-0.448 0-0.8-0.32t-0.32-0.832q0-0.384 0.192-0.64t0.544-0.448 0.608-0.384 0.512-0.64 0.192-1.024-0.192-1.024-0.512-0.64-0.608-0.384-0.544-0.448-0.192-0.64q0-0.48 0.32-0.832t0.8-0.32q0.288 0 0.448 0.096 1.248 0.48 2.016 1.664t0.768 2.528z"></path></svg></button>
+                    <div class="aplayer-volume-bar-wrap">
+                        <div class="aplayer-volume-bar">
+                            <div class="aplayer-volume" style="height: 70%; background: rgb(41, 128, 185);"></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="aplayer-icon aplayer-icon-order">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32"><path d="M0.622 18.334h19.54v7.55l11.052-9.412-11.052-9.413v7.549h-19.54v3.725z"></path></svg>
+                </button>
+                <button type="button" class="aplayer-icon aplayer-icon-loop">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 29 32"><path d="M9.333 9.333h13.333v4l5.333-5.333-5.333-5.333v4h-16v8h2.667v-5.333zM22.667 22.667h-13.333v-4l-5.333 5.333 5.333 5.333v-4h16v-8h-2.667v5.333z"></path></svg>
+                </button>
+                <button type="button" class="aplayer-icon aplayer-icon-menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 22 32"><path d="M20.8 14.4q0.704 0 1.152 0.48t0.448 1.12-0.48 1.12-1.12 0.48h-19.2q-0.64 0-1.12-0.48t-0.48-1.12 0.448-1.12 1.152-0.48h19.2zM1.6 11.2q-0.64 0-1.12-0.48t-0.48-1.12 0.448-1.12 1.152-0.48h19.2q0.704 0 1.152 0.48t0.448 1.12-0.48 1.12-1.12 0.48h-19.2zM20.8 20.8q0.704 0 1.152 0.48t0.448 1.12-0.48 1.12-1.12 0.48h-19.2q-0.64 0-1.12-0.48t-0.48-1.12 0.448-1.12 1.152-0.48h19.2z"></path></svg>
+                </button>
+                <button type="button" class="aplayer-icon aplayer-icon-lrc">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32"><path d="M26.667 5.333h-21.333c-0 0-0.001 0-0.001 0-1.472 0-2.666 1.194-2.666 2.666 0 0 0 0.001 0 0.001v-0 16c0 0 0 0.001 0 0.001 0 1.472 1.194 2.666 2.666 2.666 0 0 0.001 0 0.001 0h21.333c0 0 0.001 0 0.001 0 1.472 0 2.666-1.194 2.666-2.666 0-0 0-0.001 0-0.001v0-16c0-0 0-0.001 0-0.001 0-1.472-1.194-2.666-2.666-2.666-0 0-0.001 0-0.001 0h0zM5.333 16h5.333v2.667h-5.333v-2.667zM18.667 24h-13.333v-2.667h13.333v2.667zM26.667 24h-5.333v-2.667h5.333v2.667zM26.667 18.667h-13.333v-2.667h13.333v2.667z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="aplayer-notice"></div>
+    <div class="aplayer-miniswitcher"><button class="aplayer-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32"><path d="M22 16l-10.105-10.6-1.895 1.987 8.211 8.613-8.211 8.612 1.895 1.988 8.211-8.613z"></path></svg></button></div>
+</div>
+<div class="aplayer-lrc">
+    <div class="aplayer-lrc-contents" style="transform: translateY(0); -webkit-transform: translateY(0);"></div>
+</div>
+</div>
+<script src="./Maven将依赖包、jar_war包及配置文件输出到指定目录 - Selier - 博客园_files/Meting.min.js.下载"></script>
+
+<!-- 右下角菜单 -->
+<div id="rightMenu"><div id="rightDiggit" clickflg="false" onclick="votePost(9510326,&#39;Digg&#39;)"><span class="rightMenuSpan rightDiggitSpan">1</span><i class="iconfont icon-zan1"></i></div><div id="rightBuryit" clickflg="false" onclick="votePost(9510326,&#39;Bury&#39;)"><span class="rightMenuSpan rightBuryitSpan">0</span><i class="iconfont icon-buzan"></i></div><div id="attention" onclick="follow(&#39;38fd1892-1b84-4faf-063a-08d605d156ae&#39;)" clickflg="false"><span class="rightMenuSpan attentionSpan">关注</span><i class="iconfont icon-dianzan"></i></div><div id="toUpDown" data="down"><span class="rightMenuSpan toUpDownSpan">跳至底部</span><div id="toUpDownI" style="transform: rotate(-180deg); transform-origin: 50% 50%;"><i class="iconfont icon-zhiding"></i></div></div></div>
+<!--PageEndHtml Block End-->
+
+
+<script type="text/javascript">
+
+    /*!
+     * UPDATES AND DOCS AT: https://github.com/BNDong
+     * https://www.cnblogs.com/bndong/
+     * @author: BNDong, dbnuo@foxmail.com
+     **/
+
+    /**
+     * 博客全局配置，请仔细配置，不了解的不要乱设置，不了解的不要乱设置，不了解的不要乱设置，默认就行！！
+     * PS: 加了个全局配置感觉耦合更严重了ヽ(￣▽￣)ﾉ，不管了，用的爽就行！！
+     * PS: 大哥大姐们，问问题能不能温柔点，想怼死我？？！！！我容易么我！！
+     */
+    window.cnblogsConfig = {
+
+        // ---- 基础信息配置 ----
+        blogUser      : "Selier", // 博主名称
+        blogAvatar    : "https://pic.cnblogs.com/avatar/1469487/20180820112323.png", // 用户头像URL
+        blogStartDate : "2018-08-20", // 入园时间，年-月-日，入园时间查看方法：鼠标停留园龄时间上，会显示入园时间
+
+        // ---- 网站配置 ----
+        webpageTitleOnblur        : "您已离线", // 当前页失去焦点，页面title显示文字
+        webpageTitleOnblurTimeOut : 500, // 当前页失去焦点，页面title变化，延时时间，单位毫秒
+        webpageTitleFocus         : "(*´∇｀*) 欢迎回来！", // 当前页获取焦点，页面title显示文字，显示后延时恢复原title
+        webpageTitleFocusTimeOut  : 1000, // 当前页获取焦点，页面title变化，延时时间，单位毫秒
+        webpageIcon : "https://gitee.com/selierlin/cnblogs-theme/raw/master/img/blog_logo.gif", // 网站图标
+
+        // ---- 进度条配置 ----
+        progressBar: {
+            id      : 'top-progress-bar',
+            color   : '#77b6ff',
+            height  : '2px',
+            duration: 0.2
+        },
+
+        // ---- Loading配置 ----
+        loading: {
+            rebound: {
+                tension: 16,
+                friction: 5
+            },
+            spinner: {
+                id: 'spinner',
+                radius: 90,
+                sides: 3,
+                depth: 4,
+                colors: {
+                    background: '#f0f0f0',
+                    stroke: '#272633',
+                    base: null,
+                    child: '#272633'
+                },
+                alwaysForward: true, // When false the spring will reverse normally.
+                restAt: 0.5,         // A number from 0.1 to 0.9 || null for full rotation
+                renderBase: false
+            }
+        },
+
+        // ---- 主页配置 ----
+        homeTopImg    : "https://gitee.com/selierlin/cnblogs-theme/raw/master/img/home_top_bg.jpg", // 主页图片Url，推荐尺寸>= 1920*1080
+        homeBannerText: "", // 主页头图上的标语，设置此选项会固定显示文字，默认为空，每日自动获取一句。
+        homeTopAnimation: { // 主页头图动画设置
+            radius: 15,
+            density: 0.2,
+            color: 'random', // 颜色设置，“random” 为随机颜色
+            clearOffset: 0.3
+        },
+
+        // ---- 随笔页配置 ----
+        essayTopImg: "https://gitee.com/selierlin/cnblogs-theme/raw/master/img/wallhaven-569548.jpg", // 随笔页图片Url
+        essayTopAnimationColors: [ // 随笔页图片动效颜色
+            '#96EDA6', '#5BC6A9',
+            '#38668C', '#374D84',
+            '#BED5CB', '#62ADC6',
+            '#8EE5DE', '#304E7B'
+        ],
+        essaySuffix:{ // 随笔后缀处配置
+            aboutHtml    : '', // 关于博主，不配置使用默认
+            copyrightHtml: '', // 版权声明，不配置使用默认
+            supportHtml  : ''  // 声援博主，不配置使用默认
+        },
+
+        // ---- 页脚配置 ----
+        bottomBlogroll: [ // 友情链接，[[链接名,链接]....]
+            ["申请坑位", '#']
+        ],
+        bottomText: {  // 页脚标语
+            left : "事实并非理所当然", // 图标左侧文字
+            right: "世界总是欲盖弥彰"  // 图标右侧文字
+        }
+
+    };
+
+    /**
+     * 资源文件配置
+     * source:"github" versions 处为GitHub提交版本哈希值 根据版本加载代码 https://github.com/BNDong/Cnblogs-Theme-SimpleMemory/commits/master
+     * source:"cnblogs" 从博客园文件加载代码，可以不配置版本号，本人博客园文件不会更新了（操作实在太麻烦了），如有需求可以从github上挡下来最新代码，保存到自己的博客园文件中进行加载
+     */
+    var staticFileSetting = {
+        source   : 'github',
+        versions : '8fefc5cfe0a4f2aaf357dff2a9c7e6527f369398', // 版本号
+    };
+
+    // start cache
+    $.ajaxSetup({cache: true});
+
+    // load loadingJs
+    $.getScript(getJsDelivrUrl('loading.js'), function () {
+
+        // Loading start
+        pageLoading.initRebound();
+        pageLoading.initSpinner();
+        pageLoading.spinner.init(pageLoading.spring, true);
+
+        $.getScript(getJsDelivrUrl('require.min.js'), function () {
+
+            $.getScript(getJsDelivrUrl('config.js'), function () {
+
+                var staticResource = [
+                    'optiscroll',
+                    'ToProgress',
+                    'rotate',
+                    'snapSvg',
+                    'classie',
+                    'main4',
+                    'tools',
+                ];
+                require(staticResource, function() {
+
+                    require(['base'], function() {
+
+                        var base = new Base;
+                        base.init();
+                    });
+                });
+
+            });
+
+        });
+    });
+
+    /**
+     * 文件地址
+     * @param file
+     * @param directory 文件目录名称
+     * @returns {string}
+     */
+    function getJsDelivrUrl(file, directory) {
+        file = setFileNameMin(file, directory);
+
+        switch (staticFileSetting.source) {
+
+            case 'github': // 注意：此处为GitHub加载源，如果需要加载自己分支的代码，修改此处URL，URL规则详见：https://www.jsdelivr.com/
+                return 'https://cdn.jsdelivr.net/gh/BNDong/Cnblogs-Theme-SimpleMemory@'+staticFileSetting.versions+'/' + (file ? file : '');
+				//return 'https://gitee.com/selierlin/cnblogs-theme/raw/master/' + (file ? file : '');
+                break;
+
+            case 'cnblogs': // 注意：此处为博客园加载源，加载本人博客文件为老版本。本人博客园文件停止更新，如果需要可以修改至自己博客园文件
+                return 'https://blog-static.cnblogs.com/files/bndong/'+file;
+                break;
+
+            default:
+                return '';break;
+        }
+    }
+
+    /**
+     * 文件名
+     * @param file
+     * @param directory 文件目录名称
+     * @returns {*}
+     */
+    function setFileNameMin(file, directory) {
+        if (typeof file == 'undefined') return '';
+
+        var suffix  = null;
+        var fileArr = file.split('.');
+
+        if (fileArr.length > 0 && $.inArray(fileArr[(fileArr.length -1)], ['js', 'css']) != -1) {
+            suffix    = fileArr.pop();
+            directory = suffix;
+        }
+
+        switch (staticFileSetting.source) {
+
+            case 'github':
+
+                if (typeof file !== 'undefined' && file.search('.min') == -1) fileArr.push('min');
+
+                if (suffix != null) fileArr.push(suffix);
+
+                return (typeof directory !== 'undefined' ? (directory + '/' + fileArr.join('.')) : (fileArr.join('.')));
+                break;
+
+            case 'cnblogs':
+                if (suffix != null) fileArr.push(suffix);
+                return fileArr.join('.');
+                break;
+
+            default:
+                return file;break;
+        }
+    }
+</script><script type="text/javascript">getFollowStatus('38fd1892-1b84-4faf-063a-08d605d156ae')</script><canvas width="1707" height="749" style="display: block; position: fixed; margin: 0px; padding: 0px; border: 0px; outline: 0px; left: 0px; top: 0px; width: 100%; height: 100%; z-index: -1;"></canvas><div id="toTop" style="zoom:0;"></div><div id="sideToolbar" style="top: 342px; visibility: visible; display: block;" class=""><div class="sideCatalogBg" id="sideCatalog" style="right: 141.5px;"><div id="sideCatalog-sidebar"><div class="sideCatalog-sidebar-top"></div><div class="sideCatalog-sidebar-bottom"></div></div><div id="sideCatalog-catalog"><ul class="nav" style="width:230px;zoom:1"><li class=""><a href="https://www.cnblogs.com/selier/p/9510326.html#autoid-0-0-0" title="1|0写在前面">1.0&nbsp;&nbsp;写在前面</a><span class="sideCatalog-dot"></span></li><li class="h2Offset"><a href="https://www.cnblogs.com/selier/p/9510326.html#autoid-1-0-0" title="1|11. 使用 maven-dependency-plugin 插件将依赖包导出到指定文件夹">1.11&nbsp;&nbsp;. 使用 maven-dependency-plug...</a></li><li class="h2Offset"><a href="https://www.cnblogs.com/selier/p/9510326.html#autoid-1-1-0" title="1|22. 使用 maven-war-plugin 插件将war打包到指定路径">1.22&nbsp;&nbsp;. 使用 maven-war-plugin 插件将w...</a></li><li class="h2Offset"><a href="https://www.cnblogs.com/selier/p/9510326.html#autoid-1-2-0" title="1|33. 使用 maven-jar-plugin 插件移除配置文件将其不打包进 jar 包中，并可以将打包后的 jar 包输出到指定路径">1.33&nbsp;&nbsp;. 使用 maven-jar-plugin 插件移除...</a></li><li class="h2Offset"><a href="https://www.cnblogs.com/selier/p/9510326.html#autoid-1-3-0" title="1|44. 使用 maven-resources-plugin 插件将需要复制的文件复制到指定路径（例：将配置文件提取到指定路径）">1.44&nbsp;&nbsp;. 使用 maven-resources-plugi...</a></li><li class="h2Offset"><a href="https://www.cnblogs.com/selier/p/9510326.html#autoid-1-4-0" title="1|5使用 maven 命令执行打包命令">1.5&nbsp;&nbsp;使用 maven 命令执行打包命令</a></li></ul></div></div><a href="javascript:void(0);" id="sideCatalogBtn" class="sideCatalogBtnDisable"></a></div></body></html>

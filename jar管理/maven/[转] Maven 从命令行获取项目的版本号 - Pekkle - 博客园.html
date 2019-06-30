@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://www.cnblogs.com/pekkle/p/10935991.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园</title>
+    <meta property="og:description" content="【From】https://blog.soebes.de/blog/2018/06/09/help-plugin/ I bet you have been faced with the situati">
+    <link type="text/css" rel="stylesheet" href="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/bundle-darkgreentrip.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/bundle-darkgreentrip-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/pekkle/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/pekkle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/pekkle/wlwmanifest.xml">
+    <script src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/pubads_impl_rendering_2019061101.js.下载"></script><script async="" src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/analytics.js.下载"></script><script src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=340839;var currentBlogApp='pekkle',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/default.min.css"><link rel="preload" href="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/f.txt"></script><link rel="preload" href="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/f(1).txt" as="script"><script type="text/javascript" src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/f(1).txt"></script><script src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/pubads_impl_2019061101.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/pekkle/"><img id="blogLogo" src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/pekkle/">天空之城</a></h1>
+<h2>愿世界变得简单而美好</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/pekkle/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Pekkle">联系</a></li>
+<li>
+<!----></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 420&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 5</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/pekkle/p/10935991.html">[转] Maven 从命令行获取项目的版本号</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>【From】<a href="https://blog.soebes.de/blog/2018/06/09/help-plugin/">https://blog.soebes.de/blog/2018/06/09/help-plugin/</a></p>
+<p>&nbsp;</p>
+<p>I bet you have been faced with the situation to get the version of your Maven project on command line? So the question is how to get it? I have seen many solutions via using Linux tools like&nbsp;<code>grep</code>,&nbsp;<code>cat</code>&nbsp;or&nbsp;<code>awk</code>&nbsp;etc. also seen many solutions like using exec-maven-plugin like this:</p>
+<div class="highlight">
+<table>
+<tbody>
+<tr>
+<td class="gutter">
+<pre class="line-numbers"><span class="line-number">1
+<span class="line-number">2
+<span class="line-number">3
+<span class="line-number">4
+<span class="line-number">5
+</span></span></span></span></span></pre>
+</td>
+<td class="code">
+<pre><code class="hljs groovy"><span class="line">VERSION=$(mvn -q \
+<span class="line">  -Dexec.executable=<span class="hljs-string">"echo"</span> \
+<span class="line">  -Dexec.args=<span class="hljs-string">'${project.version}'</span> \
+<span class="line">  --non-recursive \
+<span class="line">  org.codehaus.<span class="hljs-string">mojo:</span>exec-maven-<span class="hljs-string">plugin:</span><span class="hljs-number">1.6</span><span class="hljs-number">.0</span>:exec)</span></span></span></span></span></code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Unfortunately the above approach will not work on Windows.</p>
+<p>Starting with&nbsp;<a href="http://blog.soebes.de/blog/2018/06/09/apache-maven-help-plugin-version-3-dot-1-0-released/">Maven Help Plugin Release 3.1.0</a>&nbsp;this can be done more easier like the following:</p>
+<div class="highlight">
+<table>
+<tbody>
+<tr>
+<td class="gutter">
+<pre class="line-numbers"><span class="line-number">1
+</span></pre>
+</td>
+<td class="code">
+<pre><code class="hljs sql"><span class="line">mvn org.apache.maven.plugins:maven-<span class="hljs-keyword">help</span>-<span class="hljs-keyword">plugin</span>:<span class="hljs-number">3.1</span><span class="hljs-number">.0</span>:<span class="hljs-keyword">evaluate</span> -Dexpression=project.version -q -DforceStdout</span></code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This will exactly print out the version of your artifact on stdout and nothing else. Also no line feed is printed out.</p>
+<p>So this can be used easily in scripts like this:</p>
+<div class="highlight">
+<table>
+<tbody>
+<tr>
+<td class="gutter">
+<pre class="line-numbers"><span class="line-number">1
+</span></pre>
+</td>
+<td class="code">
+<pre><code class="hljs makefile"><span class="line">VERSION=<span class="hljs-variable">$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)</span></span></code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If you have correctly pinned the version of your plugins in your pom file or in a parent pom of the project this can be simplified like this:</p>
+<div class="highlight">
+<table>
+<tbody>
+<tr>
+<td class="gutter">
+<pre class="line-numbers"><span class="line-number">1
+</span></pre>
+</td>
+<td class="code">
+<pre><code class="hljs makefile"><span class="line">VERSION=<span class="hljs-variable">$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)</span></span></code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Apart from extracting the version you can also extract other information from the pom file like the following:</p>
+<div class="highlight">
+<table>
+<tbody>
+<tr>
+<td class="gutter">
+<pre class="line-numbers"><span class="line-number">1
+</span></pre>
+</td>
+<td class="code">
+<pre><code class="hljs makefile"><span class="line">GROUPID=<span class="hljs-variable">$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)</span></span></code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>More sophisticated expressions like the following are possible too:</p>
+<div class="highlight">
+<table>
+<tbody>
+<tr>
+<td class="gutter">
+<pre class="line-numbers"><span class="line-number">1
+<span class="line-number">2
+<span class="line-number">3
+<span class="line-number">4
+</span></span></span></span></pre>
+</td>
+<td class="code">
+<pre><code class="hljs makefile"><span class="line">GROUPID=<span class="hljs-variable">$(mvn help:evaluate \
+</span><span class="line"><span class="hljs-variable">  -Dexpression=project.dependencyManagement.dependencies[0].groupId \
+</span><span class="line"><span class="hljs-variable">  -q -DforceStdout \
+</span><span class="line"><span class="hljs-variable">)</span></span></span></span></span></code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="meta"><span class="byline author vcard">Posted by&nbsp;<span class="fn">Karl-Heinz Marbaise&nbsp;Jun 9th, 2018&nbsp;<span class="categories">&nbsp;<a class="category" href="https://blog.soebes.de/blog/categories/maven/">Maven</a>,&nbsp;<a class="category" href="https://blog.soebes.de/blog/categories/maven-plugins/">Maven-Plugins</a>,&nbsp;<a class="category" href="https://blog.soebes.de/blog/categories/usage/">Usage</a></span></span></span></p>
+<p class="meta">&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/pekkle/category/967569.html" target="_blank">02-后端开发</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(10935991,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;95414030-3d09-e711-845c-ac853d9f53ac&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/pekkle/" target="_blank"><img src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/pekkle/">Pekkle</a><br>
+            <a href="https://home.cnblogs.com/u/pekkle/followees">关注 - 6</a><br>
+            <a href="https://home.cnblogs.com/u/pekkle/followers">粉丝 - 1</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;95414030-3d09-e711-845c-ac853d9f53ac&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(10935991,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(10935991,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/pekkle/p/10935875.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/pekkle/p/10935875.html" title="发布于2019-05-28 10:54">[转]【JVM】调优笔记2-----JVM在JDK1.8以后的新特性以及VisualVM的安装使用</a><br><a href="https://www.cnblogs.com/pekkle/p/10948187.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/pekkle/p/10948187.html" title="发布于2019-05-30 10:35">[转] Linux 最大进程数, unable to create new native thread问题</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2019-05-28 11:09</span> <a href="https://www.cnblogs.com/pekkle/">Pekkle</a> 阅读(<span id="post_view_count">53</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=10935991" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/pekkle/p/10935991.html#" onclick="AddToWz(10935991);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=340839,cb_entryId=10935991,cb_blogApp=currentBlogApp,cb_blogUserGuid='95414030-3d09-e711-845c-ac853d9f53ac',cb_entryCreatedDate='2019/5/28 11:09:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/pekkle/p/10935991.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/pekkle/p/10935991.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://ke.qq.com/adActivity.html?name=xiangxueketang2" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-享学&#39;)">【培训】阿里P8面试官：什么样的人能进阿里</a><br><a href="https://q.cnblogs.com/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博问&#39;)">【推荐】程序员问答平台，解决您开发中遇到的技术难题</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CJLP27zz5-ICFU0eKgodCH0O7A"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news" style="display: none;"></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CPfj3Lzz5-ICFU0eKgodCH0O7A"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" src="./[转] Maven 从命令行获取项目的版本号 - Pekkle - 博客园_files/saved_resource(1).html"></iframe></div></div>
+</div>
+<div id="under_post_kb"></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/pekkle/category/967567.html">01-前端开发(40)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/pekkle/category/967569.html">02-后端开发(73)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/pekkle/category/967570.html">03-数据库(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/pekkle/category/967571.html">04-系统运维(65)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/pekkle/category/967572.html">05-大数据(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/pekkle/category/967573.html">06-AI相关(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/pekkle/category/967574.html">99-其他(13)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/pekkle/archive/2019/06.html">2019年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/pekkle/archive/2019/05.html">2019年5月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/pekkle/archive/2019/04.html">2019年4月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/pekkle/archive/2019/03.html">2019年3月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/pekkle/archive/2019/02.html">2019年2月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/pekkle/archive/2019/01.html">2019年1月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/pekkle/archive/2018/12.html">2018年12月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/pekkle/archive/2018/11.html">2018年11月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/pekkle/archive/2018/10.html">2018年10月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/pekkle/archive/2018/09.html">2018年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/pekkle/archive/2018/08.html">2018年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/pekkle/archive/2018/07.html">2018年7月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/pekkle/archive/2018/06.html">2018年6月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/pekkle/archive/2018/05.html">2018年5月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/pekkle/archive/2018/04.html">2018年4月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/pekkle/archive/2018/03.html">2018年3月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/pekkle/archive/2018/02.html">2018年2月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="https://www.cnblogs.com/pekkle/archive/2018/01.html">2018年1月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="https://www.cnblogs.com/pekkle/archive/2017/12.html">2017年12月 (17)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="https://www.cnblogs.com/pekkle/archive/2017/11.html">2017年11月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="https://www.cnblogs.com/pekkle/archive/2017/10.html">2017年10月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="https://www.cnblogs.com/pekkle/archive/2017/09.html">2017年9月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="https://www.cnblogs.com/pekkle/archive/2017/08.html">2017年8月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="https://www.cnblogs.com/pekkle/archive/2017/07.html">2017年7月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="https://www.cnblogs.com/pekkle/archive/2017/06.html">2017年6月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="https://www.cnblogs.com/pekkle/archive/2017/05.html">2017年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="https://www.cnblogs.com/pekkle/archive/2017/04.html">2017年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_27" href="https://www.cnblogs.com/pekkle/archive/2017/03.html">2017年3月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_28" href="https://www.cnblogs.com/pekkle/archive/2017/02.html">2017年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_29" href="https://www.cnblogs.com/pekkle/archive/2016/11.html">2016年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_30" href="https://www.cnblogs.com/pekkle/archive/2016/08.html">2016年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_31" href="https://www.cnblogs.com/pekkle/archive/2016/07.html">2016年7月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_32" href="https://www.cnblogs.com/pekkle/archive/2016/06.html">2016年6月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_33" href="https://www.cnblogs.com/pekkle/archive/2016/05.html">2016年5月 (16)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_34" href="https://www.cnblogs.com/pekkle/archive/2016/04.html">2016年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_35" href="https://www.cnblogs.com/pekkle/archive/2016/03.html">2016年3月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_36" href="https://www.cnblogs.com/pekkle/archive/2016/02.html">2016年2月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_37" href="https://www.cnblogs.com/pekkle/archive/2016/01.html">2016年1月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_38" href="https://www.cnblogs.com/pekkle/archive/2015/12.html">2015年12月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_39" href="https://www.cnblogs.com/pekkle/archive/2015/11.html">2015年11月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_40" href="https://www.cnblogs.com/pekkle/archive/2015/10.html">2015年10月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_41" href="https://www.cnblogs.com/pekkle/archive/2015/09.html">2015年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_42" href="https://www.cnblogs.com/pekkle/archive/2015/08.html">2015年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_43" href="https://www.cnblogs.com/pekkle/archive/2015/07.html">2015年7月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_44" href="https://www.cnblogs.com/pekkle/archive/2015/06.html">2015年6月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_45" href="https://www.cnblogs.com/pekkle/archive/2015/05.html">2015年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_46" href="https://www.cnblogs.com/pekkle/archive/2015/04.html">2015年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_47" href="https://www.cnblogs.com/pekkle/archive/2015/03.html">2015年3月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_48" href="https://www.cnblogs.com/pekkle/archive/2015/02.html">2015年2月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_49" href="https://www.cnblogs.com/pekkle/archive/2015/01.html">2015年1月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_50" href="https://www.cnblogs.com/pekkle/archive/2014/12.html">2014年12月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_51" href="https://www.cnblogs.com/pekkle/archive/2014/08.html">2014年8月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_52" href="https://www.cnblogs.com/pekkle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_53" href="https://www.cnblogs.com/pekkle/archive/2014/06.html">2014年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_54" href="https://www.cnblogs.com/pekkle/archive/2014/05.html">2014年5月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_55" href="https://www.cnblogs.com/pekkle/archive/2014/04.html">2014年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_56" href="https://www.cnblogs.com/pekkle/archive/2014/03.html">2014年3月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_57" href="https://www.cnblogs.com/pekkle/archive/2014/02.html">2014年2月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_58" href="https://www.cnblogs.com/pekkle/archive/2014/01.html">2014年1月 (25)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_59" href="https://www.cnblogs.com/pekkle/archive/2009/04.html">2009年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_60" href="https://www.cnblogs.com/pekkle/archive/2008/05.html">2008年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_61" href="https://www.cnblogs.com/pekkle/archive/2008/04.html">2008年4月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_62" href="https://www.cnblogs.com/pekkle/archive/2008/03.html">2008年3月 (2)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	98743
+	</li>
+	<li class="liRank">
+		排名 -	5018
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/pekkle/p/8428940.html#4209371">1. Re:[转] Chrome - 浏览器跨域访问设置（附：新老版本两种设置方法）</a></li>
+        <li class="recent_comment_body">第一☝️：mac chrome 设置：open -n /Applications/Google\ Chrome.app/ --args --disable-web-security --user-d.......</li>
+        <li class="recent_comment_author">--牛气大志</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/pekkle/p/6813458.html#4150943">2. Re:[转] log4j-over-slf4j与slf4j-log4j12共存stack overflow异常分析</a></li>
+        <li class="recent_comment_body">@一杯热咖啡AAA转的，只好先看着 ^ ^...</li>
+        <li class="recent_comment_author">--Pekkle</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/pekkle/p/6813458.html#4150909">3. Re:[转] log4j-over-slf4j与slf4j-log4j12共存stack overflow异常分析</a></li>
+        <li class="recent_comment_body">文章不错，要是图片再清晰点就更好了。</li>
+        <li class="recent_comment_author">--一杯热咖啡AAA</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/pekkle/p/6568669.html#4092769">4. Re:Selenium WebDriver 中鼠标和键盘事件分析及扩展</a></li>
+        <li class="recent_comment_body">楼主小结得真不错，谢谢了。selenium自动化测试工具python笔试面试项目实战5键盘操作 这里有不少示例也可以参考下！...</li>
+        <li class="recent_comment_author">--雪峰磁针石</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/pekkle/p/6662385.html#3886025">5. Re:如何通俗的解释交叉熵与相对熵</a></li>
+        <li class="recent_comment_body">来自百度百科：相对熵=交叉熵-信息熵</li>
+        <li class="recent_comment_author">--thouger</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/pekkle/p/7196024.html">1. [转] javascript 判断对象是否存在的10种方法总结(18292)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/9176469.html">2. [转] 使用Gson进行json数据转换list to json 和json to list(14443)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/9978269.html">3. [转] 2018年最新桌面CPU性能排行天梯图（含至强处理器）(6071)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/8018939.html">4. [转] electron实战开发详细流程(5138)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/6568660.html">5. openssl-devel和openssl 是什么具体关系(4646)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/7416800.html">6. [转] 在加拿大找不到工作？给你一百个招聘网站够不够？(4577)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/7171952.html">7. npm install 卡住的时候的处理(4263)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/9367577.html">8. Java 的 List 与 Scala 的 Seq 相互转换(3685)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/7906919.html">9. [转] Spring Integration 系统集成(3448)</a></li><li><a href="https://www.cnblogs.com/pekkle/p/6813458.html">10. [转] log4j-over-slf4j与slf4j-log4j12共存stack overflow异常分析(3370)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 Pekkle
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

@@ -1,0 +1,55 @@
+#!bin/sh 自动化创建svn仓库
+svn
+# 移除
+sudo apt-get remove --purge subversion
+# 更新
+sudo apt-get update
+# 
+sudo mkdir -p /home/svn/repository
+sudo chmod -R 777 /home/svn/repository
+# 创建版本库
+sudo svnadmin create /home/svn/repository
+# db进行权限设置
+sudo chmod -R 777 /home/svn/repository/db
+
+# 备份
+cp /home/svn/repository/conf/svnserve.conf{,.bak}
+cp /home/svn/repository/conf/passwd{,.bak}
+cp /home/svn/repository/conf/authz{,.bak}
+
+
+# 改配置 svnserve.conf
+cat > /home/svn/repository/conf/svnserve.conf <<EOF
+[general]
+#匿名用户可读
+anon-access = read（可改成none，即不可读）
+#权限用户可写
+auth-access = write
+#密码文件为passwd
+password-db = passwd
+#权限文件为authz
+authz-db = authz
+[sasl]
+EOF
+
+# passwd 用户
+cat > /home/svn/repository/conf/passwd <<EOF
+[users]
+test=123456
+EOF
+# 权限
+cat > /home/svn/repository/conf/authz <<EOF
+[aliases]
+[groups]
+admin = test
+[/]
+@admin = rw
+* = rw
+EOF
+
+## 启动服务器
+svnserve -d -r /home/svn
+ps aux | grep svnserve
+
+# 本地测试check out简写
+#svn co svn://127.0.0.1/repository --username test --password 123456

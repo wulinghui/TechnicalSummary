@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)https://blog.51cto.com/13233089/2134012 -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="favicon" rel="shortcut icon" href="https://blog.51cto.com/favicon.ico">
+        <title>批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客</title>
+    <meta name="keywords" content="网刻,操作,系统">
+<meta name="description" content="一、安装操作系统并备份成镜像文件1.首先安装操作系统，然后使用ghost工具将母盘做一个全盘镜像备份。（选择disktoimage）2.镜像备份好后，就可以通过设置诚龙网刻工具来进行的网刻。下载诚龙网刻工具http://www.downxia.com/downinfo/32350.html以管理员身份运行网刻工具前请提前准备好一个单独的网络交换机，并把需要做服务器的主机连在交换机上，单独接交换机主">    <link href="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/header.css" rel="stylesheet"><link href="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/other.css" rel="stylesheet"><link href="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/right.css" rel="stylesheet"><link href="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/blog_details.css" rel="stylesheet"><link href="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/highlight.css" rel="stylesheet">
+    <script type="text/javascript" async="" src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/vds.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/push.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/hm.js.下载"></script><script>
+        var HOME_URL = 'https://home.51cto.com/';
+    </script>
+    <script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/jquery.min.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/cookie.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/login.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/common.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/mbox.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/follow.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/vip.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/window.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/share.js.下载"></script><style></style><link rel="stylesheet" href="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/share_style0_16.css"></head>
+<body>
+<img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/share_default.jpg" border="0" style="width:0; height:0; position:absolute;">
+<style type="text/css">
+	.service-btn{
+		width: 53px;
+height: 36px;
+color: #1ac6fe;
+line-height: 16px;
+padding-top: 50px;
+		display: inline-block;
+		background: url(https://s1.51cto.com/images/blog/201811/02/463350acf4c693cfb3dc248bc8a2a0eb.png) no-repeat center;
+	}
+	.service-btn:hover{
+		background: url(https://s1.51cto.com/images/blog/201811/02/2d5fa2ff4eb9ef66847aff20ba4c8bae.png) no-repeat center;
+height: 36px;
+color: #fff;
+line-height: 16px;
+padding-top: 50px;
+	}
+</style>
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+<div id="topbanner14" style="position: relative;width:100%;height:40px;background:url(https://s1.51cto.com/images/blog/201905/29/489c3eaa7a5cd2d47a468e69665b5772.jpg)">
+<a class="close fl" href="javascript:;" style="position:absolute;width:13px;height:13px;top:0px;z-index: 20;background: url(&#39;https://s1.51cto.com/images/blog/201808/23/0363c65f527ea7c9880ab5f275303d1a.png&#39;) 0 0 no-repeat;background-size: 100% 100%;left: 50%;margin-left: 587px;"></a>
+<a href="https://blog.51cto.com/cloumn/composedetail?id=9&amp;banner" target="_blank">
+  <img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/42bd8bef0cd70d00b64970cadf526e69.jpg" alt="" style="position:absolute;width:1200px;height:40px;margin-left: -600px;left:50%;z-index: 10;">
+</a>
+</div>
+<script>
+    $("#topbanner14").on("click",".close",function(){
+        $("#topbanner14").remove();
+    })
+</script>
+<div class="Header">
+  <div class="Page ">
+    <h1 class="Logo"><a href="https://blog.51cto.com/">Logo</a></h1>
+    <ul class="Navigates fl">
+      <li><a href="https://blog.51cto.com/">首页</a></li>
+      <li><a href="https://blog.51cto.com/original">文章</a></li>
+      <li><a href="https://blog.51cto.com/blog/follow">关注</a></li>
+      <li class="">
+        <a class="column-stress" href="https://blog.51cto.com/cloumn/index" target="_blank">订阅专栏</a>
+      </li>
+                    
+                  </ul>
+    <ul class="Navigates Navigates-right fr">
+      <li class="more maps">
+        <a href="javascript:void(0);">网站导航</a>
+        <div>
+            <a href="https://edu.51cto.com/" target="_blank">学院</a>
+            <a href="https://e.51cto.com/" target="_blank">微职位</a>
+            <a href="https://blog.51cto.com/" target="_blank">博客</a>
+            <a href="http://down.51cto.com/" target="_blank">下载</a>
+            <a href="https://home.51cto.com/" target="_blank">家园</a>
+            <a href="http://bbs.51cto.com/" target="_blank">论坛</a>
+            <a href="http://x.51cto.com/" target="_blank">CTO训练营</a>
+            <!--a href=" http://club.51cto.com?blog" target="_blank">CTO俱乐部</a-->
+            <a href="http://wot.51cto.com/" target="_blank">WOT</a>
+            <a href="http://www.51cto.com/" target="_blank">51CTO</a>
+            <i class="arrow"></i>
+        </div>
+      </li>
+                <li><a href="https://blog.51cto.com/site/login?reback=https%3A%2F%2Fblog.51cto.com%2F13233089%2F2134012&amp;logintype=reg" target="_self">注册</a></li>
+          <li class="login"><a href="https://blog.51cto.com/site/login?reback=https%3A%2F%2Fblog.51cto.com%2F13233089%2F2134012" target="_self">登录</a></li>
+                        <li class="mRead">
+          <a href="javascript:;">手机阅读</a>
+          <div>
+            <img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/blog_qr.png">
+            <p>扫一扫体验手机阅读</p>
+            <i class="arrow"></i>
+          </div>
+        </li>
+            <li class="search"><a href="https://blog.51cto.com/search/index" target="_self">搜索</a></li>
+                  <li class="write"><a href="javascript:;" onclick="Login()">写文章</a></li>
+                  </ul>
+
+          <div class="clear"></div>
+  </div>
+</div>
+<script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/box.js.下载"></script> 
+<script>
+    var isLogin = '0';
+    var userId = '';
+    var imgpath = 'https://s1.51cto.com/';
+    var BLOG_URL = 'https://blog.51cto.com/';
+    var msg_num_url = '/index/ajax-msg-num';
+    $('.msg-follow, .msg-follow-max').eq(1).css({top: '91px'});
+    $('.msg-follow, .msg-follow-max').eq(2).css({top: '121px'});
+    setTimeout(function(){
+            $.ajax({
+                url:msg_num_url,
+                type:"get",
+                dataType:'json',
+                success:function(res){
+                    if(res.status == '0'){
+                       //
+                       var hasNewMsg = false;
+                       if(res.data.msgNum > 0 && !$('#myMsg i').hasClass('dot')){
+                            $('#myMsg i').addClass('dot');
+                            hasNewMsg = true;
+                       }
+                       if(res.data.notifyNum > 0 && !$('#myNotify i').hasClass('dot')){
+                           $('#myNotify i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(res.data.recommend_new > 0 && !$('#myRecommend i').hasClass('dot')){
+                           $('#myRecommend i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(hasNewMsg && !$('#myAllMsg i').hasClass('dot')){
+                           $('#myAllMsg i').addClass('dot');
+                       }
+                    }
+
+                }
+            });
+    },70);
+    //广告图
+$(function(){
+     new AutoAD({
+      ADD:$('<a href="https://blog.51cto.com/cloumn/composedetail?id=4" class="closeMB" target="_blank" styel="display:block;"><img src="https://s1.51cto.com/images/blog/201906/13/379c45091637c6167ae046ceecea020d.jpg"></a><a class="closeMB" style="position: absolute;right:2px;top: 3px;width: 50px;height: 40px;cursor: pointer;" href="javascript:;"></a>'),
+      W:500,
+      H:400,
+      cookie:'blog_activity_blog75',
+      mask:"#000",
+      ts:'21600',
+      noCBtn: true
+    }) 
+})    
+</script>
+ <script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/entrance.js.下载" id="zhichiScript" class="zhiCustomBtn" data-args="manual=true"></script>
+<a href="javascript:;" class="zhiCustomBtn" style="position: fixed;z-index: 2147483583;width: 60px;height: 6px;text-align: center;bottom:275px;right:0px;">
+<span class="service-btn">在线<br>客服</span>
+</a>
+
+<script type="text/javascript">
+var zhiManager = (getzhiSDKInstance());
+zhiManager.on("load", function() {
+    zhiManager.initBtnDOM();
+});
+//zhiManager.set('title','垃圾/广告信息举报');
+zhiManager.set('powered',false);
+zhiManager.set('color', '4285f4');
+zhiManager.set('customBtn', 'true');
+zhiManager.set('moduleType',2);
+zhiManager.set('size',{'width':360,'height':500});
+
+zhiManager.set('userinfo', {partnerId:'',uname:'',params:'{"用户名":""}'});
+zhiManager.set('customMargin', 20);
+zhiManager.set('horizontal', 20);
+zhiManager.set('vertical', 90);
+zhiManager.set('preVisitArgs',{'preVisitUrl': document.referrer?document.referrer:''});
+zhiManager.set('curVisitArgs',{'curVisitUrl': location.href,curVisitTitle:document.title,});
+</script>
+<div class="Content-box" style="min-height: 645px;">
+    	<link rel="stylesheet" href="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/mdeShow.css">
+<link rel="stylesheet" href="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/tinyscrollbar.css">
+<script type="text/javascript" src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/jquery.tinyscrollbar.js.下载"></script>
+<div class="Content Index" style="padding-bottom: 50px;">
+	<div class="Page M764">
+		<!-- left start -->
+		<div class="artical-Left-blog">
+			<div class="status">
+	        					<a class="tab_name original">原创</a>
+							</div>
+			<h1 class="artical-title">批量网刻操作系统（使用GHOST工具）</h1>
+			<div class="artical-title-list">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/13233089" class="a-img" target="_blank"><img class="is-vip-img is-vip-img-4" data-uid="13223089" src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/3c53aeb5d22e75f1d1623d557d871768.jpg"></a>
+				</div>
+				<a href="https://blog.51cto.com/13233089" class="name fl" target="_blank" style="margin-right:0;">咻斛一</a>
+									                	                    <a id="checkFollow1_13223089" class="checkFollow-btn on fl" style="margin-left:8px;">关注</a>
+	                	            				<a class="comment comment-num fr"><font class="comment_number">0</font>人评论</a>
+				<span class="fr"></span>
+				<a href="javascript:;" class="read fr">14941人阅读</a>
+				<a href="javascript:;" class="time fr">2018-06-29 09:49:58</a>
+				<div class="clear"></div>
+			</div>
+							<div class="artical-content-bak main-content">
+					<div class="con artical-content editor-preview-side"><p>一、安装操作系统并备份成镜像文件</p>
+<p>1.首先安装操作系统，然后使用ghost工具将母盘做一个全盘镜像备份。（选择disk to image）</p>
+<p><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/59ca76074f4938f98c565d973dfa6bc1.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"><br><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/ac7c0c1239bde0825a9aa808eaa353b3.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"><br><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/d1c2d075e2cbb48099f946b4cedcc805.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"></p>
+<p>2.镜像备份好后，就可以通过设置诚龙网刻工具来进行的网刻。</p>
+<p>下载诚龙网刻工具 <a href="http://www.downxia.com/downinfo/32350.html" rel="nofollow" style="color: rgb(66, 133, 244);">http://www.downxia.com/downinfo/32350.html</a></p>
+<p>以管理员身份运行网刻工具前请提前准备好一个单独的网络交换机，并把需要做服务器的主机连在交换机上，单独接交换机主要是可以避免受局域网内的dhcp干扰。<br>ps:运行软件时需以管理员权限运行，不然会报无法初始化启动dhcp服务器。</p>
+<p>1）.首先选择全盘克隆</p>
+<p><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/84d7a3c7172747fbfe66303ff2615993.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"></p>
+<p>2）.设置好备份镜像路径后点击–开始网刻<br><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/71e2c3f39a55f517427c5ebe2c4ce50b.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"></p>
+<p>3）.这里我们要选到本地连接的这块真实的物理网卡，选好网卡点击DHCP server按键<br><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/c14c68ac00cc9de4c8eea11578824139.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"></p>
+<p>4）.将IP地址池改成与本地真实物理网卡相同的网段，然后点保存</p>
+<p><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/e35c3abbe4242bab0320b113523ddfe5.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"></p>
+<p>二．设置客户机</p>
+<p>（重启计算机进入BIOS设置，将第一启动项设置成从网络启动设即可）</p>
+<p>1.接下来我们把需要安装系统的多台客户机，接在与网刻服务器连接的交换机上，在BIOS中设置PXE网络启动。BIOS版本众多，设置各不相同，能不能设置就看你的技术了，还要看主板支不支持PXE启动。如果是10年前的主板，不支持是有可能的<br><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/63397d6fc6716b9a038641a1b4ffedba.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"></p>
+<p>2.顺利的话就会进入到如图所示的状态。它也在等待，等待服务器点击“发送”<br><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/57c910aae04f8effef1b7cdf2e56f9db.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"></p>
+<p>3.最后我们回到服务器，服务器早已感应到客户机的连接，并已通讯良久。就差手动点击“发送”了<br><img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/6171273477b79a426172e6f27bbd5d69.png" alt="批量网刻操作系统（使用GHOST工具）" style="cursor: pointer;"></p>
+<p>4、正常情况下系统恢复完即可正常进入系统。</p>
+<p>需要注意的事项：</p>
+<p>克隆的时候如果选择全盘克隆，则客户机硬盘不需要分区。</p>
+<p>如果选择克隆c盘则需要对客户机进行分区。</p>
+<p>制作镜像的时候最好不要安装设备驱动，以免恢复后由于驱动不兼容导致无法进入系统。</p></div>
+				</div>
+													<div class="artical-copyright mt26">©著作权归作者所有：来自51CTO博客作者咻斛一的原创作品，如需转载，请注明出处，否则将追究法律责任</div>
+									<div class="for-tag mt26">
+																						<a href="https://blog.51cto.com/search/result?q=%E7%BD%91%E5%88%BB" target="_blank">网刻</a>
+																								<a href="https://blog.51cto.com/search/result?q=%E6%93%8D%E4%BD%9C" target="_blank">操作</a>
+																								<a href="https://blog.51cto.com/search/result?q=%E7%B3%BB%E7%BB%9F" target="_blank">系统</a>
+															                				<div class="clear"></div>
+			</div>
+			<div class="more-list">
+				<p class="is-praise fl "><span type="1" blog_id="2134012" userid="13223089">1</span></p>
+				<div class="share-box fr">
+					<p class="share"><i></i>分享</p>
+					<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1561683969584">
+					  <span></span>
+					  <a class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">微博</a>
+					  <a class="bds_sqq" data-cmd="sqq" title="分享到QQ好友">QQ</a>
+					  <a class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+					  <img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/qr-url">
+					</div>
+				</div>
+				<p class="favorites favorites-opt fr"><i></i>收藏</p>
+								<div class="clear"></div>
+			</div>
+							<div class="artical-list">
+	            					<a class="fl" href="https://blog.51cto.com/13233089/2133301" title="rsync+inotify实时同步数据">
+						上一篇：rsync+inotify实时同...</a>
+	            	            					<a class="fr" href="https://blog.51cto.com/13233089/2135732" title="RUNDECK安装">
+						下一篇：RUNDECK安装</a>
+	            					<div class="clear"></div>
+				</div>
+						<div class="author-module">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/13233089" class="a-img" target="_blank">
+						<img class="is-vip-img is-vip-img-4" data-uid="13223089" src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/3c53aeb5d22e75f1d1623d557d871768.jpg">
+					</a>
+				</div>
+				<div class="author-module-center fl">
+					<a class="h2" href="https://blog.51cto.com/13233089" target="_blank" style="display:inline-block;">咻斛一</a>
+										<h3>34篇文章，10W+人气，2粉丝</h3>
+					<h4>向下扎根,向上发展</h4>				</div>
+									<div class="author-module-right author-checkFollow fr">
+          	                  <a id="checkFollow2_13223089" class="follow-1 checkFollow on">关注</a>
+              					</div>
+        				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="artical-Left" id="comment">
+			<!-- 发布评论 -->
+			<div class="comment-creat">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/13233089" class="header-img" target="_blank">
+						<img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/noavatar_middle.gif">
+					</a>
+				</div>
+				<div class="first-publish fr publish_user_id">
+					<textarea class="textareadiv textareadiv-publish" name="" id="" placeholder="提问和评论都可以，用心的回复会被更多人看到和认可" maxlength="500"></textarea>
+					<div class="comment-push">
+						<p class="msg fl">Ctrl+Enter&nbsp;发布</p>
+													<p class="publish-btn blue-btn fr" flag="1">发布</p>
+												<p class="cancel-btn cancel-btn-1 fr">取消</p>
+						<div class="clear"></div>
+					</div>
+					<input type="hidden" class="user_id" value="13223089">
+					<input type="hidden" class="reply_id" value="2134012">
+					<input type="hidden" class="first_pid" value="">
+				</div>
+				<div class="clear"></div>
+			</div>
+						<div class="commentList"></div>
+			<!-- page -->
+			<div class="act_pageList_box"></div>
+		</div>
+		<!-- end left -->
+		<!-- right start -->
+		<div class="Blog-Right artical-Right">
+			<a class="catalog" style="display: none;"></a>
+			<a class="scrollTop" href="javascript:void(0);" onclick="$(window).scrollTop(0);" style="display: block;"></a>
+		</div>
+		<!-- end right  -->
+	</div>
+			<div class="special-column">
+			<div class="Page M764">
+									<div class="column-1">
+						<h2 class="column-tit">推荐专栏<a href="https://blog.51cto.com/cloumn/index?utm_source=p" target="_blank"><span class="recommend-more-span" style="">更多</span></a></h2>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/30" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/5353379fc95da1d7d34fd243b9ace17f.jpg">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/30" target="_blank"> 全局视角看大型园区网</a>
+									<h3 class="white-space">路由交换+安全+无线+优化+运维</h3>
+									<h4 class="white-space">共40章&nbsp;|&nbsp;<a href="https://blog.51cto.com/weilan2222" target="_blank">51CTO夏杰</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>1744人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="30" href="https://blog.51cto.com/cloumn/detail/30" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/18" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/45862f289339dc922ffda669fd74ad9b.jpg">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/18" target="_blank"> 网工2.0晋级攻略 ——零基础入门Python/Ansible</a>
+									<h3 class="white-space">网络工程师2.0进阶指南</h3>
+									<h4 class="white-space">共30章&nbsp;|&nbsp;<a href="https://blog.51cto.com/gingerbeer" target="_blank">姜汁啤酒</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>1588人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="18" href="https://blog.51cto.com/cloumn/detail/18" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/13" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/a940c66317ecbe58436a2ad3831c2d7d.png">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/13" target="_blank"> 基于Python的DevOps实战</a>
+									<h3 class="white-space">自动化运维开发新概念</h3>
+									<h4 class="white-space">共20章&nbsp;|&nbsp;<a href="https://blog.51cto.com/yuhongchun" target="_blank">抚琴煮酒</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>433人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="13" href="https://blog.51cto.com/cloumn/detail/13" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/6" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/629650e188ddde78b213e564c2e9ebff.jpg">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/6" target="_blank"> 负载均衡高手炼成记</a>
+									<h3 class="white-space">高并发架构之路</h3>
+									<h4 class="white-space">共15章&nbsp;|&nbsp;<a href="https://blog.51cto.com/sery" target="_blank">sery</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>509人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="6" href="https://blog.51cto.com/cloumn/detail/6" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/5" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/dc6736c5fd50474b5df8b76b040e3d03.jpg">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/5" target="_blank"> 带你玩转高可用</a>
+									<h3 class="white-space">前百度高级工程师的架构高可用实战</h3>
+									<h4 class="white-space">共15章&nbsp;|&nbsp;<a href="https://blog.51cto.com/13527416" target="_blank">曹林华</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>463人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="5" href="https://blog.51cto.com/cloumn/detail/5" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+											</div>
+													<div class="column-2" style="margin-top: 76px;">
+						<h2 class="column-tit">猜你喜欢</h2>
+						<div class="column-box">
+															<a class="white-space" href="https://blog.51cto.com/13233089/2354584?source=dra" target="_blank">zabbix3.4.6监控系统搭建</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/13233089/2349385?source=dra" target="_blank">apache与Tomcat以及JK模块的安装</a>
+															<a class="white-space" href="https://blog.51cto.com/14204744/2366896?source=drt" target="_blank">DNS域名系统</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/467754239/1700828?source=drt" target="_blank">ELK 日志分析系统</a>
+															<a class="white-space" href="https://blog.51cto.com/yulp2010/317398?source=drt" target="_blank">如何查看Linux操作系统版本？</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/ixdba/569329?source=drt" target="_blank">献给初学者：谈谈如何学习Linux操作系统</a>
+															<a class="white-space" href="https://blog.51cto.com/12800391/1933714?source=drt" target="_blank">免费的上网行为管理系统和软路由系统推荐。</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/feihan21/1174650?source=drt" target="_blank">linux 的date命令及系统时间设置</a>
+															<a class="white-space" href="https://blog.51cto.com/wangchunhai/278207?source=drt" target="_blank">Panabit流量管理系统使用经验</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/wangchunhai/723876?source=drt" target="_blank">理解Windows操作系统的KMS与MAK密钥</a>
+															<a class="white-space" href="https://blog.51cto.com/wujunfeng/965292?source=drt" target="_blank">linux网卡操作命令 ,查看Linux下网卡连接状态（up还是down)?</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/weicun/1943941?source=drt" target="_blank">开源资产管理软件-GLPI（9.13）操作手册</a>
+															<a class="white-space" href="https://blog.51cto.com/wenzhongxiang/2403557?source=drh" target="_blank">Windows 10 "升"与"不升"之我见</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/14157628/2396451?source=drh" target="_blank">Windows server 2016 搭建RDS服务</a>
+															<a class="white-space" href="https://blog.51cto.com/11233559/2377129?source=drh" target="_blank">kubernetes 存储卷与数据持久化</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/4746316/2330911?source=drh" target="_blank">Windows 设置 VMware workstation 虚拟机开机启动</a>
+															<a class="white-space" href="https://blog.51cto.com/softicelee/2320440?source=drh" target="_blank">漫谈 Windows Server 管理工具</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/qiyuwei/2315549?source=drh" target="_blank">如何在Windows中批量创建VMware的虚拟机</a>
+															<a class="white-space" href="https://blog.51cto.com/kerry/2314925?source=drh" target="_blank">解决asp.net负载均衡时Session共享的问题</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/7001610/2314443?source=drh" target="_blank">中小企业2018-2020年信息化环境运维及安全建议</a>
+														<div class="clear"></div>
+						</div>
+					</div>
+							</div>
+		</div>
+		<div class="group_img_box">
+		<div class="group_git_box">
+                	 <img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/f92360e227f9d91cdff7ea95120630ef.png" style="width:70px;height:70px;"> 	
+			<!--<img src="https://s1.51cto.com/images/blog/201810/22/078772c84eb23213ea90f577d9316ce4.png"/>-->
+        		</div>
+			<div class="group_code_box">
+			<img src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/left-qr.jpg" width="130" height="130">
+			<p>扫一扫,领取大礼包</p>
+		</div>
+	</div>		
+	<div class="the-lowest-bg" style="display: block;">
+		<div class="the-lowest Page M764">
+			<p class="is-praise fl "><span type="1" blog_id="2134012" userid="13223089">1</span></p>
+			<p class="b-favorites favorites-opt fl"><i></i><b>3</b></p>
+			<a class="b-reply fl"><i></i><font class="comment_number"></font></a>
+			<div class="b-share fl">
+				<i></i>分享
+				<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1561683969584">
+				  <a class="bds_tsina p2" data-cmd="tsina" title="分享到新浪微博"></a>
+				  <a class="bds_sqq p3" data-cmd="sqq" title="分享到QQ好友"></a>
+				  <a class="bds_weixin p1" data-cmd="weixin" title="分享到微信"><em class="code-icon"></em><img class="code-img" src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/qr-url"></a>
+				</div>
+			</div>
+      				<div class="b-fllow author-checkFollow fr" style="margin-left: 20px;">
+                        <a id="checkFollow3_13223089" class="follow-1 checkFollow on">关注</a>
+          				</div>
+      						<a href="https://blog.51cto.com/13233089" class="b-name fr">咻斛一</a>
+			<div class="is-vip-bg-6 fr">
+				<a href="https://blog.51cto.com/13233089" class="b-img"><img class="is-vip-img is-vip-img-4" data-uid="13223089" src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/3c53aeb5d22e75f1d1623d557d871768.jpg"></a>
+			</div>
+			<div class="clear"></div>
+
+		</div>
+	</div>
+</div>
+<!-- 老博文美观处理 -->
+<script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/countDown.js.下载"></script>
+<script>
+	var praise_url = 'https://blog.51cto.com/praise/praise'
+    	addReply_url = 'https://blog.51cto.com/comments/add'
+    	removeUrl = 'https://blog.51cto.com/comments/del'
+    	blog_id = '2134012'
+    	pv_log_info = {
+            'pv_type':'blog',
+            'user_id':'13223089',
+            'blog_id':'2134012'
+        };
+    	rid = '0'
+    	is_comment = '0'
+    	comment_list = '/blog/ajax-comment-list'
+    	comment_sort = "asc"
+    	index_url = 'https://blog.51cto.com/13233089';
+    	uc_url = 'https://ucenter.51cto.com/'
+    	blog_url = 'https://blog.51cto.com/'
+    	img_url = 'https://static1.51cto.com/edu/blog/'
+    	i_user_id = ''
+    	c_user_id ='13223089'
+    	collect_url = 'https://blog.51cto.com/collect/add'
+    	is_old = '0'
+    	nicknameurl = 'https://blog.51cto.com/13233089'
+    	nickname = '咻斛一'
+    	myself = window.location.href;
+	$('.you-like-list li:odd').css({'margin-left': '10%'});
+	$('.column-box a:odd').addClass('left-list')
+	$('.myUrl').text(myself).click(function(){window.open(myself)})
+	setTimeout(function(){$('.Footer').css({'margin-top':'-50px'})},50)
+    		function FollowBtnSucc(e){//1:未关注,2:已关注,3:互相关注
+		    if(e==2||e==3){
+		        $.post('/index/wxbind',{uid:userId},function(res){
+		            if(res.data.wxBind == 0){//没绑定
+	                    if(getCookie('follow1'))return false;
+	                    box1()
+	                }else{
+	                    if(getCookie('follow2'))return false;
+	                    box2()
+	                }
+		        },'json')
+		    }
+		}
+		FollowBtn = new Follow($('#checkFollow1_13223089'),'13223089','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+		FollowBtn = new Follow($('#checkFollow2_13223089'),'13223089','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+		FollowBtn = new Follow($('#checkFollow3_13223089'),'13223089','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+        	if(is_old==1){
+    // SyntaxHighlighter.all();
+    insertCodeElement("\u4e00\u3001\u5b89\u88c5\u64cd\u4f5c\u7cfb\u7edf\u5e76\u5907\u4efd\u6210\u955c\u50cf\u6587\u4ef6\n\n1.\u9996\u5148\u5b89\u88c5\u64cd\u4f5c\u7cfb\u7edf\uff0c\u7136\u540e\u4f7f\u7528ghost\u5de5\u5177\u5c06\u6bcd\u76d8\u505a\u4e00\u4e2a\u5168\u76d8\u955c\u50cf\u5907\u4efd\u3002\uff08\u9009\u62e9disk to image\uff09\n\n ![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/59ca76074f4938f98c565d973dfa6bc1.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n ![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/ac7c0c1239bde0825a9aa808eaa353b3.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n ![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/d1c2d075e2cbb48099f946b4cedcc805.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n \n\n\n\n \n\n \n\n \n\n \n\n \n\n \n\n2.\u955c\u50cf\u5907\u4efd\u597d\u540e\uff0c\u5c31\u53ef\u4ee5\u901a\u8fc7\u8bbe\u7f6e\u8bda\u9f99\u7f51\u523b\u5de5\u5177\u6765\u8fdb\u884c\u7684\u7f51\u523b\u3002\n\n\u4e0b\u8f7d\u8bda\u9f99\u7f51\u523b\u5de5\u5177 http:\/\/www.downxia.com\/downinfo\/32350.html\n\n\u4ee5\u7ba1\u7406\u5458\u8eab\u4efd\u8fd0\u884c\u7f51\u523b\u5de5\u5177\u524d\u8bf7\u63d0\u524d\u51c6\u5907\u597d\u4e00\u4e2a\u5355\u72ec\u7684\u7f51\u7edc\u4ea4\u6362\u673a\uff0c\u5e76\u628a\u9700\u8981\u505a\u670d\u52a1\u5668\u7684\u4e3b\u673a\u8fde\u5728\u4ea4\u6362\u673a\u4e0a\uff0c\u5355\u72ec\u63a5\u4ea4\u6362\u673a\u4e3b\u8981\u662f\u53ef\u4ee5\u907f\u514d\u53d7\u5c40\u57df\u7f51\u5185\u7684dhcp\u5e72\u6270\u3002\nps:\u8fd0\u884c\u8f6f\u4ef6\u65f6\u9700\u4ee5\u7ba1\u7406\u5458\u6743\u9650\u8fd0\u884c\uff0c\u4e0d\u7136\u4f1a\u62a5\u65e0\u6cd5\u521d\u59cb\u5316\u542f\u52a8dhcp\u670d\u52a1\u5668\u3002\n\n1\uff09.\u9996\u5148\u9009\u62e9\u5168\u76d8\u514b\u9686\n\n![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/84d7a3c7172747fbfe66303ff2615993.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n \n\n2\uff09.\u8bbe\u7f6e\u597d\u5907\u4efd\u955c\u50cf\u8def\u5f84\u540e\u70b9\u51fb\u2013\u5f00\u59cb\u7f51\u523b\n![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/71e2c3f39a55f517427c5ebe2c4ce50b.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n\n \n\n3\uff09.\u8fd9\u91cc\u6211\u4eec\u8981\u9009\u5230\u672c\u5730\u8fde\u63a5\u7684\u8fd9\u5757\u771f\u5b9e\u7684\u7269\u7406\u7f51\u5361\uff0c\u9009\u597d\u7f51\u5361\u70b9\u51fbDHCP server\u6309\u952e\n![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/c14c68ac00cc9de4c8eea11578824139.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n \n\n4\uff09.\u5c06IP\u5730\u5740\u6c60\u6539\u6210\u4e0e\u672c\u5730\u771f\u5b9e\u7269\u7406\u7f51\u5361\u76f8\u540c\u7684\u7f51\u6bb5\uff0c\u7136\u540e\u70b9\u4fdd\u5b58\n\n ![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/e35c3abbe4242bab0320b113523ddfe5.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n \n\n\u4e8c\uff0e\u8bbe\u7f6e\u5ba2\u6237\u673a\n\n\uff08\u91cd\u542f\u8ba1\u7b97\u673a\u8fdb\u5165BIOS\u8bbe\u7f6e\uff0c\u5c06\u7b2c\u4e00\u542f\u52a8\u9879\u8bbe\u7f6e\u6210\u4ece\u7f51\u7edc\u542f\u52a8\u8bbe\u5373\u53ef\uff09\n\n1.\u63a5\u4e0b\u6765\u6211\u4eec\u628a\u9700\u8981\u5b89\u88c5\u7cfb\u7edf\u7684\u591a\u53f0\u5ba2\u6237\u673a\uff0c\u63a5\u5728\u4e0e\u7f51\u523b\u670d\u52a1\u5668\u8fde\u63a5\u7684\u4ea4\u6362\u673a\u4e0a\uff0c\u5728BIOS\u4e2d\u8bbe\u7f6ePXE\u7f51\u7edc\u542f\u52a8\u3002BIOS\u7248\u672c\u4f17\u591a\uff0c\u8bbe\u7f6e\u5404\u4e0d\u76f8\u540c\uff0c\u80fd\u4e0d\u80fd\u8bbe\u7f6e\u5c31\u770b\u4f60\u7684\u6280\u672f\u4e86\uff0c\u8fd8\u8981\u770b\u4e3b\u677f\u652f\u4e0d\u652f\u6301PXE\u542f\u52a8\u3002\u5982\u679c\u662f10\u5e74\u524d\u7684\u4e3b\u677f\uff0c\u4e0d\u652f\u6301\u662f\u6709\u53ef\u80fd\u7684\n![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/63397d6fc6716b9a038641a1b4ffedba.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n \n\n2.\u987a\u5229\u7684\u8bdd\u5c31\u4f1a\u8fdb\u5165\u5230\u5982\u56fe\u6240\u793a\u7684\u72b6\u6001\u3002\u5b83\u4e5f\u5728\u7b49\u5f85\uff0c\u7b49\u5f85\u670d\u52a1\u5668\u70b9\u51fb\u201c\u53d1\u9001\u201d\n![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/57c910aae04f8effef1b7cdf2e56f9db.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n \n\n3.\u6700\u540e\u6211\u4eec\u56de\u5230\u670d\u52a1\u5668\uff0c\u670d\u52a1\u5668\u65e9\u5df2\u611f\u5e94\u5230\u5ba2\u6237\u673a\u7684\u8fde\u63a5\uff0c\u5e76\u5df2\u901a\u8baf\u826f\u4e45\u3002\u5c31\u5dee\u624b\u52a8\u70b9\u51fb\u201c\u53d1\u9001\u201d\u4e86\n![](https:\/\/s1.51cto.com\/images\/blog\/201806\/29\/6171273477b79a426172e6f27bbd5d69.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n \n\n4\u3001\u6b63\u5e38\u60c5\u51b5\u4e0b\u7cfb\u7edf\u6062\u590d\u5b8c\u5373\u53ef\u6b63\u5e38\u8fdb\u5165\u7cfb\u7edf\u3002\n\n\u9700\u8981\u6ce8\u610f\u7684\u4e8b\u9879\uff1a\n\n\u514b\u9686\u7684\u65f6\u5019\u5982\u679c\u9009\u62e9\u5168\u76d8\u514b\u9686\uff0c\u5219\u5ba2\u6237\u673a\u786c\u76d8\u4e0d\u9700\u8981\u5206\u533a\u3002\n\n\u5982\u679c\u9009\u62e9\u514b\u9686c\u76d8\u5219\u9700\u8981\u5bf9\u5ba2\u6237\u673a\u8fdb\u884c\u5206\u533a\u3002\n\n\u5236\u4f5c\u955c\u50cf\u7684\u65f6\u5019\u6700\u597d\u4e0d\u8981\u5b89\u88c5\u8bbe\u5907\u9a71\u52a8\uff0c\u4ee5\u514d\u6062\u590d\u540e\u7531\u4e8e\u9a71\u52a8\u4e0d\u517c\u5bb9\u5bfc\u81f4\u65e0\u6cd5\u8fdb\u5165\u7cfb\u7edf\u3002", '#result');
+  }
+
+  function insertCodeElement(content, container){
+    container = container || document;
+    // 创建一个 div 来放置获取到的内容，这样就可以把 content 字符串内容转换成 dom
+    // 方便我们对这个 dom 进行操作（只是创建 div，并没有插入到文档，他只存在于内存中）
+    var parent = document.createElement('div');
+    parent.innerHTML = content;
+
+    // 找到 parent 中的所有 pre 标签，并遍历
+    var $pres = $(parent).find('pre');
+    $pres.each(function(index, el) {
+      var $el = $(el),
+          html = $el.html(),
+          code = document.createElement('code'),
+          elClass = $el.attr('class');
+      if(!elClass) {return};
+          // 获取 pre 标签中，class 属性中包含的本段代码所有的编程语言
+      var language = elClass.substring(6, elClass.indexOf(';'));
+
+      code.className = 'language-' + language;
+      code.innerHTML = html;
+
+      $el.html(code);
+    });
+
+    $(container).html(parent.innerHTML);
+
+    // 最后，调用 Prism 的方法来高亮代码
+    Prism.highlightAll();
+  }
+	window._bd_share_config={
+    "common":{
+      "bdText":"批量网刻操作系统（使用GHOST工具）",
+      "bdDesc":$("#abstract_bdshare").text(),
+      "bdMini":"2",
+      "bdMiniList":false,
+      "bdPic":"https://s1.51cto.com/images/201710/25/bd540a4f14d822f6e69087758699358b.jpg",
+      "bdStyle":"0",
+      "bdSize":"16"
+    },
+    "share":{}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+  setTimeout(function(){
+  	$('.bdsharebuttonbox a').removeAttr('title')
+  },1000);
+
+	var now_time = 1561683968; //当前时间
+  setInterval(function(){now_time+=0.01},10);
+
+  // 初始化页面
+  updatePage();
+  // 页面tab切换
+  zDate.visibilityAction(function () {
+    zDate.getServerTime(function (e) {
+      var updateResult = new Date(e).getTime();
+      now_time = +updateResult.toString().substr(0, 10);
+      updatePage();
+    });
+   })
+  // 定时刷新现在时间
+  setInterval(function () {
+    zDate.getServerTime(function (e) {
+      var updateResult = new Date(e).getTime();
+      now_time = +updateResult.toString().substr(0, 10);
+      updatePage();
+    });
+  }, 1000*60*2);
+  // 页面刷新
+  function updatePage() {
+    $('.presell').each(function(index, item) {
+      var end_time = $(this).data('end'); // 结束时间
+      if (!end_time) {
+        return;
+      }
+      var me = $(this);
+      if (me.lastTime) {
+        clearInterval(me.lastTime);
+        me.lastTime = null;
+      } else {
+        me.lastTime = setInterval(function() {
+          zDate.setLastTimePc(me.find('.timespan'), (end_time*1000-now_time*1000), me.lastTime, function() {
+						me.parents('.right').find('.cloumn-subscribe').removeClass('presell-color');
+						me.remove();
+						$('.pre-tips').remove();
+					});
+        }, 10);
+      }
+    });
+  }
+		//二维码显示
+		$(".group_git_box").hover(function(){
+			$(this).parents('.group_img_box').find(".group_code_box").show()
+		},function(){
+			$(this).parents('.group_img_box').find(".group_code_box").hide()
+		})  
+</script>
+</div>
+<script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/marked.min.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/highlight.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/detail_mp.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/detail.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/details_new.js.下载"></script><script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/copy.js.下载"></script>    
+<div style="display:none">
+    <iframe frameborder="0" scrolling="no" width="0" height="0" src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/pageview.html"></iframe>
+</div>
+
+<script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/pvlog.js.下载"></script>
+<script>
+  $(".gotop").click(function(){$(window).scrollTop(0)})
+</script>
+
+
+    <script type="text/javascript">
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2283d46608159c3b39fc9f1178809c21";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    //自动推送链接
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+    <script type="text/javascript">
+      var _vds = _vds || [];
+      window._vds = _vds;
+      (function(){
+        _vds.push(['setAccountId', '8c51975c40edfb67']);
+        (function() {
+          var vds = document.createElement('script');
+          vds.type='text/javascript';
+          vds.async = true;
+          vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(vds, s);
+        })();
+      })();
+      //document.write(decodeURI("%3Cscript src='https://tongji.51cto.com/frontend/tj.gif' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    
+<script>
+  var uid = '';
+  var BLOG_URL = 'https://blog.51cto.com/';
+</script>
+<script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/jquery.cookie.js.下载"></script>
+<script src="./批量网刻操作系统（使用GHOST工具）-咻槲一-51CTO博客_files/time-on-page.js.下载" charset="utf-8"></script>
+<script>
+    (function(){
+        var wh=$(window).height(),fh=$('.Footer').outerHeight(true),hh=$('.Header').outerHeight(true)
+        $('.Content-box').css({'min-height': wh-fh-hh})
+    })()
+</script>
+
+
+<div id="zhichiBtnBox" style="position: fixed; z-index: 2147483583; box-shadow: rgba(15, 66, 76, 0.25) 0px 0px 14px 0px; width: 60px; height: 60px; border-radius: 50%; background-color: rgb(66, 133, 244); background-image: url(&quot;//www.sobot.com/chat/frame/imgs/icon.png&quot;); background-repeat: no-repeat; background-position: 18px -58px; right: 40px; bottom: 90px; display: none;"><a hidefocus="" id="zhichiBtn" style="position:relative;text-decoration: none; outline: none; font-family: Microsoft Yahei, Arial, Helvetica; color: #fff; font-size: 16px; display: inline-block; margin: 0; padding: 0; border: none; line-height:43px; float:none;width:100%;height:100%;border-radius:50%;"><span class="zc-advice-icon-btn-title" style="box-shadow: rgba(107, 113, 114, 0.15) 0px 2px 4px 0px; border: 1px solid rgb(235, 239, 240); font-family: &quot;Microsoft Yahei&quot;, Arial, Helvetica; color: rgb(85, 85, 86); font-size: 13px; margin: 0px; text-align: right; background: rgb(255, 255, 255); position: absolute; top: 15px; right: 70px; text-overflow: ellipsis; white-space: nowrap; word-break: normal; display: none; border-radius: 3px; padding: 0px 5px; height: 30px; line-height: 30px;">咨询在线客服</span></a><i style="position:absolute;top:0px;right:0px;padding:1px;line-height:20px;text-align:center;color:#fff;font-weight:bold;height:18px;min-width:18px;background-color:#ed5c5c;border-radius:18px;font-size:12px;display:none;font-style:normal;" id="zhichiCount"></i></div></body></html>

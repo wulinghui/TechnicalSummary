@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="favicon" rel="shortcut icon" href="https://blog.51cto.com/favicon.ico">
+        <title>基于Apache-Commons-Pool2实现Grpc客户端连接池-走在IT路上-51CTO博客</title>
+    <meta name="keywords" content="连接池,apache,commons ">
+<meta name="description" content="Apache-Commons-Pool2提供了一套池技术的规范接口和实现的通用逻辑，我们只需要实现其抽象出来的方法就可以了。这篇博文主要分享基于Apache-Commons-Pool2来实现Grpc连接池的应用。">    <link href="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/header.css" rel="stylesheet"><link href="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/other.css" rel="stylesheet"><link href="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/right.css" rel="stylesheet"><link href="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/blog_details.css" rel="stylesheet"><link href="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/highlight.css" rel="stylesheet">
+    <script type="text/javascript" async="" src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/vds.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/push.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/hm.js"></script><script>
+        var HOME_URL = 'https://home.51cto.com/';
+    </script>
+    <script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/jquery_002.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/cookie.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/login.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/common.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/mbox.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/follow.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/vip.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/window.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/share.js"></script><style></style><link rel="stylesheet" href="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/share_style0_16.css"></head>
+<body>
+<img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/share_default.jpg" style="width:0; height:0; position:absolute;" border="0">
+<style type="text/css">
+	.service-btn{
+		width: 53px;
+height: 36px;
+color: #1ac6fe;
+line-height: 16px;
+padding-top: 50px;
+		display: inline-block;
+		background: url(https://s1.51cto.com/images/blog/201811/02/463350acf4c693cfb3dc248bc8a2a0eb.png) no-repeat center;
+	}
+	.service-btn:hover{
+		background: url(https://s1.51cto.com/images/blog/201811/02/2d5fa2ff4eb9ef66847aff20ba4c8bae.png) no-repeat center;
+height: 36px;
+color: #fff;
+line-height: 16px;
+padding-top: 50px;
+	}
+</style>
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+<div id="topbanner14" style="position: relative;width:100%;height:40px;background:url(https://s1.51cto.com/images/blog/201904/26/7a2f1194df8bac1e74daa90db1797f71.jpg)">
+<a class="close fl" href="javascript:;" style="position:absolute;width:13px;height:13px;top:0px;z-index: 20;background: url('https://s1.51cto.com/images/blog/201808/23/0363c65f527ea7c9880ab5f275303d1a.png') 0 0 no-repeat;background-size: 100% 100%;left: 50%;margin-left: 587px;"></a>
+<a href="https://blog.51cto.com/cloumn/composedetail?id=4&amp;pc" target="_blank">
+  <img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/eef5e52c4dd5272a561c619251427132.jpg" alt="" style="position:absolute;width:1200px;height:40px;margin-left: -600px;left:50%;z-index: 10;">
+</a>
+</div>
+<script>
+    $("#topbanner14").on("click",".close",function(){
+        $("#topbanner14").remove();
+    })
+</script>
+<div class="Header">
+  <div class="Page ">
+    <h1 class="Logo"><a href="https://blog.51cto.com/">Logo</a></h1>
+    <ul class="Navigates fl">
+      <li><a href="https://blog.51cto.com/">首页</a></li>
+      <li><a href="https://blog.51cto.com/original">文章</a></li>
+      <li><a href="https://blog.51cto.com/blog/follow">关注</a></li>
+      <li class="">
+        <a class="column-stress" href="https://blog.51cto.com/cloumn/index" target="_blank">订阅专栏</a>
+      </li>
+                    
+      
+    </ul>
+    <ul class="Navigates Navigates-right fr">
+      <li class="more maps">
+        <a href="javascript:void(0);">网站导航</a>
+        <div>
+            <a href="https://edu.51cto.com/" target="_blank">学院</a>
+            <a href="https://blog.51cto.com/" target="_blank">博客</a>
+            <a href="http://down.51cto.com/" target="_blank">下载</a>
+            <a href="https://home.51cto.com/" target="_blank">家园</a>
+            <a href="http://bbs.51cto.com/" target="_blank">论坛</a>
+            <a href="http://x.51cto.com/" target="_blank">CTO训练营</a>
+            <!--a href=" http://club.51cto.com?blog" target="_blank">CTO俱乐部</a-->
+            <a href="http://wot.51cto.com/" target="_blank">WOT</a>
+            <a href="http://www.51cto.com/" target="_blank">51CTO</a>
+            <i class="arrow"></i>
+        </div>
+      </li>
+                <li><a href="https://blog.51cto.com/site/login?reback=https%3A%2F%2Fblog.51cto.com%2Fandrewli%2F2148179&amp;logintype=reg" target="_self">注册</a></li>
+          <li class="login"><a href="https://blog.51cto.com/site/login?reback=https%3A%2F%2Fblog.51cto.com%2Fandrewli%2F2148179" target="_self">登录</a></li>
+                        <li class="mRead">
+          <a href="javascript:;">手机阅读</a>
+          <div>
+            <img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/blog_qr.png">
+            <p>扫一扫体验手机阅读</p>
+            <i class="arrow"></i>
+          </div>
+        </li>
+            <li class="search"><a href="https://blog.51cto.com/search/index" target="_self">搜索</a></li>
+                  <li class="write"><a href="javascript:;" onclick="Login()">写文章</a></li>
+                  </ul>
+
+          <div class="clear"></div>
+  </div>
+</div>
+<script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/box.js"></script> 
+<script>
+    var isLogin = '0';
+    var userId = '';
+    var imgpath = 'https://s1.51cto.com/';
+    var BLOG_URL = 'https://blog.51cto.com/';
+    var msg_num_url = '/index/ajax-msg-num';
+    $('.msg-follow, .msg-follow-max').eq(1).css({top: '91px'});
+    $('.msg-follow, .msg-follow-max').eq(2).css({top: '121px'});
+    setTimeout(function(){
+            $.ajax({
+                url:msg_num_url,
+                type:"get",
+                dataType:'json',
+                success:function(res){
+                    if(res.status == '0'){
+                       //
+                       var hasNewMsg = false;
+                       if(res.data.msgNum > 0 && !$('#myMsg i').hasClass('dot')){
+                            $('#myMsg i').addClass('dot');
+                            hasNewMsg = true;
+                       }
+                       if(res.data.notifyNum > 0 && !$('#myNotify i').hasClass('dot')){
+                           $('#myNotify i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(res.data.recommend_new > 0 && !$('#myRecommend i').hasClass('dot')){
+                           $('#myRecommend i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(hasNewMsg && !$('#myAllMsg i').hasClass('dot')){
+                           $('#myAllMsg i').addClass('dot');
+                       }
+                    }
+
+                }
+            });
+    },70);
+    //广告图
+$(function(){
+     new AutoAD({
+      ADD:$('<a href="https://blog.51cto.com/cloumn/detail/57?pc" class="closeMB" target="_blank" styel="display:block;"><img src="https://s1.51cto.com/images/blog/201904/28/7e7d58af6fbeb811ad74f8cc165d86c7.jpg"></a><a class="closeMB" style="position: absolute;right:2px;top: 3px;width: 50px;height: 40px;cursor: pointer;" href="javascript:;"></a>'),
+      W:500,
+      H:400,
+      cookie:'blog_activity_blog56',
+      mask:"#000",
+      ts:'21600',
+      noCBtn: true
+    }) 
+})    
+</script>
+ <script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/entrance.js" id="zhichiScript" class="zhiCustomBtn" data-args="manual=true"></script>
+<a href="javascript:;" class="zhiCustomBtn" style="position: fixed;z-index: 2147483583;width: 60px;height: 6px;text-align: center;bottom:275px;right:0px;">
+<span class="service-btn">在线<br>客服</span>
+</a>
+
+<script type="text/javascript">
+var zhiManager = (getzhiSDKInstance());
+zhiManager.on("load", function() {
+    zhiManager.initBtnDOM();
+});
+//zhiManager.set('title','垃圾/广告信息举报');
+zhiManager.set('powered',false);
+zhiManager.set('color', '4285f4');
+zhiManager.set('customBtn', 'true');
+zhiManager.set('moduleType',2);
+zhiManager.set('size',{'width':360,'height':500});
+
+zhiManager.set('userinfo', {partnerId:'',uname:'',params:'{"用户名":""}'});
+zhiManager.set('customMargin', 20);
+zhiManager.set('horizontal', 20);
+zhiManager.set('vertical', 90);
+zhiManager.set('preVisitArgs',{'preVisitUrl': document.referrer?document.referrer:''});
+zhiManager.set('curVisitArgs',{'curVisitUrl': location.href,curVisitTitle:document.title,});
+</script>
+<div class="Content-box" style="min-height: 669px;">
+    	<link rel="stylesheet" href="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/mdeShow.css">
+<link rel="stylesheet" href="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/tinyscrollbar.css">
+<script type="text/javascript" src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/jquery.js"></script>
+<div class="Content Index" style="padding-bottom: 50px;">
+	<div class="Page M764">
+		<!-- left start -->
+		<div class="artical-Left-blog">
+			<div class="status">
+	        					<a class="tab_name original">原创</a>
+							</div>
+			<h1 class="artical-title">基于Apache-Commons-Pool2实现Grpc客户端连接池</h1>
+			<div class="artical-title-list">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/andrewli" class="a-img" target="_blank"><img class="is-vip-img is-vip-img-4" data-uid="7625043" src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/wKiom1LNGtOihhy8AAAh97fJH-Y187_middle.jpg"></a>
+				</div>
+				<a href="https://blog.51cto.com/andrewli" class="name fl" target="_blank" style="margin-right:0;">lilugoodjob</a>
+									                	                    <a id="checkFollow1_7625043" class="checkFollow-btn on fl" style="margin-left:8px;">关注</a>
+	                	            				<a class="comment comment-num fr"><font class="comment_number">0</font>人评论</a>
+				<span class="fr"></span>
+				<a href="javascript:;" class="read fr">10040人阅读</a>
+				<a href="javascript:;" class="time fr">2018-07-21 23:34:01</a>
+				<div class="clear"></div>
+			</div>
+							<div class="artical-content-bak main-content">
+					<div class="con artical-content editor-preview-side"><h1>概述</h1>
+<p>在项目运行过程中，有些操作对系统资源消耗较大，比如建立数据库连接、建立Redis连接等操作，我们希望一次性创建多个连接对象，并在以后需要使
+用时能直接使用已创建好的连接，达到提高性能的目的。池技术通过提前将一些占用较多资源的对象初始化，并将初始化后的对象保存到池中备用，达到提高应用服
+务性能的目的，数据库的JDBC连接池和Jedis连接池等都使用了池技术。<br>Apache-Commons-Pool2提供了一套池技术的规范接口和实现的通用逻辑，我们只需要实现其抽象出来的方法就可以了。这篇博文主要分享基于Apache-Commons-Pool2来实现Grpc连接池的应用。<br>关于Grpc相关的内容，大家如想了解基本的实现方法，可以参考我的另一篇博客（传送门）：<a href="https://blog.51cto.com/andrewli/2058908" style="color: rgb(66, 133, 244);">https://blog.51cto.com/andrewli/2058908</a></p>
+<h1>核心组件</h1>
+<p>我们先来了解一下Apache-Commons-Pool2规范接口中涉及到的几个核心组件，包括：</p>
+<ul>
+<li>ObjectPool<br>对象池，用于存储对象，并管理对象的入池和出池。对象池的实现类是 GenericObjectPool&lt;T&gt;；</li>
+<li>PoolConfig<br>池属性，用于设置连接池的一些配置信息，比如最大池容量、超过池容量后的处理逻辑等。池属性的实现类是：GenericObjectPoolConfig；</li>
+<li>ObjectFactory<br>对象工厂，在需要的时候生成新的对象实例，并放入池中。对象工厂的接口是：interface PooledObjectFactory&lt;T&gt;；</li>
+<li>ClientObject<br>池对象，由对象工厂负责创建，并放入到对象池中；需要使用时从对象池中取出，执行对象的业务逻辑，使用完后再放回对象池。池对象的接口是：interface PooledObject&lt;T&gt;。
+<h1>核心组件依赖关系及其工作流程</h1>
+<h2>接口与类之间的依赖关系</h2>
+<p>在梳理连接池相关的核心组件工作流程之前，我们先来了解一下核心组件涉及到的类和接口之间的继承和实现关系。</p></li>
+<li>
+<p>对象池类的继承关系<br>对象池的最顶层接口是ObjectPool&lt;T&gt;，里面定义了对象池的基本方法，包括对象的添加、取出、校验、返还，以及获取处于Idle休眠状态的对象数量、获取处于Active状态的对象数量、清空池、关闭池。<br>抽象类BaseGenericObjectPool&lt;T&gt;，定义了对象池的初始配置，并实现了对象池的基本接口方法。<br>池
+类GenericObjectPool&lt;T&gt;继承了抽象类BaseGenericObjectPool&lt;T&gt;，并实现了
+ObjectPool&lt;T&gt;接口。其中添加了对象工厂、存储所有对象的Map、存储Idle对象的链式阻塞队列、当前已创建的对象数等属性。<br>由
+于GenericObjectPool&lt;T&gt;类支持范型，我们要做的，就是指定GenericObjectPool&lt;T&gt;池类返
+回的池对象类型&lt;T&gt;，并设置对象工厂类、配置类等池属性；或者继承GenericObjectPool类以添加更多的自定义池特性。<br><img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/f565ce62c6bce8c24656538ceeee1a04.png" alt="基于Apache-Commons-Pool2实现Grpc客户端连接池" style="cursor: pointer;"></p>
+</li>
+<li>
+<p>池属性类的继承关系<br>池属性的最上层接口是interface Cloneable，抽象类BaseObjectPoolConfig实现了这个接口，并定义了默认的池配置属性。<br>GenericObjectPoolConfig类继承了BaseObjectPoolConfig，同样定义了默认的池配置属性值。<br>我们可以直接使用GenericObjectPoolConfig类，或者继承GenericObjectPoolConfig类，根据自己的需求设置自定义池配置属性。<br><img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/1f7cbd5f2c8027c98c0f2654452bbdd5.png" alt="基于Apache-Commons-Pool2实现Grpc客户端连接池" style="cursor: pointer;"></p>
+</li>
+<li>
+<p>池内对象类的继承关系<br>池内对象类实现了上层的PooledObject&lt;T&gt;接口，这个接口里面定义了一个池对象需要实现的各种方法。<br>另外，池内对象类还需要定义类本身需要具备的成员属性和需要实现的业务方法。<br><img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/43c8e5fcd25a6e9155657eee7dddccd2.png" alt="基于Apache-Commons-Pool2实现Grpc客户端连接池" style="cursor: pointer;"></p>
+</li>
+<li>对象工厂类的继承关系<br>对象工厂类实现了最上层的PooledObjectFactory&lt;T&gt;接口，该接口定义了对象工厂的核心功能方法，包括：创建对象、销毁对象、校验对象、激活对象、钝化对象。<br><img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/318f2a81326b9bac5a37e89b20e4d8de.png" alt="基于Apache-Commons-Pool2实现Grpc客户端连接池" style="cursor: pointer;"></li>
+</ul>
+<h2>工作流程</h2>
+<p>根据上述对核心组件的类继承关系分析，我们可以梳理出一个流程，逐步实现各个组件，并组合成一套适用于我们业务的连接池架构。我们来看看这个流程该如何定义。<br>（1）定义我们的池内对象类 ClientObject，并结合我们的实际业务来实现上层接口的方法。<br>（2）定义对象工厂类ClientFactory，并结合我们的实际业务来实现上层接口的方法。<br>（3）定义池属性类ClientPoolConfig，结合我们的实际需求来设置属性值。<br>（4）使用对象池GenericObjectPool，指定泛型类型GenericObjectPool&lt;ClientObject&gt;。</p>
+<p><img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/401fab953cc8ef4daa12b08abb83b19f.png" alt="基于Apache-Commons-Pool2实现Grpc客户端连接池" style="cursor: pointer;"></p>
+<p>连接池内部的核心业务逻辑：<br><img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/bef3c86a9243f228143fa292d95a1c0e.png" alt="基于Apache-Commons-Pool2实现Grpc客户端连接池" style="cursor: pointer;"></p>
+<p>池内对象的创建和返回逻辑是池技术里的关键，可以查看池对象的borrowObject方法去了解这部分细节内容。</p>
+<h1>应用实践</h1>
+<h2>代码实现</h2>
+<p>根据上述对Apache-commons-pool2的特点和实现流程的分析，我们基于Grpc客户端连接池的应用场景，来进行代码实践，主要包括实现池内对象类 ClientObject和实现对象工厂类ClientFactory。<br>具体代码可以进入我的百度网盘下载，链接如下：<br><a href="https://pan.baidu.com/s/1eaGpz6XN2a3ssw0eYsNLww" rel="nofollow" style="color: rgb(66, 133, 244);">https://pan.baidu.com/s/1eaGpz6XN2a3ssw0eYsNLww</a></p>
+<h2>代码测试</h2>
+<p>为了验证我们的Grpc连接池的作用，我编写了一个测试方法，模拟以下场景，即开启10个线程，每个线程循环10次使用Grpc连接发送消息给grpc服务端，然后查看线程池中累计创建的连接对象个数、线程池中每个连接对象的被使用次数等信息。<br>通过测试输出的信息，我得到的结论是：不使用连接池时，总共需要进行100次Grpc连接并发送消息；使用连接池后，总共仅需要建立2次Grpc连接来发送100次消息，每个连接被调用了50次。<br>测试代码如下。</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.cmcc.littlec.grpc.poolclient;
+<span class="hljs-keyword">import</span> com.cmcc.littlec.grpc.util.Constants;
+<span class="hljs-keyword">import</span> org.apache.commons.pool2.impl.GenericObjectPool;
+<span class="hljs-keyword">import</span> org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span> </span>{
+    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> GenericObjectPool&lt;ClientObject&gt; <span class="hljs-title">getClientPool</span><span class="hljs-params">()</span></span>{
+        ClientPoolFactory factory = <span class="hljs-keyword">new</span> ClientPoolFactory(Constants.grpcHost, Constants.grpcPort);
+        GenericObjectPoolConfig config = <span class="hljs-keyword">new</span> GenericObjectPoolConfig();
+        config.setMaxIdle(<span class="hljs-number">8</span>);
+        config.setMinIdle(<span class="hljs-number">3</span>);
+        config.setMaxTotal(<span class="hljs-number">18</span>);
+        config.setTestOnBorrow(<span class="hljs-keyword">true</span>);
+        config.setTestOnReturn(<span class="hljs-keyword">true</span>);
+        GenericObjectPool&lt;ClientObject&gt; clientPool = <span class="hljs-keyword">new</span> GenericObjectPool&lt;ClientObject&gt;(factory, config);
+        <span class="hljs-keyword">return</span> clientPool;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span>  <span class="hljs-title">main</span><span class="hljs-params">(String[] args )</span></span>{
+        <span class="hljs-keyword">final</span> GenericObjectPool&lt;ClientObject&gt; clientPool = getClientPool();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">10</span>; i++) {
+            Thread t = <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() {
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+                    <span class="hljs-keyword">try</span> {
+                        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+                            ClientObject client = clientPool.borrowObject();                                                        
+                            String str = <span class="hljs-string">"hello, grpc client_"</span> + i;<span class="hljs-comment">//参数</span>
+                            <span class="hljs-keyword">try</span> {
+                                client.sayHello(str);
+                            }<span class="hljs-keyword">catch</span>(Exception e){
+                                client.invalidate();
+                            }
+                            System.out.println(<span class="hljs-string">"Thread : "</span> + Thread.currentThread().getName() + <span class="hljs-string">"; clientPool size : "</span> + clientPool.getCreatedCount());
+                            System.out.println(<span class="hljs-string">"clientObj : "</span>+client.toString());
+                            clientPool.returnObject(client);
+                        }
+                    } <span class="hljs-keyword">catch</span> (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            });
+            t.start();
+            <span class="hljs-keyword">try</span> {
+                <span class="hljs-keyword">if</span>(i%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) {
+                    Thread.sleep(<span class="hljs-number">5000L</span>);<span class="hljs-comment">//每隔两个线程创建后停顿5S</span>
+                }
+            }<span class="hljs-keyword">catch</span>(Exception e){ }
+        }
+    }
+}
+</code></pre></div>
+				</div>
+													<div class="artical-copyright mt26">©著作权归作者所有：来自51CTO博客作者lilugoodjob的原创作品，如需转载，请注明出处，否则将追究法律责任</div>
+										<div class="appreciate-box">
+					<h2>每一份赞赏源于懂得</h2>
+											<p class="appreciate-btn appreciate-open">赞赏</p>
+										<p class="appreciate-txt">0人进行了赞赏支持</p>
+									</div>
+						<div class="for-tag mt26">
+																						<a href="https://blog.51cto.com/search/result?q=%E8%BF%9E%E6%8E%A5%E6%B1%A0" target="_blank">连接池</a>
+																								<a href="https://blog.51cto.com/search/result?q=apache" target="_blank">apache</a>
+																								<a href="https://blog.51cto.com/search/result?q=commons+" target="_blank">commons </a>
+															                				<div class="clear"></div>
+			</div>
+			<div class="more-list">
+				<p class="is-praise fl "><span type="1" blog_id="2148179" userid="7625043">0</span></p>
+				<div class="share-box fr">
+					<p class="share"><i></i>分享</p>
+					<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1556427777808">
+					  <span></span>
+					  <a class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">微博</a>
+					  <a class="bds_sqq" data-cmd="sqq" title="分享到QQ好友">QQ</a>
+					  <a class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+					  <img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/qr-url.png">
+					</div>
+				</div>
+				<p class="favorites favorites-opt fr"><i></i>收藏</p>
+								<div class="clear"></div>
+			</div>
+							<div class="artical-list">
+	            					<a class="fl" href="https://blog.51cto.com/andrewli/2130346" title="记一次接口压力测试与性能调优">
+						上一篇：记一次接口压力测试与性能调优</a>
+	            	            					<a class="fr" href="https://blog.51cto.com/andrewli/2175025" title="记一次Grpc接口压力测试&amp;性能调优">
+						下一篇：记一次Grpc接口压力测试&amp;性能...</a>
+	            					<div class="clear"></div>
+				</div>
+						<div class="author-module">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/andrewli" class="a-img" target="_blank">
+						<img class="is-vip-img is-vip-img-4" data-uid="7625043" src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/wKiom1LNGtOihhy8AAAh97fJH-Y187_middle.jpg">
+					</a>
+				</div>
+				<div class="author-module-center fl">
+					<a class="h2" href="https://blog.51cto.com/andrewli" target="_blank" style="display:inline-block;">lilugoodjob</a>
+										<h3>34篇文章，59W+人气，114粉丝</h3>
+									</div>
+									<div class="author-module-right author-checkFollow fr">
+          	                  <a id="checkFollow2_7625043" class="follow-1 checkFollow on">关注</a>
+              					</div>
+        				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="artical-Left" id="comment">
+			<!-- 发布评论 -->
+			<div class="comment-creat">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/andrewli" class="header-img" target="_blank">
+						<img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/noavatar_middle.gif">
+					</a>
+				</div>
+				<div class="first-publish fr publish_user_id">
+					<textarea class="textareadiv textareadiv-publish" name="" id="" placeholder="提问和评论都可以，用心的回复会被更多人看到和认可" maxlength="500"></textarea>
+					<div class="comment-push">
+						<p class="msg fl">Ctrl+Enter&nbsp;发布</p>
+													<p class="publish-btn blue-btn fr" flag="1">发布</p>
+												<p class="cancel-btn cancel-btn-1 fr">取消</p>
+						<div class="clear"></div>
+					</div>
+					<input type="hidden" class="user_id" value="7625043">
+					<input type="hidden" class="reply_id" value="2148179">
+					<input type="hidden" class="first_pid" value="">
+				</div>
+				<div class="clear"></div>
+			</div>
+						<div class="commentList"></div>
+			<!-- page -->
+			<div class="act_pageList_box"></div>
+		</div>
+		<!-- end left -->
+		<!-- right start -->
+		<div class="Blog-Right artical-Right">
+			<a class="catalog" style="display: block;"></a>
+			<a class="scrollTop" href="javascript:void(0);" onclick="$(window).scrollTop(0);" style="display: block;"></a>
+		<div class="directoryBox"><span class="top-icon"></span><div class="list directory"><ul class="directory-list"><li class="lv1">第1章&nbsp;&nbsp;概述</li><li class="lv1">第2章&nbsp;&nbsp;核心组件</li><li class="lv1">第3章&nbsp;&nbsp;核心组件依赖关系及其工作流程</li><li class="lv2">接口与类之间的依赖关系</li><li class="lv2 on">工作流程</li><li class="lv1">第4章&nbsp;&nbsp;应用实践</li><li class="lv2">代码实现</li><li class="lv2">代码测试</li><div class="arrow" style="top: 141px;"></div></ul></div><span class="bot-icon"></span></div></div>
+		<!-- end right  -->
+	</div>
+			<div class="special-column">
+			<div class="Page M764">
+									<div class="column-1">
+						<h2 class="column-tit">推荐专栏<a href="https://blog.51cto.com/cloumn/index?utm_source=p" target="_blank"><span class="recommend-more-span" style="">更多</span></a></h2>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/4" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/92f96bca4a81e7c15a63e696e2a8d8e5.jpg">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/4" target="_blank"> 微服务技术架构和大数据治理实战</a>
+									<h3 class="white-space">大数据时代的微服务之路</h3>
+									<h4 class="white-space">共18章&nbsp;|&nbsp;<a href="https://blog.51cto.com/ityouknow" target="_blank">纯洁微笑</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>661人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="4" href="https://blog.51cto.com/cloumn/detail/4" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/5" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/dc6736c5fd50474b5df8b76b040e3d03.jpg">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/5" target="_blank"> 带你玩转高可用</a>
+									<h3 class="white-space">前百度高级工程师的架构高可用实战</h3>
+									<h4 class="white-space">共15章&nbsp;|&nbsp;<a href="https://blog.51cto.com/13527416" target="_blank">曹林华</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>452人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="5" href="https://blog.51cto.com/cloumn/detail/5" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+											</div>
+													<div class="column-2" style="margin-top: 76px;">
+						<h2 class="column-tit">猜你喜欢</h2>
+						<div class="column-box">
+															<a class="white-space" href="https://blog.51cto.com/andrewli/2349891?source=dra" target="_blank">在Mac版本下的IDEA中设置代码注释模版</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/andrewli/2177363?source=drh" target="_blank">压力测试过程中MySQL服务CPU占用率过高的问题排查思路</a>
+															<a class="white-space" href="https://blog.51cto.com/phpme/2342625?source=drh" target="_blank">浅析easyswoole源码Di原理与实现</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/9291927/2332264?source=drh" target="_blank">gRPC快速入门（二）——Protobuf序列化原理解析</a>
+															<a class="white-space" href="https://blog.51cto.com/9291927/2331980?source=drh" target="_blank">gRPC快速入门（一）——Protobuf简介</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/13501268/2322430?source=drh" target="_blank">全文检索ElasticSearch与Spring boot集成实例</a>
+															<a class="white-space" href="https://blog.51cto.com/13501268/2312854?source=drh" target="_blank">Spring boot集成Redis(2)—RedisTemplate的使用来存储Map集合</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/phpme/2298934?source=drh" target="_blank">php接口签名服务</a>
+															<a class="white-space" href="https://blog.51cto.com/13999332/2289560?source=drh" target="_blank">用elasticsearch和nuxtjs搭建bt搜索引擎</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/2662087/2182525?source=drh" target="_blank">深入浅出高性能服务发现、配置框架Nacos系列 3: 服务发现：Nacos客户端初始化流程</a>
+															<a class="white-space" href="https://blog.51cto.com/13794581/2159059?source=drh" target="_blank">【比原链】比原链合约入门</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/13794581/2149016?source=drh" target="_blank">【比原链】比原节点收到“请求区块数据”的信息后如何应答?</a>
+															<a class="white-space" href="https://blog.51cto.com/13794581/2132702?source=drh" target="_blank">【比原链】比原是如何把请求区块数据的信息发出去的</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/andrewli/2130346?source=drh" target="_blank">记一次接口压力测试与性能调优</a>
+															<a class="white-space" href="https://blog.51cto.com/13794581/2130230?source=drh" target="_blank">【比原链】如何从比原节点拿到区块数据？</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/12731497/2130213?source=drh" target="_blank">Windows核心编程之核心总结（第四章 进程（二））（2018.6.17)</a>
+															<a class="white-space" href="https://blog.51cto.com/13794581/2127924?source=drh" target="_blank">【比原链】如何连上一个比原节点</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/9291927/2082870?source=drh" target="_blank">设计模式前言——UML类图</a>
+															<a class="white-space" href="https://blog.51cto.com/jamesfancy/2072186?source=drh" target="_blank">异步编程需要“意识”</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/luischen/2067193?source=drh" target="_blank">你可能不会注意的Timestamp</a>
+														<div class="clear"></div>
+						</div>
+					</div>
+							</div>
+		</div>
+		<div class="group_img_box">
+		<div class="group_git_box">
+        			<img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/078772c84eb23213ea90f577d9316ce4.png">
+        		</div>
+			<div class="group_code_box">
+			<img src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/left-qr.jpg" width="130" height="130">
+			<p>扫一扫,领取大礼包</p>
+		</div>
+	</div>		
+	<div class="the-lowest-bg">
+		<div class="the-lowest Page M764">
+			<p class="is-praise fl "><span type="1" blog_id="2148179" userid="7625043"></span></p>
+			<p class="b-favorites favorites-opt fl"><i></i><b>0</b></p>
+			<a class="b-reply fl"><i></i><font class="comment_number"></font></a>
+			<div class="b-share fl">
+				<i></i>分享
+				<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1556427777808">
+				  <a class="bds_tsina p2" data-cmd="tsina" title="分享到新浪微博"></a>
+				  <a class="bds_sqq p3" data-cmd="sqq" title="分享到QQ好友"></a>
+				  <a class="bds_weixin p1" data-cmd="weixin" title="分享到微信"><em class="code-icon"></em><img class="code-img" src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/qr-url.png"></a>
+				</div>
+			</div>
+      				<div class="b-fllow author-checkFollow fr" style="margin-left: 20px;">
+                        <a id="checkFollow3_7625043" class="follow-1 checkFollow on">关注</a>
+          				</div>
+      						<a href="https://blog.51cto.com/andrewli" class="b-name fr">lilugoodjob</a>
+			<div class="is-vip-bg-6 fr">
+				<a href="https://blog.51cto.com/andrewli" class="b-img"><img class="is-vip-img is-vip-img-4" data-uid="7625043" src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/wKiom1LNGtOihhy8AAAh97fJH-Y187_middle.jpg"></a>
+			</div>
+			<div class="clear"></div>
+
+		</div>
+	</div>
+</div>
+<!-- 老博文美观处理 -->
+<script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/countDown.js"></script>
+<script>
+	var praise_url = 'https://blog.51cto.com/praise/praise'
+    	addReply_url = 'https://blog.51cto.com/comments/add'
+    	removeUrl = 'https://blog.51cto.com/comments/del'
+    	blog_id = '2148179'
+    	pv_log_info = {
+            'pv_type':'blog',
+            'user_id':'7625043',
+            'blog_id':'2148179'
+        };
+    	rid = '0'
+    	is_comment = '0'
+    	comment_list = '/blog/ajax-comment-list'
+    	comment_sort = "asc"
+    	index_url = 'https://blog.51cto.com/andrewli';
+    	uc_url = 'https://ucenter.51cto.com/'
+    	blog_url = 'https://blog.51cto.com/'
+    	img_url = 'https://static1.51cto.com/edu/blog/'
+    	i_user_id = ''
+    	c_user_id ='7625043'
+    	collect_url = 'https://blog.51cto.com/collect/add'
+    	is_old = '0'
+    	nicknameurl = 'https://blog.51cto.com/andrewli'
+    	nickname = 'lilugoodjob'
+    	myself = window.location.href;
+	$('.you-like-list li:odd').css({'margin-left': '10%'});
+	$('.column-box a:odd').addClass('left-list')
+	$('.myUrl').text(myself).click(function(){window.open(myself)})
+	setTimeout(function(){$('.Footer').css({'margin-top':'-50px'})},50)
+    		function FollowBtnSucc(e){//1:未关注,2:已关注,3:互相关注
+		    if(e==2||e==3){
+		        $.post('/index/wxbind',{uid:userId},function(res){
+		            if(res.data.wxBind == 0){//没绑定
+	                    if(getCookie('follow1'))return false;
+	                    box1()
+	                }else{
+	                    if(getCookie('follow2'))return false;
+	                    box2()
+	                }
+		        },'json')
+		    }
+		}
+		FollowBtn = new Follow($('#checkFollow1_7625043'),'7625043','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+		FollowBtn = new Follow($('#checkFollow2_7625043'),'7625043','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+		FollowBtn = new Follow($('#checkFollow3_7625043'),'7625043','1',['on','in','mutual','off']);
+		FollowBtn.success=FollowBtnSucc;
+        	if(is_old==1){
+    // SyntaxHighlighter.all();
+    insertCodeElement("# \u6982\u8ff0\n\u5728\u9879\u76ee\u8fd0\u884c\u8fc7\u7a0b\u4e2d\uff0c\u6709\u4e9b\u64cd\u4f5c\u5bf9\u7cfb\u7edf\u8d44\u6e90\u6d88\u8017\u8f83\u5927\uff0c\u6bd4\u5982\u5efa\u7acb\u6570\u636e\u5e93\u8fde\u63a5\u3001\u5efa\u7acbRedis\u8fde\u63a5\u7b49\u64cd\u4f5c\uff0c\u6211\u4eec\u5e0c\u671b\u4e00\u6b21\u6027\u521b\u5efa\u591a\u4e2a\u8fde\u63a5\u5bf9\u8c61\uff0c\u5e76\u5728\u4ee5\u540e\u9700\u8981\u4f7f\u7528\u65f6\u80fd\u76f4\u63a5\u4f7f\u7528\u5df2\u521b\u5efa\u597d\u7684\u8fde\u63a5\uff0c\u8fbe\u5230\u63d0\u9ad8\u6027\u80fd\u7684\u76ee\u7684\u3002\u6c60\u6280\u672f\u901a\u8fc7\u63d0\u524d\u5c06\u4e00\u4e9b\u5360\u7528\u8f83\u591a\u8d44\u6e90\u7684\u5bf9\u8c61\u521d\u59cb\u5316\uff0c\u5e76\u5c06\u521d\u59cb\u5316\u540e\u7684\u5bf9\u8c61\u4fdd\u5b58\u5230\u6c60\u4e2d\u5907\u7528\uff0c\u8fbe\u5230\u63d0\u9ad8\u5e94\u7528\u670d\u52a1\u6027\u80fd\u7684\u76ee\u7684\uff0c\u6570\u636e\u5e93\u7684JDBC\u8fde\u63a5\u6c60\u548cJedis\u8fde\u63a5\u6c60\u7b49\u90fd\u4f7f\u7528\u4e86\u6c60\u6280\u672f\u3002\nApache-Commons-Pool2\u63d0\u4f9b\u4e86\u4e00\u5957\u6c60\u6280\u672f\u7684\u89c4\u8303\u63a5\u53e3\u548c\u5b9e\u73b0\u7684\u901a\u7528\u903b\u8f91\uff0c\u6211\u4eec\u53ea\u9700\u8981\u5b9e\u73b0\u5176\u62bd\u8c61\u51fa\u6765\u7684\u65b9\u6cd5\u5c31\u53ef\u4ee5\u4e86\u3002\u8fd9\u7bc7\u535a\u6587\u4e3b\u8981\u5206\u4eab\u57fa\u4e8eApache-Commons-Pool2\u6765\u5b9e\u73b0Grpc\u8fde\u63a5\u6c60\u7684\u5e94\u7528\u3002\n\u5173\u4e8eGrpc\u76f8\u5173\u7684\u5185\u5bb9\uff0c\u5927\u5bb6\u5982\u60f3\u4e86\u89e3\u57fa\u672c\u7684\u5b9e\u73b0\u65b9\u6cd5\uff0c\u53ef\u4ee5\u53c2\u8003\u6211\u7684\u53e6\u4e00\u7bc7\u535a\u5ba2\uff08\u4f20\u9001\u95e8\uff09\uff1ahttps:\/\/blog.51cto.com\/andrewli\/2058908\n# \u6838\u5fc3\u7ec4\u4ef6\n\u6211\u4eec\u5148\u6765\u4e86\u89e3\u4e00\u4e0bApache-Commons-Pool2\u89c4\u8303\u63a5\u53e3\u4e2d\u6d89\u53ca\u5230\u7684\u51e0\u4e2a\u6838\u5fc3\u7ec4\u4ef6\uff0c\u5305\u62ec\uff1a\n* ObjectPool\n\u5bf9\u8c61\u6c60\uff0c\u7528\u4e8e\u5b58\u50a8\u5bf9\u8c61\uff0c\u5e76\u7ba1\u7406\u5bf9\u8c61\u7684\u5165\u6c60\u548c\u51fa\u6c60\u3002\u5bf9\u8c61\u6c60\u7684\u5b9e\u73b0\u7c7b\u662f GenericObjectPool<T>\uff1b\n* PoolConfig\n\u6c60\u5c5e\u6027\uff0c\u7528\u4e8e\u8bbe\u7f6e\u8fde\u63a5\u6c60\u7684\u4e00\u4e9b\u914d\u7f6e\u4fe1\u606f\uff0c\u6bd4\u5982\u6700\u5927\u6c60\u5bb9\u91cf\u3001\u8d85\u8fc7\u6c60\u5bb9\u91cf\u540e\u7684\u5904\u7406\u903b\u8f91\u7b49\u3002\u6c60\u5c5e\u6027\u7684\u5b9e\u73b0\u7c7b\u662f\uff1aGenericObjectPoolConfig\uff1b\n* ObjectFactory\n\u5bf9\u8c61\u5de5\u5382\uff0c\u5728\u9700\u8981\u7684\u65f6\u5019\u751f\u6210\u65b0\u7684\u5bf9\u8c61\u5b9e\u4f8b\uff0c\u5e76\u653e\u5165\u6c60\u4e2d\u3002\u5bf9\u8c61\u5de5\u5382\u7684\u63a5\u53e3\u662f\uff1ainterface PooledObjectFactory<T>\uff1b\n* ClientObject\n\u6c60\u5bf9\u8c61\uff0c\u7531\u5bf9\u8c61\u5de5\u5382\u8d1f\u8d23\u521b\u5efa\uff0c\u5e76\u653e\u5165\u5230\u5bf9\u8c61\u6c60\u4e2d\uff1b\u9700\u8981\u4f7f\u7528\u65f6\u4ece\u5bf9\u8c61\u6c60\u4e2d\u53d6\u51fa\uff0c\u6267\u884c\u5bf9\u8c61\u7684\u4e1a\u52a1\u903b\u8f91\uff0c\u4f7f\u7528\u5b8c\u540e\u518d\u653e\u56de\u5bf9\u8c61\u6c60\u3002\u6c60\u5bf9\u8c61\u7684\u63a5\u53e3\u662f\uff1ainterface PooledObject<T>\u3002\n# \u6838\u5fc3\u7ec4\u4ef6\u4f9d\u8d56\u5173\u7cfb\u53ca\u5176\u5de5\u4f5c\u6d41\u7a0b\n## \u63a5\u53e3\u4e0e\u7c7b\u4e4b\u95f4\u7684\u4f9d\u8d56\u5173\u7cfb\n\u5728\u68b3\u7406\u8fde\u63a5\u6c60\u76f8\u5173\u7684\u6838\u5fc3\u7ec4\u4ef6\u5de5\u4f5c\u6d41\u7a0b\u4e4b\u524d\uff0c\u6211\u4eec\u5148\u6765\u4e86\u89e3\u4e00\u4e0b\u6838\u5fc3\u7ec4\u4ef6\u6d89\u53ca\u5230\u7684\u7c7b\u548c\u63a5\u53e3\u4e4b\u95f4\u7684\u7ee7\u627f\u548c\u5b9e\u73b0\u5173\u7cfb\u3002\n* \u5bf9\u8c61\u6c60\u7c7b\u7684\u7ee7\u627f\u5173\u7cfb\n\u5bf9\u8c61\u6c60\u7684\u6700\u9876\u5c42\u63a5\u53e3\u662fObjectPool<T>\uff0c\u91cc\u9762\u5b9a\u4e49\u4e86\u5bf9\u8c61\u6c60\u7684\u57fa\u672c\u65b9\u6cd5\uff0c\u5305\u62ec\u5bf9\u8c61\u7684\u6dfb\u52a0\u3001\u53d6\u51fa\u3001\u6821\u9a8c\u3001\u8fd4\u8fd8\uff0c\u4ee5\u53ca\u83b7\u53d6\u5904\u4e8eIdle\u4f11\u7720\u72b6\u6001\u7684\u5bf9\u8c61\u6570\u91cf\u3001\u83b7\u53d6\u5904\u4e8eActive\u72b6\u6001\u7684\u5bf9\u8c61\u6570\u91cf\u3001\u6e05\u7a7a\u6c60\u3001\u5173\u95ed\u6c60\u3002\n\u62bd\u8c61\u7c7bBaseGenericObjectPool<T>\uff0c\u5b9a\u4e49\u4e86\u5bf9\u8c61\u6c60\u7684\u521d\u59cb\u914d\u7f6e\uff0c\u5e76\u5b9e\u73b0\u4e86\u5bf9\u8c61\u6c60\u7684\u57fa\u672c\u63a5\u53e3\u65b9\u6cd5\u3002\n\u6c60\u7c7bGenericObjectPool<T>\u7ee7\u627f\u4e86\u62bd\u8c61\u7c7bBaseGenericObjectPool<T>\uff0c\u5e76\u5b9e\u73b0\u4e86ObjectPool<T>\u63a5\u53e3\u3002\u5176\u4e2d\u6dfb\u52a0\u4e86\u5bf9\u8c61\u5de5\u5382\u3001\u5b58\u50a8\u6240\u6709\u5bf9\u8c61\u7684Map\u3001\u5b58\u50a8Idle\u5bf9\u8c61\u7684\u94fe\u5f0f\u963b\u585e\u961f\u5217\u3001\u5f53\u524d\u5df2\u521b\u5efa\u7684\u5bf9\u8c61\u6570\u7b49\u5c5e\u6027\u3002\n\u7531\u4e8eGenericObjectPool<T>\u7c7b\u652f\u6301\u8303\u578b\uff0c\u6211\u4eec\u8981\u505a\u7684\uff0c\u5c31\u662f\u6307\u5b9aGenericObjectPool<T>\u6c60\u7c7b\u8fd4\u56de\u7684\u6c60\u5bf9\u8c61\u7c7b\u578b<T>\uff0c\u5e76\u8bbe\u7f6e\u5bf9\u8c61\u5de5\u5382\u7c7b\u3001\u914d\u7f6e\u7c7b\u7b49\u6c60\u5c5e\u6027\uff1b\u6216\u8005\u7ee7\u627fGenericObjectPool\u7c7b\u4ee5\u6dfb\u52a0\u66f4\u591a\u7684\u81ea\u5b9a\u4e49\u6c60\u7279\u6027\u3002\n![](https:\/\/s1.51cto.com\/images\/blog\/201807\/21\/f565ce62c6bce8c24656538ceeee1a04.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n\n* \u6c60\u5c5e\u6027\u7c7b\u7684\u7ee7\u627f\u5173\u7cfb\n\u6c60\u5c5e\u6027\u7684\u6700\u4e0a\u5c42\u63a5\u53e3\u662finterface Cloneable\uff0c\u62bd\u8c61\u7c7bBaseObjectPoolConfig\u5b9e\u73b0\u4e86\u8fd9\u4e2a\u63a5\u53e3\uff0c\u5e76\u5b9a\u4e49\u4e86\u9ed8\u8ba4\u7684\u6c60\u914d\u7f6e\u5c5e\u6027\u3002\nGenericObjectPoolConfig\u7c7b\u7ee7\u627f\u4e86BaseObjectPoolConfig\uff0c\u540c\u6837\u5b9a\u4e49\u4e86\u9ed8\u8ba4\u7684\u6c60\u914d\u7f6e\u5c5e\u6027\u503c\u3002\n\u6211\u4eec\u53ef\u4ee5\u76f4\u63a5\u4f7f\u7528GenericObjectPoolConfig\u7c7b\uff0c\u6216\u8005\u7ee7\u627fGenericObjectPoolConfig\u7c7b\uff0c\u6839\u636e\u81ea\u5df1\u7684\u9700\u6c42\u8bbe\u7f6e\u81ea\u5b9a\u4e49\u6c60\u914d\u7f6e\u5c5e\u6027\u3002\n![](https:\/\/s1.51cto.com\/images\/blog\/201807\/21\/1f7cbd5f2c8027c98c0f2654452bbdd5.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n\n* \u6c60\u5185\u5bf9\u8c61\u7c7b\u7684\u7ee7\u627f\u5173\u7cfb\n\u6c60\u5185\u5bf9\u8c61\u7c7b\u5b9e\u73b0\u4e86\u4e0a\u5c42\u7684PooledObject<T>\u63a5\u53e3\uff0c\u8fd9\u4e2a\u63a5\u53e3\u91cc\u9762\u5b9a\u4e49\u4e86\u4e00\u4e2a\u6c60\u5bf9\u8c61\u9700\u8981\u5b9e\u73b0\u7684\u5404\u79cd\u65b9\u6cd5\u3002\n\u53e6\u5916\uff0c\u6c60\u5185\u5bf9\u8c61\u7c7b\u8fd8\u9700\u8981\u5b9a\u4e49\u7c7b\u672c\u8eab\u9700\u8981\u5177\u5907\u7684\u6210\u5458\u5c5e\u6027\u548c\u9700\u8981\u5b9e\u73b0\u7684\u4e1a\u52a1\u65b9\u6cd5\u3002\n![](https:\/\/s1.51cto.com\/images\/blog\/201807\/21\/43c8e5fcd25a6e9155657eee7dddccd2.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n* \u5bf9\u8c61\u5de5\u5382\u7c7b\u7684\u7ee7\u627f\u5173\u7cfb\n\u5bf9\u8c61\u5de5\u5382\u7c7b\u5b9e\u73b0\u4e86\u6700\u4e0a\u5c42\u7684PooledObjectFactory<T>\u63a5\u53e3\uff0c\u8be5\u63a5\u53e3\u5b9a\u4e49\u4e86\u5bf9\u8c61\u5de5\u5382\u7684\u6838\u5fc3\u529f\u80fd\u65b9\u6cd5\uff0c\u5305\u62ec\uff1a\u521b\u5efa\u5bf9\u8c61\u3001\u9500\u6bc1\u5bf9\u8c61\u3001\u6821\u9a8c\u5bf9\u8c61\u3001\u6fc0\u6d3b\u5bf9\u8c61\u3001\u949d\u5316\u5bf9\u8c61\u3002\n![](https:\/\/s1.51cto.com\/images\/blog\/201807\/21\/318f2a81326b9bac5a37e89b20e4d8de.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n## \u5de5\u4f5c\u6d41\u7a0b\n\u6839\u636e\u4e0a\u8ff0\u5bf9\u6838\u5fc3\u7ec4\u4ef6\u7684\u7c7b\u7ee7\u627f\u5173\u7cfb\u5206\u6790\uff0c\u6211\u4eec\u53ef\u4ee5\u68b3\u7406\u51fa\u4e00\u4e2a\u6d41\u7a0b\uff0c\u9010\u6b65\u5b9e\u73b0\u5404\u4e2a\u7ec4\u4ef6\uff0c\u5e76\u7ec4\u5408\u6210\u4e00\u5957\u9002\u7528\u4e8e\u6211\u4eec\u4e1a\u52a1\u7684\u8fde\u63a5\u6c60\u67b6\u6784\u3002\u6211\u4eec\u6765\u770b\u770b\u8fd9\u4e2a\u6d41\u7a0b\u8be5\u5982\u4f55\u5b9a\u4e49\u3002\n\uff081\uff09\u5b9a\u4e49\u6211\u4eec\u7684\u6c60\u5185\u5bf9\u8c61\u7c7b ClientObject\uff0c\u5e76\u7ed3\u5408\u6211\u4eec\u7684\u5b9e\u9645\u4e1a\u52a1\u6765\u5b9e\u73b0\u4e0a\u5c42\u63a5\u53e3\u7684\u65b9\u6cd5\u3002\n\uff082\uff09\u5b9a\u4e49\u5bf9\u8c61\u5de5\u5382\u7c7bClientFactory\uff0c\u5e76\u7ed3\u5408\u6211\u4eec\u7684\u5b9e\u9645\u4e1a\u52a1\u6765\u5b9e\u73b0\u4e0a\u5c42\u63a5\u53e3\u7684\u65b9\u6cd5\u3002\n\uff083\uff09\u5b9a\u4e49\u6c60\u5c5e\u6027\u7c7bClientPoolConfig\uff0c\u7ed3\u5408\u6211\u4eec\u7684\u5b9e\u9645\u9700\u6c42\u6765\u8bbe\u7f6e\u5c5e\u6027\u503c\u3002\n\uff084\uff09\u4f7f\u7528\u5bf9\u8c61\u6c60GenericObjectPool\uff0c\u6307\u5b9a\u6cdb\u578b\u7c7b\u578bGenericObjectPool<ClientObject>\u3002\n\n![](https:\/\/s1.51cto.com\/images\/blog\/201807\/21\/401fab953cc8ef4daa12b08abb83b19f.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n\u8fde\u63a5\u6c60\u5185\u90e8\u7684\u6838\u5fc3\u4e1a\u52a1\u903b\u8f91\uff1a\n![](https:\/\/s1.51cto.com\/images\/blog\/201807\/21\/bef3c86a9243f228143fa292d95a1c0e.png?x-oss-process=image\/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)\n\n\u6c60\u5185\u5bf9\u8c61\u7684\u521b\u5efa\u548c\u8fd4\u56de\u903b\u8f91\u662f\u6c60\u6280\u672f\u91cc\u7684\u5173\u952e\uff0c\u53ef\u4ee5\u67e5\u770b\u6c60\u5bf9\u8c61\u7684borrowObject\u65b9\u6cd5\u53bb\u4e86\u89e3\u8fd9\u90e8\u5206\u7ec6\u8282\u5185\u5bb9\u3002\n\n# \u5e94\u7528\u5b9e\u8df5\n## \u4ee3\u7801\u5b9e\u73b0\n\u6839\u636e\u4e0a\u8ff0\u5bf9Apache-commons-pool2\u7684\u7279\u70b9\u548c\u5b9e\u73b0\u6d41\u7a0b\u7684\u5206\u6790\uff0c\u6211\u4eec\u57fa\u4e8eGrpc\u5ba2\u6237\u7aef\u8fde\u63a5\u6c60\u7684\u5e94\u7528\u573a\u666f\uff0c\u6765\u8fdb\u884c\u4ee3\u7801\u5b9e\u8df5\uff0c\u4e3b\u8981\u5305\u62ec\u5b9e\u73b0\u6c60\u5185\u5bf9\u8c61\u7c7b ClientObject\u548c\u5b9e\u73b0\u5bf9\u8c61\u5de5\u5382\u7c7bClientFactory\u3002\n\u5177\u4f53\u4ee3\u7801\u53ef\u4ee5\u8fdb\u5165\u6211\u7684\u767e\u5ea6\u7f51\u76d8\u4e0b\u8f7d\uff0c\u94fe\u63a5\u5982\u4e0b\uff1a\nhttps:\/\/pan.baidu.com\/s\/1eaGpz6XN2a3ssw0eYsNLww\n\n## \u4ee3\u7801\u6d4b\u8bd5\n\u4e3a\u4e86\u9a8c\u8bc1\u6211\u4eec\u7684Grpc\u8fde\u63a5\u6c60\u7684\u4f5c\u7528\uff0c\u6211\u7f16\u5199\u4e86\u4e00\u4e2a\u6d4b\u8bd5\u65b9\u6cd5\uff0c\u6a21\u62df\u4ee5\u4e0b\u573a\u666f\uff0c\u5373\u5f00\u542f10\u4e2a\u7ebf\u7a0b\uff0c\u6bcf\u4e2a\u7ebf\u7a0b\u5faa\u73af10\u6b21\u4f7f\u7528Grpc\u8fde\u63a5\u53d1\u9001\u6d88\u606f\u7ed9grpc\u670d\u52a1\u7aef\uff0c\u7136\u540e\u67e5\u770b\u7ebf\u7a0b\u6c60\u4e2d\u7d2f\u8ba1\u521b\u5efa\u7684\u8fde\u63a5\u5bf9\u8c61\u4e2a\u6570\u3001\u7ebf\u7a0b\u6c60\u4e2d\u6bcf\u4e2a\u8fde\u63a5\u5bf9\u8c61\u7684\u88ab\u4f7f\u7528\u6b21\u6570\u7b49\u4fe1\u606f\u3002\n\u901a\u8fc7\u6d4b\u8bd5\u8f93\u51fa\u7684\u4fe1\u606f\uff0c\u6211\u5f97\u5230\u7684\u7ed3\u8bba\u662f\uff1a\u4e0d\u4f7f\u7528\u8fde\u63a5\u6c60\u65f6\uff0c\u603b\u5171\u9700\u8981\u8fdb\u884c100\u6b21Grpc\u8fde\u63a5\u5e76\u53d1\u9001\u6d88\u606f\uff1b\u4f7f\u7528\u8fde\u63a5\u6c60\u540e\uff0c\u603b\u5171\u4ec5\u9700\u8981\u5efa\u7acb2\u6b21Grpc\u8fde\u63a5\u6765\u53d1\u9001100\u6b21\u6d88\u606f\uff0c\u6bcf\u4e2a\u8fde\u63a5\u88ab\u8c03\u7528\u4e8650\u6b21\u3002\n\u6d4b\u8bd5\u4ee3\u7801\u5982\u4e0b\u3002\n```\npackage com.cmcc.littlec.grpc.poolclient;\nimport com.cmcc.littlec.grpc.util.Constants;\nimport org.apache.commons.pool2.impl.GenericObjectPool;\nimport org.apache.commons.pool2.impl.GenericObjectPoolConfig;\n\npublic class test {\n    @SuppressWarnings(\"unchecked\")\n\tpublic static GenericObjectPool<ClientObject> getClientPool(){\n        ClientPoolFactory factory = new ClientPoolFactory(Constants.grpcHost, Constants.grpcPort);\n        GenericObjectPoolConfig config = new GenericObjectPoolConfig();\n        config.setMaxIdle(8);\n        config.setMinIdle(3);\n        config.setMaxTotal(18);\n        config.setTestOnBorrow(true);\n        config.setTestOnReturn(true);\n        GenericObjectPool<ClientObject> clientPool = new GenericObjectPool<ClientObject>(factory, config);\n        return clientPool;\n    }\n\n    public static void  main(String[] args ){\n        final GenericObjectPool<ClientObject> clientPool = getClientPool();\n        for(int i=0; i<10; i++) {\n            Thread t = new Thread(new Runnable() {\n                @Override\n                public void run() {\n                    try {\n                        for (int i = 0; i < 10; i++) {\n                            ClientObject client = clientPool.borrowObject();\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n                            String str = \"hello, grpc client_\" + i;\/\/\u53c2\u6570\n                            try {\n                                client.sayHello(str);\n                            }catch(Exception e){\n                                client.invalidate();\n                            }\n                            System.out.println(\"Thread : \" + Thread.currentThread().getName() + \"; clientPool size : \" + clientPool.getCreatedCount());\n                            System.out.println(\"clientObj : \"+client.toString());\n                            clientPool.returnObject(client);\n                        }\n                    } catch (Exception e) {\n                        System.out.println(e.getMessage());\n                    }\n                }\n            });\n            t.start();\n            try {\n                if(i%2==0) {\n                    Thread.sleep(5000L);\/\/\u6bcf\u9694\u4e24\u4e2a\u7ebf\u7a0b\u521b\u5efa\u540e\u505c\u987f5S\n                }\n            }catch(Exception e){ }\n        }\n    }\n}\n\n```\n\n\n\n\n", '#result');
+  }
+
+  function insertCodeElement(content, container){
+    container = container || document;
+    // 创建一个 div 来放置获取到的内容，这样就可以把 content 字符串内容转换成 dom
+    // 方便我们对这个 dom 进行操作（只是创建 div，并没有插入到文档，他只存在于内存中）
+    var parent = document.createElement('div');
+    parent.innerHTML = content;
+
+    // 找到 parent 中的所有 pre 标签，并遍历
+    var $pres = $(parent).find('pre');
+    $pres.each(function(index, el) {
+      var $el = $(el),
+          html = $el.html(),
+          code = document.createElement('code'),
+          elClass = $el.attr('class');
+      if(!elClass) {return};
+          // 获取 pre 标签中，class 属性中包含的本段代码所有的编程语言
+      var language = elClass.substring(6, elClass.indexOf(';'));
+
+      code.className = 'language-' + language;
+      code.innerHTML = html;
+
+      $el.html(code);
+    });
+
+    $(container).html(parent.innerHTML);
+
+    // 最后，调用 Prism 的方法来高亮代码
+    Prism.highlightAll();
+  }
+	window._bd_share_config={
+    "common":{
+      "bdText":"基于Apache-Commons-Pool2实现Grpc客户端连接池",
+      "bdDesc":$("#abstract_bdshare").text(),
+      "bdMini":"2",
+      "bdMiniList":false,
+      "bdPic":"https://s1.51cto.com/images/201710/25/bd540a4f14d822f6e69087758699358b.jpg",
+      "bdStyle":"0",
+      "bdSize":"16"
+    },
+    "share":{}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+  setTimeout(function(){
+  	$('.bdsharebuttonbox a').removeAttr('title')
+  },1000);
+
+	var now_time = 1556427772; //当前时间
+  setInterval(function(){now_time+=0.01},10);
+
+  // 初始化页面
+  updatePage();
+  // 页面tab切换
+  zDate.visibilityAction(function () {
+    zDate.getServerTime(function (e) {
+      var updateResult = new Date(e).getTime();
+      now_time = +updateResult.toString().substr(0, 10);
+      updatePage();
+    });
+   })
+  // 定时刷新现在时间
+  setInterval(function () {
+    zDate.getServerTime(function (e) {
+      var updateResult = new Date(e).getTime();
+      now_time = +updateResult.toString().substr(0, 10);
+      updatePage();
+    });
+  }, 1000*60*2);
+  // 页面刷新
+  function updatePage() {
+    $('.presell').each(function(index, item) {
+      var end_time = $(this).data('end'); // 结束时间
+      if (!end_time) {
+        return;
+      }
+      var me = $(this);
+      if (me.lastTime) {
+        clearInterval(me.lastTime);
+        me.lastTime = null;
+      } else {
+        me.lastTime = setInterval(function() {
+          zDate.setLastTimePc(me.find('.timespan'), (end_time*1000-now_time*1000), me.lastTime, function() {
+						me.parents('.right').find('.cloumn-subscribe').removeClass('presell-color');
+						me.remove();
+						$('.pre-tips').remove();
+					});
+        }, 10);
+      }
+    });
+  }
+		//二维码显示
+		$(".group_git_box").hover(function(){
+			$(this).parents('.group_img_box').find(".group_code_box").show()
+		},function(){
+			$(this).parents('.group_img_box').find(".group_code_box").hide()
+		})  
+</script>
+</div>
+<script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/marked.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/highlight.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/detail_mp.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/detail.js"></script><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/details_new.js"></script><div id="zhichiBtnBox" style="position: fixed; z-index: 2147483583; box-shadow: rgba(15, 66, 76, 0.25) 0px 0px 14px 0px; width: 60px; height: 60px; border-radius: 50%; background-color: rgb(66, 133, 244); background-image: url(&quot;//www.sobot.com/chat/frame/imgs/icon.png&quot;); background-repeat: no-repeat; background-position: 18px -58px; right: 40px; bottom: 90px; display: none;"><a hidefocus="" id="zhichiBtn" style="position:relative;text-decoration: none; outline: none; font-family: Microsoft Yahei, Arial, Helvetica; color: #fff; font-size: 16px; display: inline-block; margin: 0; padding: 0; border: none; line-height:43px; float:none;width:100%;height:100%;border-radius:50%;"><span class="zc-advice-icon-btn-title" style="box-shadow: rgba(107, 113, 114, 0.15) 0px 2px 4px 0px; border: 1px solid rgb(235, 239, 240); font-family: Microsoft Yahei, Arial, Helvetica; color: rgb(85, 85, 86); font-size: 13px; margin: 0px; text-align: right; background: rgb(255, 255, 255) none repeat scroll 0% 0%; position: absolute; top: 15px; right: 70px; text-overflow: ellipsis; white-space: nowrap; word-break: normal; display: none; border-radius: 3px; padding: 0px 5px; height: 30px; line-height: 30px;">咨询在线客服</span></a><i style="position:absolute;top:0px;right:0px;padding:1px;line-height:20px;text-align:center;color:#fff;font-weight:bold;height:18px;min-width:18px;background-color:#ed5c5c;border-radius:18px;font-size:12px;display:none;font-style:normal;" id="zhichiCount"></i></div><script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/copy.js"></script>    <script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/pvlog.js"></script>
+<script>
+  $(".gotop").click(function(){$(window).scrollTop(0)})
+</script>
+
+
+    <script type="text/javascript">
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2283d46608159c3b39fc9f1178809c21";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    //自动推送链接
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+    <script type="text/javascript">
+      var _vds = _vds || [];
+      window._vds = _vds;
+      (function(){
+        _vds.push(['setAccountId', '8c51975c40edfb67']);
+        (function() {
+          var vds = document.createElement('script');
+          vds.type='text/javascript';
+          vds.async = true;
+          vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(vds, s);
+        })();
+      })();
+      //document.write(decodeURI("%3Cscript src='https://tongji.51cto.com/frontend/tj.gif' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    
+<script>
+  var uid = '';
+  var BLOG_URL = 'https://blog.51cto.com/';
+</script>
+<script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/jquery_003.js"></script>
+<script src="%E5%9F%BA%E4%BA%8EApache-Commons-Pool2%E5%AE%9E%E7%8E%B0Grpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5%E6%B1%A0-%E8%B5%B0%E5%9C%A8IT%E8%B7%AF%E4%B8%8A-51CTO%E5%8D%9A%E5%AE%A2_files/time-on-page.js" charset="utf-8"></script>
+<script>
+    (function(){
+        var wh=$(window).height(),fh=$('.Footer').outerHeight(true),hh=$('.Header').outerHeight(true)
+        $('.Content-box').css({'min-height': wh-fh-hh})
+    })()
+</script>
+
+
+</body></html>

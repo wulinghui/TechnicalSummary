@@ -1,0 +1,46 @@
+1. 上传文件太大时，oom ， 解决办法用UploadCallback流来解决
+2. 他提供的api必须传入文件大小，而且fileSiz的大小必须和out.write写入的长度必须一样，解决办法url(页面获取文件大小)传过来。  
+3. url插件无法提供文件大小，必须在后台获得fileSiz，其实用第3方插件就好了如:fileupload,SpringMVC上传文件的三种方式,servlert part,据说上传流的大小可以算出来。
+```
+说明:
+	1. 如果是单文件上传我是可以计算出长度的(request.contextlength-多余信息)，但是多文件就不行了,因为流是一直往前读的。
+	2. 上面的3种插件，都是先做本地的缓存。之后连接不断再从本地读的，而且大小和流的控制都可以多次操作。
+	3. 这里我们用servlert part来做。
+```
+4. 其实有个client-api中有个upload_appender_file的追加的应该也可以。 具体servler的封装见FastDfsFileUpLoadServlet3
+```
+		InputStream inputStream = FileUtils.openInputStream(new File("C:\\Users\\Administrator\\Desktop\\test.txt"));
+		StorageClient storageClient = getTrackerClient();
+		NameValuePair[] meta_list = new NameValuePair[0];
+		int fileLength = 0;
+		byte[] file_buff = new byte[10];
+		 
+		meta_list[0] = new NameValuePair("author",  "admin" );
+		meta_list[1] = new NameValuePair("fileName", "test.txt");   
+		String[] upload_appender_file = null;
+        while (-1 != (fileLength = inputStream.read(file_buff))) {
+        	byte[] file_buff1 = new byte[fileLength];
+        	System.arraycopy(file_buff, 0, file_buff1, 0, fileLength);
+        	if( upload_appender_file == null ){
+				//第一次没有的时候，先用upload_appender_file命令设为可追加的文件
+        		upload_appender_file = storageClient.upload_appender_file(file_buff1 , "txt", meta_list);
+        	}else{
+				//第二次追加
+        		int append_file = storageClient.append_file(upload_appender_file[0], upload_appender_file[1], file_buff1);
+        		System.out.println("append_file="+append_file); 
+        	}
+        	printGropAndName(upload_appender_file[0], upload_appender_file[1]);
+        }
+		//这样就有个问题了，
+		
+		// 下载
+		System.out.println("=========================");    
+		String groupName = upload_appender_file[0];
+		String remoteFileName = upload_appender_file[1];
+		printGropAndName(groupName, remoteFileName);
+		InputStream downFile = downFile(groupName, remoteFileName);
+		byte[] byteArray = IOUtils.toByteArray(downFile);
+		System.out.println( new String(byteArray ) );
+		System.out.println("=========================");
+```
+

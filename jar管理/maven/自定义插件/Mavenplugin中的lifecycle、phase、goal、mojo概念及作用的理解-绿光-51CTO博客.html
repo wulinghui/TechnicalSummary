@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)https://blog.51cto.com/greenlight/640451 -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="favicon" rel="shortcut icon" href="https://blog.51cto.com/favicon.ico">
+        <title>Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客</title>
+    <meta name="keywords" content="职场,休闲,maven,lifecycle,phase">
+<meta name="description" content="转自：http://www.24xuexi.com/w/2011-05-04/89332.html
+另外一篇文章可以参考：http://maven.apache.org/guides/plugin/guide-java-plugin-development.html
+&amp;nbsp;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; 首先，说些题外话，maven的plugin真的很容易写，很多时候，我们只是">    <link href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/header.css" rel="stylesheet"><link href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/other.css" rel="stylesheet"><link href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/right.css" rel="stylesheet"><link href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/blog_details.css" rel="stylesheet"><link href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/highlight.css" rel="stylesheet">
+    <script type="text/javascript" async="" src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/vds.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/push.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/hm.js.下载"></script><script>
+        var HOME_URL = 'https://home.51cto.com/';
+    </script>
+    <script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/jquery.min.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/cookie.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/login.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/common.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/mbox.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/follow.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/vip.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/window.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/share.js.下载"></script><style></style><link rel="stylesheet" href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/share_style0_16.css"></head>
+<body>
+<img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/share_default.jpg" border="0" style="width:0; height:0; position:absolute;">
+<style type="text/css">
+	.service-btn{
+		width: 53px;
+height: 36px;
+color: #1ac6fe;
+line-height: 16px;
+padding-top: 50px;
+		display: inline-block;
+		background: url(https://s1.51cto.com/images/blog/201811/02/463350acf4c693cfb3dc248bc8a2a0eb.png) no-repeat center;
+	}
+	.service-btn:hover{
+		background: url(https://s1.51cto.com/images/blog/201811/02/2d5fa2ff4eb9ef66847aff20ba4c8bae.png) no-repeat center;
+height: 36px;
+color: #fff;
+line-height: 16px;
+padding-top: 50px;
+	}
+</style>
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+<div id="topbanner14" style="position: relative;width:100%;height:40px;background:url(https://s1.51cto.com/images/blog/201905/29/489c3eaa7a5cd2d47a468e69665b5772.jpg)">
+<a class="close fl" href="javascript:;" style="position:absolute;width:13px;height:13px;top:0px;z-index: 20;background: url(&#39;https://s1.51cto.com/images/blog/201808/23/0363c65f527ea7c9880ab5f275303d1a.png&#39;) 0 0 no-repeat;background-size: 100% 100%;left: 50%;margin-left: 587px;"></a>
+<a href="https://blog.51cto.com/cloumn/composedetail?id=9&amp;banner" target="_blank">
+  <img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/42bd8bef0cd70d00b64970cadf526e69.jpg" alt="" style="position:absolute;width:1200px;height:40px;margin-left: -600px;left:50%;z-index: 10;">
+</a>
+</div>
+<script>
+    $("#topbanner14").on("click",".close",function(){
+        $("#topbanner14").remove();
+    })
+</script>
+<div class="Header">
+  <div class="Page ">
+    <h1 class="Logo"><a href="https://blog.51cto.com/">Logo</a></h1>
+    <ul class="Navigates fl">
+      <li><a href="https://blog.51cto.com/">首页</a></li>
+      <li><a href="https://blog.51cto.com/original">文章</a></li>
+      <li><a href="https://blog.51cto.com/blog/follow">关注</a></li>
+      <li class="">
+        <a class="column-stress" href="https://blog.51cto.com/cloumn/index" target="_blank">订阅专栏</a>
+      </li>
+                    
+                  </ul>
+    <ul class="Navigates Navigates-right fr">
+      <li class="more maps">
+        <a href="javascript:void(0);">网站导航</a>
+        <div>
+            <a href="https://edu.51cto.com/" target="_blank">学院</a>
+            <a href="https://e.51cto.com/" target="_blank">微职位</a>
+            <a href="https://blog.51cto.com/" target="_blank">博客</a>
+            <a href="http://down.51cto.com/" target="_blank">下载</a>
+            <a href="https://home.51cto.com/" target="_blank">家园</a>
+            <a href="http://bbs.51cto.com/" target="_blank">论坛</a>
+            <a href="http://x.51cto.com/" target="_blank">CTO训练营</a>
+            <!--a href=" http://club.51cto.com?blog" target="_blank">CTO俱乐部</a-->
+            <a href="http://wot.51cto.com/" target="_blank">WOT</a>
+            <a href="http://www.51cto.com/" target="_blank">51CTO</a>
+            <i class="arrow"></i>
+        </div>
+      </li>
+                <li><a href="https://blog.51cto.com/site/login?reback=https%3A%2F%2Fblog.51cto.com%2Fgreenlight%2F640451&amp;logintype=reg" target="_self">注册</a></li>
+          <li class="login"><a href="https://blog.51cto.com/site/login?reback=https%3A%2F%2Fblog.51cto.com%2Fgreenlight%2F640451" target="_self">登录</a></li>
+                        <li class="mRead">
+          <a href="javascript:;">手机阅读</a>
+          <div>
+            <img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/blog_qr.png">
+            <p>扫一扫体验手机阅读</p>
+            <i class="arrow"></i>
+          </div>
+        </li>
+            <li class="search"><a href="https://blog.51cto.com/search/index" target="_self">搜索</a></li>
+                  <li class="write"><a href="javascript:;" onclick="Login()">写文章</a></li>
+                  </ul>
+
+          <div class="clear"></div>
+  </div>
+</div>
+<script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/box.js.下载"></script> 
+<script>
+    var isLogin = '0';
+    var userId = '';
+    var imgpath = 'https://s1.51cto.com/';
+    var BLOG_URL = 'https://blog.51cto.com/';
+    var msg_num_url = '/index/ajax-msg-num';
+    $('.msg-follow, .msg-follow-max').eq(1).css({top: '91px'});
+    $('.msg-follow, .msg-follow-max').eq(2).css({top: '121px'});
+    setTimeout(function(){
+            $.ajax({
+                url:msg_num_url,
+                type:"get",
+                dataType:'json',
+                success:function(res){
+                    if(res.status == '0'){
+                       //
+                       var hasNewMsg = false;
+                       if(res.data.msgNum > 0 && !$('#myMsg i').hasClass('dot')){
+                            $('#myMsg i').addClass('dot');
+                            hasNewMsg = true;
+                       }
+                       if(res.data.notifyNum > 0 && !$('#myNotify i').hasClass('dot')){
+                           $('#myNotify i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(res.data.recommend_new > 0 && !$('#myRecommend i').hasClass('dot')){
+                           $('#myRecommend i').addClass('dot');
+                           hasNewMsg = true;
+                       }
+                       if(hasNewMsg && !$('#myAllMsg i').hasClass('dot')){
+                           $('#myAllMsg i').addClass('dot');
+                       }
+                    }
+
+                }
+            });
+    },70);
+    //广告图
+$(function(){
+     new AutoAD({
+      ADD:$('<a href="https://blog.51cto.com/cloumn/composedetail?id=4" class="closeMB" target="_blank" styel="display:block;"><img src="https://s1.51cto.com/images/blog/201906/13/379c45091637c6167ae046ceecea020d.jpg"></a><a class="closeMB" style="position: absolute;right:2px;top: 3px;width: 50px;height: 40px;cursor: pointer;" href="javascript:;"></a>'),
+      W:500,
+      H:400,
+      cookie:'blog_activity_blog75',
+      mask:"#000",
+      ts:'21600',
+      noCBtn: true
+    }) 
+})    
+</script>
+ <script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/entrance.js.下载" id="zhichiScript" class="zhiCustomBtn" data-args="manual=true"></script>
+<a href="javascript:;" class="zhiCustomBtn" style="position: fixed;z-index: 2147483583;width: 60px;height: 6px;text-align: center;bottom:275px;right:0px;">
+<span class="service-btn">在线<br>客服</span>
+</a>
+
+<script type="text/javascript">
+var zhiManager = (getzhiSDKInstance());
+zhiManager.on("load", function() {
+    zhiManager.initBtnDOM();
+});
+//zhiManager.set('title','垃圾/广告信息举报');
+zhiManager.set('powered',false);
+zhiManager.set('color', '4285f4');
+zhiManager.set('customBtn', 'true');
+zhiManager.set('moduleType',2);
+zhiManager.set('size',{'width':360,'height':500});
+
+zhiManager.set('userinfo', {partnerId:'',uname:'',params:'{"用户名":""}'});
+zhiManager.set('customMargin', 20);
+zhiManager.set('horizontal', 20);
+zhiManager.set('vertical', 90);
+zhiManager.set('preVisitArgs',{'preVisitUrl': document.referrer?document.referrer:''});
+zhiManager.set('curVisitArgs',{'curVisitUrl': location.href,curVisitTitle:document.title,});
+</script>
+<div class="Content-box" style="min-height: 613px;">
+      <link rel="stylesheet" href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/mdeShow.css">
+  <link rel="stylesheet" href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/prism.css">
+  <script type="text/javascript" charset="utf-8" src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/prism.js.下载"></script>
+<link rel="stylesheet" href="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/tinyscrollbar.css">
+<script type="text/javascript" src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/jquery.tinyscrollbar.js.下载"></script>
+<div class="Content Index" style="padding-bottom: 50px;">
+	<div class="Page M764">
+		<!-- left start -->
+		<div class="artical-Left-blog">
+			<div class="status">
+	        					<a class="tab_name reprint">转载</a>
+							</div>
+			<h1 class="artical-title">Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解</h1>
+			<div class="artical-title-list">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/greenlight" class="a-img" target="_blank"><img class="is-vip-img is-vip-img-4" data-uid="3159513" src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/noavatar_middle.gif"></a>
+				</div>
+				<a href="https://blog.51cto.com/greenlight" class="name fl" target="_blank" style="margin-right:0;">ivyuhen</a>
+												<a class="comment comment-num fr"><font class="comment_number">0</font>人评论</a>
+				<span class="fr"></span>
+				<a href="javascript:;" class="read fr">429人阅读</a>
+				<a href="javascript:;" class="time fr">2011-08-16 13:10:07</a>
+				<div class="clear"></div>
+			</div>
+							<div class="artical-content-bak main-content editor-side-new">
+          <div class="con editor-preview-side" id="result"><p>转自：http://www.24xuexi.com/w/2011-05-04/89332.html</p>
+<p>另外一篇文章可以参考：http://maven.apache.org/guides/plugin/guide-java-plugin-development.html</p>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp; 首先，说些题外话，maven的plugin真的很容易写，很多时候，我们只是被plugin这个词吓倒了，总以为插件这玩意，是专家才能写的，我 maven都没精通，怎么写得出自己的plugin呢，其实不然，起码在maven中，写一个自己的plugin还是非常简单的，其它软件的插件，要看情 况，有些的确是要天才级人物才写得出，有一些呢，也无非是用别人做的傻瓜程序，可以轻松做出来，但是，有决心做，绝大数事情我们是做得到的！</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 要写自己的mavenplugin的话，lifecycle与phase与goal与mojo的概念是一定要理解的，下面是我自己的一些见解</p>
+<p><strong>lifecycle：</strong>生 命周期，这是maven最高级别的的控制单元，它是一系列的phase组成，也就是说，一个生命周期，就是一个大任务的总称，不管它里面分成多少个子任 务，反正就是运行一个lifecycle，就是交待了一个任务，运行完后，就得到了一个结果，中间的过程，是phase完成的，自己可以定义自己的 lifecycle，包含自己想要的phase</p>
+<p>常见的lifecycle有 | clean | package ear | pageage jar | package war| site等等</p>
+<p><strong>phase：</strong>可 以理解为任务单元，lifecycle是总任务，phase就是总任务分出来的一个个子任务，但是这些子任务是被规格化的，它可以同时被多个 lifecycle所包含，一个lifecycle可以包含任意个phase，phase的执行是按顺序的，一个phase可以绑定很多个goal，至少 为一个，没有goal的phase是没有意义的</p>
+<p>下面就是一些default lifecycle的phase</p>
+<p>validate<br>
+initialize<br>
+generate-sources<br>
+process-sources<br>
+generate-resources<br>
+process-resources<br>
+compile compile<br>
+process-classes<br>
+generate-test-sources<br>
+process-test-sources<br>
+generate-test-resources<br>
+process-test-resources<br>
+test-compile<br>
+process-test-classes<br>
+test<br>
+prepare-package<br>
+package<br>
+pre-integration-test<br>
+integration-test<br>
+post-integration-test<br>
+verify<br>
+install<br>
+deploy</p>
+<p><strong>goal:</strong>这是执行任务的最小单元，它可以绑定到任意个phase中，一个phase有一个或多个 goal，goal也是按顺序执行的，一个phase被执行时，绑定到phase里的goal会按绑定的时间被顺序执行，不管phase己经绑定了多少个 goal，你自己定义的goal都可以继续绑到phase中</p>
+<p><strong>mojo:</strong>lifecycle与phase 与goal都是概念上的东西，mojo才是做具体事情的，可以简单理解mojo为goal的实现类，它继承于AbstractMojo，有一个 execute方法，goal等的定义都是通过在mojo里定义一些注释的anotation来实现的，maven会在打包时，自动根据这些 anotation生成一些xml文件，放在plugin的jar包里</p>
+<p>抛开mojo不讲，lifecycle与phase与goal就是级 别的大小问题，引用必须是从高级引用下级（goal绑定到phase，也可理间为phase引用goal，只是在具体绑定时，不会phase定义引用哪些 goal，但是执行是，却是phase调用绑定到它那的goal），也不能跨级引用，如lifecycle可以引用任意的phase，不同 lifecycle可以同时引用相同的phase，lifecycle不能跨级引用goal。goal会绑定到任意的phase中，也就是说不同的 phase可以同时引用相同的goal，所以goal可以在一个lifecycle里被重复执行哦，goal自然也不能说绑定到lifecycle中，它 们三者的关系可以用公司里的总领导，组领导，与职员的关系来解释</p></div>
+				</div>
+															<div class="for-tag mt26">
+																						<a href="https://blog.51cto.com/search/result?q=%E8%81%8C%E5%9C%BA" target="_blank">职场</a>
+																								<a href="https://blog.51cto.com/search/result?q=%E4%BC%91%E9%97%B2" target="_blank">休闲</a>
+																								<a href="https://blog.51cto.com/search/result?q=maven" target="_blank">maven</a>
+																																					                				<a class="last" href="https://blog.51cto.com/greenlight/category6.html" target="_blank"><i></i>maven</a>
+                				<div class="clear"></div>
+			</div>
+			<div class="more-list">
+				<p class="is-praise fl "><span type="1" blog_id="640451" userid="3159513">0</span></p>
+				<div class="share-box fr">
+					<p class="share"><i></i>分享</p>
+					<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1561023595130">
+					  <span></span>
+					  <a class="bds_tsina" data-cmd="tsina">微博</a>
+					  <a class="bds_sqq" data-cmd="sqq">QQ</a>
+					  <a class="bds_weixin" data-cmd="weixin">微信</a>
+					  <img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/qr-url">
+					</div>
+				</div>
+				<p class="favorites favorites-opt fr"><i></i>收藏</p>
+								<div class="clear"></div>
+			</div>
+							<div class="artical-list">
+	            					<a class="fl" href="https://blog.51cto.com/greenlight/640450" title="memcached学习">
+						上一篇：memcached学习</a>
+	            	            					<a class="fr" href="https://blog.51cto.com/greenlight/640463" title="Apache Maven 2 简介">
+						下一篇：Apache Maven 2 简...</a>
+	            					<div class="clear"></div>
+				</div>
+						<div class="author-module">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/greenlight" class="a-img" target="_blank">
+						<img class="is-vip-img is-vip-img-4" data-uid="3159513" src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/noavatar_middle.gif">
+					</a>
+				</div>
+				<div class="author-module-center fl">
+					<a class="h2" href="https://blog.51cto.com/greenlight" target="_blank" style="display:inline-block;">ivyuhen</a>
+										<h3>60篇文章，11W+人气，0粉丝</h3>
+									</div>
+								<div class="clear"></div>
+			</div>
+		</div>
+		<div class="artical-Left" id="comment">
+			<!-- 发布评论 -->
+			<div class="comment-creat">
+				<div class="is-vip-bg-6 fl">
+					<a href="https://blog.51cto.com/greenlight" class="header-img" target="_blank">
+						<img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/noavatar_middle.gif">
+					</a>
+				</div>
+				<div class="first-publish fr publish_user_id">
+					<textarea class="textareadiv textareadiv-publish" name="" id="" placeholder="提问和评论都可以，用心的回复会被更多人看到和认可" maxlength="500"></textarea>
+					<div class="comment-push">
+						<p class="msg fl">Ctrl+Enter&nbsp;发布</p>
+													<p class="publish-btn blue-btn fr" flag="1">发布</p>
+												<p class="cancel-btn cancel-btn-1 fr">取消</p>
+						<div class="clear"></div>
+					</div>
+					<input type="hidden" class="user_id" value="3159513">
+					<input type="hidden" class="reply_id" value="640451">
+					<input type="hidden" class="first_pid" value="">
+				</div>
+				<div class="clear"></div>
+			</div>
+						<div class="commentList"></div>
+			<!-- page -->
+			<div class="act_pageList_box"></div>
+		</div>
+		<!-- end left -->
+		<!-- right start -->
+		<div class="Blog-Right artical-Right">
+			<a class="catalog" style="display: none;"></a>
+			<a class="scrollTop" href="javascript:void(0);" onclick="$(window).scrollTop(0);" style="display: block;"></a>
+		</div>
+		<!-- end right  -->
+	</div>
+			<div class="special-column">
+			<div class="Page M764">
+									<div class="column-1">
+						<h2 class="column-tit">推荐专栏<a href="https://blog.51cto.com/cloumn/index?utm_source=p" target="_blank"><span class="recommend-more-span" style="">更多</span></a></h2>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/4" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/92f96bca4a81e7c15a63e696e2a8d8e5.jpg">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/4" target="_blank"> 微服务技术架构和大数据治理实战</a>
+									<h3 class="white-space">大数据时代的微服务之路</h3>
+									<h4 class="white-space">共18章&nbsp;|&nbsp;<a href="https://blog.51cto.com/ityouknow" target="_blank">纯洁微笑</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>669人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="4" href="https://blog.51cto.com/cloumn/detail/4" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+													<div class="column-box">
+								<a href="https://blog.51cto.com/cloumn/detail/13" class="a-img fl cloumn-tab-par" target="_blank">
+									<img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/a940c66317ecbe58436a2ad3831c2d7d.png">
+                													</a>
+								<div class="center fl">
+									<a class="h2 white-space left-list" href="https://blog.51cto.com/cloumn/detail/13" target="_blank"> 基于Python的DevOps实战</a>
+									<h3 class="white-space">自动化运维开发新概念</h3>
+									<h4 class="white-space">共20章&nbsp;|&nbsp;<a href="https://blog.51cto.com/yuhongchun" target="_blank">抚琴煮酒</a></h4>
+									<h5><span class="price">
+                                    ￥51.00
+                                    </span><span>431人订阅</span></h5>
+								</div>
+								<div class="right fr">
+							        																							<a class="cloumn-subscribe left-list" cid="13" href="https://blog.51cto.com/cloumn/detail/13" ask="1" target="_blank">订&nbsp;&nbsp;&nbsp;阅</a>
+																			    								</div>
+								<div class="clear"></div>
+							</div>
+											</div>
+													<div class="column-2" style="margin-top: 76px;">
+						<h2 class="column-tit">猜你喜欢</h2>
+						<div class="column-box">
+															<a class="white-space" href="https://blog.51cto.com/greenlight/2019133?source=dra" target="_blank">我的友情链接</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/greenlight/819387?source=dra" target="_blank">zz 如何获取ResultSet的行数和列数</a>
+															<a class="white-space" href="https://blog.51cto.com/fluagen/40086?source=drt" target="_blank">学习maven的使用，看到一篇很实用的入门教程(菜鸟级入门)</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/drizzlewalk/665590?source=drt" target="_blank">maven scope含义的说明</a>
+															<a class="white-space" href="https://blog.51cto.com/tianya23/386908?source=drt" target="_blank">Maven仓库汇总</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/supercharles888/981316?source=drt" target="_blank">maven dependency中scope=compile 和 provided区别</a>
+															<a class="white-space" href="https://blog.51cto.com/lavasoft/221790?source=drt" target="_blank">Java线程：线程的调度-休眠</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/aminglinux/2177405?source=drt" target="_blank">我们不得不面对的中年职场危机</a>
+															<a class="white-space" href="https://blog.51cto.com/zephiruswt/1302770?source=drt" target="_blank">Maven中-DskipTests和-Dmaven.test.skip=true的区别</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/11931236/2058708?source=drt" target="_blank">Spring Boot + Log4j2 日志框架配置 (Maven)</a>
+															<a class="white-space" href="https://blog.51cto.com/wws5201985/803871?source=drt" target="_blank">职场终极密籍--记我的职业生涯</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/guoyongyv123/533804?source=drt" target="_blank">用光影魔术手制作一寸照片（8张一寸）</a>
+															<a class="white-space" href="https://blog.51cto.com/14257804/2411033?source=drh" target="_blank">Redis 高负载下的中断优化</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/14227759/2410085?source=drh" target="_blank">如何做可靠的分布式锁，Redlock真的可行么</a>
+															<a class="white-space" href="https://blog.51cto.com/14378044/2409799?source=drh" target="_blank">java架构师，必须掌握的几点技术？</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/14227759/2409749?source=drh" target="_blank">一篇文章帮你彻底搞清楚“I/O多路复用”和“异步I/O”的前世今生</a>
+															<a class="white-space" href="https://blog.51cto.com/14227759/2407487?source=drh" target="_blank">大话微服务」深入聊聊SpringCloud之客户端负载均衡机制</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/9806927/2405633?source=drh" target="_blank">Spring Boot 中 10 行代码构建 RESTful 风格应用</a>
+															<a class="white-space" href="https://blog.51cto.com/14311648/2405597?source=drh" target="_blank">Java核心库实现AOP过程</a>
+															<a class="white-space left-list" href="https://blog.51cto.com/14230003/2405277?source=drh" target="_blank">RabbitMQ如何保证队列里的消息99.99%被消费？</a>
+														<div class="clear"></div>
+						</div>
+					</div>
+							</div>
+		</div>
+		<div class="group_img_box">
+		<div class="group_git_box">
+                	 <img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/f92360e227f9d91cdff7ea95120630ef.png" style="width:70px;height:70px;"> 	
+			<!--<img src="https://s1.51cto.com/images/blog/201810/22/078772c84eb23213ea90f577d9316ce4.png"/>-->
+        		</div>
+			<div class="group_code_box">
+			<img src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/left-qr.jpg" width="130" height="130">
+			<p>扫一扫,领取大礼包</p>
+		</div>
+	</div>		
+	<div class="the-lowest-bg" style="display: block;">
+		<div class="the-lowest Page M764">
+			<p class="is-praise fl "><span type="1" blog_id="640451" userid="3159513"></span></p>
+			<p class="b-favorites favorites-opt fl"><i></i><b>0</b></p>
+			<a class="b-reply fl"><i></i><font class="comment_number"></font></a>
+			<div class="b-share fl">
+				<i></i>分享
+				<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1561023595130">
+				  <a class="bds_tsina p2" data-cmd="tsina"></a>
+				  <a class="bds_sqq p3" data-cmd="sqq"></a>
+				  <a class="bds_weixin p1" data-cmd="weixin"><em class="code-icon"></em><img class="code-img" src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/qr-url"></a>
+				</div>
+			</div>
+      						<a href="https://blog.51cto.com/greenlight" class="b-name fr">ivyuhen</a>
+			<div class="is-vip-bg-6 fr">
+				<a href="https://blog.51cto.com/greenlight" class="b-img"><img class="is-vip-img is-vip-img-4" data-uid="3159513" src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/noavatar_middle.gif"></a>
+			</div>
+			<div class="clear"></div>
+
+		</div>
+	</div>
+</div>
+<!-- 老博文美观处理 -->
+	<script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/shCores.js.下载"></script>
+<script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/countDown.js.下载"></script>
+<script>
+	var praise_url = 'https://blog.51cto.com/praise/praise'
+    	addReply_url = 'https://blog.51cto.com/comments/add'
+    	removeUrl = 'https://blog.51cto.com/comments/del'
+    	blog_id = '640451'
+    	pv_log_info = {
+            'pv_type':'blog',
+            'user_id':'3159513',
+            'blog_id':'640451'
+        };
+    	rid = '0'
+    	is_comment = '0'
+    	comment_list = '/blog/ajax-comment-list'
+    	comment_sort = "asc"
+    	index_url = 'https://blog.51cto.com/greenlight';
+    	uc_url = 'https://ucenter.51cto.com/'
+    	blog_url = 'https://blog.51cto.com/'
+    	img_url = 'https://static1.51cto.com/edu/blog/'
+    	i_user_id = ''
+    	c_user_id ='3159513'
+    	collect_url = 'https://blog.51cto.com/collect/add'
+    	is_old = '1'
+    	nicknameurl = 'https://blog.51cto.com/greenlight'
+    	nickname = 'ivyuhen'
+    	myself = window.location.href;
+	$('.you-like-list li:odd').css({'margin-left': '10%'});
+	$('.column-box a:odd').addClass('left-list')
+	$('.myUrl').text(myself).click(function(){window.open(myself)})
+	setTimeout(function(){$('.Footer').css({'margin-top':'-50px'})},50)
+        	if(is_old==1){
+    // SyntaxHighlighter.all();
+    insertCodeElement("<p>\u8f6c\u81ea\uff1ahttp:\/\/www.24xuexi.com\/w\/2011-05-04\/89332.html<\/p>\r\n<p>\u53e6\u5916\u4e00\u7bc7\u6587\u7ae0\u53ef\u4ee5\u53c2\u8003\uff1ahttp:\/\/maven.apache.org\/guides\/plugin\/guide-java-plugin-development.html<\/p>\r\n<p>&nbsp;<\/p>\r\n<p>&nbsp;&nbsp;&nbsp; \u9996\u5148\uff0c\u8bf4\u4e9b\u9898\u5916\u8bdd\uff0cmaven\u7684plugin\u771f\u7684\u5f88\u5bb9\u6613\u5199\uff0c\u5f88\u591a\u65f6\u5019\uff0c\u6211\u4eec\u53ea\u662f\u88abplugin\u8fd9\u4e2a\u8bcd\u5413\u5012\u4e86\uff0c\u603b\u4ee5\u4e3a\u63d2\u4ef6\u8fd9\u73a9\u610f\uff0c\u662f\u4e13\u5bb6\u624d\u80fd\u5199\u7684\uff0c\u6211 maven\u90fd\u6ca1\u7cbe\u901a\uff0c\u600e\u4e48\u5199\u5f97\u51fa\u81ea\u5df1\u7684plugin\u5462\uff0c\u5176\u5b9e\u4e0d\u7136\uff0c\u8d77\u7801\u5728maven\u4e2d\uff0c\u5199\u4e00\u4e2a\u81ea\u5df1\u7684plugin\u8fd8\u662f\u975e\u5e38\u7b80\u5355\u7684\uff0c\u5176\u5b83\u8f6f\u4ef6\u7684\u63d2\u4ef6\uff0c\u8981\u770b\u60c5 \u51b5\uff0c\u6709\u4e9b\u7684\u786e\u662f\u8981\u5929\u624d\u7ea7\u4eba\u7269\u624d\u5199\u5f97\u51fa\uff0c\u6709\u4e00\u4e9b\u5462\uff0c\u4e5f\u65e0\u975e\u662f\u7528\u522b\u4eba\u505a\u7684\u50bb\u74dc\u7a0b\u5e8f\uff0c\u53ef\u4ee5\u8f7b\u677e\u505a\u51fa\u6765\uff0c\u4f46\u662f\uff0c\u6709\u51b3\u5fc3\u505a\uff0c\u7edd\u5927\u6570\u4e8b\u60c5\u6211\u4eec\u662f\u505a\u5f97\u5230\u7684\uff01<\/p>\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp; \u8981\u5199\u81ea\u5df1\u7684mavenplugin\u7684\u8bdd\uff0clifecycle\u4e0ephase\u4e0egoal\u4e0emojo\u7684\u6982\u5ff5\u662f\u4e00\u5b9a\u8981\u7406\u89e3\u7684\uff0c\u4e0b\u9762\u662f\u6211\u81ea\u5df1\u7684\u4e00\u4e9b\u89c1\u89e3<\/p>\r\n<p><strong>lifecycle\uff1a<\/strong>\u751f \u547d\u5468\u671f\uff0c\u8fd9\u662fmaven\u6700\u9ad8\u7ea7\u522b\u7684\u7684\u63a7\u5236\u5355\u5143\uff0c\u5b83\u662f\u4e00\u7cfb\u5217\u7684phase\u7ec4\u6210\uff0c\u4e5f\u5c31\u662f\u8bf4\uff0c\u4e00\u4e2a\u751f\u547d\u5468\u671f\uff0c\u5c31\u662f\u4e00\u4e2a\u5927\u4efb\u52a1\u7684\u603b\u79f0\uff0c\u4e0d\u7ba1\u5b83\u91cc\u9762\u5206\u6210\u591a\u5c11\u4e2a\u5b50\u4efb \u52a1\uff0c\u53cd\u6b63\u5c31\u662f\u8fd0\u884c\u4e00\u4e2alifecycle\uff0c\u5c31\u662f\u4ea4\u5f85\u4e86\u4e00\u4e2a\u4efb\u52a1\uff0c\u8fd0\u884c\u5b8c\u540e\uff0c\u5c31\u5f97\u5230\u4e86\u4e00\u4e2a\u7ed3\u679c\uff0c\u4e2d\u95f4\u7684\u8fc7\u7a0b\uff0c\u662fphase\u5b8c\u6210\u7684\uff0c\u81ea\u5df1\u53ef\u4ee5\u5b9a\u4e49\u81ea\u5df1\u7684 lifecycle\uff0c\u5305\u542b\u81ea\u5df1\u60f3\u8981\u7684phase<\/p>\r\n<p>\u5e38\u89c1\u7684lifecycle\u6709 | clean | package ear | pageage jar | package war| site\u7b49\u7b49<\/p>\r\n<p><strong>phase\uff1a<\/strong>\u53ef \u4ee5\u7406\u89e3\u4e3a\u4efb\u52a1\u5355\u5143\uff0clifecycle\u662f\u603b\u4efb\u52a1\uff0cphase\u5c31\u662f\u603b\u4efb\u52a1\u5206\u51fa\u6765\u7684\u4e00\u4e2a\u4e2a\u5b50\u4efb\u52a1\uff0c\u4f46\u662f\u8fd9\u4e9b\u5b50\u4efb\u52a1\u662f\u88ab\u89c4\u683c\u5316\u7684\uff0c\u5b83\u53ef\u4ee5\u540c\u65f6\u88ab\u591a\u4e2a lifecycle\u6240\u5305\u542b\uff0c\u4e00\u4e2alifecycle\u53ef\u4ee5\u5305\u542b\u4efb\u610f\u4e2aphase\uff0cphase\u7684\u6267\u884c\u662f\u6309\u987a\u5e8f\u7684\uff0c\u4e00\u4e2aphase\u53ef\u4ee5\u7ed1\u5b9a\u5f88\u591a\u4e2agoal\uff0c\u81f3\u5c11 \u4e3a\u4e00\u4e2a\uff0c\u6ca1\u6709goal\u7684phase\u662f\u6ca1\u6709\u610f\u4e49\u7684<\/p>\r\n<p>\u4e0b\u9762\u5c31\u662f\u4e00\u4e9bdefault lifecycle\u7684phase<\/p>\r\n<p>validate<br \/>\r\ninitialize<br \/>\r\ngenerate-sources<br \/>\r\nprocess-sources<br \/>\r\ngenerate-resources<br \/>\r\nprocess-resources<br \/>\r\ncompile compile<br \/>\r\nprocess-classes<br \/>\r\ngenerate-test-sources<br \/>\r\nprocess-test-sources<br \/>\r\ngenerate-test-resources<br \/>\r\nprocess-test-resources<br \/>\r\ntest-compile<br \/>\r\nprocess-test-classes<br \/>\r\ntest<br \/>\r\nprepare-package<br \/>\r\npackage<br \/>\r\npre-integration-test<br \/>\r\nintegration-test<br \/>\r\npost-integration-test<br \/>\r\nverify<br \/>\r\ninstall<br \/>\r\ndeploy<\/p>\r\n<p><strong>goal:<\/strong>\u8fd9\u662f\u6267\u884c\u4efb\u52a1\u7684\u6700\u5c0f\u5355\u5143\uff0c\u5b83\u53ef\u4ee5\u7ed1\u5b9a\u5230\u4efb\u610f\u4e2aphase\u4e2d\uff0c\u4e00\u4e2aphase\u6709\u4e00\u4e2a\u6216\u591a\u4e2a goal\uff0cgoal\u4e5f\u662f\u6309\u987a\u5e8f\u6267\u884c\u7684\uff0c\u4e00\u4e2aphase\u88ab\u6267\u884c\u65f6\uff0c\u7ed1\u5b9a\u5230phase\u91cc\u7684goal\u4f1a\u6309\u7ed1\u5b9a\u7684\u65f6\u95f4\u88ab\u987a\u5e8f\u6267\u884c\uff0c\u4e0d\u7ba1phase\u5df1\u7ecf\u7ed1\u5b9a\u4e86\u591a\u5c11\u4e2a goal\uff0c\u4f60\u81ea\u5df1\u5b9a\u4e49\u7684goal\u90fd\u53ef\u4ee5\u7ee7\u7eed\u7ed1\u5230phase\u4e2d<\/p>\r\n<p><strong>mojo:<\/strong>lifecycle\u4e0ephase \u4e0egoal\u90fd\u662f\u6982\u5ff5\u4e0a\u7684\u4e1c\u897f\uff0cmojo\u624d\u662f\u505a\u5177\u4f53\u4e8b\u60c5\u7684\uff0c\u53ef\u4ee5\u7b80\u5355\u7406\u89e3mojo\u4e3agoal\u7684\u5b9e\u73b0\u7c7b\uff0c\u5b83\u7ee7\u627f\u4e8eAbstractMojo\uff0c\u6709\u4e00\u4e2a execute\u65b9\u6cd5\uff0cgoal\u7b49\u7684\u5b9a\u4e49\u90fd\u662f\u901a\u8fc7\u5728mojo\u91cc\u5b9a\u4e49\u4e00\u4e9b\u6ce8\u91ca\u7684anotation\u6765\u5b9e\u73b0\u7684\uff0cmaven\u4f1a\u5728\u6253\u5305\u65f6\uff0c\u81ea\u52a8\u6839\u636e\u8fd9\u4e9b anotation\u751f\u6210\u4e00\u4e9bxml\u6587\u4ef6\uff0c\u653e\u5728plugin\u7684jar\u5305\u91cc<\/p>\r\n<p>\u629b\u5f00mojo\u4e0d\u8bb2\uff0clifecycle\u4e0ephase\u4e0egoal\u5c31\u662f\u7ea7 \u522b\u7684\u5927\u5c0f\u95ee\u9898\uff0c\u5f15\u7528\u5fc5\u987b\u662f\u4ece\u9ad8\u7ea7\u5f15\u7528\u4e0b\u7ea7\uff08goal\u7ed1\u5b9a\u5230phase\uff0c\u4e5f\u53ef\u7406\u95f4\u4e3aphase\u5f15\u7528goal\uff0c\u53ea\u662f\u5728\u5177\u4f53\u7ed1\u5b9a\u65f6\uff0c\u4e0d\u4f1aphase\u5b9a\u4e49\u5f15\u7528\u54ea\u4e9b goal\uff0c\u4f46\u662f\u6267\u884c\u662f\uff0c\u5374\u662fphase\u8c03\u7528\u7ed1\u5b9a\u5230\u5b83\u90a3\u7684goal\uff09\uff0c\u4e5f\u4e0d\u80fd\u8de8\u7ea7\u5f15\u7528\uff0c\u5982lifecycle\u53ef\u4ee5\u5f15\u7528\u4efb\u610f\u7684phase\uff0c\u4e0d\u540c lifecycle\u53ef\u4ee5\u540c\u65f6\u5f15\u7528\u76f8\u540c\u7684phase\uff0clifecycle\u4e0d\u80fd\u8de8\u7ea7\u5f15\u7528goal\u3002goal\u4f1a\u7ed1\u5b9a\u5230\u4efb\u610f\u7684phase\u4e2d\uff0c\u4e5f\u5c31\u662f\u8bf4\u4e0d\u540c\u7684 phase\u53ef\u4ee5\u540c\u65f6\u5f15\u7528\u76f8\u540c\u7684goal\uff0c\u6240\u4ee5goal\u53ef\u4ee5\u5728\u4e00\u4e2alifecycle\u91cc\u88ab\u91cd\u590d\u6267\u884c\u54e6\uff0cgoal\u81ea\u7136\u4e5f\u4e0d\u80fd\u8bf4\u7ed1\u5b9a\u5230lifecycle\u4e2d\uff0c\u5b83 \u4eec\u4e09\u8005\u7684\u5173\u7cfb\u53ef\u4ee5\u7528\u516c\u53f8\u91cc\u7684\u603b\u9886\u5bfc\uff0c\u7ec4\u9886\u5bfc\uff0c\u4e0e\u804c\u5458\u7684\u5173\u7cfb\u6765\u89e3\u91ca<\/p>", '#result');
+  }
+
+  function insertCodeElement(content, container){
+    container = container || document;
+    // 创建一个 div 来放置获取到的内容，这样就可以把 content 字符串内容转换成 dom
+    // 方便我们对这个 dom 进行操作（只是创建 div，并没有插入到文档，他只存在于内存中）
+    var parent = document.createElement('div');
+    parent.innerHTML = content;
+
+    // 找到 parent 中的所有 pre 标签，并遍历
+    var $pres = $(parent).find('pre');
+    $pres.each(function(index, el) {
+      var $el = $(el),
+          html = $el.html(),
+          code = document.createElement('code'),
+          elClass = $el.attr('class');
+      if(!elClass) {return};
+          // 获取 pre 标签中，class 属性中包含的本段代码所有的编程语言
+      var language = elClass.substring(6, elClass.indexOf(';'));
+
+      code.className = 'language-' + language;
+      code.innerHTML = html;
+
+      $el.html(code);
+    });
+
+    $(container).html(parent.innerHTML);
+
+    // 最后，调用 Prism 的方法来高亮代码
+    Prism.highlightAll();
+  }
+	window._bd_share_config={
+    "common":{
+      "bdText":"Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解",
+      "bdDesc":$("#abstract_bdshare").text(),
+      "bdMini":"2",
+      "bdMiniList":false,
+      "bdPic":"https://s1.51cto.com/images/201710/25/bd540a4f14d822f6e69087758699358b.jpg",
+      "bdStyle":"0",
+      "bdSize":"16"
+    },
+    "share":{}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+  setTimeout(function(){
+  	$('.bdsharebuttonbox a').removeAttr('title')
+  },1000);
+
+	var now_time = 1561023593; //当前时间
+  setInterval(function(){now_time+=0.01},10);
+
+  // 初始化页面
+  updatePage();
+  // 页面tab切换
+  zDate.visibilityAction(function () {
+    zDate.getServerTime(function (e) {
+      var updateResult = new Date(e).getTime();
+      now_time = +updateResult.toString().substr(0, 10);
+      updatePage();
+    });
+   })
+  // 定时刷新现在时间
+  setInterval(function () {
+    zDate.getServerTime(function (e) {
+      var updateResult = new Date(e).getTime();
+      now_time = +updateResult.toString().substr(0, 10);
+      updatePage();
+    });
+  }, 1000*60*2);
+  // 页面刷新
+  function updatePage() {
+    $('.presell').each(function(index, item) {
+      var end_time = $(this).data('end'); // 结束时间
+      if (!end_time) {
+        return;
+      }
+      var me = $(this);
+      if (me.lastTime) {
+        clearInterval(me.lastTime);
+        me.lastTime = null;
+      } else {
+        me.lastTime = setInterval(function() {
+          zDate.setLastTimePc(me.find('.timespan'), (end_time*1000-now_time*1000), me.lastTime, function() {
+						me.parents('.right').find('.cloumn-subscribe').removeClass('presell-color');
+						me.remove();
+						$('.pre-tips').remove();
+					});
+        }, 10);
+      }
+    });
+  }
+		//二维码显示
+		$(".group_git_box").hover(function(){
+			$(this).parents('.group_img_box').find(".group_code_box").show()
+		},function(){
+			$(this).parents('.group_img_box').find(".group_code_box").hide()
+		})  
+</script>
+</div>
+<script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/marked.min.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/highlight.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/detail_mp.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/detail.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/details_new.js.下载"></script><script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/copy.js.下载"></script>    
+<div style="display:none">
+    <iframe frameborder="0" scrolling="no" width="0" height="0" src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/pageview.html"></iframe>
+</div>
+
+<script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/pvlog.js.下载"></script>
+<script>
+  $(".gotop").click(function(){$(window).scrollTop(0)})
+</script>
+
+
+    <script type="text/javascript">
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2283d46608159c3b39fc9f1178809c21";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    //自动推送链接
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+    <script type="text/javascript">
+      var _vds = _vds || [];
+      window._vds = _vds;
+      (function(){
+        _vds.push(['setAccountId', '8c51975c40edfb67']);
+        (function() {
+          var vds = document.createElement('script');
+          vds.type='text/javascript';
+          vds.async = true;
+          vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(vds, s);
+        })();
+      })();
+      //document.write(decodeURI("%3Cscript src='https://tongji.51cto.com/frontend/tj.gif' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    
+<script>
+  var uid = '';
+  var BLOG_URL = 'https://blog.51cto.com/';
+</script>
+<script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/jquery.cookie.js.下载"></script>
+<script src="./Mavenplugin中的lifecycle、phase、goal、mojo概念及作用的理解-绿光-51CTO博客_files/time-on-page.js.下载" charset="utf-8"></script><div id="zhichiBtnBox" style="position: fixed; z-index: 2147483583; box-shadow: rgba(15, 66, 76, 0.25) 0px 0px 14px 0px; width: 60px; height: 60px; border-radius: 50%; background-color: rgb(66, 133, 244); background-image: url(&quot;//www.sobot.com/chat/frame/imgs/icon.png&quot;); background-repeat: no-repeat; background-position: 18px -58px; right: 40px; bottom: 90px; display: none;"><a hidefocus="" id="zhichiBtn" style="position:relative;text-decoration: none; outline: none; font-family: Microsoft Yahei, Arial, Helvetica; color: #fff; font-size: 16px; display: inline-block; margin: 0; padding: 0; border: none; line-height:43px; float:none;width:100%;height:100%;border-radius:50%;"><span class="zc-advice-icon-btn-title" style="box-shadow: rgba(107, 113, 114, 0.15) 0px 2px 4px 0px; border: 1px solid rgb(235, 239, 240); font-family: &quot;Microsoft Yahei&quot;, Arial, Helvetica; color: rgb(85, 85, 86); font-size: 13px; margin: 0px; text-align: right; background: rgb(255, 255, 255); position: absolute; top: 15px; right: 70px; text-overflow: ellipsis; white-space: nowrap; word-break: normal; display: none; border-radius: 3px; padding: 0px 5px; height: 30px; line-height: 30px;">咨询在线客服</span></a><i style="position:absolute;top:0px;right:0px;padding:1px;line-height:20px;text-align:center;color:#fff;font-weight:bold;height:18px;min-width:18px;background-color:#ed5c5c;border-radius:18px;font-size:12px;display:none;font-style:normal;" id="zhichiCount"></i></div>
+<script>
+    (function(){
+        var wh=$(window).height(),fh=$('.Footer').outerHeight(true),hh=$('.Header').outerHeight(true)
+        $('.Content-box').css({'min-height': wh-fh-hh})
+    })()
+</script>
+
+
+</body></html>

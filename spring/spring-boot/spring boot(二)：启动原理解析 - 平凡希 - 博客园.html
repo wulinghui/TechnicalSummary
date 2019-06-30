@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.cnblogs.com/xiaoxi/p/7999885.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>spring boot(二)：启动原理解析 - 平凡希 - 博客园</title>
+    <meta property="og:description" content="我们开发任何一个Spring Boot项目，都会用到如下的启动类 从上面代码可以看出，Annotation定义（@SpringBootApplication）和类定义（SpringApplicatio">
+    <link type="text/css" rel="stylesheet" href="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/bundle-darkgreentrip.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/bundle-darkgreentrip-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/xiaoxi/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/xiaoxi/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/xiaoxi/wlwmanifest.xml">
+    <script src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/pubads_impl_rendering_2019061701.js.下载"></script><script async="" src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/analytics.js.下载"></script><script type="text/javascript" src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/encoder.js.下载"></script><script src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=81425;var currentBlogApp='xiaoxi',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/f.txt"></script><script src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/pubads_impl_2019061701.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/xiaoxi/"><img id="blogLogo" src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/xiaoxi/">平凡希</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/xiaoxi/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%B9%B3%E5%87%A1%E5%B8%8C">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/xiaoxi/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/xiaoxi/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 127&nbsp; </span>
+<span id="stats_article_count">文章 - 1&nbsp; </span>
+<span id="stats-comment_count">评论 - 230</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/xiaoxi/p/7999885.html">spring boot(二)：启动原理解析</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>我们开发任何一个Spring Boot项目，都会用到如下的启动类</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">@SpringBootApplication
+</span><span style="color: #008080;">2</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> Application {
+</span><span style="color: #008080;">3</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> main(String[] args) {
+</span><span style="color: #008080;">4</span>         SpringApplication.run(Application.<span style="color: #0000ff;">class</span><span style="color: #000000;">, args);
+</span><span style="color: #008080;">5</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">6</span> }</pre>
+</div>
+<p>从上面代码可以看出，Annotation定义（@SpringBootApplication）和类定义（SpringApplication.run）最为耀眼，所以要揭开SpringBoot的神秘面纱，我们要从这两位开始就可以了。</p>
+<p><strong>一、SpringBootApplication背后的秘密</strong></p>
+<p>@SpringBootApplication注解是Spring Boot的核心注解，它其实是一个组合注解：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">@Target(ElementType.TYPE)
+</span><span style="color: #008080;"> 2</span> <span style="color: #000000;">@Retention(RetentionPolicy.RUNTIME)
+</span><span style="color: #008080;"> 3</span> <span style="color: #000000;">@Documented
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">@Inherited
+</span><span style="color: #008080;"> 5</span> <span style="color: #000000;">@SpringBootConfiguration
+</span><span style="color: #008080;"> 6</span> <span style="color: #000000;">@EnableAutoConfiguration
+</span><span style="color: #008080;"> 7</span> @ComponentScan(excludeFilters =<span style="color: #000000;"> {
+</span><span style="color: #008080;"> 8</span>         @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.<span style="color: #0000ff;">class</span><span style="color: #000000;">),
+</span><span style="color: #008080;"> 9</span>         @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.<span style="color: #0000ff;">class</span><span style="color: #000000;">) })
+</span><span style="color: #008080;">10</span> <span style="color: #0000ff;">public</span> @<span style="color: #0000ff;">interface</span><span style="color: #000000;"> SpringBootApplication {
+</span><span style="color: #008080;">11</span> <span style="color: #000000;">...
+</span><span style="color: #008080;">12</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>虽然定义使用了多个Annotation进行了原信息标注，但实际上重要的只有三个Annotation：</p>
+<ul>
+<li><span style="background-color: #ffff00;">@Configuration（@SpringBootConfiguration点开查看发现里面还是应用了@Configuration）</span></li>
+<li><span style="background-color: #ffff00;">@EnableAutoConfiguration</span></li>
+<li><span style="background-color: #ffff00;">@ComponentScan</span></li>
+</ul>
+<p><span style="background-color: #ffff00;">即 @SpringBootApplication = (默认属性)@Configuration + @EnableAutoConfiguration + @ComponentScan。</span></p>
+<p>所以，如果我们使用如下的SpringBoot启动类，整个SpringBoot应用依然可以与之前的启动类功能对等：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">@Configuration
+</span><span style="color: #008080;">2</span> <span style="color: #000000;">@EnableAutoConfiguration
+</span><span style="color: #008080;">3</span> <span style="color: #000000;">@ComponentScan
+</span><span style="color: #008080;">4</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> Application {
+</span><span style="color: #008080;">5</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> main(String[] args) {
+</span><span style="color: #008080;">6</span>         SpringApplication.run(Application.<span style="color: #0000ff;">class</span><span style="color: #000000;">, args);
+</span><span style="color: #008080;">7</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">8</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>每次写这3个比较累，所以写一个@SpringBootApplication方便点。接下来分别介绍这3个Annotation。</p>
+<p><strong>1、@Configuration</strong></p>
+<p>&nbsp; &nbsp; &nbsp;这里的@Configuration对我们来说不陌生，它就是JavaConfig形式的Spring Ioc容器的配置类使用的那个@Configuration，SpringBoot社区推荐使用基于JavaConfig的配置形式，所以，这里的启动类标注了@Configuration之后，本身其实也是一个IoC容器的配置类。</p>
+<p>举几个简单例子回顾下，XML跟config配置方式的区别：</p>
+<p><strong>（1）表达形式层面</strong></p>
+<p>基于XML配置的方式是这样：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml version="1.0" encoding="UTF-8"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #008080;">2</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">beans </span><span style="color: #ff0000;">xmlns</span><span style="color: #0000ff;">="http://www.springframework.org/schema/beans"</span>
+<span style="color: #008080;">3</span> <span style="color: #ff0000;">       xmlns:xsi</span><span style="color: #0000ff;">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: #008080;">4</span> <span style="color: #ff0000;">       xsi:schemaLocation</span><span style="color: #0000ff;">="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"</span>
+<span style="color: #008080;">5</span> <span style="color: #ff0000;">       default-lazy-init</span><span style="color: #0000ff;">="true"</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">6</span>     <span style="color: #008000;">&lt;!--</span><span style="color: #008000;">bean定义</span><span style="color: #008000;">--&gt;</span>
+<span style="color: #008080;">7</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">beans</span><span style="color: #0000ff;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>而基于JavaConfig的配置方式是这样：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">@Configuration
+</span><span style="color: #008080;">2</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> MockConfiguration{
+</span><span style="color: #008080;">3</span>     <span style="color: #008000;">//</span><span style="color: #008000;">bean定义</span>
+<span style="color: #008080;">4</span> }</pre>
+</div>
+<p>任何一个标注了@Configuration的Java类定义都是一个JavaConfig配置类。</p>
+<p><strong>（2）注册bean定义层面</strong></p>
+<p>基于XML的配置形式是这样：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean </span><span style="color: #ff0000;">id</span><span style="color: #0000ff;">="mockService"</span><span style="color: #ff0000;"> class</span><span style="color: #0000ff;">="..MockServiceImpl"</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">2</span> <span style="color: #000000;">    ...
+</span><span style="color: #008080;">3</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">bean</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>而基于JavaConfig的配置形式是这样的：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">@Configuration
+</span><span style="color: #008080;">2</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> MockConfiguration{
+</span><span style="color: #008080;">3</span> <span style="color: #000000;">    @Bean
+</span><span style="color: #008080;">4</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;"> MockService mockService(){
+</span><span style="color: #008080;">5</span>         <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">new</span><span style="color: #000000;"> MockServiceImpl();
+</span><span style="color: #008080;">6</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">7</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>任何一个标注了@Bean的方法，其返回值将作为一个bean定义注册到Spring的IoC容器，方法名将默认成该bean定义的id。</p>
+<p><strong>（3）表达依赖注入关系层面</strong></p>
+<p>为了表达bean与bean之间的依赖关系，在XML形式中一般是这样：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean </span><span style="color: #ff0000;">id</span><span style="color: #0000ff;">="mockService"</span><span style="color: #ff0000;"> class</span><span style="color: #0000ff;">="..MockServiceImpl"</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">2</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">propery </span><span style="color: #ff0000;">name </span><span style="color: #0000ff;">="dependencyService"</span><span style="color: #ff0000;"> ref</span><span style="color: #0000ff;">="dependencyService"</span> <span style="color: #0000ff;">/&gt;</span>
+<span style="color: #008080;">3</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">bean</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">4</span> 
+<span style="color: #008080;">5</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean </span><span style="color: #ff0000;">id</span><span style="color: #0000ff;">="dependencyService"</span><span style="color: #ff0000;"> class</span><span style="color: #0000ff;">="DependencyServiceImpl"</span><span style="color: #0000ff;">&gt;&lt;/</span><span style="color: #800000;">bean</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>而基于JavaConfig的配置形式是这样的：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">@Configuration
+</span><span style="color: #008080;"> 2</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> MockConfiguration{
+</span><span style="color: #008080;"> 3</span> <span style="color: #000000;">    @Bean
+</span><span style="color: #008080;"> 4</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;"> MockService mockService(){
+</span><span style="color: #008080;"> 5</span>         <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">new</span><span style="color: #000000;"> MockServiceImpl(dependencyService());
+</span><span style="color: #008080;"> 6</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;"> 7</span>     
+<span style="color: #008080;"> 8</span> <span style="color: #000000;">    @Bean
+</span><span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;"> DependencyService dependencyService(){
+</span><span style="color: #008080;">10</span>         <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">new</span><span style="color: #000000;"> DependencyServiceImpl();
+</span><span style="color: #008080;">11</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">12</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>如果一个bean的定义依赖其他bean，则直接调用对应的JavaConfig类中依赖bean的创建方法就可以了。</p>
+<hr>
+<p>@Configuration：提到@Configuration就要提到他的搭档@Bean。使用这两个注解就可以创建一个简单的spring配置类，可以用来替代相应的xml配置文件。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">beans</span><span style="color: #0000ff;">&gt;</span> 
+<span style="color: #008080;">2</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean </span><span style="color: #ff0000;">id </span><span style="color: #0000ff;">= "car"</span><span style="color: #ff0000;"> class</span><span style="color: #0000ff;">="com.test.Car"</span><span style="color: #0000ff;">&gt;</span> 
+<span style="color: #008080;">3</span>         <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="wheel"</span><span style="color: #ff0000;"> ref </span><span style="color: #0000ff;">= "wheel"</span><span style="color: #0000ff;">&gt;&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span> 
+<span style="color: #008080;">4</span>     <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">bean</span><span style="color: #0000ff;">&gt;</span> 
+<span style="color: #008080;">5</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean </span><span style="color: #ff0000;">id </span><span style="color: #0000ff;">= "wheel"</span><span style="color: #ff0000;"> class</span><span style="color: #0000ff;">="com.test.Wheel"</span><span style="color: #0000ff;">&gt;&lt;/</span><span style="color: #800000;">bean</span><span style="color: #0000ff;">&gt;</span> 
+<span style="color: #008080;">6</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">beans</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>相当于：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">@Configuration 
+</span><span style="color: #008080;"> 2</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> Conf { 
+</span><span style="color: #008080;"> 3</span> <span style="color: #000000;">    @Bean 
+</span><span style="color: #008080;"> 4</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;"> Car car() { 
+</span><span style="color: #008080;"> 5</span>         Car car = <span style="color: #0000ff;">new</span><span style="color: #000000;"> Car(); 
+</span><span style="color: #008080;"> 6</span> <span style="color: #000000;">        car.setWheel(wheel()); 
+</span><span style="color: #008080;"> 7</span>         <span style="color: #0000ff;">return</span><span style="color: #000000;"> car; 
+</span><span style="color: #008080;"> 8</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;"> 9</span>     
+<span style="color: #008080;">10</span> <span style="color: #000000;">    @Bean 
+</span><span style="color: #008080;">11</span>     <span style="color: #0000ff;">public</span><span style="color: #000000;"> Wheel wheel() { 
+</span><span style="color: #008080;">12</span>         <span style="color: #0000ff;">return</span> <span style="color: #0000ff;">new</span><span style="color: #000000;"> Wheel(); 
+</span><span style="color: #008080;">13</span> <span style="color: #000000;">    } 
+</span><span style="color: #008080;">14</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>@Configuration的注解类标识这个类可以使用Spring IoC容器作为bean定义的来源。</p>
+<p>@Bean注解告诉Spring，一个带有@Bean的注解方法将返回一个对象，该对象应该被注册为在Spring应用程序上下文中的bean。</p>
+<p><strong>2、@ComponentScan</strong></p>
+<p>&nbsp; &nbsp; &nbsp;@ComponentScan这个注解在Spring中很重要，它对应XML配置中的元素，<span style="background-color: #ffff00;">@ComponentScan的功能其实就是自动扫描并加载符合条件的组件（比如@Component和@Repository等）或者bean定义，最终将这些bean定义加载到IoC容器中。</span></p>
+<p>&nbsp; &nbsp; &nbsp;我们可以通过basePackages等属性来细粒度的定制@ComponentScan自动扫描的范围，如果不指定，则默认Spring框架实现会从声明@ComponentScan所在类的package进行扫描。</p>
+<p>注：所以SpringBoot的启动类最好是放在root package下，因为默认不指定basePackages。</p>
+<p><strong>3、@EnableAutoConfiguration</strong></p>
+<p>&nbsp; &nbsp; 个人感觉@EnableAutoConfiguration这个Annotation最为重要，所以放在最后来解读，大家是否还记得Spring框架提供的各种名字为@Enable开头的Annotation定义？比如@EnableScheduling、@EnableCaching、@EnableMBeanExport等，@EnableAutoConfiguration的理念和做事方式其实一脉相承，简单概括一下就是，<strong>借助@Import的支持，收集和注册特定场景相关的bean定义。</strong></p>
+<ul>
+<li>@EnableScheduling是通过@Import将Spring调度框架相关的bean定义都加载到IoC容器。</li>
+<li>@EnableMBeanExport是通过@Import将JMX相关的bean定义加载到IoC容器。</li>
+</ul>
+<p>而<span style="background-color: #ffff00;">@EnableAutoConfiguration也是借助@Import的帮助，将所有符合自动配置条件的bean定义加载到IoC容器，仅此而已！</span></p>
+<p><span style="background-color: #ffffff;">&nbsp; &nbsp; <span style="background-color: #ffff00;">@EnableAutoConfiguration会根据类路径中的jar依赖为项目进行自动配置，如：添加了spring-boot-starter-web依赖，会自动添加Tomcat和Spring MVC的依赖，Spring Boot会对Tomcat和Spring MVC进行自动配置。</span></span></p>
+<p><span style="background-color: #ffffff;"><span style="background-color: #ffff00;"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171207162607144-677920507.png" alt=""></span></span></p>
+<p>&nbsp;@EnableAutoConfiguration作为一个复合Annotation，其自身定义关键信息如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> @SuppressWarnings("deprecation"<span style="color: #000000;">)
+</span><span style="color: #008080;"> 2</span> <span style="color: #000000;">@Target(ElementType.TYPE)
+</span><span style="color: #008080;"> 3</span> <span style="color: #000000;">@Retention(RetentionPolicy.RUNTIME)
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">@Documented
+</span><span style="color: #008080;"> 5</span> <span style="color: #000000;">@Inherited
+</span><span style="color: #008080;"> 6</span> <span style="color: #000000;">@AutoConfigurationPackage
+</span><span style="color: #008080;"> 7</span> @Import(EnableAutoConfigurationImportSelector.<span style="color: #0000ff;">class</span><span style="color: #000000;">)
+</span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">public</span> @<span style="color: #0000ff;">interface</span><span style="color: #000000;"> EnableAutoConfiguration {
+</span><span style="color: #008080;"> 9</span> <span style="color: #000000;">    ...
+</span><span style="color: #008080;">10</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp; &nbsp; 其中，最关键的要属<span style="background-color: #ffff00;">@Import(EnableAutoConfigurationImportSelector.class)</span>，借助EnableAutoConfigurationImportSelector，@EnableAutoConfiguration可以帮助SpringBoot应用将所有符合条件的@Configuration配置都加载到当前SpringBoot创建并使用的IoC容器。就像一只“八爪鱼”一样，借助于Spring框架原有的一个工具类：<span style="background-color: #ffff00;">SpringFactoriesLoader</span>的支持，@EnableAutoConfiguration可以智能的自动配置功效才得以大功告成！</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171207163759488-1739516792.png" alt="" width="550" height="596"></p>
+<p><strong>自动配置幕后英雄：SpringFactoriesLoader详解</strong></p>
+<p>SpringFactoriesLoader属于Spring框架私有的一种扩展方案，其主要功能就是从指定的配置文件META-INF/spring.factories加载配置。</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">abstract</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> SpringFactoriesLoader {
+</span><span style="color: #008080;"> 2</span>     <span style="color: #008000;">//</span><span style="color: #008000;">...</span>
+<span style="color: #008080;"> 3</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> &lt;T&gt; List&lt;T&gt; loadFactories(Class&lt;T&gt;<span style="color: #000000;"> factoryClass, ClassLoader classLoader) {
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">        ...
+</span><span style="color: #008080;"> 5</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;"> 6</span> 
+<span style="color: #008080;"> 7</span> 
+<span style="color: #008080;"> 8</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> List&lt;String&gt; loadFactoryNames(Class&lt;?&gt;<span style="color: #000000;"> factoryClass, ClassLoader classLoader) {
+</span><span style="color: #008080;"> 9</span> <span style="color: #000000;">        ....
+</span><span style="color: #008080;">10</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">11</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>配合@EnableAutoConfiguration使用的话，它更多是提供一种配置查找的功能支持，即根据@EnableAutoConfiguration的完整类名org.springframework.boot.autoconfigure.EnableAutoConfiguration作为查找的Key，获取对应的一组@Configuration类。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171208161556484-1145877030.jpg" alt="" width="975" height="233"></p>
+<p>上图就是从SpringBoot的autoconfigure依赖包中的META-INF/spring.factories配置文件中摘录的一段内容，可以很好地说明问题。</p>
+<p>所以，@EnableAutoConfiguration自动配置的魔法骑士就变成了：<strong>从classpath中搜寻所有的META-INF/spring.factories配置文件，并将其中org.springframework.boot.autoconfigure.EnableutoConfiguration对应的配置项通过反射（Java Refletion）实例化为对应的标注了@Configuration的JavaConfig形式的IoC容器配置类，然后汇总为一个并加载到IoC容器。</strong></p>
+<p><strong>二、深入探索SpringApplication执行流程</strong></p>
+<p>SpringApplication的run方法的实现是我们本次旅程的主要线路，该方法的主要流程大体可以归纳如下：</p>
+<p>1） 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情：</p>
+<ul>
+<li>根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。</li>
+<li>推断并设置main方法的定义类。</li>
+</ul>
+<p>2） SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过SpringFactoriesLoader可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，“嘿，SpringBoot应用要开始执行咯！”。</p>
+<p>3） 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。</p>
+<p>4） 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：“当前SpringBoot应用使用的Environment准备好了咯！”。</p>
+<p>5） 如果SpringApplication的showBanner属性被设置为true，则打印banner。</p>
+<p>6） 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成，然后根据条件决定是否添加ShutdownHook，决定是否使用自定义的BeanNameGenerator，决定是否使用自定义的ResourceLoader，当然，最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。</p>
+<p>7） ApplicationContext创建好之后，SpringApplication会再次借助Spring-FactoriesLoader，查找并加载classpath中所有可用的ApplicationContext-Initializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。</p>
+<p>8） 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。</p>
+<p>9） <span style="background-color: #ffff00;">最核心的一步，将之前通过@EnableAutoConfiguration获取的所有配置以及其他形式的IoC容器配置加载到已经准备完毕的ApplicationContext。</span></p>
+<p>10） 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。</p>
+<p>11） 调用ApplicationContext的refresh()方法，完成IoC容器可用的最后一道工序。</p>
+<p>12） 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。</p>
+<p>13） 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理）</p>
+<p>去除事件通知点后，整个流程如下：</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171212151321051-993064506.jpg" alt="" width="502" height="653"></p>
+<hr>
+<p>本文以调试一个实际的SpringBoot启动程序为例，参考流程中主要类类图，来分析其启动逻辑和自动化配置原理。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213142128051-351399772.png" alt="" width="1076" height="458"></p>
+<p><strong>总览：</strong> &nbsp; &nbsp;</p>
+<p>&nbsp; &nbsp; 上图为SpringBoot启动结构图，我们发现启动流程主要分为三个部分，<span style="background-color: #ffff00;">第一部分进行SpringApplication的初始化模块，配置一些基本的环境变量、资源、构造器、监听器，第二部分实现了应用具体的启动方案，包括启动流程的监听模块、加载配置环境模块、及核心的创建上下文环境模块，第三部分是自动化配置模块，该模块作为springboot自动配置核心，在后面的分析中会详细讨论。</span>在下面的启动程序中我们会串联起结构中的主要功能。</p>
+<p><strong>启动：</strong></p>
+<p>&nbsp; &nbsp; &nbsp;每个SpringBoot程序都有一个主入口，也就是main方法，main里面调用SpringApplication.run()启动整个spring-boot程序，该方法所在类需要使用@SpringBootApplication注解，以及@ImportResource注解(if need)，@SpringBootApplication包括三个注解，功能如下：</p>
+<p>@EnableAutoConfiguration：SpringBoot根据应用所声明的依赖来对Spring框架进行自动配置。</p>
+<p>@SpringBootConfiguration(内部为@Configuration)：被标注的类等于在spring的XML配置文件中(applicationContext.xml)，装配所有bean事务，提供了一个spring的上下文环境。</p>
+<p>@ComponentScan：组件扫描，可自动发现和装配Bean，默认扫描SpringApplication的run方法里的Booter.class所在的包路径下文件，所以最好将该启动类放到根包路径下。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213143558363-1466265945.png" alt=""></p>
+<div class="image-package">
+<div class="image-caption"><strong>SpringBoot启动类</strong></div>
+</div>
+<p>首先进入run方法</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213144051754-1827098906.png" alt=""></p>
+<p>run方法中去创建了一个SpringApplication实例，在该构造方法内，我们可以发现其调用了一个初始化的initialize方法</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213144232926-834887500.png" alt=""></p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213144259160-129693850.png" alt=""></p>
+<p>这里主要是为SpringApplication对象赋一些初值。构造函数执行完毕后，我们回到run方法</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213144447066-1033381024.png" alt=""></p>
+<p>该方法中实现了如下几个关键步骤：</p>
+<p>1.创建了应用的监听器SpringApplicationRunListeners并开始监听</p>
+<p>2.加载SpringBoot配置环境(ConfigurableEnvironment)，如果是通过web容器发布，会加载StandardEnvironment，其最终也是继承了ConfigurableEnvironment，类图如下</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213144808707-1335729370.png" alt=""></p>
+<p>可以看出，*Environment最终都实现了PropertyResolver接口，我们平时通过environment对象获取配置文件中指定Key对应的value方法时，就是调用了propertyResolver接口的getProperty方法</p>
+<p>3.配置环境(Environment)加入到监听器对象中(SpringApplicationRunListeners)</p>
+<p>4.创建run方法的返回对象：ConfigurableApplicationContext(应用配置上下文)，我们可以看一下创建方法：</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213145353394-1416082242.png" alt=""></p>
+<p>方法会先获取显式设置的应用上下文(applicationContextClass)，如果不存在，再加载默认的环境配置（通过是否是web environment判断），默认选择AnnotationConfigApplicationContext注解上下文（通过扫描所有注解类来加载bean），最后通过BeanUtils实例化上下文对象，并返回。</p>
+<p>ConfigurableApplicationContext类图如下：</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213154313488-1411301156.png" alt="" width="1084" height="236"></p>
+<p>主要看其继承的两个方向：</p>
+<p>LifeCycle：生命周期类，定义了start启动、stop结束、isRunning是否运行中等生命周期空值方法</p>
+<p>ApplicationContext：应用上下文类，其主要继承了beanFactory(bean的工厂类)</p>
+<p>5.回到run方法内，prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联</p>
+<p>6.接下来的refreshContext(context)方法(初始化方法如下)将是实现spring-boot-starter-*(mybatis、redis等)自动化配置的关键，包括spring.factories的加载，bean的实例化等核心工作。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171213154943754-336827902.png" alt=""></p>
+<p>&nbsp; &nbsp; &nbsp;配置结束后，Springboot做了一些基本的收尾工作，返回了应用环境上下文。回顾整体流程，<span style="background-color: #ffff00;">Springboot的启动，主要创建了配置环境(environment)、事件监听(listeners)、应用上下文(applicationContext)，并基于以上条件，在容器中开始实例化我们需要的Bean</span>，至此，通过SpringBoot启动的程序已经构造完成，接下来我们来探讨自动化配置是如何实现。</p>
+<hr>
+<p><strong>自动化配置：</strong></p>
+<p>之前的启动结构图中，我们注意到无论是应用初始化还是具体的执行过程，都调用了SpringBoot自动配置模块。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219161544990-1859845219.png" alt=""></p>
+<div class="image-package">
+<div class="image-caption">SpringBoot自动配置模块</div>
+</div>
+<p>&nbsp; &nbsp; 该配置模块的主要使用到了SpringFactoriesLoader，即Spring工厂加载器，该对象提供了loadFactoryNames方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即spring.factories文件，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为如下图这种一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219162725615-751500087.png" alt="" width="794" height="352"></p>
+<div class="image-package">
+<div class="image-caption">工厂接口与其若干实现类接口名称</div>
+</div>
+<p>下图有助于我们形象理解自动配置流程。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219162844787-1104034109.png" alt="" width="850" height="765"></p>
+<div class="image-package">
+<div class="image-caption">SpringBoot自动化配置关键组件关系图&nbsp;</div>
+</div>
+<p>&nbsp; &nbsp; mybatis-spring-boot-starter、spring-boot-starter-web等组件的META-INF文件下均含有spring.factories文件，自动配置模块中，<span style="background-color: #ffff00;">SpringFactoriesLoader收集到文件中的类全名并返回一个类全名的数组，返回的类全名通过反射被实例化，就形成了具体的工厂实例，工厂实例来生成组件具体需要的bean。</span></p>
+<p>之前我们提到了EnableAutoConfiguration注解，其类图如下：</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219163356100-1697141132.png" alt="" width="862" height="244"></p>
+<p>可以发现其最终实现了ImportSelector(选择器)和BeanClassLoaderAware(bean类加载器中间件)，重点关注一下AutoConfigurationImportSelector的selectImports方法。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219163452318-1362759499.png" alt="" width="694" height="371"></p>
+<p>&nbsp; &nbsp; 该方法在springboot启动流程——bean实例化前被执行，返回要实例化的类信息列表。我们知道，如果获取到类信息，spring自然可以通过类加载器将类加载到jvm中，现在我们已经通过spring-boot的starter依赖方式依赖了我们需要的组件，那么这些组建的类信息在select方法中也是可以被获取到的，不要急我们继续向下分析。</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219164025334-1624354890.png" alt="" width="762" height="307"></p>
+<p>该方法中的getCandidateConfigurations方法，通过方法注释了解到，其返回一个自动配置类的类名列表，方法调用了loadFactoryNames方法，查看该方法</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219164224912-643901744.png" alt="" width="935" height="427"></p>
+<p>&nbsp; &nbsp; 在上面的代码可以看到自动配置器会根据传入的factoryClass.getName()到项目系统路径下所有的spring.factories文件中找到相应的key，从而加载里面的类。我们就选取这个mybatis-spring-boot-autoconfigure下的spring.factories文件</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219164557240-1466961312.png" alt="" width="993" height="346"></p>
+<p>进入org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration中，主要看一下类头：</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171219164818162-646159475.png" alt="" width="849" height="555"></p>
+<p>发现Spring的@Configuration，俨然是一个通过注解标注的springBean，继续向下看，</p>
+<p>@ConditionalOnClass({ SqlSessionFactory.class, SqlSessionFactoryBean.class})这个注解的意思是：当存在SqlSessionFactory.class, SqlSessionFactoryBean.class这两个类时才解析MybatisAutoConfiguration配置类，否则不解析这一个配置类，make sence，我们需要mybatis为我们返回会话对象，就必须有会话工厂相关类。</p>
+<p>@CondtionalOnBean(DataSource.class)：只有处理已经被声明为bean的dataSource。</p>
+<p>@ConditionalOnMissingBean(MapperFactoryBean.class)这个注解的意思是如果容器中不存在name指定的bean则创建bean注入，否则不执行（该类源码较长，篇幅限制不全粘贴）</p>
+<p>&nbsp; &nbsp; &nbsp;以上配置可以保证sqlSessionFactory、sqlSessionTemplate、dataSource等mybatis所需的组件均可被自动配置，@Configuration注解已经提供了Spring的上下文环境，所以以上组件的配置方式与Spring启动时通过mybatis.xml文件进行配置起到一个效果。通过分析我们可以发现，<span style="background-color: #ffff00;">只要一个基于SpringBoot项目的类路径下存在SqlSessionFactory.class, SqlSessionFactoryBean.class，并且容器中已经注册了dataSourceBean，就可以触发自动化配置，意思说我们只要在maven的项目中加入了mybatis所需要的若干依赖，就可以触发自动配置</span>，但引入mybatis原生依赖的话，每集成一个功能都要去修改其自动化配置类，那就得不到开箱即用的效果了。所以Spring-boot为我们提供了统一的starter可以直接配置好相关的类，触发自动配置所需的依赖(mybatis)如下：</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171220160748068-2010633643.png" alt=""></p>
+<p>这里是截取的mybatis-spring-boot-starter的源码中pom.xml文件中所有依赖：</p>
+<p><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/249993-20171220160934240-319846263.png" alt="" width="553" height="400"></p>
+<p>&nbsp;因为maven依赖的传递性，我们只要依赖starter就可以依赖到所有需要自动配置的类，实现开箱即用的功能。也体现出Springboot简化了Spring框架带来的大量XML配置以及复杂的依赖管理，让开发人员可以更加关注业务逻辑的开发。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7999885,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;46b23c67-d10c-e011-ac81-842b2b196315&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/xiaoxi/" target="_blank"><img src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/xiaoxi/">平凡希</a><br>
+            <a href="https://home.cnblogs.com/u/xiaoxi/followees">关注 - 1</a><br>
+            <a href="https://home.cnblogs.com/u/xiaoxi/followers">粉丝 - 1207</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;46b23c67-d10c-e011-ac81-842b2b196315&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7999885,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">8</span>
+    </div>
+    <div class="buryit" onclick="votePost(7999885,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/xiaoxi/p/8035725.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/xiaoxi/p/8035725.html" title="发布于2017-12-18 16:11">java多线程编程之连续打印abc的几种解法</a><br><a href="https://www.cnblogs.com/xiaoxi/p/8269289.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/xiaoxi/p/8269289.html" title="发布于2018-01-15 15:03">联合索引使用规则</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-12-20 16:11</span> <a href="https://www.cnblogs.com/xiaoxi/">平凡希</a> 阅读(<span id="post_view_count">8329</span>) 评论(<span id="post_comment_count">3</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7999885" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/xiaoxi/p/7999885.html#" onclick="AddToWz(7999885);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=81425,cb_entryId=7999885,cb_blogApp=currentBlogApp,cb_blogUserGuid='46b23c67-d10c-e011-ac81-842b2b196315',cb_entryCreatedDate='2017/12/20 16:11:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/xiaoxi/p/7999885.html#4103659" class="layer">#1楼</a><a name="4103659" id="comment_anchor_4103659"></a>  <span class="comment_date">2018-11-01 14:54</span> <a id="a_comment_author_4103659" href="https://www.cnblogs.com/malcolmfeng/" target="_blank">MalcolmFFF</a> <a href="http://msg.cnblogs.com/send/MalcolmFFF" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4103659" class="blog_comment_body">深度好文</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4103659,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4103659,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_4103659_avatar" style="display:none;">http://pic.cnblogs.com/face/1085793/20180102142607.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/xiaoxi/p/7999885.html#4115370" class="layer">#2楼</a><a name="4115370" id="comment_anchor_4115370"></a>  <span class="comment_date">2018-11-15 18:59</span> <a id="a_comment_author_4115370" href="http://home.cnblogs.com/u/1536241/" target="_blank">xiaolang0211</a> <a href="http://msg.cnblogs.com/send/xiaolang0211" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4115370" class="blog_comment_body">视频教程: <a href="http://www.chilangedu.com/" target="_blank">http://www.chilangedu.com</a></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4115370,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4115370,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/xiaoxi/p/7999885.html#4268461" class="layer">#3楼</a><a name="4268461" id="comment_anchor_4268461"></a><span id="comment-maxId" style="display:none;">4268461</span><span id="comment-maxDate" style="display:none;">2019/5/30 3:39:58</span>  <span class="comment_date">2019-05-30 03:39</span> <a id="a_comment_author_4268461" href="https://www.cnblogs.com/zhengwangzw/" target="_blank">专注的机哥</a> <a href="http://msg.cnblogs.com/send/%E4%B8%93%E6%B3%A8%E7%9A%84%E6%9C%BA%E5%93%A5" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4268461" class="blog_comment_body">这个文章算是讲的很清楚的了，本来还想研究研究自己写个，看了你的不打算自己写了，哈哈</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4268461,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4268461,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/xiaoxi/p/7999885.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/xiaoxi/p/7999885.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://gitee.com/enterprises?from=bky-1" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-gitee&#39;)">【推荐】码云企业版，高效的企业级软件协作开发管理平台</a><br><a href="https://q.cnblogs.com/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博问&#39;)">【推荐】程序员问答平台，解决您开发中遇到的技术难题</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CNqjw8myhOMCFUtTvQoduVIKBA"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/ulei0343/p/7543239.html" target="_blank" onclick="clickRecomItmem(7543239)">Spring Boot干货系列：（三）启动原理解析</a><br>·  <a href="https://www.cnblogs.com/yi1036943655/p/10035557.html" target="_blank" onclick="clickRecomItmem(10035557)">SpringBoot运作原理</a><br>·  <a href="https://www.cnblogs.com/bigdataZJ/p/springboot-start.html" target="_blank" onclick="clickRecomItmem(9538535)">SpringBoot系列——SpringBoot如何启动</a><br>·  <a href="https://www.cnblogs.com/mjzhang/p/7118065.html" target="_blank" onclick="clickRecomItmem(7118065)">Spring Boot干货系列：（三）启动原理解析</a><br>·  <a href="https://www.cnblogs.com/wpcnblog/p/8961011.html" target="_blank" onclick="clickRecomItmem(8961011)">springboot之启动原理解析</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CNujw8myhOMCFUtTvQoduVIKBA"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true" src="./spring boot(二)：启动原理解析 - 平凡希 - 博客园_files/saved_resource(1).html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/627363/" target="_blank">月球已近，火星尚远 中国航天工程师迎接挑战</a><br> ·  <a href="https://news.cnblogs.com/n/627362/" target="_blank">vivo 120W超快闪充亮相：4000mAh仅需13分钟充满</a><br> ·  <a href="https://news.cnblogs.com/n/627361/" target="_blank">三星正式宣布国内5G计划：除了讲解技术还有0元置换</a><br> ·  <a href="https://news.cnblogs.com/n/627360/" target="_blank">帮你点单和炸薯条的麦当劳员工，未来可能都不是人</a><br> ·  <a href="https://news.cnblogs.com/n/627359/" target="_blank">人工智能可依声预测手势</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/xiaoxi/">平凡希</a><br>园龄：<a href="https://home.cnblogs.com/u/xiaoxi/" title="入园时间：2010-12-21">8年6个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/xiaoxi/followers/">1207</a><br>关注：<a href="https://home.cnblogs.com/u/xiaoxi/followees/">1</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;46b23c67-d10c-e011-ac81-842b2b196315&#39;)">+加关注</a></div><script>getFollowStatus('46b23c67-d10c-e011-ac81-842b2b196315')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/05/01&#39;);return false;">&lt;</a></td><td align="center">2019年6月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/07/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td class="CalWeekendDay" align="center">1</td></tr><tr><td class="CalWeekendDay" align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalWeekendDay" align="center">8</td></tr><tr><td class="CalWeekendDay" align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td class="CalWeekendDay" align="center">15</td></tr><tr><td class="CalWeekendDay" align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td class="CalWeekendDay" align="center">22</td></tr><tr><td class="CalWeekendDay" align="center">23</td><td align="center">24</td><td class="CalTodayDay" align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalWeekendDay" align="center">29</td></tr><tr><td class="CalWeekendDay" align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/xiaoxi/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/xiaoxi/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/xiaoxi/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/xiaoxi/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/xiaoxi/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/xiaoxi/category/961350.html">Java IO(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/xiaoxi/category/961993.html">Java NIO(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/xiaoxi/category/1018506.html">java8(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/xiaoxi/category/961349.html">Java多线程(20)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/xiaoxi/category/947662.html">java基础(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/xiaoxi/category/929860.html">Java集合(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/xiaoxi/category/961347.html">Java虚拟机(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/xiaoxi/category/961352.html">Linux</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/xiaoxi/category/929946.html">Mybatis(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/xiaoxi/category/892035.html">mysql(15)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/xiaoxi/category/961351.html">redis(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/xiaoxi/category/891936.html">spring(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/xiaoxi/category/922485.html">SpringMVC(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/xiaoxi/category/1004551.html">设计模式(5)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/xiaoxi/archive/2018/06.html">2018年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/xiaoxi/archive/2018/04.html">2018年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/xiaoxi/archive/2018/01.html">2018年1月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/xiaoxi/archive/2017/12.html">2017年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/xiaoxi/archive/2017/11.html">2017年11月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/xiaoxi/archive/2017/10.html">2017年10月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/xiaoxi/archive/2017/09.html">2017年9月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/xiaoxi/archive/2017/08.html">2017年8月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/xiaoxi/archive/2017/07.html">2017年7月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/xiaoxi/archive/2017/06.html">2017年6月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/xiaoxi/archive/2017/05.html">2017年5月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/xiaoxi/archive/2017/04.html">2017年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/xiaoxi/archive/2017/03.html">2017年3月 (24)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/xiaoxi/archive/2017/02.html">2017年2月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/xiaoxi/archive/2017/01.html">2017年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/xiaoxi/archive/2016/12.html">2016年12月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/xiaoxi/archive/2016/11.html">2016年11月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="https://www.cnblogs.com/xiaoxi/archive/2016/10.html">2016年10月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="https://www.cnblogs.com/xiaoxi/archive/2016/09.html">2016年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="https://www.cnblogs.com/xiaoxi/archive/2016/08.html">2016年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="https://www.cnblogs.com/xiaoxi/archive/2016/07.html">2016年7月 (6)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xiaoxi/p/6164383.html#4286736">1. Re:SpringMVC工作原理</a></li>
+        <li class="recent_comment_body">Spring通过HandlerAdapter使处理器解耦，实处理器(Handler)不只是仅仅局限于控制器(Controller)这一种形式。目前Spring可以支持，Servlet、HttpRequ......</li>
+        <li class="recent_comment_author">--维多</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xiaoxi/p/7233201.html#4284824">2. Re:JDK1.8 HashMap源码分析</a></li>
+        <li class="recent_comment_body">写的真好..谢谢!</li>
+        <li class="recent_comment_author">--放纵的卡尔</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xiaoxi/p/6164383.html#4283531">3. Re:SpringMVC工作原理</a></li>
+        <li class="recent_comment_body">哇，这思路好熟悉，请问博主是崔希凡老师吗？？</li>
+        <li class="recent_comment_author">--ikun~</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xiaoxi/p/6734025.html#4279328">4. Re:mysql的查询、子查询及连接查询</a></li>
+        <li class="recent_comment_body">。。这给我晃得</li>
+        <li class="recent_comment_author">--MARK+</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/xiaoxi/p/6036701.html#4276741">5. Re:深入理解Java中的String</a></li>
+        <li class="recent_comment_body">参拜大佬，感谢大佬无私奉献</li>
+        <li class="recent_comment_author">--摆渡吃猫的鱼</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/xiaoxi/p/6164383.html">1. SpringMVC工作原理(387336)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/5935009.html">2. Spring系列之Spring常用注解总结(179482)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/5695783.html">3. springmvc请求参数获取的几种方法(143730)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/6170590.html">4. Java集合之LinkedHashMap(99473)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/6576588.html">5. Java NIO：IO与NIO的区别(88886)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/xiaoxi/p/6164383.html">1. SpringMVC工作原理(29)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/5935009.html">2. Spring系列之Spring常用注解总结(28)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/6036701.html">3. 深入理解Java中的String(23)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/6089984.html">4. java集合框架综述(13)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/6170590.html">5. Java集合之LinkedHashMap(9)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/xiaoxi/p/6164383.html">1. SpringMVC工作原理(99)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/5935009.html">2. Spring系列之Spring常用注解总结(94)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/6036701.html">3. 深入理解Java中的String(40)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/6089984.html">4. java集合框架综述(37)</a></li><li><a href="https://www.cnblogs.com/xiaoxi/p/6170590.html">5. Java集合之LinkedHashMap(21)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 平凡希
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

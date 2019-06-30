@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://my.oschina.net/qiangzigege/blog/819513 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="referrer" content="always">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title> SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA</title>
+            <meta name="keywords" content="Spring Boot,强子1985,qiangzigege, SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥,OSCHINA博客">
+                <meta name="description" content="上一节，我们读取了MANIFEST.MF文件，这一节，我们进入了new JarLauncher().launch(args)的.launch(args)部分。 先上总体代码   protected void launch(String[] args) throws Exception {
+    // 看到这里了
+    JarFile.registerUrlProtocolHandler();
+    ClassLoader classLoader = createClassLoader(getClassPathArchives...">
+        <link rel="stylesheet" type="text/css" href="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/semantic.min.css">
+                <link type="text/css" rel="stylesheet" href="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/space.54daa6ce.css">        <script src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/osd.js.下载"></script><script async="" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/gio.js.下载"></script><script src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/hm.js.下载"></script><script src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/push.js.下载"></script><script src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/ca-pub-7090564139599510.js.下载"></script><script type="text/javascript">window.__STATIC_DOMAIN = "https://static.oschina.net";</script>
+    <script src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jquery.min.js.下载"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.oschina.net/new-osc/img/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="最新开源项目" href="https://www.oschina.net/project/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新开源资讯" href="https://www.oschina.net/news/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新问题列表" href="https://www.oschina.net/question/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新翻译列表" href="https://www.oschina.net/translate/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新博客列表" href="https://www.oschina.net/blog/rss">
+    <link rel="alternate" type="application/rss+xml" title="推荐博客列表" href="https://www.oschina.net/blog/rss?show=more">
+    <link rel="alternate" type="application/rss+xml" title="推荐软件列表" href="https://www.oschina.net/project/rss?show=recomms">
+    <link rel="alternate" type="application/rss+xml" title="最新代码分享列表" href="https://www.oschina.net/code/rss">
+    <link rel="alternate" type="application/rss+xml" title="OSCHINA - 源码列表" href="https://www.oschina.net/code/source_rss">
+<link rel="preload" href="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/f(4).txt" as="script"><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/f(4).txt"></script><link rel="preload" href="https://pagead2.googlesyndication.com/pagead/js/r20190619/r20190131/show_ads_impl.js" as="script"><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/radarChart.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/vue.min.js.下载"></script><link rel="stylesheet" type="text/css" href="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/viewer.min.css"><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/viewer.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/vue.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jquery-viewer.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jquery.caret.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jquery.atwho.min.js.下载"></script></head>
+<body class="pushable"><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="oicon-world" viewBox="0 0 1024 1024"><path d="M921.6 204.8h-1.024A510.464 510.464 0 0 0 512 0C229.696 0 0 229.696 0 512s229.696 512 512 512c167.04 0 315.072-80.64 408.576-204.8h1.024v-1.28C985.6 732.416 1024 626.816 1024 512s-38.4-220.416-102.4-305.92V204.8zM358.4 891.456A409.984 409.984 0 0 1 102.4 512c0-17.408 1.408-34.432 3.52-51.2H153.6l51.2 102.4v102.4L307.2 768l51.2 51.2v72.256zM512 921.6a408.32 408.32 0 0 1-96.448-11.904L460.8 819.2l51.2-102.4V614.4H409.6l-51.2-51.2h-51.2L256 460.8l51.2-102.4 51.2-51.2 51.2-51.2 51.2-102.4v-47.68c16.768-2.112 33.792-3.52 51.2-3.52a407.04 407.04 0 0 1 256 90.368V256l-51.2 102.4 51.2 51.2v51.2l-102.4 51.2-51.2 52.032 51.2 50.368 51.2 51.2 51.2 102.4 33.472 33.472A408.32 408.32 0 0 1 512 921.6z"></path></symbol><symbol id="oicon-setting" viewBox="0 0 1162 1024"><path d="M1055.479204 128.810127H442.676311c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.31103 97.21519H53.815552c-10.415913 0-19.095841 8.679928-19.095841 20.831826s8.679928 20.831826 20.831826 20.831826h156.238698c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h611.066907c12.151899 0 20.831826-8.679928 20.831827-20.831826s-8.679928-20.831826-20.831827-20.831826zM328.101266 224.289331c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364zM1055.479204 840.564195H637.106691c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831827s8.679928 20.831826 20.831826 20.831826h348.933092c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519H1055.479204c12.151899 0 20.831826-8.679928 20.831827-20.831826 0-10.415913-8.679928-20.831826-20.831827-20.831827z m-534.683544 97.21519c-41.663653 0-76.383363-34.719711-76.383363-76.383363 0-41.663653 34.719711-76.383363 76.383363-76.383364 41.663653 0 76.383363 34.719711 76.383364 76.383364-1.735986 41.663653-34.719711 76.383363-76.383364 76.383363zM1055.479204 484.687161h-67.703435c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831826s8.679928 20.831826 20.831826 20.831827h699.60217c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h67.703435c12.151899 0 20.831826-8.679928 20.831827-20.831827s-8.679928-20.831826-20.831827-20.831826z m-184.014466 97.21519c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364z"></path></symbol><symbol id="oicon-gitee" viewBox="0 0 1024 1024"><path d="M966.524718 400.672821H456.520205c-24.497231 0-44.347077 19.954872-44.347077 44.557128v133.540102c0 24.602256 19.849846 44.530872 44.347077 44.530872h288.295385c33.266872 0 44.320821 11.132718 44.347077 44.530872 0.026256 89.035487-50.884923 133.566359-133.041231 133.566359h-376.779487c-24.602256 0-44.530872-19.954872-44.530872-44.530872v-400.67282c0-73.780513 59.575795-133.592615 133.014974-133.592616h598.593641c24.470974 0 44.320821-19.928615 44.320821-44.504615V44.530872C1010.740513 19.928615 990.916923 0 966.419692 0H367.826051C171.979487 0 13.128205 159.455179 13.128205 356.168205v623.32718C13.128205 1004.045128 32.978051 1024 57.475282 1024h598.646154c196.187897 0 352.439795-170.325333 354.619077-367.327179 0.131282-11.106462 0.131282-200.33641 0.131282-211.442872a44.478359 44.478359 0 0 0-44.347077-44.530872z"></path></symbol><symbol id="oicon-trending" viewBox="0 0 1106 1024"><path d="M0 290.766798m55.308301 0l0 0q55.308301 0 55.3083 55.3083l0 608.391307q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-608.391307q0-55.308301 55.308301-55.3083Z" fill="#F5A623"></path><path d="M331.849803 14.225295m55.308301 0l0 0q55.308301 0 55.308301 55.3083l0 884.93281q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-884.93281q0-55.308301 55.308301-55.3083Z" fill="#F5A623" opacity=".8"></path><path d="M663.699607 401.383399m55.3083 0l0 0q55.308301 0 55.308301 55.3083l0 497.774706q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.3083-55.3083l0-497.774706q0-55.308301 55.3083-55.3083Z" fill="#F5A623" opacity=".6"></path><path d="M995.54941 124.841896m55.308301 0l0 0q55.308301 0 55.3083 55.308301l0 774.316208q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-774.316208q0-55.308301 55.308301-55.308301Z" fill="#F5A623" opacity=".4"></path></symbol></svg>
+        <val data-name="space_user_url" data-value="https://my.oschina.net/qiangzigege"></val>      <val data-name="g_user_url" data-value=""></val>      <val data-name="api_prefix" data-value="/action"></val>      <val data-name="g_user_code" data-value=""></val>     <val data-name="g_user_id" data-value=""></val>     <val data-name="g_user" data-value=""></val>     <val data-name="login_page" data-value="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819513"></val>     
+    
+                <val data-name="weixinAppId" data-value="wx880def15e694b905"></val>
+        <val data-name="weixinTimestamp" data-value="1561458610012"></val>
+        <val data-name="weixinNonceStr" data-value="69551020-6912-4f53-b9b9-054aa27aa7ef"></val>
+        <val data-name="weixinSignature" data-value="88389544d4b82f8c65b58e8255e256d38b3e8389"></val>
+        <val data-name="weixinShareUrl" data-value="https://my.oschina.net/qiangzigege/blog/819513"></val>                             
+                <val data-name="is_detail_page" data-value="true"></val>
+
+        
+        <div class="ui left inverted sidebar vertical menu" id="mobileNavSidebar">
+        <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+        <a href="https://www.oschina.net/question" class="item question">问答</a>
+        <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+        <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+        <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+        <a href="https://www.oschina.net/news" class="item news">资讯</a>
+        <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云</a>
+        <a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+        <a href="https://www.oschina.net/event/ych" class="item meetup">源创会</a>
+        <a href="https://www.oschina.net/event" class="item">活动</a>
+        <a href="https://job.oschina.net/" class="item" target="_blank">求职/招聘</a>
+        <a href="https://www.oschina.net/question/topic/masteronline" class="item">高手问答</a>
+        <a href="https://www.oschina.net/question/topic/osc-interview" class="item">开源访谈</a>
+        <a href="https://my.oschina.net/editorial-story" class="item">周刊</a>
+        <a href="https://www.oschina.net/company" class="item">公司开源导航页</a>
+    </div>
+        <div class="ui right inverted sidebar vertical menu" id="mobileUserSidebar">
+                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819513">登录</a>
+            <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819513">注册</a>
+            </div>
+
+        <div class="ui vertical inverted right sidebar menu" id="sideMenu">
+    <div class="header">
+        <b>文档章节</b>
+    </div>
+    <div class="ui basic segment" id="sideMenuBody"></div>
+</div>
+<div class="ui black big launch right attached fixed button" id="sideMenuLauncher">
+    <i class="list icon"></i>
+    <span class="text">文档章节</span>
+</div>
+
+
+        <div class="pusher  mobile-disabled-fixed-menu  ">
+                <div class="ui secondary inverted fixed menu" id="headerNavMenu">
+            <a class="item logo" href="https://www.oschina.net/" title="OSCHINA"><img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/logo_new.svg" alt="OSCHINA"></a>
+                                                <form action="https://www.oschina.net/search" class="item search-item">
+                <div class="ui icon input">
+                    <input type="hidden" name="scope" value="blog">
+                    <input placeholder="大家都在搜...." id="keyword" name="q" size="24" value="" type="text">
+                    <i class="search link icon"></i>
+                </div>
+                <div class="results"></div>
+            </form>
+            <div class="item download-item">
+                <a class="ui primary button" id="btnDownloadApp" href="https://www.oschina.net/app" target="_blank">下载APP</a>
+            </div>
+            <div class="ui popup top left transition hidden" id="btnDownloadAppContent">
+                <h3 class="header">OSCHINA App —— <br>关注技术领域的头条文章</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <img width="200" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/osc_app_download_qrcode.png" alt="下载APP">
+            </div>
+            <div class="ui secondary text menu" id="menuList">
+                <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+                <a href="https://www.oschina.net/question" class="item question">问答</a>
+                <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+                <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+                <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+                <a href="https://www.oschina.net/news" class="item news">资讯</a>
+                <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云<span class="floating ui red label giteetip">代码托管</span></a>
+                <a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+                <a href="https://www.oschina.net/event" class="item event">活动</a>
+            </div>
+            <div class="ui dropdown item" id="moreMenu" tabindex="0">
+                更多 <i class="dropdown icon" tabindex="0"><div class="menu" tabindex="-1"></div></i>
+                <div class="menu" tabindex="-1">
+                    <a href="https://www.oschina.net/event/ych" class="item meetup"><i class="world icon"></i>源创会</a>
+                    <a href="https://job.oschina.net/" class="item" target="_blank"><i class="address card outline icon"></i>求职/招聘</a>
+                    <a href="https://www.oschina.net/question/topic/masteronline" class="item"><i class="spy icon"></i>高手问答</a>
+                    <a href="https://www.oschina.net/question/topic/osc-interview" class="item"><i class="coffee icon"></i>开源访谈</a>
+                    <a href="https://my.oschina.net/editorial-story" class="item"><i class="calendar outline icon"></i>周刊</a>
+                    <a href="https://www.oschina.net/company" class="item"><i class="building outline icon"></i>公司开源导航页</a>
+                </div>
+            </div>
+            <div class="right menu">
+                                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819513">登录</a>
+                    <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819513">注册</a>
+                            </div>
+        </div>
+                <div class="ui secondary inverted fixed menu" id="mobileHeaderNavMenu">
+            <a class="icon item toggle-mobile-nav-sidebar">
+                <i class="large content icon"></i>
+            </a>
+            <div class="logo back-to-top-toggle"><img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/logo_new.svg" alt="OSCHINA"></div>
+            <a class="icon item toggle-mobile-user-sidebar">
+                                    <i class="large user outline icon"></i>
+                            </a>
+        </div>
+                <div id="mainScreen">
+            <div class="ui container">
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+<x-foo-define data-define="space-blog-detail"></x-foo-define> 
+<val data-name="objId" data-value="819513"></val> <val data-name="author_id" data-value="1382024"></val> <val data-name="space_user_id" data-value="1382024"></val> 
+<val data-name="fetchCommentsUrl" data-value="?type=comments"></val>              <val data-name="publishCommentUrl" data-value="/space/blog/add_comment"></val>    <val data-name="replyCommentUrl" data-value="/space/blog/add_comment"></val>      <val data-name="deleteCommentUrl" data-value="/space/blog/delete_blog_comments"></val>  
+<val data-name="weixinShareTitle" data-value=" SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分"></val> <val data-name="weixinShareImgUrl" data-value="https://static.oschina.net/uploads/space/2017/0606/104418_CPLl_2733728.png"></val> 
+<div class="ui internally grid blog-detail bg-wrap">
+    <div class="row">
+        <div class="two wide computer only column" style="height: 5824px; min-height: 338px;">
+            <div class="ui sticky float-menu fixed top" id="floatMenu" style="left: 149.6px; width: 128px !important; height: 338px !important; margin-top: 200px;">
+                <div class="ui vertical large compact menu">
+                                            <a class="item donate" donate="" data-id="819513" data-obj-type="16344358" data-subject=" SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分" data-donater="" data-author="1382024" data-return-url="https://my.oschina.net/qiangzigege/blog/819513" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                             <i class="yen icon"></i>打赏</a>
+                                        <a class="item comment-btn" href="https://my.oschina.net/qiangzigege/blog/819513#comments" title="共有 0 条评论"><i class="comment outline icon"></i>评论</a>
+                    <a class="item collect-btn " data-id="819513" data-user-id="1382024" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Spring Boot"><i class="star outline icon"></i>收藏</a>
+                    <a class="item like article-like " data-id="819513"><i class="thumbs up outline icon"></i>点赞</a>
+                    <h5 class="ui item inverted brown header">分享文章</h5>
+                    <div class="bdsharebuttonbox reset left-menu" data-tag="share-news">
+                        <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                        <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                        <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column body-container">
+            <div class="float-menu-content">
+                <div class="ui large breadcrumb">
+                    <a class="section" href="https://my.oschina.net/qiangzigege">强子哥哥</a>
+                                                                <i class="right chevron icon divider"></i>
+                        <a class="section" href="https://my.oschina.net/qiangzigege?tab=newest&amp;catalogId=4036915">Web动1:网络引擎Springboot|Netty|Assert|Firefly|Juneau</a>
+                                        <i class="right chevron icon divider"></i>
+                    <div class="active section">正文</div>
+                </div>
+                <div class="article-detail">
+                                            <div class="ad-wrap">
+                                                    <div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogdown" style="">
+<a href="http://clickc.admaster.com.cn/c/a128310,b3471905,c3159,i0,m101,8a1,8b2,h" target="_blank" style="max-width:780px;"><img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/f14a125502042a0f2a0428469f31828aeaa.jpg"></a>
+</div>
+
+<!--
+<script>
+    function success_jsonpCallback(data) {
+        var obj = eval(data);
+        if( obj.success ){
+            var contents = eval(obj.data[0].content);
+            if(contents.length > 0){
+                var content = contents[0];
+                $('#blog-title-ad').prepend("<a  href='"+ content.url +"' target='_blank' style='max-width:780px;'><img src='"+content.img+"'/></a>");
+                $('#blog-title-ad').show();
+            }
+            
+        }else {
+            $('#blog-title-ad').hide();
+        }
+    }
+    window.addEventListener("load", function() {
+         var url="  http://clickc.admaster.com.cn/c/a116493,b2949390,c3159,i0,m101,8a1,8b2,h";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            jsonp: "callback",
+            dataType: 'jsonp',
+            jsonpCallback: 'success_jsonpCallback',
+            contentType: "application/json; charset=utf-8",
+            success: function( response ) {
+                // do in callback
+            },
+            error:function(){
+                $('#blog-title-ad').hide();
+            }
+        });
+    }, false);
+</script>
+-->
+                                    </div>
+                                        <h2 class="header">
+                         SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分
+                                                                                                    <div class="ui teal label horizontal" data-tooltip="原创">原</div>
+                                                                                            </h2>
+                    <div class="extra ui horizontal list meta-wrap">
+                        <div class="item">
+                            <a href="https://my.oschina.net/qiangzigege" class="__user">                        <div class="osc-avatar small-portrait _35x35 avatar" title="强子1985" data-user-id="1382024">
+                <img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/1382024_50.jpeg" alt="强子1985" title="强子1985">
+            </div>
+            &nbsp;<span>强子1985</span></a>
+                            发布于 2017/01/05 20:48</div>
+                        <div class="item">字数 1987</div>
+                        <div class="item">阅读 151</div>
+                        <div class="item collect-btn " data-id="819513" data-user-id="1382024" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Spring Boot">收藏 <span data-collect-count="" data-id="819513" data-obj-type="3">1</span></div>
+                        <div class="item"><a class="normal like article-like " data-id="819513">点赞 <span data-article-like-count="">0</span></a></div>
+                        <div class="item comment-count"><a href="https://my.oschina.net/qiangzigege/blog/819513#comments" class="normal"><i class="comment outline icon"></i> 评论 <span data-article-reply-count="">0</span></a></div>
+                                            </div>
+                                                                        <div class="tags">
+                                <a class="ui horizontal label" href="https://my.oschina.net/qiangzigege?q=Spring%20Boot">Spring Boot</a>                            </div>
+                                                                <div class="content" id="articleContent">
+                                                    <div class="ad-wrap">
+                                                        <p style="margin:0 0 10px 0;"><a data-traceid="blog_detail_above_text_link_1" data-tracepid="blog_detail_above_text_link" style="color:#A00;font-weight:bold;" href="https://my.oschina.net/u/2663968/blog/3051541" target="_blank">为什么80%的码农都做不了架构师？&gt;&gt;&gt; </a>  <img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/hot3.png" align="absmiddle" style="max-height: 32px; max-width: 32px;"></p>
+                                        </div>
+                                                <p>上一节，我们读取了MANIFEST.MF文件，这一节，我们进入了new JarLauncher().launch(args)的.launch(args)部分。</p> 
+<p>先上总体代码</p> 
+<pre><code class="hljs java">	<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">launch</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+		<span class="hljs-comment">// 看到这里了</span>
+		JarFile.registerUrlProtocolHandler();
+		ClassLoader classLoader = createClassLoader(getClassPathArchives());
+		launch(args, getMainClass(), classLoader);
+	}</code></pre> 
+<p>===============================</p> 
+<p>先来debug第一行JarFile.registerUrlProtocolHandler();</p> 
+<pre><code class="hljs java"><span class="hljs-comment">/**
+	 * Register a {<span class="hljs-doctag">@literal</span> 'java.protocol.handler.pkgs'} property so that a
+	 * {<span class="hljs-doctag">@link</span> URLStreamHandler} will be located to deal with jar URLs.
+	 */</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerUrlProtocolHandler</span><span class="hljs-params">()</span> </span>{
+		<span class="hljs-comment">//</span>
+		<span class="hljs-comment">//main[1] print handlers</span>
+		<span class="hljs-comment">// handlers = ""</span>
+		String handlers = System.getProperty(PROTOCOL_HANDLER, <span class="hljs-string">""</span>);
+		<span class="hljs-comment">// </span>
+		<span class="hljs-comment">//设置为 = "java.protocol.handler.pkgs---&gt;org.springframework.boot.loader";</span>
+		System.setProperty(PROTOCOL_HANDLER, (<span class="hljs-string">""</span>.equals(handlers) ? HANDLERS_PACKAGE
+				: handlers + <span class="hljs-string">"|"</span> + HANDLERS_PACKAGE));
+		<span class="hljs-comment">//</span>
+		resetCachedUrlHandlers();
+		<span class="hljs-comment">//结束</span>
+	}</code></pre> 
+<p>上面的比较简单，不解释。</p> 
+<p>===接着往下执行ClassLoader classLoader = createClassLoader(getClassPathArchives());</p> 
+<p>我们来看看这一行做了什么事情。</p> 
+<p>其中getClassPathArchives的内容为</p> 
+<pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> List&lt;Archive&gt; <span class="hljs-title">getClassPathArchives</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+		<span class="hljs-comment">//看到这里了</span>
+		List&lt;Archive&gt; archives = <span class="hljs-keyword">new</span> ArrayList&lt;Archive&gt;(
+				<span class="hljs-keyword">this</span>.archive.getNestedArchives(<span class="hljs-keyword">new</span> EntryFilter() {
+
+					<span class="hljs-meta">@Override</span>
+					<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">matches</span><span class="hljs-params">(Entry entry)</span> </span>{
+						<span class="hljs-keyword">return</span> isNestedArchive(entry);
+					}
+
+				}));
+		postProcessClassPathArchives(archives);
+		<span class="hljs-keyword">return</span> archives;
+	}</code></pre> 
+<p>下面认真分析下这个函数的内容。</p> 
+<p>这个主要是从当前文件夹下面取一些文件，那么什么样的文件符合条件呢？</p> 
+<pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isNestedArchive</span><span class="hljs-params">(Archive.Entry entry)</span> </span>{
+		<span class="hljs-keyword">if</span> (entry.isDirectory()) {
+			<span class="hljs-keyword">return</span> entry.getName().equals(BOOT_INF_CLASSES);<span class="hljs-comment">//"BOOT-INF/classes/"</span>
+		}
+		<span class="hljs-keyword">return</span> entry.getName().startsWith(BOOT_INF_LIB);<span class="hljs-comment">//"BOOT-INF/lib/"</span>
+	}</code></pre> 
+<p>看到这里，估计大致也就明白了。</p> 
+<p>为了节省时间，这里就不去深究里面的原理，我们看到外面的代码是：</p> 
+<pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Archive&gt; <span class="hljs-title">getNestedArchives</span><span class="hljs-params">(EntryFilter filter)</span> <span class="hljs-keyword">throws</span> IOException </span>{
+		<span class="hljs-comment">//看到这里了</span>
+		List&lt;Archive&gt; nestedArchives = <span class="hljs-keyword">new</span> ArrayList&lt;Archive&gt;();
+		<span class="hljs-keyword">for</span> (Entry entry : <span class="hljs-keyword">this</span>) {
+			<span class="hljs-keyword">if</span> (filter.matches(entry)) {
+				nestedArchives.add(getNestedArchive(entry));
+			}
+		}
+		<span class="hljs-keyword">return</span> Collections.unmodifiableList(nestedArchives);
+	}</code></pre> 
+<p>为了方便，我直接把结果打印出来。</p> 
+<pre><code class="hljs sql">main[1] print archives
+ archives = "[
+file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/classes/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/HdrHistogram-2.1.6.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/HikariCP-2.5.1.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/annotations-2.0.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/aopalliance-1.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/asm-5.0.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/asm-analysis-5.0.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/asm-commons-5.0.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/asm-tree-5.0.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/asm-util-5.0.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/aws-java-sdk-core-1.11.69.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/aws-java-sdk-sts-1.11.69.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/brave-core-3.16.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/brave-http-3.16.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/brave-okhttp-3.16.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/brave-spancollector-local-3.16.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/brave-spring-web-servlet-interceptor-3.16.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/cassandra-driver-core-3.1.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/cassandra-driver-mapping-3.1.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/classmate-1.3.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/commons-cli-1.3.1.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/commons-codec-1.10.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/commons-logging-1.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/compress-lzf-1.0.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/elasticsearch-2.4.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/gson-2.7.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/guava-18.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/guice-4.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/guice-multibindings-4.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/helper-1.0.1.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/hibernate-validator-5.2.4.Final.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/hppc-0.7.1.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/httpclient-4.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/httpcore-4.4.5.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/ion-java-1.0.1.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jackson-annotations-2.8.5.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jackson-core-2.8.5.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jackson-databind-2.8.5.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jackson-dataformat-cbor-2.8.5.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jackson-dataformat-smile-2.8.5.jar!/, jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jackson-dataformat-yaml-2.8.5.jar!/, jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/javax.inject-1.jar!/, jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jboss-logging-3.3.0.Final.jar!/, jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jcl-over-slf4j-1.7.22.jar!/, jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jffi-1.2.10-native.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jffi-1.2.10.jar!/,
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jline-0.9.94.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jmespath-java-1.11.69.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jmxutils-1.18.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jnr-constants-0.9.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jnr-ffi-2.0.7.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jnr-posix-3.0.27.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jnr-x86asm-1.0.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/joda-time-2.9.6.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jol-core-0.1.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jooq-3.8.6.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jopt-simple-3.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/json-20140107.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jsr166e-1.1.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/jul-to-slf4j-1.7.22.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/kafka-clients-0.8.2.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/kafka_2.11-0.8.2.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/libthrift-0.9.3.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/log-0.119.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/log4j-1.2.14.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/log4j-over-slf4j-1.7.22.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/logback-classic-1.1.8.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/logback-core-1.1.8.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-analyzers-common-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-backward-codecs-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-core-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-grouping-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-highlighter-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-join-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-memory-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-misc-5.5.2.jar!/,
+ jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-queries-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-queryparser-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-sandbox-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-spatial-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-spatial3d-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lucene-suggest-5.5.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/lz4-1.2.0.jar!/,
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/mariadb-java-client-1.5.5.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/metrics-core-2.2.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/metrics-core-3.1.2.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/moshi-1.2.0.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/netty-3.10.6.Final.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/netty-buffer-4.0.37.Final.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/netty-codec-4.0.37.Final.jar!/,
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/netty-common-4.0.37.Final.jar!/, 
+jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/netty-<span class="hljs-keyword">handler</span><span class="hljs-number">-4.0</span><span class="hljs-number">.37</span>.Final.jar!/, 
+jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/netty-tcnative-boringssl-<span class="hljs-keyword">static</span><span class="hljs-number">-1.1</span><span class="hljs-number">.33</span>.Fork23.jar!/, 
+jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/netty-transport<span class="hljs-number">-4.0</span><span class="hljs-number">.37</span>.Final.jar!/, 
+jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/nifty-<span class="hljs-keyword">client</span><span class="hljs-number">-0.23</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/nifty-core<span class="hljs-number">-0.23</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/nifty-ssl<span class="hljs-number">-0.23</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/okhttp<span class="hljs-number">-3.5</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/okio<span class="hljs-number">-1.11</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/paranamer<span class="hljs-number">-2.8</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/scala-<span class="hljs-keyword">library</span><span class="hljs-number">-2.11</span><span class="hljs-number">.5</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/scala-parser-combinators_2<span class="hljs-number">.11</span><span class="hljs-number">-1.0</span><span class="hljs-number">.2</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/scala-xml_2<span class="hljs-number">.11</span><span class="hljs-number">-1.0</span><span class="hljs-number">.2</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/securesm<span class="hljs-number">-1.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/slf4j-api<span class="hljs-number">-1.7</span><span class="hljs-number">.22</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/slice<span class="hljs-number">-0.10</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/snakeyaml<span class="hljs-number">-1.17</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/snappy-<span class="hljs-keyword">java</span><span class="hljs-number">-1.1</span><span class="hljs-number">.1</span><span class="hljs-number">.7</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spatial4j<span class="hljs-number">-0.5</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-aop<span class="hljs-number">-4.3</span><span class="hljs-number">.5</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-beans<span class="hljs-number">-4.3</span><span class="hljs-number">.5</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot<span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot-actuator<span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot-autoconfigure<span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot-configuration-processor<span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot-starter<span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot-starter-actuator<span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot-starter-<span class="hljs-keyword">logging</span><span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot-starter-tomcat<span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-boot-starter-web<span class="hljs-number">-1.4</span><span class="hljs-number">.3</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-<span class="hljs-keyword">context</span><span class="hljs-number">-4.3</span><span class="hljs-number">.5</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-core<span class="hljs-number">-4.3</span><span class="hljs-number">.5</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-expression<span class="hljs-number">-4.3</span><span class="hljs-number">.5</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-web<span class="hljs-number">-4.3</span><span class="hljs-number">.5</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/spring-webmvc<span class="hljs-number">-4.3</span><span class="hljs-number">.5</span>.RELEASE.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/stats<span class="hljs-number">-0.119</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/swift-annotations<span class="hljs-number">-0.23</span><span class="hljs-number">.1</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/swift-codec<span class="hljs-number">-0.23</span><span class="hljs-number">.1</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/swift-service<span class="hljs-number">-0.23</span><span class="hljs-number">.1</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/t-digest<span class="hljs-number">-3.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/tomcat-embed-core<span class="hljs-number">-8.5</span><span class="hljs-number">.6</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/tomcat-embed-el<span class="hljs-number">-8.5</span><span class="hljs-number">.6</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/tomcat-embed-websocket<span class="hljs-number">-8.5</span><span class="hljs-number">.6</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/units<span class="hljs-number">-0.119</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/<span class="hljs-keyword">validation</span>-api<span class="hljs-number">-1.1</span><span class="hljs-number">.0</span>.Final.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-collector-kafka<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-collector-scribe<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-metrics-prometheus<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-<span class="hljs-keyword">storage</span>-cassandra<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-<span class="hljs-keyword">storage</span>-cassandra3<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-<span class="hljs-keyword">storage</span>-elasticsearch<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-<span class="hljs-keyword">storage</span>-elasticsearch-aws<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-<span class="hljs-keyword">storage</span>-elasticsearch-<span class="hljs-keyword">http</span><span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-<span class="hljs-keyword">storage</span>-mysql<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-autoconfigure-ui<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-collector-kafka<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-collector-scribe<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-guava<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-reporter<span class="hljs-number">-0.6</span><span class="hljs-number">.9</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-<span class="hljs-keyword">storage</span>-cassandra<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-<span class="hljs-keyword">storage</span>-cassandra3<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-<span class="hljs-keyword">storage</span>-elasticsearch<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-<span class="hljs-keyword">storage</span>-elasticsearch-<span class="hljs-keyword">http</span><span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-<span class="hljs-keyword">storage</span>-mysql<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zipkin-ui<span class="hljs-number">-1.19</span><span class="hljs-number">.0</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zkclient<span class="hljs-number">-0.3</span>.jar!/, jar:<span class="hljs-keyword">file</span>:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/zookeeper<span class="hljs-number">-3.4</span><span class="hljs-number">.6</span>.jar!/]<span class="hljs-string">"</span></code></pre> 
+<p>看了，就知道大致啥意思了，不解释。</p> 
+<p>然后，需要执行</p> 
+<p>postProcessClassPathArchives(archives);</p> 
+<p>这个函数，什么都不做。</p> 
+<p>返回上面的结果，进入ClassLoader classLoader = createClassLoader(archives);</p> 
+<p>下面来分析下这个函数做了什么事情。</p> 
+<p>这个函数的最终目的是</p> 
+<pre><code class="hljs java"><span class="hljs-comment">/**
+	 * Create a classloader for the specified URLs.
+	 * 
+	 * <span class="hljs-doctag">@param</span> urls
+	 *            the URLs
+	 * <span class="hljs-doctag">@return</span> the classloader
+	 * <span class="hljs-doctag">@throws</span> Exception
+	 *             if the classloader cannot be created
+	 */</span>
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> ClassLoader <span class="hljs-title">createClassLoader</span><span class="hljs-params">(URL[] urls)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> LaunchedURLClassLoader(urls, getClass().getClassLoader());
+	}</code></pre> 
+<p>先打印出urls为类似于下面的</p> 
+<pre><code class="hljs html xml">main[1] print urls[0]
+ urls[0] = "file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/classes/"
+main[1] print urls[1]
+ urls[1] = "jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/HdrHistogram-2.1.6.jar!/"
+main[1] print urls[2]
+ urls[2] = "jar:file:/root/springboot_tomcat_jetty_zipkin_brave_debug/BOOT-INF/lib/HikariCP-2.5.1.jar!/"</code></pre> 
+<p>这样，就生成了一个LaunchedURLClassLoader的实体类。</p> 
+<p>这个类继承了URLClassLoader类。</p> 
+<p>---最后，就进入了实际的环节：</p> 
+<p>launch(args, getMainClass(), classLoader);</p> 
+<p>放在下一节来讲解。</p>
+                                                    <div class="ad-wrap" style="margin-top: 12px;">
+                                                        <div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogdown" style="">
+<script async="" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/f(5).txt"></script>
+<!-- 博客详情页下方 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-7090564139599510" data-ad-slot="2321828009" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><iframe width="728" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:728px;height:90px;" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/saved_resource(2).html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<!--
+<script>
+    function success_jsonpCallback(data) {
+        var obj = eval(data);
+        if( obj.success ){
+            var contents = eval(obj.data[0].content);
+            if(contents.length > 0){
+                var content = contents[0];
+                $('#blog-title-ad').prepend("<a  href='"+ content.url +"' target='_blank' style='max-width:780px;'><img src='"+content.img+"'/></a>");
+                $('#blog-title-ad').show();
+            }
+            
+        }else {
+            $('#blog-title-ad').hide();
+        }
+    }
+    window.addEventListener("load", function() {
+         var url="  http://clickc.admaster.com.cn/c/a116493,b2949390,c3159,i0,m101,8a1,8b2,h";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            jsonp: "callback",
+            dataType: 'jsonp',
+            jsonpCallback: 'success_jsonpCallback',
+            contentType: "application/json; charset=utf-8",
+            success: function( response ) {
+                // do in callback
+            },
+            error:function(){
+                $('#blog-title-ad').hide();
+            }
+        });
+    }, false);
+</script>
+-->
+                                        </div>
+                                            </div>
+                    <div class="ui hidden divider"></div>
+                    <p style="text-align:center;">
+                                                    © 著作权归作者所有
+                                            </p>
+                </div>
+
+                                <div class="ui basic center aligned segment action">
+                    <div class="ui huge buttons">
+                                                    <a class="ui green button donate" donate="" data-id="819513" data-obj-type="16344358" data-subject=" SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分" data-donater="" data-author="1382024" data-return-url="https://my.oschina.net/qiangzigege/blog/819513" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                                 <i class="yen icon"></i>打赏</a>
+                                                <a class="ui basic button like article-like " data-id="819513">
+                            <i class="thumbs up outline icon"></i>点赞 (<span data-article-like-count="">0</span>)
+                        </a>
+                        <a class="ui basic button collect-btn hover" data-id="819513" data-user-id="1382024" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Spring Boot"><i class="star outline icon"></i>收藏 (<span data-collect-count="" data-id="819513" data-obj-type="3">1</span>)</a>
+                        <div class="ui basic dropdown share button bdsharebuttonbox reset dropdown-share" data-tag="share-blog" tabindex="0">
+                            <i class="share icon"></i> <span>分享</span>
+                            <div class="menu" tabindex="-1">
+                                <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                                <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                                <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui basic segment">
+                        <a class="ban" style="cursor: pointer" ban-report="" data-id="819513" data-obj-type="3" data-url="https://my.oschina.net/qiangzigege/blog/819513">
+                            <i class="flag red icon"></i>举报</a>
+                    </div>
+                </div>
+
+                                
+
+                                <div class="around-articles-wrap">
+                                                            <div class="around-item around-left">
+                        <i class="angle left icon"></i>
+                        <span class="text">上一篇：</span>
+                        <a class="link" href="https://my.oschina.net/qiangzigege/blog/819544">SpringBoot-Loader源码分析系列3： launch(args, getMainClass(), classLoader);</a>
+                    </div>
+                    
+                                                            <div class="around-item around-right">
+                        <span class="text">下一篇：</span>
+                        <a class="link" href="https://my.oschina.net/qiangzigege/blog/819496">SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件</a>
+                        <i class="angle right icon"></i>
+                    </div>
+                                    </div>
+
+                                <div class="ui info message author-card">
+                    <div class="ui items">
+                        <div class="item author-card-item">
+                            <a class="ui avatar tiny image" href="https://my.oschina.net/qiangzigege">
+                                                        <div class="osc-avatar large-portrait _80x80" title="强子1985" data-user-id="1382024">
+                <img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/1382024_200.jpeg" alt="强子1985" title="强子1985">
+            </div>
+                                        </a>
+                            <div class="content author-card-info">
+                                <div class="author-header clearfix">
+                                                                        <h3 class="author-name"><a class="__user" href="https://my.oschina.net/qiangzigege">强子1985</a></h3>
+                                                                                                                <div class="ui mini images medals">
+                                                                                                                                                                                                        <img class="ui image popup-oscer" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/slogo1541992849287.png" alt="">
+                                                        <div class="ui flowing popup hidden items">
+                                                            <div class="medal-popup-box item">
+                                                                <img class="ui image" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/logo1541993136198.png">
+                                                                <div class="content">
+                                                                    <h3 class="header">开源项目作者</h3>
+                                                                    <div class="desc text">作为一个开源项目作者，是时候站出来拯救世界了！</div>
+                                                                    <div class="extra text">
+                                                                        领取时间：2016/04/15
+                                                                        <div class="text">领取条件：开源项目被开源中国收录的开发者可领取</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                                                                                                                                                                                                                                                            <img class="ui image popup-oscer" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/slogo1541993993487.png" alt="">
+                                                        <div class="ui flowing popup hidden items">
+                                                            <div class="medal-popup-box item">
+                                                                <img class="ui image" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/logo1541403423905.png">
+                                                                <div class="content">
+                                                                    <h3 class="header">初出茅庐</h3>
+                                                                    <div class="desc text">我们都是从 Hello World 开始的！</div>
+                                                                    <div class="extra text">
+                                                                        领取时间：2019/04/17
+                                                                        <div class="text">领取条件：技能积分大于 200，且被推荐的博客数量大于 3 篇。</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                                                                                                                                        </div>
+                                                                    </div>
+                                <div class="ui horizontal list">
+                                    <div class="item">粉丝 <span class="followers-count" data-user-id="1382024" data-followers-count="904">904</span></div>
+                                    <div class="item">博文 1338</div>
+                                    <div class="item">码字总数 974206</div>
+                                    <div class="item">作品 9</div>
+                                </div>
+                                <div class="ui hidden fitted clearing divider"></div>
+                                                                                                    <div class="ui horizontal list">
+                                                                                    <div class="item"><i class="map marker alternate icon"></i> 南京</div>
+                                                                                                                            <div class="item"><i class="address card outline icon"></i> 架构师</div>
+                                                                            </div>
+                                                                                                    <div class="ui hidden fitted clearing divider"></div>
+                                                                                                                    <a class="ui green compact button follow-btn" data-user-id="1382024" data-follow-status="1"><i class="heart outline icon"></i><span class="text">关注</span></a>
+                                                                                                            <a class="ui green basic compact button send-message-btn" data-user-id="1382024" data-user-name="强子1985"><i class="envelope outline icon"></i>私信</a>
+                                                                        <a class="ui green basic compact button" href="https://www.oschina.net/question/ask?user=1382024" target="_blank"><i class="comment outline icon"></i>提问</a>
+                                                            </div>
+                            <div class="content panel-skills-radar" style="">
+                                <div class="skills-radar">
+                                    <div class="radar-wrap" radar="" data-user-id="1382024" data-skills-num="5" data-detail-url="https://my.oschina.net/qiangzigege/radar" data-container=".panel-skills-radar">
+                                        <div class="radar-map" style="position: relative;"><canvas width="350" height="152" style="width: 280px; height: 122px;"></canvas></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                                            </div>
+                        <div class="ui basic segment article-list">
+                <div class="scroll-tab hidden-scroll">
+                    <div class="ui green pointing secondary massive menu spaceBlog-tab">
+                        <a class="active item" data-tab="relArticleList">相关文章</a>
+                        <a class="item" data-tab="newArticleList">最新文章</a>
+                    </div>
+                </div>
+                <div class="ui basic segment active tab article-list" data-tab="relArticleList" id="relArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                    <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/3917490/blog/1927128" target="_blank" title="SpringBoot 核心模块原理剖析">SpringBoot 核心模块原理剖析</a>
+                        <div class="description">
+                            <p class="line-clamp">微服务始终一个相对热门的话题，SpringBoot 则以其轻量级、内嵌 Web 容器、一键启动、方便调试等特点被越来越多的微服务实践者所采用。 知其然还要知其所以然，你了解 SpringBoot 中三大核心...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">濡沫</div>
+                                <div class="item">2018/08/13</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/3053883/blog/1795436" target="_blank" title="关于springboot正常启动，路由却无法正常访问的问题">关于springboot正常启动，路由却无法正常访问的问题</a>
+                        <div class="description">
+                            <p class="line-clamp">pom的配置， 12345 12342.helloApplication.java @SpringBootApplication@Configuration@Controllerpublic class helloApplication { }12345678910111213141516171819202122233.运行结果这里......</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">方宏春</div>
+                                <div class="item">2018/04/14</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://www.cnblogs.com/tanliwei/p/9304072.html" target="_blank" title="从SpringBoot源码分析 配置文件的加载原理和优先级">从SpringBoot源码分析 配置文件的加载原理和优先级</a>
+                        <div class="description">
+                            <p class="line-clamp">本文从SpringBoot源码分析 配置文件的加载原理和配置文件的优先级 跟入源码之前，先提一个问题： SpringBoot 既可以加载指定目录下的配置文件获取配置项，也可以通过启动参数（VM Options）传...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">tanliwei</div>
+                                <div class="item">2018/07/13</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="https://www.cnblogs.com/tanliwei/p/9304072.html" target="_blank" title="从SpringBoot源码分析 配置文件的加载原理和优先级">
+                                <img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/9870bd2b25f1e62d8381affe42b9b542de6aa121.png" alt="" data-img-render="" style="width: auto; height: 100%;">
+                            </a>
+                        </div>
+                                    </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/3762425/blog/3048279" target="_blank" title="实战|如何自定义SpringBoot Starter？">实战|如何自定义SpringBoot Starter？</a>
+                        <div class="description">
+                            <p class="line-clamp">微信公众号「后端进阶」，专注后端技术分享：Java、Golang、WEB框架、分布式中间件、服务治理等等。 老司机倾囊相授，带你一路进阶，来不及解释了快上车！ SpringBoot自动化配置源码分析从源...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">后端进阶</div>
+                                <div class="item">05/11</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/2862104/blog/2878446" target="_blank" title="SpringBoot源码：启动过程分析(二)">SpringBoot源码：启动过程分析(二)</a>
+                        <div class="description">
+                            <p class="line-clamp">接着上篇继续分析 SpringBoot 的启动过程。 SpringBoot的版本为：2.1.0 release，最新版本。 一.时序图 一样的，我们先把时序图贴上来，方便理解： 二.源码分析 回顾一下，前面我们分析到了下...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">Jacktanger</div>
+                                <div class="item">2018/11/19</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none;"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination" style="display: none;">
+            <a class="rel-pagination pagination__next" style="display: none" href="https://my.oschina.net/qiangzigege/blog/widgets/_blog_detail_list_rel?obj=819513&amp;p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+                <div class="ui basic segment tab article-list" data-tab="newArticleList" id="newArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                                        <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3847203/blog/3066082" target="_blank" title="哨兵作用">哨兵作用</a>
+                            <div class="description">
+                                <p class="line-clamp">https://www.cnblogs.com/kaleidoscope/p/9636496.html</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">Java搬砖工程师</div>
+                                    <div class="item">28分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/530504/blog/3066081" target="_blank" title="好程序员web前端教程分享CSS技巧！">好程序员web前端教程分享CSS技巧！</a>
+                            <div class="description">
+                                <p class="line-clamp">好程序员web前端教程分享CSS技巧！现在学web人越来越多，小白的问题也越来越多，那么今天就为大家分享一下CSS学习技巧！在web前端工作中离不开css的使用。为了帮助大家提高自己的css使用技巧...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">好程序员IT</div>
+                                    <div class="item">31分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/2544569/blog/3066079" target="_blank" title="PhpStudy升级MySQL5.5到5.7记录">PhpStudy升级MySQL5.5到5.7记录</a>
+                            <div class="description">
+                                <p class="line-clamp">1.下载mysql 5.7 https://cdn.mysql.com/archives/mysql-5.7/mysql-5.7.25-winx64.zip 2.备份目前的数据库数据，可以导出数据库文件，作为备份。 3.备份 PhpStudy 下的 MySQL 文件夹、以防升...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">win_ball</div>
+                                    <div class="item">32分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 3</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/u/2544569/blog/3066079" target="_blank" title="PhpStudy升级MySQL5.5到5.7记录">
+                                    <img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/11bedce18e0045a48a2b8e2e1ad617941e8.jpg" alt="" data-img-render="" style="width: 100%; height: auto;">
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/xiaominmin/blog/3066078" target="_blank" title="Java8 JVM参数解读">Java8 JVM参数解读</a>
+                            <div class="description">
+                                <p class="line-clamp">摘要： 我们知道java虚拟机启动时会带有很多的启动参数，Java命令本身就是一个多参数的启动命令。那么具体JVM启动包含哪些参数呢？这篇文章针对java8的情况做一篇汇总解读，包含大多数常见和...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">xiaomin0322</div>
+                                    <div class="item">34分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3020519/blog/3066075" target="_blank" title="maven中关于scope依赖范围">maven中关于scope依赖范围</a>
+                            <div class="description">
+                                <p class="line-clamp">既然，Maven的生命周期存在编译、测试、运行这些过程，那么显然有些依赖只用于测试，比如junit；有些依赖编译用不到，只有运行的时候才能用到，比如mysql的驱动包在编译期就用不到（编译期用...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">syso_Null</div>
+                                    <div class="item">37分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination">
+            <a class="news-pagination pagination__next" style="display: none" href="https://my.oschina.net/qiangzigege/blog/widgets/_blog_detail_list_news?p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+            </div>
+        </div>
+        <div class="two wide computer only column">
+                        <div class="ad-wrap">
+                                        <div data-traceid="blog_left_1" data-tracepid="blog_left">
+
+<script async="" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/f(5).txt"></script>
+<!-- ios-zone-home-120x600 -->
+<ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px" data-ad-client="ca-pub-7090564139599510" data-ad-slot="7907495427" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px;background-color:transparent;"><iframe width="120" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0px;width:120px;height:600px;" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/saved_resource(3).html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</div>
+                        </div>
+                    </div>
+    </div>
+</div>
+
+
+<div class="ui mini delete-blog modal">
+    <div class="header">删除文章</div>
+    <div class="content">
+        <p>文章删除后无法恢复，确定取消删除此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-self modal">
+    <div class="header">自荐文章</div>
+    <div class="content">
+        <p>亲，自荐的博客将通过私信方式通知管理员，优秀的博客文章审核通过后将在博客推荐列表中显示</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-blog modal">
+    <div class="header">推荐文章</div>
+    <div class="content">
+        <p>确定推荐此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-author modal">
+    <div class="header">推荐博主</div>
+    <div class="content">
+        <p>确定推荐此博主吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/blog" defer="defer"></script>
+<script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/space"></script>
+
+<script>
+    // 百度分享
+    window._bd_share_config = {
+        common : {
+            bdText : ' SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA',
+            bdDesc : '上一节，我们读取了MANIFEST.MF文件，这一节，我们进入了new JarLauncher().launch(args)的.launch(args)部分。 先上总体代码 &nbsp;&nbsp;protected void launch(String[] args) throws Exception {
+&nbsp;&nbsp;&nbsp;&nbsp;// 看到这里了
+&nbsp;&nbsp;&nbsp;&nbsp;JarFile.registerUrlProtocolHandler();
+&nbsp;&nbsp;&nbsp;&nbsp;ClassLoader classLoader = createClassLoader(getClassPathArchives...',
+            bdUrl  : 'https://my.oschina.net/qiangzigege/blog/819513',
+            bdPic  : ''
+        },
+        share : [{
+            bdSize : 16
+        }]
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://static.oschina.net/new-osc/js/utils/plugins/bdshare_api/share.js?v='+~(-new Date()/36e5)];
+</script>
+                        <div name="detail_show_footer" data-traceid="detail_show" data-tracepid="detail_show_footer">
+                <style>
+    .detail_banner_ad {
+        display: none;
+        position: fixed;
+        margin: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10001;
+        width: 100%;
+    }
+    .detail_banner_ad_bg {
+        position: relative;
+        height: 73px;
+        width: 727px;
+        margin: 0 auto;
+        background: url("https://oscimg.oschina.net/oscnet/a29ade34c37e5f68bd05fabb5c5b71dc642.jpg") no-repeat left bottom;
+        background-size: 727px 73px;
+    }
+    .detail_banner_ad_close {
+        position: absolute;
+        right: 0px;
+        bottom: 20px;
+        width: 30px;
+        height: 30px;
+        margin: auto;
+        background: url("https://oscimg.oschina.net/oscnet/6e950de938e3a23b855cd156e69ede85583.jpg") no-repeat left;
+        background-size: 30px;
+        cursor: pointer;
+    }
+    @media screen and (max-width: 768px) {
+        .detail_banner_ad {
+            /* display: none !important; */
+        }
+        .detail_banner_ad_bg {
+            height: 10vw; /* 75/750:10/100vw */
+            width: 100%;
+            background: url("https://oscimg.oschina.net/oscnet/507b4852109bf9e997e4862af2876d965d7.jpg") no-repeat left bottom;
+            background-size: 100%;
+        }
+        .detail_banner_ad_close {
+            /* bottom: 25px!important; */
+            bottom: 5vw!important;
+            right: 1px!important;
+            /* width: 16px; */
+            /* height: 16px; */
+            width: 4.267vw;
+            height: 4.267vw;
+            background-size: 100%;
+        }
+    }
+</style>
+<div class="detail_banner_ad" style="display: block;">
+    <a href="https://oschina.gitee.io/6th?utm_source=oschina-dl" target="_blank">
+            <div class="detail_banner_ad_bg"><span class="detail_banner_ad_close"></span></div>
+    </a>
+</div>
+<!-- <script src="https://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script> -->
+<script src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/js.cookie.min.js.下载"></script>
+<script type="text/javascript">
+    (function () {
+        function loadScript(src, callback) {
+            var script = document.createElement('script'),
+                head = document.getElementsByTagName('head')[0];
+            script.type = 'text/javascript';
+            script.charset = 'UTF-8';
+            script.src = src;
+            if (script.addEventListener) {
+                script.addEventListener('load', function () {
+                    callback();
+                }, false);
+            } else if (script.attachEvent) {
+                script.attachEvent('onreadystatechange', function () {
+                    var target = window.event.srcElement;
+                    if (target.readyState == 'loaded') {
+                        callback();
+                    }
+                });
+            }
+            head.appendChild(script);
+        }
+        function loadAd() {
+            var leftPeople = $('.detail_banner_ad');
+            var cookieName = 'visit-detail-banner-ad-0603-my6th';
+            var isVisit = Cookies.get(cookieName);
+            if (isVisit == 1) {
+                leftPeople.hide();
+            } else {
+                leftPeople.show();
+            }
+            $('.detail_banner_ad_close').on('click', function (e) {
+                e.preventDefault();
+                Cookies.set(cookieName, 1, {expires: 90, path: '/'});
+                leftPeople.slideUp();
+            })
+        };
+        // if (window.innerWidth >= 768) {
+            if (window.jQuery) {
+                loadAd();
+            } else {
+                loadScript('https://www.oschina.net/public/bower_components/jquery/dist/jquery.min.js', function () {
+                    loadAd();
+                });
+            }
+        // }
+    })();
+</script>
+            </div>
+            
+
+            </div>
+        </div>
+
+                <div id="footer" class="ui vertical footer segment mb-hide">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">OSCHINA 社区</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">关于我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">联系我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc#partners#" target="_blank">合作伙伴</a>
+                    <a class="item" href="https://www.oschina.net/openapi" target="_blank">Open API</a>
+                </div>
+            </div>
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">在线工具</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://gitee.com/?from=osc-bottom" target="_blank">码云 Gitee.com</a>
+                    <a class="item" href="https://gitee.com/enterprises?from=osc-bottom" target="_blank">企业研发管理</a>
+                    <a class="item" href="https://copycat.gitee.com/?from=osc-bottom" target="_blank">CopyCat-代码克隆检测</a>
+                    <a class="item" href="https://tool.oschina.net/" target="_blank">实用在线工具</a>
+                </div>
+            </div>
+            <div class="center aligned eight wide mobile two wide tablet two wide computer column">
+                <h4 class="ui header">微信公众号</h4>
+                <img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/wechat_qrcode.jpg" alt="微信公众号">
+            </div>
+            <div class="center aligned eight wide mobile six wide tablet six wide computer column">
+                <h3 class="ui header">OSCHINA APP</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <a href="https://www.oschina.net/app" target="_blank" class="ui large primary button">下载 APP</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="copyright">
+    <div class="ui container">
+        <div class="ui clearing basic segment">
+            <div class="ui left floated horizontal link list">
+                <div class="item">©OSCHINA(OSChina.NET)</div>
+                <div class="item mb-hide">工信部</div>
+                <a class="item mb-hide" href="http://www.copu.org.cn/" target="_blank" title="开源软件推进联盟">开源软件推进联盟</a>
+                <div class="item mb-hide">指定官方社区</div>
+            </div>
+            <div class="ui right floated horizontal link list">
+                <div class="item mb-hide">深圳市奥思网络科技有限公司版权所有</div>
+                <a href="http://beian.miit.gov.cn/" target="_blank" class="item">粤ICP备12009483号-3</a>
+            </div>
+        </div>
+    </div>
+</div>    </div>
+                                                        <div class="back-to-top back-to-top-toggle" style="display: block;">
+        <div class="icon"><img src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/back-to-top.svg" alt="返回顶部"></div>
+        <div class="text">顶部</div>
+    </div>
+
+        <script src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/semantic.min.js.下载"></script>
+    <script src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/jweixin-1.2.0.js.下载"></script>
+                <script type="text/javascript" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/space.12e0813f.js.下载"></script>                
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?a411c4d1664dd70048ee98afe7b28f0b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+                
+<script type="text/javascript">
+    !function(e,t,n,g,i){e[i]=e[i]||function(){(e[i].q=e[i].q||[]).push(arguments)},n=t.createElement("script"),tag=t.getElementsByTagName("script")[0],n.async=1,n.src=('https:'==document.location.protocol?'https://':'http://')+g,tag.parentNode.insertBefore(n,tag)}(window,document,"script","assets.growingio.com/2.1/gio.js","gio");
+    gio('init','89b266b986554bc7', {});
+    gio('send');
+</script>
+    
+
+<!-- Generated by oschina (init:1[ms],page:290[ms],ip:43.243.12.46) //--><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><ins id="aswift_2_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0px;width:0px;height:0px;" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/saved_resource(4).html"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_8772918357919" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/saved_resource(5).html"></iframe></body><iframe id="google_shimpl" style="display: none;" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/saved_resource(6).html"></iframe><iframe id="google_esf" name="google_esf" src="./SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分 - 强子哥哥 - OSCHINA_files/zrt_lookup.html" data-ad-client="ca-pub-7090564139599510" style="display: none;"></iframe></html>

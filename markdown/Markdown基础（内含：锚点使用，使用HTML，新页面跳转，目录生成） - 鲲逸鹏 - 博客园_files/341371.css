@@ -1,0 +1,45 @@
+#home{width: 90%;}
+#header {margin-top: 0px;}
+#blogTitle h1 { font-weight: normal;margin-top: 0px; }
+#blogTitle h2 { font-size: 17px; }
+#topics .postTitle { font-size:180%;}
+#cnblogs_post_body h1 {background: #de1717;box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);color: white;font-family: "微软雅黑" , "宋体" , "黑体" ,Arial;font-size: 18px;font-weight: bold;line-height: 25px;padding: 5px 0 5px 10px;text-shadow: 2px 2px 3px #222;}
+#cnblogs_post_body h2 { background-color:#089acc; color:#fff; font-size:16px; padding: 5px 0 5px 10px; }
+#cnblogs_post_body h3 { font-size:16px; color: #fff; background:#52b122; padding:5px 0 5px 10px; }
+#cnblogs_post_body p{margin:10px;}
+#cnblogs_post_body img{
+max-width: 900px;
+}
+.postBody blockquote {background-color:#FFF;margin:5px 25px;}
+.blog_comment_body {font-size:14px;}
+div.cnblogs_code{margin:5px 25px;}
+#MySignature_title {color: orchid;font-weight: bold;padding: 10px;font-size: 16px;}
+#MySignature_con {margin-top:10px; border: solid 1px #E8E7D0;box-shadow: 0 0 15px #AAA;padding: 10px;margin-bottom: 10px;color: gray;}
+#MySignature_con p {line-height:20px;}
+#back-top{position: fixed; right: 3px; bottom:20px;}
+/* 响应式布局 */
+@media screen and (min-width: 1px) and (max-width: 980px){
+#sideCatalog{display:none;}
+}
+@media screen and (min-width: 1px) and (max-width: 800px){
+#home, #main{min-width:1px;}
+#mainContent{margin-left:0px; padding-left: 0;padding-right: 0;width: 100%;}
+#mainContent .forFlow{margin:10px;}
+#sideBar{ display:none;}
+#footer{margin: 0;width: 100%;}
+#cnblogs_post_body p img { width: 98% !important; }
+#cnblogs_post_body p{margin:2px;}
+}
+
+/*add */
+/*版权信息*/
+#MySignature{border:solid 1px #E5E5E5;padding:10px;background:#FFFEFE url(//images.cnblogs.com/cnblogs_com/grenet/226272/o_o_o_info.png) no-repeat scroll 15px 50%;padding-left:80px;}
+#MySignature div{line-height: 25px;}
+
+/*置顶系列*/
+#tbox { width: 54px; float: right; position: fixed; right: 50px; bottom: 85px; _position: absolute; _bottom: auto; _top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop, 10)||0)-(parseInt(this.currentStyle.marginBottom, 10)||0)));
+_margin-bottom: 15px; }/*解决IE6下不兼容 position:fixed 的问题*/
+#togbook, #gotop { width: 54px; height: 56px; display: block; background:url(//files.cnblogs.com/files/dunitian/icons.gif) no-repeat  #111 ;box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7); border-radius: 6px;}
+#togbook { margin: 5px 0 ;background-position:10px -407px;}
+#gotop {background-position:12px -365px;}
+#togbook:hover, #gotop:hover { opacity: 0.5 }

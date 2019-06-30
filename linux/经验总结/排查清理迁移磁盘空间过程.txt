@@ -1,0 +1,21 @@
+# 查看整个磁盘使用情况
+df -h
+
+# 查找当前目录下占用空间最大的前10个文件
+
+du -ah | sort -nr | head -n 10
+这个需要临时空间的
+如果这个不行，或者觉得太费时了用
+du -ah --max-depth=1 
+
+#  清理
+把没用的都给 rm -rf 
+
+# 迁移
+有用的需要迁移到其他的物理盘挂载路径中。  
+                       docker > 放到  /home/docker/lib
+1. 远程加密(大文件md5费时) rsync -avz /var/lib/docker /home/docker/lib/   
+2. 本地备份 	cp -pdivr /var/lib/docker /home/docker/lib
+
+建立软连接                    <<  
+ln -s /home/docker/lib/docker    /var/lib/docker

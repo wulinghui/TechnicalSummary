@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://www.cnblogs.com/it-taosir/p/9728772.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园</title>
+    <meta property="og:description" content="已我最近自己在玩的一个DEMO为例 taosir为pom.xml，其他子项目均为其modules，且为jar项目 eureka为注册中心、workflow为提供者、entrance为调用方 entra">
+    <link type="text/css" rel="stylesheet" href="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/bundle-CodingLife.css">
+<link type="text/css" rel="stylesheet" href="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/464100.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/bundle-CodingLife-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/it-taosir/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/it-taosir/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/it-taosir/wlwmanifest.xml">
+    <script src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/pubads_impl_rendering_2019061102.js.下载"></script><script async="" src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/analytics.js.下载"></script><script type="text/javascript" src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/encoder.js.下载"></script><script src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=464100;var currentBlogApp='it-taosir',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/f.txt"></script><link rel="preload" href="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/f(1).txt" as="script"><script type="text/javascript" src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/f(1).txt"></script><script src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/pubads_impl_2019061102.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"></head>
+<body style="background-image: url(&quot;https://www.cnblogs.com/images/cnblogs_com/it-taosir/1309716/o_%e6%97%a0%e5%90%8d.jpg&quot;);">
+<a name="top"></a>
+
+
+<!--done-->
+<embed allownetworking="all" width="340" height="86" src="//music.163.com/style/swf/widget.swf?sid=543988338&amp;type=2&amp;auto=1&amp;width=320&amp;height=66"><div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/it-taosir/"><img id="blogLogo" src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/it-taosir/">涛先森の日常</a></h1>
+<h2>明日复明日，明日何其多？我生待明日，万事成蹉跎。</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/it-taosir/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E6%B6%9B%E5%85%88%E6%A3%AE%E3%81%AE%E6%97%A5%E5%B8%B8">联系</a></li>
+<li>
+<!----></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 77&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 6</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/it-taosir/p/9728772.html">SpringBoot+Maven聚合多项目打包成jar</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>已我最近自己在玩的一个DEMO为例</p>
+<p><img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/1499500-20180930111400678-541867793.png" alt=""></p>
+<p>taosir为pom.xml，其他子项目均为其modules，且为jar项目</p>
+<p>eureka为注册中心、workflow为提供者、entrance为调用方</p>
+<p>entrance、workflow依赖于common</p>
+<p>所以此处我需要将eureka、workflow、entrance三个打包成jar，那么它们的pom.xml文件中需加入</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">build</span><span style="color: #0000ff;">&gt;</span>
+    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">plugins</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">plugin</span><span style="color: #0000ff;">&gt;</span>
+            <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>org.springframework.boot<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+            <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>spring-boot-maven-plugin<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+            <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span>
+                <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">source</span><span style="color: #0000ff;">&gt;</span>1.8<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">source</span><span style="color: #0000ff;">&gt;</span>
+                <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">target</span><span style="color: #0000ff;">&gt;</span>1.8<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">target</span><span style="color: #0000ff;">&gt;</span>
+            <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span>
+            <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">executions</span><span style="color: #0000ff;">&gt;</span>
+                <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">execution</span><span style="color: #0000ff;">&gt;</span>
+                    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">goals</span><span style="color: #0000ff;">&gt;</span>
+                        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">goal</span><span style="color: #0000ff;">&gt;</span>repackage<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">goal</span><span style="color: #0000ff;">&gt;</span>
+                    <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">goals</span><span style="color: #0000ff;">&gt;</span>
+                <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">execution</span><span style="color: #0000ff;">&gt;</span>
+            <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">executions</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">plugin</span><span style="color: #0000ff;">&gt;</span>
+    <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">plugins</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">build</span><span style="color: #0000ff;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p>其他的子项目，包括父项目taosir的pom.xml都不要build</p>
+<p>OK↓</p>
+<p>&nbsp;</p>
+<p>在taosir项目右键 &nbsp;-&gt; &nbsp;run as &nbsp;-&gt; &nbsp;maven build...</p>
+<p><img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/1499500-20180930111905053-953016077.png" alt=""></p>
+<p>Run完即可在各项目的target文件夹下找到各自的jar包了！</p>
+<p>cmd下 java -jar 文件路径，即可运行</p>
+<h2><span style="color: #ff0000; font-family: &#39;courier new&#39;, courier; font-size: 14pt;"><strong>可能出现的问题及其解决</strong></span></h2>
+<p><span style="font-family: &#39;courier new&#39;, courier; font-size: 14pt;"><span style="font-size: 12px;">一、</span></span><span style="color: #ff0000;">No compiler is provided in this environment. Perhaps you are running</span></p>
+<p>&nbsp;</p>
+<p>on a JRE rather than a JDK</p>
+<p><img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/1499500-20180930112741058-1723820363.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/1499500-20180930112757683-1891911296.png" alt=""></p>
+<p>然后加上自己对应的jdk即可</p>
+<p>&nbsp;</p>
+<p>二、<span style="color: #ff0000;">invalid LOC header (bad signature)</span></p>
+<p>去本地仓库删掉对应的不正确的jar包，重新update下项目</p>
+<p>&nbsp;</p>
+<p>三、<span style="color: #ff0000;">Exception occurred during processing request: Unable to compile class</span></p>
+<p><span style="color: #ff0000;">for JSP</span></p>
+<p>不再使用Maven 默认的 tomcat-maven-plugin 插件，改用tomcat(6、7、8等版本)-maven-plugin插件</p></div><div id="MySignature" style="display: block;"><p style="background: rgb(230,250,230); padding: 10px 10px 10px 10px; border: 1px dashed rgb(224,224,224); font-family: Courier New; font-size: 13px">
+作者：<a href="https://www.cnblogs.com/it-taosir/" target="_blank">涛先森の日常</a>
+<br>
+出处：<a href="https://www.cnblogs.com/it-taosir/" target="https://www.cnblogs.com/it-taosir/">https://www.cnblogs.com/it-taosir/</a>
+<br>
+本文版权归作者和博客园共有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文链接，否则保留追究法律责任的权利。
+</p></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/it-taosir/category/1332051.html" target="_blank">Spring：轻量级JAVA开发框架</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(9728772,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;f0888d90-8c35-4b7a-0b3f-08d622c564f9&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/it-taosir/" target="_blank"><img src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/20180927154911.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/it-taosir/">涛先森の日常</a><br>
+            <a href="https://home.cnblogs.com/u/it-taosir/followees">关注 - 4</a><br>
+            <a href="https://home.cnblogs.com/u/it-taosir/followers">粉丝 - 7</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;f0888d90-8c35-4b7a-0b3f-08d622c564f9&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(9728772,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(9728772,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/it-taosir/p/9728468.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/it-taosir/p/9728468.html" title="发布于2018-09-30 10:48">自备实用的小标签</a><br><a href="https://www.cnblogs.com/it-taosir/p/9860829.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/it-taosir/p/9860829.html" title="发布于2018-10-27 12:47">JSON树节点的增删查改</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2018-09-30 11:32</span> <a href="https://www.cnblogs.com/it-taosir/">涛先森の日常</a> 阅读(<span id="post_view_count">2378</span>) 评论(<span id="post_comment_count">1</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=9728772" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/it-taosir/p/9728772.html#" onclick="AddToWz(9728772);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=464100,cb_entryId=9728772,cb_blogApp=currentBlogApp,cb_blogUserGuid='f0888d90-8c35-4b7a-0b3f-08d622c564f9',cb_entryCreatedDate='2018/9/30 11:32:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/it-taosir/p/9728772.html#4097935" class="layer">#1楼</a><a name="4097935" id="comment_anchor_4097935"></a><span id="comment-maxId" style="display:none;">4097935</span><span id="comment-maxDate" style="display:none;">2018/10/24 19:13:15</span>  <span class="comment_date">2018-10-24 19:13</span> <a id="a_comment_author_4097935" href="https://www.cnblogs.com/big-cut-cat/" target="_blank">天天大傻猫</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A9%E5%A4%A9%E5%A4%A7%E5%82%BB%E7%8C%AB" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4097935" class="blog_comment_body">666</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4097935,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4097935,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_4097935_avatar" style="display:none;">http://pic.cnblogs.com/face/1441657/20181028190732.png</span>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/it-taosir/p/9728772.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/it-taosir/p/9728772.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://ke.qq.com/adActivity.html?name=xiangxueketang2" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-享学&#39;)">【培训】阿里P8面试官：什么样的人能进阿里</a><br><a href="https://q.cnblogs.com/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博问&#39;)">【推荐】程序员问答平台，解决您开发中遇到的技术难题</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CLbVi7f07-ICFZOxlgodMbIG2w"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./SpringBoot+Maven聚合多项目打包成jar - 涛先森の日常 - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/tianlong/p/10552848.html" target="_blank" onclick="clickRecomItmem(10552848)">SpringBoot+Maven多模块项目（创建、依赖、打包可执行jar包部署测试）完整流程</a><br>·  <a href="https://www.cnblogs.com/aeolian/p/8982473.html" target="_blank" onclick="clickRecomItmem(8982473)">Eclipse创建Maven聚合项目</a><br>·  <a href="https://www.cnblogs.com/huangjinyong/p/9223934.html" target="_blank" onclick="clickRecomItmem(9223934)">Eclipse中打包maven项目-war包方式</a><br>·  <a href="https://www.cnblogs.com/h--d/p/6001366.html" target="_blank" onclick="clickRecomItmem(6001366)">【Maven】使用Maven构建多模块项目</a><br>·  <a href="https://www.cnblogs.com/gisblog/p/10418717.html" target="_blank" onclick="clickRecomItmem(10418717)">springboot打包成jar</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CLfVi7f07-ICFZOxlgodMbIG2w"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none; width: 468px; height: 60px;"></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/626960/" target="_blank">大学社团“拉赞助”成为个人隐私泄露的重灾区</a><br> ·  <a href="https://news.cnblogs.com/n/626959/" target="_blank">亦真亦幻 AI让虚拟世界“触手可感”</a><br> ·  <a href="https://news.cnblogs.com/n/626958/" target="_blank">新能源界首陷“漏电门”奥迪将召回1644辆电动车e-tron</a><br> ·  <a href="https://news.cnblogs.com/n/626957/" target="_blank">许家印大笔押注新能源：恒大集团1200亿沈阳投资建厂造车</a><br> ·  <a href="https://news.cnblogs.com/n/626956/" target="_blank">龙芯胡伟武：补课18年 未来几年将同国际主流产品竞争</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script><script>window['__document_write_ajax_callbacks__']['1']();</script><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/it-taosir/">涛先森の日常</a><br>园龄：<a href="https://home.cnblogs.com/u/it-taosir/" title="入园时间：2018-09-27">8个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/it-taosir/followers/">7</a><br>关注：<a href="https://home.cnblogs.com/u/it-taosir/followees/">4</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;f0888d90-8c35-4b7a-0b3f-08d622c564f9&#39;)">+加关注</a></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script>window['__document_write_ajax_callbacks__']['2']();</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/05/01&#39;);return false;">&lt;</a></td><td align="center">2019年6月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/07/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td class="CalWeekendDay" align="center">1</td></tr><tr><td class="CalWeekendDay" align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalWeekendDay" align="center">8</td></tr><tr><td class="CalWeekendDay" align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td class="CalWeekendDay" align="center">15</td></tr><tr><td class="CalWeekendDay" align="center">16</td><td class="CalTodayDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td class="CalWeekendDay" align="center">22</td></tr><tr><td class="CalWeekendDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalWeekendDay" align="center">29</td></tr><tr><td class="CalWeekendDay" align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/it-taosir/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/it-taosir/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/it-taosir/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/it-taosir/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/it-taosir/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_recentposts" class="sidebar-block">
+<div class="catListEssay">
+<h3 class="catListTitle">最新随笔</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/it-taosir/p/10872588.html">1. GitLab权限介绍</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10815092.html">2. 属性文件操作之Properties与ResourceBundle</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10747654.html">3. Shell入门基础</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10747455.html">4. JavaScript基础的记录</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10743215.html">5. Java基本排序算法</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10635978.html">6. Java反射获取class对象的三种方式，反射创建对象的两种方式</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10542198.html">7. Ali-Tomcat在eclipse多开的解决方法</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10520388.html">8. GOF23设计模式之代理模式</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10508219.html">9. GOF23设计模式之适配器模式</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10502033.html">10. GOF23设计模式之原型模式</a></li>
+</ul>
+</div>
+</div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/it-taosir/category/1390458.html">activiti：业务流程管理BPM框架(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/it-taosir/category/1333698.html">GetTips：亏不了的小知识(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/it-taosir/category/1345804.html">Git：分布式版本控制系统(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/it-taosir/category/1332048.html">HTML/CSS/JS：前端三大器(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/it-taosir/category/1332049.html">Java：强大的跨平台语言(23)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/it-taosir/category/1348871.html">Linux：类Unix操作系统(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/it-taosir/category/1332878.html">Redis：开源的Key-Value数据库(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/it-taosir/category/1335080.html">Selenium：浏览器自动化测试框架(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/it-taosir/category/1449237.html">Shell：命令行解释器(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/it-taosir/category/1343375.html">Shiro：Java安全（权限）框架(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/it-taosir/category/1332051.html">Spring：轻量级JAVA开发框架(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/it-taosir/category/1332046.html">VUE：渐进式框架(14)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/it-taosir/archive/2019/05.html">2019年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/it-taosir/archive/2019/04.html">2019年4月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/it-taosir/archive/2019/03.html">2019年3月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/it-taosir/archive/2019/02.html">2019年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/it-taosir/archive/2019/01.html">2019年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/it-taosir/archive/2018/12.html">2018年12月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/it-taosir/archive/2018/11.html">2018年11月 (36)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/it-taosir/archive/2018/10.html">2018年10月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/it-taosir/archive/2018/09.html">2018年9月 (7)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/it-taosir/p/9979275.html#4207612">1. Re:MVC、RPC、SOA、微服务架构之间的区别</a></li>
+        <li class="recent_comment_body">讲的太过于简单了吧，那张图还不错</li>
+        <li class="recent_comment_author">--高天日</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/it-taosir/p/9992246.html#4175266">2. Re:mybatis-plus注解版实现多表联查（sql）</a></li>
+        <li class="recent_comment_body">@维多可以的，现在才看到不好意思，之前一直在忙加班可以用 if(执行条件,true操作,false操作) 这种形式例如 select * from user where 1=1 and if(#{na......</li>
+        <li class="recent_comment_author">--涛先森の日常</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/it-taosir/p/9992246.html#4148125">3. Re:mybatis-plus注解版实现多表联查（sql）</a></li>
+        <li class="recent_comment_body">请问连表查询 条件动态添加也能实现吗？</li>
+        <li class="recent_comment_author">--维多</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/it-taosir/p/9860829.html#4099816">4. Re:JSON树节点的增删查改</a></li>
+        <li class="recent_comment_body">@初心？js写了个定时器，切换的处理，技术不够还没想到好的方式，啊哈...</li>
+        <li class="recent_comment_author">--涛先森の日常</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/it-taosir/p/9860829.html#4099801">5. Re:JSON树节点的增删查改</a></li>
+        <li class="recent_comment_body">我只关心你的背景怎么弄得。</li>
+        <li class="recent_comment_author">--初心？</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/it-taosir/p/9992246.html">1. mybatis-plus注解版实现多表联查（sql）(6460)</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/9882780.html">2. SpringBoot下支付宝接口的使用(2380)</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/9728772.html">3. SpringBoot+Maven聚合多项目打包成jar(2377)</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/9874033.html">4. jpa自定义条件分页查询(1811)</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/9979275.html">5. MVC、RPC、SOA、微服务架构之间的区别(1496)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/it-taosir/p/9860829.html">1. JSON树节点的增删查改(2)</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/9992246.html">2. mybatis-plus注解版实现多表联查（sql）(2)</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/9979275.html">3. MVC、RPC、SOA、微服务架构之间的区别(1)</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/9728772.html">4. SpringBoot+Maven聚合多项目打包成jar(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/it-taosir/p/9892801.html">1. 分布式数据库中CAP原理（CAP+BASE）(1)</a></li><li><a href="https://www.cnblogs.com/it-taosir/p/10319945.html">2. SpringBoot2整合activiti6环境搭建(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 涛先森の日常
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+<!--PageEndHtml Block Begin-->
+<script>
+!function(){
+function n(n,e,t){
+return n.getAttribute(e)||t
+}
+function e(n){
+return document.getElementsByTagName(n)
+}
+function t(){
+var t=e("script"),o=t.length,i=t[o-1];
+return{l:o,z:n(i,"zIndex",-1),o:n(i,"opacity",.5),c:n(i,"color","0,0,0"),n:n(i,"count",99)}
+}
+function o(){
+a=m.width=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth,
+c=m.height=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight
+}
+function i(){
+r.clearRect(0,0,a,c);
+var n,e,t,o,m,l;
+s.forEach(function(i,x){
+for(i.x+=i.xa,i.y+=i.ya,i.xa*=i.x>a||i.x<0?-1:1,i.ya*=i.y>c||i.y<0?-1:1,r.fillRect(i.x-.5,i.y-.5,1,1),e=x+1;e<u.length;e++)n=u[e],
+null!==n.x&&null!==n.y&&(o=i.x-n.x,m=i.y-n.y,
+l=o*o+m*m,l<n.max&&(n===y&&l>=n.max/2&&(i.x-=.03*o,i.y-=.03*m),
+t=(n.max-l)/n.max,r.beginPath(),r.lineWidth=t/2,r.strokeStyle="rgba("+d.c+","+(t+.2)+")",r.moveTo(i.x,i.y),r.lineTo(n.x,n.y),r.stroke()))
+}),
+x(i)
+}
+var a,c,u,m=document.createElement("canvas"),
+d=t(),l="c_n"+d.l,r=m.getContext("2d"),
+x=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||
+function(n){
+window.setTimeout(n,1e3/45)
+},
+w=Math.random,y={x:null,y:null,max:2e4};m.id=l,m.style.cssText="position:fixed;top:0;left:0;z-index:"+d.z+";opacity:"+d.o,e("body")[0].appendChild(m),o(),window.onresize=o,
+window.onmousemove=function(n){
+n=n||window.event,y.x=n.clientX,y.y=n.clientY
+},
+window.onmouseout=function(){
+y.x=null,y.y=null
+};
+for(var s=[],f=0;d.n>f;f++){
+var h=w()*a,g=w()*c,v=2*w()-1,p=2*w()-1;s.push({x:h,y:g,xa:v,ya:p,max:6e3})
+}
+u=s.concat([y]),
+setTimeout(function(){i()},100)
+}();
+</script><canvas id="c_n13" width="1707" height="749" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;"></canvas>
+<!--PageEndHtml Block End-->
+
+
+<script type="text/javascript">
+var  music=document.createElement("embed");
+music.setAttribute("allowNetworking","all");
+music.setAttribute("width","340");
+music.setAttribute("height","86");
+music.setAttribute("src","//music.163.com/style/swf/widget.swf?sid=543988338&type=2&auto=1&width=320&height=66");
+var imgs =[
+"https://www.cnblogs.com/images/cnblogs_com/it-taosir/1309716/o_%e6%97%a0%e5%90%8d3.jpg",
+"https://www.cnblogs.com/images/cnblogs_com/it-taosir/1309716/o_%e6%97%a0%e5%90%8d2.jpg",
+"https://www.cnblogs.com/images/cnblogs_com/it-taosir/1309716/o_%e6%97%a0%e5%90%8d.jpg"];    //（设定想要显示的图片）
+var i = 0;
+var body=document.getElementsByTagName("body")[0];//获取DIV对象
+var home=document.getElementById("home");
+body.insertBefore(music,home);
+        function time(){
+               i++;   
+               i=i%3;         // 超过2则取余数，保证循环在0、1、2之间
+               body.style.backgroundImage="url("+imgs[i]+")"; 
+               
+        }
+        setInterval(time,25000);//循环调用time1()函数，时间间隔为2000ms
+        //setInterval()函数，按照指定的周期（按毫秒计）来调用函数或表达式
+time();
+</script><script type="text/javascript">getFollowStatus('f0888d90-8c35-4b7a-0b3f-08d622c564f9')</script></body></html>

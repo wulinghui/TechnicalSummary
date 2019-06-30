@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)https://www.cnblogs.com/jenkin1991/p/8301983.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>nginx 配置详解（新手必看） - Jenkin一H - 博客园</title>
+    <meta property="og:description" content="内容来源：http://blog.csdn.net/david_xtd/article/details/16967837 译者注：不知道其他开发者是否和我一样，参与或者写了很多Web项目，但是却没有真">
+    <link type="text/css" rel="stylesheet" href="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/bundle-coffee.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/bundle-coffee-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/jenkin1991/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/jenkin1991/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/jenkin1991/wlwmanifest.xml">
+    <script src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/pubads_impl_rendering_2019061301.js.下载"></script><script async="" src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/analytics.js.下载"></script><script src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=377656;var currentBlogApp='jenkin1991',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/default.min.css"><link rel="preload" href="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/f.txt"></script><script src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/pubads_impl_2019061301.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/jenkin1991/"><img id="blogLogo" src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/jenkin1991/">Jenkin一H</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/jenkin1991/">首页</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Jenkin%E4%B8%80H">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/jenkin1991/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/jenkin1991/rss"><img src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/xml.gif" alt="订阅"></a></li>
+</ul>
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats">
+<!--done-->
+随笔- 15&nbsp;
+文章- 0&nbsp;
+评论- 1&nbsp;
+</div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/jenkin1991/p/8301983.html">nginx 配置详解（新手必看）</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>内容来源：http://blog.csdn.net/david_xtd/article/details/16967837</p>
+<p>&nbsp;</p>
+<p>译者注：不知道其他开发者是否和我一样，参与或者写了很多Web项目，但是却没有真正的去完整的部署应用，很多时候都是交给ops即运维的同学帮忙来做。而作为一个有节操的开发者，我认为了解一些服务器方面的知识是很有必要的，读了这篇文章之后，自己对nginx也有了一个初步的认识，对自己很有帮助，不敢独享，遂译之。</p>
+<p>如果你是一名Web开发人员，那么你很有可能听过<a href="http://wiki.nginx.org/Main" target="_blank">nginx</a>(读音听起来像engine-x). Nginx是一款速度快，功能强大的http以及反向代理服务器，经过简单的配置之后即可以用来托管页面。</p>
+<p>不幸的是，和很多其他系统管理工具一样，相关的原理教程和配置说明文档都很少。虽然官方提供了一个wiki,但是内容多且复杂，却没有真正的介绍那些你可能真正需要的东西。在自己纠结这个wiki一段时间之后，我终于掌握了使用nginx的一些基础知识，并把它们在这里与其他开发者分享出来，希望你们能够更加快速的去掌握这些知识。</p>
+<p>下面进入正题。针对本教程，你需要一个VPS（虚拟主机），最好是刚刚建立的，这样可以避免与先前的配置产生冲突。</p>
+<h3><a name="t0"></a>初始化安装</h3>
+<p>现在假设你已经拥有一个运行ubuntu的虚拟主机(比如说托管于&nbsp;<a href="https://www.digitalocean.com/" target="_blank">digital ocean</a>),配置好登录选项并更新好&nbsp;<code>apt</code>&nbsp;之后，运行&nbsp;<code>apt-get install nginx</code>&nbsp;安装nginx.在浏览器访问你的IP地址，你会看到页面显示“welcome to ngnix”信息。OK,一切正常。</p>
+<h3><a name="t1"></a>查找nginx目录</h3>
+<p>在我们通过&nbsp;<code>apt</code>&nbsp;安装完nginx后，它为我们提供了一个基本的结构，帮助我们迅速设置好配置文件。所有的nginx配置文件都在&nbsp;<code>/etc/nginx</code>下（译者注：Mac OS X环境下使用homebrew路径与linux有区别，文章结尾部分提供mac下解决方案），输入&nbsp;<code>cd</code>&nbsp;进入该目录。你需要添加新配置选项的地方位于&nbsp;<code>sites-enabled</code>&nbsp;文件夹。如果你打开这个文件夹，你会发现一个名为&nbsp;<code>default</code>&nbsp;的txt文档，打开后你就会找到nginx的配置选项以及 “welcome to nginx"欢迎选项的代码。接下来我们开始建立属于我们自己的配置文件用于显示一个页面。在sites-enabled目录下新建一个空白文件并命名为&nbsp;<code>test</code>,用你自己喜欢的文本编辑器进行编辑。</p>
+<blockquote>
+<p><strong>注意：</strong>&nbsp;在该目录下会发现一个&nbsp;<code>/etc/nginx/sites-available</code>&nbsp;的文件夹。这个文件夹一般在你需要建立和管理多个站点的时候非常有用，可以帮助你更好的组织不同的项目。你需要在这里添加你的nginx配置文案并将他们链接至&nbsp;<code>sites-enabled</code>&nbsp;目录下。命令如下：</p>
+</blockquote>
+<pre><code class="hljs groovy">ln -s <span class="hljs-regexp">/etc/</span>nginx<span class="hljs-regexp">/sites-available/</span>dotcom <span class="hljs-regexp">/etc/</span>nginx<span class="hljs-regexp">/sites-enabled/</span>dotcom
+</code></pre>
+<p><strong>只有在&nbsp;<code>sites-enabled</code>&nbsp;目录下的配置文件才能够真正被用户访问</strong>。但是你同样可以将文件放在&nbsp;<code>sites-available</code>&nbsp;目录下用来存档或者生成链接。</p>
+<h3><a name="t2"></a>配置静态服务器</h3>
+<p>Nginx配置文件有自己的格式，好消息是文件的格式相当简单，看起来特别像CSS文件，先指定变量名，然后在花括号内编写指令。最顶层是&nbsp;<code>server</code>&nbsp;,代码为：</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+
+}
+</code></pre>
+<p>在花括号内，我们仍然可以像书写CSS一样，键值对后接分号，或者说更像sass的语法，并添加嵌套代码块。后面两种风格的代码我们都会用到，也很容易理解。</p>
+<p>这里可以添加的键值对和代码块（在本教程的后面我们把它称为指令）有很多种，你可以转到<a href="http://wiki.nginx.org/DirectiveIndex" target="_blank">官方文档</a>去具体查看。对于基本的服务器设置其实只用掌握一些重要的指令即可。我会给后面的每个指令链接官方的ngnix文档。官方文档是你深入理解nginx的唯一渠道，因此你必须掌握如何更好的去使用它。</p>
+<p><a href="http://wiki.nginx.org/HttpCoreModule#listen" target="_blank">listen</a></p>
+<p><strong>声明服务器监听的端口号</strong>。如果你了解<a href="http://rubyonrails.org/" target="_blank">rails</a>,你一定知道本地服务器的默认端口是3000.&nbsp;<a href="http://roots.cx/" target="_blank">Roots</a>运行在1111端口。SSL在443端口。互联网的默认端口是80，因此在url中未定义端口的话一般默认为80。因为你很有可能是去运行一个线上的服务器，因此最好定义成80端口。代码如下：</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;    
+}
+</code></pre>
+<p>注意默认端口严格来讲不是必要的，但是为了能够保证你对整个流程足够了解最好加上。完成了第一步，我们进入下一步server_name.</p>
+<p><a href="http://wiki.nginx.org/HttpCoreModule#server_name" target="_blank">server_name</a></p>
+<p><strong>server_name主要用来匹配url地址</strong>。任意请求通过nginx时，它会查看url并寻找&nbsp;<code>server_name</code>&nbsp;片段。如果你的站点地址为&nbsp;<code>http://xvfeng.me</code>, 那么你的&nbsp;<code>server_name</code>&nbsp;应当也为&nbsp;<code>xvfeng.me</code>&nbsp;. 如果你在域名解析时使用了A记录并通过服务器指向&nbsp;<code>http://snargles.com</code>&nbsp;, 你可以添加另外一个&nbsp;<code>server</code>&nbsp;代码，将&nbsp;<code>server_name</code>&nbsp;指向&nbsp;<code>snargles.com</code>, 这段代码就会匹配来自于这个域名的请求。</p>
+<p>这个特性非常强大。这意味着你可以在单个nginx配置文件里托管无数个站点，甚至包括不同域名的网站。你需要做的只是将设置A记录并指向虚拟机所在的IP, 之后设置其他的nginx服务器配置。</p>
+<p>针对&nbsp;<code>server_name</code>&nbsp;还有两点值得关注。首先是你可以设置子域名。如果你想匹配<code>http://test.example.com</code>&nbsp;,设置相当简单，甚至还可以指向一个完全不同的应用。第二点，你可以使用通配符, 即&nbsp;<code>*</code>&nbsp;或者正则来匹配路由。这个功能绝对强大。下面我们简单的配置一下server_name到<code>example.com</code>&nbsp;.</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span> example.com;
+}
+</code></pre>
+<p>Nice.接下来再加一些配置就可以让服务器运转了。</p>
+<p><a href="http://wiki.nginx.org/HttpCoreModule#root" target="_blank">root</a></p>
+<p>这个是<strong>托管静态站点最关键的部分</strong>。如果你只是想用它来托管一些html和css文件，root部分要<strong>定义的就是这些文件存放的路径</strong>。我喜欢把文件放在&nbsp;<code>/var/www</code>&nbsp;目录下，因此我们在这里建立一个文件夹。使用&nbsp;<code>mkdir</code>&nbsp;创建&nbsp;<code>/var/www/example</code>&nbsp;目录,建立一个空白的&nbsp;<code>index.html</code>&nbsp;文件，随便添加一些段落输出hello world之类的内容。代码如下：</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span> example.com;
+    <span class="hljs-attribute">root</span> /var/www/example;
+}
+</code></pre>
+<p>基本变量设置完毕，下一步配置路由。</p>
+<p><a href="http://wiki.nginx.org/HttpCoreModule#location" target="_blank">location</a></p>
+<p>Location接受两个参数，一个字符串或者正则和一段代码。字符串或者正则用于匹配某个特定目录。如果你想让用户在访问&nbsp;<code>example.com/whaterver</code>&nbsp;时访问某个特定页面，你需要将&nbsp;<code>whatever</code>&nbsp;设置为uri地址。在这里我们只需要访问root目录，因此只需要加上&nbsp;<code>/</code>&nbsp;即可，内容暂时为空，后面再做解释。</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span> example.com;
+    <span class="hljs-attribute">root</span> /var/www/example;
+
+    <span class="hljs-attribute">location</span> / {
+
+    }
+}
+</code></pre>
+<p>第一参数可以有很多种写法，你可以参考上面给出的链接。在以上区块内，我们需要路由指向结果页面。注意&nbsp;<code>/</code>&nbsp;会匹配所有的url地址，因为在这里它被解释为一个正则。如果你只想匹配某个准确的字符串，只需要在前面加上一个等号，写法如下：</p>
+<pre><code class="hljs ini"><span class="hljs-attr">location</span> = / { ... }
+</code></pre>
+<p>现在我们需要完成之前的代码。我们可以在区块内添加另外一段指令，用于加载名为&nbsp;<code>try_files</code>&nbsp;的文件。Try fiels接受了一组文件名或者正则，用于在根目录下查找，并会加载查找到的第一个结果。对于我们的静态服务器来讲，我们希望找到一个在&nbsp;<code>/</code>&nbsp;之后紧跟着whatever的文件，例如&nbsp;<code>whatever.html</code>. 如果在斜线后面没有任何内容，则会寻找&nbsp;<code>index.html</code>. 在上面给出的文档链接中你可以找到更多的关于如何设置该选项的吸纳关系介绍，这里我们只写一些简单的配置：</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span> example.com;
+    <span class="hljs-attribute">root</span> /var/www/example;
+
+    <span class="hljs-attribute">location</span> / {
+        <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ /index.html;    
+    }
+}
+</code></pre>
+<p>你可能会奇怪上面的&nbsp;<code>$url</code>&nbsp;是从哪里来的？其实是nginx所提供的。每次有请求时，nginx会生成<a href="http://wiki.nginx.org/NginxHttpCoreModule#Variables" target="_blank">一系列</a>变量，这些变量存储了请求的相关信息。这里的<a href="http://wiki.nginx.org/NginxHttpCoreModule#.24uri" target="_blank">uri</a>就是我们将要了解的内容之一。</p>
+<ul>
+<li>来自&nbsp;<code>http://example.com</code>&nbsp;的请求进入。</li>
+<li>nginx找到server片段代码，其中&nbsp;<code>server_name</code>&nbsp;为&nbsp;<code>example.com</code>&nbsp;，并使用它来处理请求</li>
+<li>nginx匹配任意请求。因为这里的&nbsp;<code>/</code>&nbsp;会匹配根域名下的任意内容。</li>
+<li>在匹配到的location代码中，nginx开始试图加载一个文件。首先寻找一个未命名的文件，因为这里的uri匹配的就是没有名称的文件，所以无法找到。接着开始查找未命名的目录，结果还是找不到。最后开始查找并加载根目录下&nbsp;<code>/index.html</code>&nbsp;。</li>
+</ul>
+<p>接下来想象一下如果你添加一个名为&nbsp;<code>test.html</code>&nbsp;的文件到根目录下并访问&nbsp;<code>http://example.com/test.html</code>.自己试一下你就知道了。</p>
+<p>你可以任意的去尝试改变这里的配置环境。例如，在<a href="http://carrot.is/" target="_blank">carrot.is</a>这个网站里，但用户访问某个文件并且没有加上&nbsp;<code>.html</code>&nbsp;后缀时，try_files同样会查找&nbsp;<code>$uri.html</code>&nbsp;并匹配相应结果。因此在你访问<code>http://carrot.is.about</code>&nbsp;和&nbsp;<code>http://carrot.is/about.html</code>&nbsp;时你会得到相同的文件。你可以充分发挥你的想象力去设置你的配置文件。</p>
+<h3><a name="t3"></a>启动服务</h3>
+<p>总结一下我们所做的事情。首先添加了&nbsp;<code>server</code>&nbsp;选项，在nginx运行时，会查找&nbsp;<code>/etc/sites-enabled</code>&nbsp;目录下的所有配置文件用于显示对应内容。但是请等一下，你可能无法马上得到结果－因为nginx并不知道你所作的这些改动。为了让nginx真正读取新配置文件，你需要重启服务器，运行以下命令：</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">service</span> nginx reload
+</code></pre>
+<blockquote>
+<p>注意：这里的&nbsp;<code>service</code>&nbsp;命令实际上是调用了配置文件里内容，这些都在使用&nbsp;<code>apt</code>&nbsp;时被生成。这里调用的实际上是&nbsp;<code>/etc/init.d/nginx reload</code>&nbsp;</p>
+</blockquote></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/jenkin1991/tag/nginx%E9%85%8D%E7%BD%AE/">nginx配置</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(8301983,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;6bbe304c-e6b2-4076-a8ab-08d4ef52ecb5&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/jenkin1991/" target="_blank"><img src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/20170831175549.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/jenkin1991/">Jenkin一H</a><br>
+            <a href="https://home.cnblogs.com/u/jenkin1991/followees">关注 - 0</a><br>
+            <a href="https://home.cnblogs.com/u/jenkin1991/followers">粉丝 - 4</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;6bbe304c-e6b2-4076-a8ab-08d4ef52ecb5&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(8301983,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">4</span>
+    </div>
+    <div class="buryit" onclick="votePost(8301983,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/jenkin1991/p/7809413.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/jenkin1991/p/7809413.html" title="发布于2017-11-09 14:58">mysql常用笔记</a><br><a href="https://www.cnblogs.com/jenkin1991/p/8418161.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/jenkin1991/p/8418161.html" title="发布于2018-02-05 16:23">YII2 架构文章链接</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2018-01-17 11:39</span> <a href="https://www.cnblogs.com/jenkin1991/">Jenkin一H</a> 阅读(<span id="post_view_count">88067</span>) 评论(<span id="post_comment_count">1</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=8301983" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/jenkin1991/p/8301983.html#" onclick="AddToWz(8301983);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=377656,cb_entryId=8301983,cb_blogApp=currentBlogApp,cb_blogUserGuid='6bbe304c-e6b2-4076-a8ab-08d4ef52ecb5',cb_entryCreatedDate='2018/1/17 11:39:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<br>
+<div class="feedback_area_title">评论</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="https://www.cnblogs.com/jenkin1991/p/8301983.html#4071504" class="layer">#1楼</a><a name="4071504" id="comment_anchor_4071504"></a><span id="comment-maxId" style="display:none;">4071504</span><span id="comment-maxDate" style="display:none;">2018/9/19 16:56:27</span> <span class="comment_date">2018-09-19 16:56</span> | <a id="a_comment_author_4071504" href="http://home.cnblogs.com/u/1082466/" target="_blank">shijianzhong</a> <a href="http://msg.cnblogs.com/send/shijianzhong" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_4071504" class="blog_comment_body">server {<br>    listen       80;            # 监听端口<br>    server_name imeasy.cn;    # 站点域<br>    index index.html index.htm index.php;   # 默认导航页<br><br>    location / {<br>      proxy_pass <a href="http://imeasy.cn/" target="_blank">http://imeasy.cn</a>:3001/;<br>    }<br><br>    location /c/ {<br><br>        proxy_pass <a href="http://imeasy.cn/" target="_blank">http://imeasy.cn</a>:8082/;<br>    }<br><br>}<br><br>作者您好：上述配置，8082 端口的站点js和css文件找不到是神情况，期待您的回复</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4071504,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(4071504,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/jenkin1991/p/8301983.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/jenkin1991/p/8301983.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://q.cnblogs.com/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博问&#39;)">【推荐】程序员问答平台，解决您开发中遇到的技术难题</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CLKo_7ib9eICFVilvQodGL4Ehw"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/ziq711/p/8434274.html" target="_blank" onclick="clickRecomItmem(8434274)">写给Web开发人员看的Nginx介绍</a><br>·  <a href="https://www.cnblogs.com/h9527/p/5530298.html" target="_blank" onclick="clickRecomItmem(5530298)">nginx静态服务器配置</a><br>·  <a href="https://www.cnblogs.com/onlymate/p/9900773.html" target="_blank" onclick="clickRecomItmem(9900773)">Nginx配置详解</a><br>·  <a href="https://www.cnblogs.com/ryzblog76/p/8797402.html" target="_blank" onclick="clickRecomItmem(8797402)">Nginx初探</a><br>·  <a href="https://www.cnblogs.com/knowledgesea/p/5175711.html" target="_blank" onclick="clickRecomItmem(5175711)">Nginx配置详解</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CJrIgLmb9eICFVilvQodGL4Ehw"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true" src="./nginx 配置详解（新手必看） - Jenkin一H - 博客园_files/saved_resource(1).html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/627088/" target="_blank">清华排名超过耶鲁、哥大！最新QS世界大学排行榜出炉</a><br> ·  <a href="https://news.cnblogs.com/n/627087/" target="_blank">鹅知道 | 想象力的局限 导致《三体》电影和电视剧很难成精品</a><br> ·  <a href="https://news.cnblogs.com/n/627086/" target="_blank">格兰仕再发声明：会坚持与不公平抗争 反对平台霸权</a><br> ·  <a href="https://news.cnblogs.com/n/627085/" target="_blank">Go语言到底是谁的？谷歌or社区？</a><br> ·  <a href="https://news.cnblogs.com/n/627084/" target="_blank">5G前线丨打电话不再局限于屏幕 中兴展示5G全息投影视频通话</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/jenkin1991/">Jenkin一H</a><br>园龄：<a href="https://home.cnblogs.com/u/jenkin1991/" title="入园时间：2017-08-31">1年9个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/jenkin1991/followers/">4</a><br>关注：<a href="https://home.cnblogs.com/u/jenkin1991/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;6bbe304c-e6b2-4076-a8ab-08d4ef52ecb5&#39;)">+加关注</a></div><script>getFollowStatus('6bbe304c-e6b2-4076-a8ab-08d4ef52ecb5')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/05/01&#39;);return false;">&lt;</a></td><td align="center">2019年6月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/07/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td class="CalWeekendDay" align="center">1</td></tr><tr><td class="CalWeekendDay" align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalWeekendDay" align="center">8</td></tr><tr><td class="CalWeekendDay" align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td class="CalWeekendDay" align="center">15</td></tr><tr><td class="CalWeekendDay" align="center">16</td><td align="center">17</td><td align="center">18</td><td class="CalTodayDay" align="center">19</td><td align="center">20</td><td align="center">21</td><td class="CalWeekendDay" align="center">22</td></tr><tr><td class="CalWeekendDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalWeekendDay" align="center">29</td></tr><tr><td class="CalWeekendDay" align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/jenkin1991/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/jenkin1991/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/jenkin1991/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/jenkin1991/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/jenkin1991/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass(&#39;itemListLink&#39;, &#39;itemListLin_con&#39;);return false;" href="https://www.cnblogs.com/jenkin1991/p/8301983.html#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/jenkin1991/tag/array_map/">array_map</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/array_walk/">array_walk</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/centos7%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/">centos7开机启动脚本</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/centos7%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A9%E5%AE%B9/">centos7虚拟机扩容</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/clone%E5%A4%B1%E8%B4%A5/">clone失败</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/compser%20tp5%20nginx/">compser tp5 nginx</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/git/">git</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/linux%E5%91%BD%E4%BB%A4/">linux命令</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/mysql%20%E6%97%B6%E9%97%B4%E6%88%B3/">mysql 时间戳</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/NERDTree/">NERDTree</a>(1)</li><li><a href="https://www.cnblogs.com/jenkin1991/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/jenkin1991/archive/2019/04.html">2019年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/jenkin1991/archive/2019/02.html">2019年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/jenkin1991/archive/2019/01.html">2019年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/jenkin1991/archive/2018/09.html">2018年9月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/jenkin1991/archive/2018/02.html">2018年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/jenkin1991/archive/2018/01.html">2018年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/jenkin1991/archive/2017/11.html">2017年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/jenkin1991/archive/2017/09.html">2017年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/jenkin1991/archive/2017/08.html">2017年8月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/jenkin1991/p/8301983.html#4071504">1. Re:nginx 配置详解（新手必看）</a></li>
+        <li class="recent_comment_body">server { listen 80; # 监听端口 server_name imeasy.cn; # 站点域 index index.htm......</li>
+        <li class="recent_comment_author">--shijianzhong</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/jenkin1991/p/8301983.html">1. nginx 配置详解（新手必看）(88065)</a></li><li><a href="https://www.cnblogs.com/jenkin1991/p/9604054.html">2. git@github.com: Permission denied (publickey). fatal: Could not read from remote repository.  Please make sure you have the correct access rights and the repository exists.(2100)</a></li><li><a href="https://www.cnblogs.com/jenkin1991/p/9681185.html">3. array_map,array_walk的使用以及区别(968)</a></li><li><a href="https://www.cnblogs.com/jenkin1991/p/9675806.html">4. phpstudy 升级mysql 及MySQL服务等问题(229)</a></li><li><a href="https://www.cnblogs.com/jenkin1991/p/7809413.html">5. mysql常用笔记(166)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/jenkin1991/p/8301983.html">1. nginx 配置详解（新手必看）(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/jenkin1991/p/8301983.html">1. nginx 配置详解（新手必看）(4)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 Jenkin一H
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

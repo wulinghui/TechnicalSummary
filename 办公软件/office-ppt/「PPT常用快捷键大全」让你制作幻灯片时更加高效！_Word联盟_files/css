@@ -1,0 +1,6 @@
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Noto Sans SC Regular'), local('NotoSansSC-Regular'), url(https://fonts.gstatic.com/l/font?kit=k3kXo84MPvpLmixcA63oeALhLJD90SDOw08amvQGP2jf-xBpbZTzW9PXiq9rziHUo4qfG7m_RoqdoEIG7n3RUZHDDveGcni0LLlxSMAot8uyaBPGIhMjUVCt5TT95PpVEWzRs-wYaDfPpbhlj-1bRLG8ph3ehkQsmvUkWb5TeVvrQxOM7A&skey=cf0bb10b5602fdc3&v=v8) format('woff2');
+}

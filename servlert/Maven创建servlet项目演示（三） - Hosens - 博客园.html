@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)https://www.cnblogs.com/understander/p/5510474.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>Maven创建servlet项目演示（三） - Hosens - 博客园</title>
+<meta property="og:description" content="上一节用Maven新建了web项目成功后，本文演示在此基础上应用servlet。 从对tomcat服务器进行配置可的过程中可以知道，tomcat作为servlet容器运行，负责处理客户请求，把请求传送">
+    <link type="text/css" rel="stylesheet" href="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/bundle-CodingLife.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/bundle-CodingLife-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/understander/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/understander/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/understander/wlwmanifest.xml">
+    <script src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/pubads_impl_rendering_2019043001.js.下载"></script><script async="" src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/analytics.js.下载"></script><script type="text/javascript" src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/encoder.js.下载"></script><script src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=285705;var currentBlogApp='understander',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/f.txt"></script><script src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/pubads_impl_2019043001.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/understander/"><img id="blogLogo" src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/understander/">unbelieveus</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/understander/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Hosens">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/understander/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/understander/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 79&nbsp; </span>
+<span id="stats_article_count">文章 - 2&nbsp; </span>
+<span id="stats-comment_count">评论 - 11</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/understander/p/5510474.html">Maven创建servlet项目演示（三）</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><h2><span style="font-size: 14pt;"><strong>上一节用Maven新建了web项目成功后，本文演示在此基础上应用servlet。</strong></span></h2>
+<p><span style="font-size: 14pt;"><strong>从对tomcat服务器进行配置可的过程中可以知道，tomcat作为servlet容器运行，负责处理客户请求，把请求传送给servlet并把结果返回给客户。 <br></strong></span></p>
+<p><span style="font-size: 14pt;"><strong>这里的servlet作用是处理该客户请求的最终实体类。</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>servlet实际上是一个有规定接口，属性和方法的java类，tomcat容器与servlet之间的接口是由servlet API定义好的，这个接口定义了tomcat容器在servlet上要调用的方法及传递给servlet的对象。</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>tomcat服务器会在启动时，将在web.xml中配置好的servlet对象实例化，并加载到服务器的内存中，若接收到HTTP请求，服务器将调用相应的servlet对象来进行处理。</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>所有的servlet都必须实现javax.servlet.Servlet接口，但是我们在进行http协议相关的web开发时，一般直接通过继承javax.servlet.HttpServlet类来实现。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><em>1.首先修改pom.xml文件，添加servlet依赖</em></strong></span></p>
+<div class="cnblogs_code"><div>按 Ctrl+C 复制代码</div><textarea style="width: 836px; height: 553.6px; font-family: &quot;Courier New&quot;; font-size: 12px; line-height: 1.5;"></textarea><div>按 Ctrl+C 复制代码</div></div>
+<p><span style="font-size: 14pt;"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>&nbsp;修改完保存后，项目会从Maven仓库中自动添加servlet-api-3.1-b02.jar包的引用，如果仓库中没有，会自动下载。操作步骤如下：</strong></span></p>
+<p><span style="font-size: 14pt;"><strong><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/955396-20160519220213154-1422016537.png" alt="" width="965" height="527"></strong></span></p>
+<p><span style="font-size: 14pt;"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>简单说下：source folder和folder区别。因为本人在创建source folder的时候，总是莫名其妙的创建不了，或创建一个source folder结果它就跑到folder里面去了。（好像是一个bug来着，若你也出现同样的问题，请在创建source folder中以source folder，folder，package不同的形式来创建它。）</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>source folder ：存放java源代码的文件夹,当然也包括一些package文件夹,还可以包含其他文件. 项目构建后,source folder里面的java自动编译成class文件到相应的bin文件夹中,其他文件也会移到到相应的目录下.</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>folder ：里面可以放入任何文件.包括java源文件,jar文件,其他文件(例如,图片,声音等).在此我说明一下,如果里面含有java源文件,不管程序是否 正 确,eclipse都不会报错,把它们当做普通文件处理.但是项目如果要使用这里面的文件,情况就不同了. </strong></span></p>
+<p><span style="font-size: 14pt;"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt;"><strong><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/955396-20160520165346216-201438973.png" alt="" width="803" height="523"></strong></span></p>
+<p><span style="font-size: 14pt;"><strong>（<span style="color: #666600;">很多要在<a class="replace_word" style="color: #df3434; font-weight: bold;" title="Java EE知识库" href="http://lib.csdn.net/base/17" target="_blank">Java</a>中访问的文件可以放在src下或者便于区分新建特定名字的source folder目录放在下面，这样的会随着编译自动将java文件<span style="color: #666600;">被编译到default output folder路径下面</span>（<span style="color: #666600;">若你重新设置了output folder文件路径，则<span style="color: #666600;">编译到新设置的路径文件下</span></span>），而不是java类型的文件，则是直接拷贝过去，这一切对于开发者都是透明的。需要注意的是，无论是使用默认或修改了的putput folder，在myeclipse工作目录中都以不可见的形式存在，当然你可以在文件夹中找到它</span>）</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>&nbsp;</strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em>2.新建一个Servlet</em></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em>在source folder下的src/main/java下创建一个com.sulei.demo包，包下创建一个ServletDemo类。</em></strong></span></p>
+<p><span style="font-size: 14pt;"><strong>&nbsp;<img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/955396-20160520170722013-746245710.png" alt="" width="829" height="476"></strong></span></p>
+<p><span style="font-size: 14pt;"><strong>&nbsp;</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>一个servlet从产生到结束的流程如下：</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>a. servlet容器创建servlet的一个实例，在需要该servlet处理的请求到时触发。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>b.容器调用该实例的init（）方法。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>c. 如果容器对该servlet有请求，则调用此实例的service（）方法。（注意是service而不是servlet）</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>d. 容器在销毁本实例前调用它的destroy（）方法，并还进行垃圾收集。</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>所以servlet生命周期常常被定义为：加载，实例化，初始化，处理客户请求和销毁。一旦清清了一个servlet，就没有办法阻止容器执行一个完整的生命周期了。</strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="font-size: 14pt;"><strong>servlet类代码如下：</strong></span></strong></span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code"><div>按 Ctrl+C 复制代码</div><textarea style="width: 836px; height: 600px; font-family: &quot;Courier New&quot;; font-size: 12px; line-height: 1.5;"></textarea><div>按 Ctrl+C 复制代码</div></div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>3.修改web.xml配置文件</strong></span></p>
+<p><span style="font-size: 14pt;"><strong><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/955396-20160520171245669-803462742.png" alt="" width="910" height="546"></strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>web.xml配置文件的内容为：</strong></span></p>
+<div class="cnblogs_code"><div>按 Ctrl+C 复制代码</div><textarea style="width: 836px; height: 312px; font-family: &quot;Courier New&quot;; font-size: 12px; line-height: 1.5;"></textarea><div>按 Ctrl+C 复制代码</div></div>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><em>4.创建index.jsp</em></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em>jsp文件内容如下：</em></strong></span></p>
+<div class="cnblogs_code"><div>按 Ctrl+C 复制代码</div><textarea style="width: 836px; height: 276.8px; font-family: &quot;Courier New&quot;; font-size: 12px; line-height: 1.5;"></textarea><div>按 Ctrl+C 复制代码</div></div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><em><em>5.创建login.jsp</em></em></strong></span></p>
+<p><span style="font-size: 14pt;"><strong>jsp文件内容如下：</strong></span></p>
+<div class="cnblogs_code"><div>按 Ctrl+C 复制代码</div><textarea style="width: 836px; height: 346.4px; font-family: &quot;Courier New&quot;; font-size: 12px; line-height: 1.5;"></textarea><div>按 Ctrl+C 复制代码</div></div>
+<p><strong><span style="font-size: 14pt;">扩展内容：<span style="color: #ff0000;">JSP是基于servlet的扩展，实际上JSP编译后就是servlet文件，不过使用jsp技术使得网页开发变得更加方便而已。</span></span></strong></p>
+<p><strong><span style="font-size: 14pt;"><span style="color: #ff0000;">servlet中只能通过out.println()语句输出HTML语法。</span></span></strong></p>
+<p><strong><span style="font-size: 14pt;"><span style="color: #ff0000;">JSP网页是传统的HTML文件中加入java程序片段和JSP标签构成的，servlet/JSP容器收到客户端的请求时，首先执行网页中的程序代码，然后把结果以HTML格式响应给客户端。</span></span></strong></p>
+<p><span style="font-size: 14pt;"><strong>现在效果图如下：（注意jsp文件存放的位置都是存放在webapp文件夹下）</strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/955396-20160520171852919-1612326028.png" alt=""></em></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><em>6.运行代码：右键单击工程名称--&gt;run as --&gt;myeclipse service application--&gt; tomcat 7 .x--&gt;ok</em></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em>各步骤截图如下：</em></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em>a.进入index页面</em></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/955396-20160520172701857-467841437.png" alt="" width="586" height="424"></em></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>b.进入login页面</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/955396-20160520172716169-1789711373.png" alt="" width="963" height="237"></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em>c.在窗口可以看到运行java程序获取jsp页面的name和password结果</em></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><em><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/955396-20160520172731216-227912779.png" alt="" width="582" height="436"></em></strong></span></p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/understander/tag/maven/">maven</a>, <a href="https://www.cnblogs.com/understander/tag/maven%E5%88%9B%E5%BB%BAweb/">maven创建web</a>, <a href="https://www.cnblogs.com/understander/tag/maven%E5%88%9B%E5%BB%BAservlet%E9%A1%B9%E7%9B%AE/">maven创建servlet项目</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5510474,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;4e041f11-4818-e611-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/understander/" target="_blank"><img src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/20160516230218.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/understander/">Hosens</a><br>
+            <a href="http://home.cnblogs.com/u/understander/followees">关注 - 4</a><br>
+            <a href="http://home.cnblogs.com/u/understander/followers">粉丝 - 43</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;4e041f11-4818-e611-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5510474,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(5510474,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/understander/p/5508908.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/understander/p/5508908.html" title="发布于2016-05-19 21:03">Maven创建webapp(二)</a><br><a href="https://www.cnblogs.com/understander/p/5514291.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/understander/p/5514291.html" title="发布于2016-05-21 12:17">Tomcat服务器与MyEclipse绑定</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-05-20 17:35</span> <a href="https://www.cnblogs.com/understander/">Hosens</a> 阅读(<span id="post_view_count">2286</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5510474" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/understander/p/5510474.html#" onclick="AddToWz(5510474);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=285705,cb_entryId=5510474,cb_blogApp=currentBlogApp,cb_blogUserGuid='4e041f11-4818-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/5/20 17:35:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/understander/p/5510474.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/understander/p/5510474.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.bagevent.com/event/2195041?bag_track=13072958" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-看雪&#39;)">【活动】看雪2019安全开发者峰会，共话安全领域焦点</a><br><a href="https://ke.qq.com/adActivity.html?name=xiangxueketang2" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-享学&#39;)">【培训】Java程序员年薪40W，他1年走了别人5年的路</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CMaO3fvliuICFc4YKgodXpEDjA"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/weibanggang/p/9692551.html" target="_blank" onclick="clickRecomItmem(9692551)">maven没有servlet（创建servlet后报错）</a><br>·  <a href="https://www.cnblogs.com/wangshouchang/p/6187428.html" target="_blank" onclick="clickRecomItmem(6187428)">eclipse配置maven + 创建maven项目（三）</a><br>·  <a href="https://www.cnblogs.com/valuestack/p/Eclipse-Maven-Web-Servlet-Version.html" target="_blank" onclick="clickRecomItmem(8547744)">Eclipse创建Maven Web项目后更改Servlet版本</a><br>·  <a href="https://www.cnblogs.com/leiOOlei/p/3372521.html" target="_blank" onclick="clickRecomItmem(3372521)">Maven3路程（三）用Maven创建第一个web项目(2)servlet演示</a><br>·  <a href="https://www.cnblogs.com/jzdwajue/p/6698977.html" target="_blank" onclick="clickRecomItmem(6698977)">Maven  安装、Eclipse创建项目过程演示</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CMeO3fvliuICFc4YKgodXpEDjA"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true" src="./Maven创建servlet项目演示（三） - Hosens - 博客园_files/saved_resource(1).html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/624940/" target="_blank">谷歌开放第二/三代云端TPU Pod 可配备1000颗TPU</a><br> ·  <a href="https://news.cnblogs.com/n/624939/" target="_blank">高考移民，击中学位房的“阿喀琉斯之踵”</a><br> ·  <a href="https://news.cnblogs.com/n/624938/" target="_blank">美国数字广告收入去年首超1000亿美元 监管或带来增长挑战</a><br> ·  <a href="https://news.cnblogs.com/n/624937/" target="_blank">受损猪肺能体外修复并用于移植</a><br> ·  <a href="https://news.cnblogs.com/n/624936/" target="_blank">谷歌推新集成开发环境Android Studio 专注速度优化</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/understander/">Hosens</a><br>园龄：<a href="https://home.cnblogs.com/u/understander/" title="入园时间：2016-05-12">2年11个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/understander/followers/">43</a><br>关注：<a href="https://home.cnblogs.com/u/understander/followees/">4</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;4e041f11-4818-e611-9fc1-ac853d9f53cc&#39;)">+加关注</a></div><script>getFollowStatus('4e041f11-4818-e611-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/04/01&#39;);return false;">&lt;</a></td><td align="center">2019年5月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/06/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td class="CalWeekendDay" align="center">4</td></tr><tr><td class="CalWeekendDay" align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalTodayDay" align="center">8</td><td align="center">9</td><td align="center">10</td><td class="CalWeekendDay" align="center">11</td></tr><tr><td class="CalWeekendDay" align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td class="CalWeekendDay" align="center">18</td></tr><tr><td class="CalWeekendDay" align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td class="CalWeekendDay" align="center">25</td></tr><tr><td class="CalWeekendDay" align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td></tr><tr><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/understander/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/understander/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/understander/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/understander/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/understander/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/understander/tag/mysql/">mysql</a>(11)</li><li><a href="https://www.cnblogs.com/understander/tag/spring%E5%AD%A6%E4%B9%A0/">spring学习</a>(9)</li><li><a href="https://www.cnblogs.com/understander/tag/Spring/">Spring</a>(9)</li><li><a href="https://www.cnblogs.com/understander/tag/%E6%8E%92%E5%BA%8F/">排序</a>(7)</li><li><a href="https://www.cnblogs.com/understander/tag/java/">java</a>(6)</li><li><a href="https://www.cnblogs.com/understander/tag/hibernate/">hibernate</a>(6)</li><li><a href="https://www.cnblogs.com/understander/tag/linux/">linux</a>(5)</li><li><a href="https://www.cnblogs.com/understander/tag/maven/">maven</a>(5)</li><li><a href="https://www.cnblogs.com/understander/tag/myeclipse/">myeclipse</a>(4)</li><li><a href="https://www.cnblogs.com/understander/tag/maven%E4%BB%93%E5%BA%93/">maven仓库</a>(3)</li><li><a href="https://www.cnblogs.com/understander/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/understander/category/893627.html">Databases(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/understander/category/893625.html">Java(36)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/understander/category/893629.html">JavaScript</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/understander/archive/2017/07.html">2017年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/understander/archive/2017/05.html">2017年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/understander/archive/2017/04.html">2017年4月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/understander/archive/2017/01.html">2017年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/understander/archive/2016/12.html">2016年12月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/understander/archive/2016/11.html">2016年11月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/understander/archive/2016/10.html">2016年10月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/understander/archive/2016/09.html">2016年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/understander/archive/2016/08.html">2016年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/understander/archive/2016/07.html">2016年7月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/understander/archive/2016/06.html">2016年6月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/understander/archive/2016/05.html">2016年5月 (20)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_imagecategory" class="catListImageCategory sidebar-block">
+<h3 class="catListTitle">相册</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="https://www.cnblogs.com/understander/gallery/842905.html" rel="nofollow">人性的弱点(2)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/understander/p/5690718.html#4145135">1. Re:map集合遍历的五种方法</a></li>
+        <li class="recent_comment_body">很棒</li>
+        <li class="recent_comment_author">--决池</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/understander/p/5503679.html#4135213">2. Re:MyEclipse+Mysql （一）</a></li>
+        <li class="recent_comment_body">老铁您那username和password是数据库的用户的名字和密码吧</li>
+        <li class="recent_comment_author">--MengDi</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/understander/p/5552207.html#4054362">3. Re:mvc设计模式和mvc框架的区别</a></li>
+        <li class="recent_comment_body">@夏小暑通篇看下来，作者的讲解，我理解是的...</li>
+        <li class="recent_comment_author">--echoppy</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/understander/p/5552207.html#3978935">4. Re:mvc设计模式和mvc框架的区别</a></li>
+        <li class="recent_comment_body">请问这里所讲的MVC设计模式也是指的是MVC架构模式么？如果不是，还想请教一下，MVC架构模式与MVC设计模式的区别。</li>
+        <li class="recent_comment_author">--夏小暑</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/understander/p/5969149.html#3895321">5. Re:spring：为javabean的集合对象注入属性值</a></li>
+        <li class="recent_comment_body">可以用autowired自动注入吗</li>
+        <li class="recent_comment_author">--生死悟</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/understander/p/5552207.html">1. mvc设计模式和mvc框架的区别(67485)</a></li><li><a href="https://www.cnblogs.com/understander/p/5716485.html">2. java四大域总结(23129)</a></li><li><a href="https://www.cnblogs.com/understander/p/5546458.html">3. linux端口号与PID的互相查询(20252)</a></li><li><a href="https://www.cnblogs.com/understander/p/5535118.html">4. java事务理解(17927)</a></li><li><a href="https://www.cnblogs.com/understander/p/5500121.html">5. Mysql的简单使用（一）(11821)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/understander/p/5523139.html">1. Hibernate+maven+mysql(4)</a></li><li><a href="https://www.cnblogs.com/understander/p/5552207.html">2. mvc设计模式和mvc框架的区别(2)</a></li><li><a href="https://www.cnblogs.com/understander/p/5508908.html">3. Maven创建webapp(二)(1)</a></li><li><a href="https://www.cnblogs.com/understander/p/5503679.html">4. MyEclipse+Mysql （一）(1)</a></li><li><a href="https://www.cnblogs.com/understander/p/5546458.html">5. linux端口号与PID的互相查询(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/understander/p/5552207.html">1. mvc设计模式和mvc框架的区别(6)</a></li><li><a href="https://www.cnblogs.com/understander/p/5500121.html">2. Mysql的简单使用（一）(2)</a></li><li><a href="https://www.cnblogs.com/understander/p/5926114.html">3. 三层架构与MVC之间的区别(2)</a></li><li><a href="https://www.cnblogs.com/understander/p/5969476.html">4. Spring面试问题(2)</a></li><li><a href="https://www.cnblogs.com/understander/p/5716485.html">5. java四大域总结(2)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 Hosens
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

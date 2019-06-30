@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://my.oschina.net/u/1421030/blog/1925799 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/osd.js.下载"></script>
+    
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="referrer" content="always">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA</title>
+            <meta name="keywords" content="Maven,叶易,,maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间,OSCHINA博客">
+                <meta name="description" content="jar包或者类冲突，一般日志中出现类似于： java.lang.NoClassDefFoundError，java.lang.NoSuchMethodError，java.lang.NoSuchFieldError，java.lang.NoSuchMethodException，java.lang.LinkageError，java.lang.C......">
+        <link rel="stylesheet" type="text/css" href="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/semantic.min.css">
+                <link type="text/css" rel="stylesheet" href="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/space.54daa6ce.css">        <script async="" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/gio.js.下载"></script><script src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/hm.js.下载"></script><script src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/push.js.下载"></script><script src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/ca-pub-7090564139599510.js.下载"></script><script type="text/javascript">window.__STATIC_DOMAIN = "https://static.oschina.net";</script>
+    <script src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jquery.min.js.下载"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.oschina.net/new-osc/img/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="最新开源项目" href="https://www.oschina.net/project/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新开源资讯" href="https://www.oschina.net/news/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新问题列表" href="https://www.oschina.net/question/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新翻译列表" href="https://www.oschina.net/translate/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新博客列表" href="https://www.oschina.net/blog/rss">
+    <link rel="alternate" type="application/rss+xml" title="推荐博客列表" href="https://www.oschina.net/blog/rss?show=more">
+    <link rel="alternate" type="application/rss+xml" title="推荐软件列表" href="https://www.oschina.net/project/rss?show=recomms">
+    <link rel="alternate" type="application/rss+xml" title="最新代码分享列表" href="https://www.oschina.net/code/rss">
+    <link rel="alternate" type="application/rss+xml" title="OSCHINA - 源码列表" href="https://www.oschina.net/code/source_rss">
+<link rel="preload" href="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/f.txt" as="script"><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/f.txt"></script><link rel="preload" href="https://pagead2.googlesyndication.com/pagead/js/r20190624/r20190131/show_ads_impl.js?cb=1" as="script"><script src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/share.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/radarChart.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/vue.min.js.下载"></script><link rel="stylesheet" type="text/css" href="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/viewer.min.css"><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/viewer.min.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/vue.min.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jquery-viewer.min.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jquery.caret.min.js.下载"></script><script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jquery.atwho.min.js.下载"></script></head>
+<body class="pushable"><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="oicon-world" viewBox="0 0 1024 1024"><path d="M921.6 204.8h-1.024A510.464 510.464 0 0 0 512 0C229.696 0 0 229.696 0 512s229.696 512 512 512c167.04 0 315.072-80.64 408.576-204.8h1.024v-1.28C985.6 732.416 1024 626.816 1024 512s-38.4-220.416-102.4-305.92V204.8zM358.4 891.456A409.984 409.984 0 0 1 102.4 512c0-17.408 1.408-34.432 3.52-51.2H153.6l51.2 102.4v102.4L307.2 768l51.2 51.2v72.256zM512 921.6a408.32 408.32 0 0 1-96.448-11.904L460.8 819.2l51.2-102.4V614.4H409.6l-51.2-51.2h-51.2L256 460.8l51.2-102.4 51.2-51.2 51.2-51.2 51.2-102.4v-47.68c16.768-2.112 33.792-3.52 51.2-3.52a407.04 407.04 0 0 1 256 90.368V256l-51.2 102.4 51.2 51.2v51.2l-102.4 51.2-51.2 52.032 51.2 50.368 51.2 51.2 51.2 102.4 33.472 33.472A408.32 408.32 0 0 1 512 921.6z"></path></symbol><symbol id="oicon-setting" viewBox="0 0 1162 1024"><path d="M1055.479204 128.810127H442.676311c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.31103 97.21519H53.815552c-10.415913 0-19.095841 8.679928-19.095841 20.831826s8.679928 20.831826 20.831826 20.831826h156.238698c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h611.066907c12.151899 0 20.831826-8.679928 20.831827-20.831826s-8.679928-20.831826-20.831827-20.831826zM328.101266 224.289331c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364zM1055.479204 840.564195H637.106691c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831827s8.679928 20.831826 20.831826 20.831826h348.933092c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519H1055.479204c12.151899 0 20.831826-8.679928 20.831827-20.831826 0-10.415913-8.679928-20.831826-20.831827-20.831827z m-534.683544 97.21519c-41.663653 0-76.383363-34.719711-76.383363-76.383363 0-41.663653 34.719711-76.383363 76.383363-76.383364 41.663653 0 76.383363 34.719711 76.383364 76.383364-1.735986 41.663653-34.719711 76.383363-76.383364 76.383363zM1055.479204 484.687161h-67.703435c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831826s8.679928 20.831826 20.831826 20.831827h699.60217c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h67.703435c12.151899 0 20.831826-8.679928 20.831827-20.831827s-8.679928-20.831826-20.831827-20.831826z m-184.014466 97.21519c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364z"></path></symbol><symbol id="oicon-gitee" viewBox="0 0 1024 1024"><path d="M966.524718 400.672821H456.520205c-24.497231 0-44.347077 19.954872-44.347077 44.557128v133.540102c0 24.602256 19.849846 44.530872 44.347077 44.530872h288.295385c33.266872 0 44.320821 11.132718 44.347077 44.530872 0.026256 89.035487-50.884923 133.566359-133.041231 133.566359h-376.779487c-24.602256 0-44.530872-19.954872-44.530872-44.530872v-400.67282c0-73.780513 59.575795-133.592615 133.014974-133.592616h598.593641c24.470974 0 44.320821-19.928615 44.320821-44.504615V44.530872C1010.740513 19.928615 990.916923 0 966.419692 0H367.826051C171.979487 0 13.128205 159.455179 13.128205 356.168205v623.32718C13.128205 1004.045128 32.978051 1024 57.475282 1024h598.646154c196.187897 0 352.439795-170.325333 354.619077-367.327179 0.131282-11.106462 0.131282-200.33641 0.131282-211.442872a44.478359 44.478359 0 0 0-44.347077-44.530872z"></path></symbol><symbol id="oicon-trending" viewBox="0 0 1106 1024"><path d="M0 290.766798m55.308301 0l0 0q55.308301 0 55.3083 55.3083l0 608.391307q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-608.391307q0-55.308301 55.308301-55.3083Z" fill="#F5A623"></path><path d="M331.849803 14.225295m55.308301 0l0 0q55.308301 0 55.308301 55.3083l0 884.93281q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-884.93281q0-55.308301 55.308301-55.3083Z" fill="#F5A623" opacity=".8"></path><path d="M663.699607 401.383399m55.3083 0l0 0q55.308301 0 55.308301 55.3083l0 497.774706q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.3083-55.3083l0-497.774706q0-55.308301 55.3083-55.3083Z" fill="#F5A623" opacity=".6"></path><path d="M995.54941 124.841896m55.308301 0l0 0q55.308301 0 55.3083 55.308301l0 774.316208q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-774.316208q0-55.308301 55.308301-55.308301Z" fill="#F5A623" opacity=".4"></path></symbol></svg>
+        <val data-name="space_user_url" data-value="https://my.oschina.net/u/1421030"></val>      <val data-name="g_user_url" data-value=""></val>      <val data-name="api_prefix" data-value="/action"></val>      <val data-name="g_user_code" data-value=""></val>     <val data-name="g_user_id" data-value=""></val>     <val data-name="g_user" data-value=""></val>     <val data-name="login_page" data-value="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F1421030%2Fblog%2F1925799"></val>     
+    
+                <val data-name="weixinAppId" data-value=""></val>
+        <val data-name="weixinTimestamp" data-value=""></val>
+        <val data-name="weixinNonceStr" data-value=""></val>
+        <val data-name="weixinSignature" data-value=""></val>
+        <val data-name="weixinShareUrl" data-value=""></val>                             
+                <val data-name="is_detail_page" data-value="true"></val>
+
+        
+        <div class="ui left inverted sidebar vertical menu" id="mobileNavSidebar">
+        <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+        <a href="https://www.oschina.net/question" class="item question">问答</a>
+        <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+        <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+        <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+        <a href="https://www.oschina.net/news" class="item news">资讯</a>
+        <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云</a>
+        <a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+        <a href="https://www.oschina.net/event/ych" class="item meetup">源创会</a>
+        <a href="https://www.oschina.net/event" class="item">活动</a>
+        <a href="https://job.oschina.net/" class="item" target="_blank">求职/招聘</a>
+        <a href="https://www.oschina.net/question/topic/masteronline" class="item">高手问答</a>
+        <a href="https://www.oschina.net/question/topic/osc-interview" class="item">开源访谈</a>
+        <a href="https://my.oschina.net/editorial-story" class="item">周刊</a>
+        <a href="https://www.oschina.net/company" class="item">公司开源导航页</a>
+    </div>
+        <div class="ui right inverted sidebar vertical menu" id="mobileUserSidebar">
+                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F1421030%2Fblog%2F1925799">登录</a>
+            <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F1421030%2Fblog%2F1925799">注册</a>
+            </div>
+
+        <div class="ui vertical inverted right sidebar menu" id="sideMenu">
+    <div class="header">
+        <b>文档章节</b>
+    </div>
+    <div class="ui basic segment" id="sideMenuBody"><ul><li><a href="https://my.oschina.net/u/1421030/blog/1925799#h3_1">jar包或者类冲突，一般日志中出现类似于：&nbsp;</a></li>
+<li><a href="https://my.oschina.net/u/1421030/blog/1925799#h2_2">以下内容有兴趣可接着阅读，一般无需了解。</a></li>
+<ul><li><a href="https://my.oschina.net/u/1421030/blog/1925799#h3_3">maven enforcer插件详细自定义配置说明：</a></li>
+</ul></ul></div>
+</div>
+<div class="ui black big launch right attached fixed button" id="sideMenuLauncher" style="display: block;">
+    <i class="list icon"></i>
+    <span class="text">文档章节</span>
+</div>
+
+
+        <div class="pusher  mobile-disabled-fixed-menu  ">
+                <div class="ui secondary inverted fixed menu" id="headerNavMenu">
+            <a class="item logo" href="https://www.oschina.net/" title="OSCHINA"><img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/logo_new.svg" alt="OSCHINA"></a>
+                                                <form action="https://www.oschina.net/search" class="item search-item">
+                <div class="ui icon input">
+                    <input type="hidden" name="scope" value="blog">
+                    <input placeholder="大家都在搜...." id="keyword" name="q" size="24" value="" type="text">
+                    <i class="search link icon"></i>
+                </div>
+                <div class="results"></div>
+            </form>
+            <div class="item download-item">
+                <a class="ui primary button" id="btnDownloadApp" href="https://www.oschina.net/app" target="_blank">下载APP</a>
+            </div>
+            <div class="ui popup top left transition hidden" id="btnDownloadAppContent">
+                <h3 class="header">OSCHINA App —— <br>关注技术领域的头条文章</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <img width="200" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/osc_app_download_qrcode.png" alt="下载APP">
+            </div>
+            <div class="ui secondary text menu" id="menuList">
+                <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+                <a href="https://www.oschina.net/question" class="item question">问答</a>
+                <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+                <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+                <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+                <a href="https://www.oschina.net/news" class="item news">资讯</a>
+                <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云<span class="floating ui red label giteetip">代码托管</span></a>
+                <a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+                <a href="https://www.oschina.net/event" class="item event">活动</a>
+            </div>
+            <div class="ui dropdown item" id="moreMenu" tabindex="0">
+                更多 <i class="dropdown icon" tabindex="0"><div class="menu" tabindex="-1"></div></i>
+                <div class="menu" tabindex="-1">
+                    <a href="https://www.oschina.net/event/ych" class="item meetup"><i class="world icon"></i>源创会</a>
+                    <a href="https://job.oschina.net/" class="item" target="_blank"><i class="address card outline icon"></i>求职/招聘</a>
+                    <a href="https://www.oschina.net/question/topic/masteronline" class="item"><i class="spy icon"></i>高手问答</a>
+                    <a href="https://www.oschina.net/question/topic/osc-interview" class="item"><i class="coffee icon"></i>开源访谈</a>
+                    <a href="https://my.oschina.net/editorial-story" class="item"><i class="calendar outline icon"></i>周刊</a>
+                    <a href="https://www.oschina.net/company" class="item"><i class="building outline icon"></i>公司开源导航页</a>
+                </div>
+            </div>
+            <div class="right menu">
+                                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F1421030%2Fblog%2F1925799">登录</a>
+                    <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fu%2F1421030%2Fblog%2F1925799">注册</a>
+                            </div>
+        </div>
+                <div class="ui secondary inverted fixed menu" id="mobileHeaderNavMenu">
+            <a class="icon item toggle-mobile-nav-sidebar">
+                <i class="large content icon"></i>
+            </a>
+            <div class="logo back-to-top-toggle"><img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/logo_new.svg" alt="OSCHINA"></div>
+            <a class="icon item toggle-mobile-user-sidebar">
+                                    <i class="large user outline icon"></i>
+                            </a>
+        </div>
+                <div id="mainScreen">
+            <div class="ui container">
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+<x-foo-define data-define="space-blog-detail"></x-foo-define> 
+<val data-name="objId" data-value="1925799"></val> <val data-name="author_id" data-value="1421030"></val> <val data-name="space_user_id" data-value="1421030"></val> 
+<val data-name="fetchCommentsUrl" data-value="?type=comments"></val>              <val data-name="publishCommentUrl" data-value="/space/blog/add_comment"></val>    <val data-name="replyCommentUrl" data-value="/space/blog/add_comment"></val>      <val data-name="deleteCommentUrl" data-value="/space/blog/delete_blog_comments"></val>  
+<val data-name="weixinShareTitle" data-value="maven-enforcer-plugin解决jar包冲突问题"></val> <val data-name="weixinShareImgUrl" data-value="https://static.oschina.net/uploads/space/2017/0606/104418_CPLl_2733728.png"></val> 
+<div class="ui internally grid blog-detail bg-wrap">
+    <div class="row">
+        <div class="two wide computer only column" style="height: 3475px; min-height: 338px;">
+            <div class="ui sticky float-menu fixed top" id="floatMenu" style="left: 149.6px; width: 128px !important; height: 338px !important; margin-top: 200px;">
+                <div class="ui vertical large compact menu">
+                                            <a class="item donate" donate="" data-id="1925799" data-obj-type="16344358" data-subject="maven-enforcer-plugin解决jar包冲突问题" data-donater="" data-author="1421030" data-return-url="https://my.oschina.net/u/1421030/blog/1925799" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                             <i class="yen icon"></i>打赏</a>
+                                        <a class="item comment-btn" href="https://my.oschina.net/u/1421030/blog/1925799#comments" title="共有 0 条评论"><i class="comment outline icon"></i>评论</a>
+                    <a class="item collect-btn " data-id="1925799" data-user-id="1421030" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Maven"><i class="star outline icon"></i>收藏</a>
+                    <a class="item like article-like " data-id="1925799"><i class="thumbs up outline icon"></i>点赞</a>
+                    <h5 class="ui item inverted brown header">分享文章</h5>
+                    <div class="bdsharebuttonbox reset left-menu bdshare-button-style0-16" data-tag="share-news" data-bd-bind="1561616393355">
+                        <a class="item" data-cmd="tsina" title="分享到新浪微博"><i class="weibo icon"></i>微博</a>
+                        <a class="item" data-cmd="sqq" title="分享到QQ好友"><i class="qq icon"></i>QQ</a>
+                        <a class="item" data-cmd="weixin" title="分享到微信"><i class="weixin icon"></i>微信</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column body-container">
+            <div class="float-menu-content">
+                <div class="ui large breadcrumb">
+                    <a class="section" href="https://my.oschina.net/u/1421030">叶易的个人空间</a>
+                                                                <i class="right chevron icon divider"></i>
+                        <a class="section" href="https://my.oschina.net/u/1421030?tab=newest&amp;catalogId=5906556">JDK 并发包源码分析</a>
+                                        <i class="right chevron icon divider"></i>
+                    <div class="active section">正文</div>
+                </div>
+                <div class="article-detail">
+                                            <div class="ad-wrap">
+                                                    <div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogdown" style="">
+<a href="http://clickc.admaster.com.cn/c/a128310,b3471905,c3159,i0,m101,8a1,8b2,h" target="_blank" style="max-width:780px;"><img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/f14a125502042a0f2a0428469f31828aeaa.jpg"></a>
+</div>
+
+<!--
+<script>
+    function success_jsonpCallback(data) {
+        var obj = eval(data);
+        if( obj.success ){
+            var contents = eval(obj.data[0].content);
+            if(contents.length > 0){
+                var content = contents[0];
+                $('#blog-title-ad').prepend("<a  href='"+ content.url +"' target='_blank' style='max-width:780px;'><img src='"+content.img+"'/></a>");
+                $('#blog-title-ad').show();
+            }
+            
+        }else {
+            $('#blog-title-ad').hide();
+        }
+    }
+    window.addEventListener("load", function() {
+         var url="  http://clickc.admaster.com.cn/c/a116493,b2949390,c3159,i0,m101,8a1,8b2,h";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            jsonp: "callback",
+            dataType: 'jsonp',
+            jsonpCallback: 'success_jsonpCallback',
+            contentType: "application/json; charset=utf-8",
+            success: function( response ) {
+                // do in callback
+            },
+            error:function(){
+                $('#blog-title-ad').hide();
+            }
+        });
+    }, false);
+</script>
+-->
+                                    </div>
+                                        <h2 class="header">
+                        maven-enforcer-plugin解决jar包冲突问题
+                                                                                                    <div class="ui teal label horizontal" data-tooltip="原创">原</div>
+                                                                                            </h2>
+                    <div class="extra ui horizontal list meta-wrap">
+                        <div class="item">
+                            <a href="https://my.oschina.net/u/1421030" class="__user">                        <div class="osc-avatar small-portrait _35x35 avatar" title="叶易" data-user-id="1421030">
+                <img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/50x50" alt="叶易" title="叶易">
+            </div>
+            &nbsp;<span>叶易</span></a>
+                            发布于 2018/08/10 16:07</div>
+                        <div class="item">字数 545</div>
+                        <div class="item">阅读 823</div>
+                        <div class="item collect-btn " data-id="1925799" data-user-id="1421030" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Maven">收藏 <span data-collect-count="" data-id="1925799" data-obj-type="3">0</span></div>
+                        <div class="item"><a class="normal like article-like " data-id="1925799">点赞 <span data-article-like-count="">0</span></a></div>
+                        <div class="item comment-count"><a href="https://my.oschina.net/u/1421030/blog/1925799#comments" class="normal"><i class="comment outline icon"></i> 评论 <span data-article-reply-count="">0</span></a></div>
+                                            </div>
+                                                                        <div class="tags">
+                                <a class="ui horizontal label" href="https://my.oschina.net/u/1421030?q=Maven">Maven</a>                            </div>
+                                                                <div class="content" id="articleContent">
+                                                    <div class="ad-wrap">
+                                                        <p style="margin:0 0 10px 0;"><a data-traceid="blog_detail_above_text_link_1" data-tracepid="blog_detail_above_text_link" style="color:#A00;font-weight:bold;" href="https://my.oschina.net/u/2663968/blog/3051541" target="_blank">为什么80%的码农都做不了架构师？&gt;&gt;&gt; </a>  <img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/hot3.png" align="absmiddle" style="max-height: 32px; max-width: 32px;"></p>
+                                        </div>
+                                                <span id="OSC_h3_1"></span>
+<h3 id="h3_1">jar包或者类冲突，一般日志中出现类似于：&nbsp;</h3> 
+<p>java.lang.NoClassDefFoundError，java.lang.NoSuchMethodError，java.lang.NoSuchFieldError，java.lang.NoSuchMethodException，java.lang.LinkageError，java.lang.ClassNotFoundException</p> 
+<span id="OSC_h2_2"></span>
+<h2 id="h2_2">以下内容有兴趣可接着阅读，一般无需了解。</h2> 
+<p>关于NoClassDefFoundError可以参考：<a href="https://stackoverflow.com/questions/7325579/java-lang-noclassdeffounderror-could-not-initialize-class-xxx" target="_blank" rel="nofollow">https://stackoverflow.com/questions/7325579/java-lang-noclassdeffounderror-could-not-initialize-class-xxx</a></p> 
+<span id="OSC_h3_3"></span>
+<h3 id="h3_3">maven enforcer插件详细自定义配置说明：</h3> 
+<p>首先在maven插件中添加enforcer插件：</p> 
+<p>代码块</p> 
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-enforcer-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.4.1-dp-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>default-cli<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">phase</span>&gt;</span>validate<span class="hljs-tag">&lt;/<span class="hljs-name">phase</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>enforce<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.codehaus.mojo<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>extra-enforcer-rules<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-beta-4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+        <span class="hljs-comment">&lt;!--规则检查不通过就构建失败;Default:false. --&gt;</span>
+        <span class="hljs-comment">&lt;!--&lt;failFast&gt;true&lt;/failFast&gt;--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">rules</span>&gt;</span>
+            <span class="hljs-comment">&lt;!--&lt;requireMavenVersion&gt;
+                &lt;version&gt;3.0.4&lt;/version&gt;
+            &lt;/requireMavenVersion&gt;--&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">requireJavaVersion</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">requireJavaVersion</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">banDuplicateClasses</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClasses</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>javax.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.junit.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>junit.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.apache.xbean.recipe.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.hamcrest.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.slf4j.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.antlr.runtime.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.apache.commons.lang.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.apache.commons.codec.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.apache.commons.logging.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">ignoreClass</span>&gt;</span>org.codehaus.plexus.component.builder.*<span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClass</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">ignoreClasses</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">findAllDuplicates</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">findAllDuplicates</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">banDuplicateClasses</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">bannedDependencies</span>&gt;</span>
+                <span class="hljs-comment">&lt;!--是否检查传递性依赖(间接依赖)--&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">searchTransitive</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">searchTransitive</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">excludes</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>org.apache:libthrift<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>org.jboss.netty:netty<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>org.apache.thrift:libthrift:(,0.8.0),(0.8.0,)<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>io.netty:netty:(,3.9.2.Final)<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>com.sankuai.octo:mns-invoker:(,1.7.5)<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>com.fasterxml.jackson.core:*:(,2.6.0)<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">exclude</span>&gt;</span>com.google.guava:guava:(,15.0)<span class="hljs-tag">&lt;/<span class="hljs-name">exclude</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">excludes</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">message</span>&gt;</span>some dependency must exclude<span class="hljs-tag">&lt;/<span class="hljs-name">message</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">bannedDependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">rules</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span></code></pre> 
+<p>然后输入maven命令来查找重复类和存在版本限制和冲突的jar包：</p> 
+<p>mvn -U clean -Dmaven.test.skip=true enforcer:enforce -DcheckDeployRelease_skip=true</p> 
+<p>会看到相关的输出，一个个排查即可：</p> 
+<p>存在重复的类的情况：</p> 
+<pre><code class="hljs java">Found in:
+    org.jboss.netty:netty:jar:<span class="hljs-number">3.2</span>.19:compile
+    io.netty:netty:jar:<span class="hljs-number">3.9</span>.2.Final:compile
+  Duplicate classes:
+    org/jboss/netty/handler/codec/base64/Base64Decoder.class
+    org/jboss/netty/util/VirtualExecutorService.class
+以下省略</code></pre> 
+<p>不允许的依赖jar包或不允许的依赖版本号：</p> 
+<pre><code class="hljs java">[WARNING] Rule <span class="hljs-number">2</span>: org.apache.maven.plugins.enforcer.BannedDependencies failed with message:
+some dependency must exclude
+Found Banned Dependency: org.apache:libthrift:jar:<span class="hljs-number">0.6</span>.0
+Found Banned Dependency: org.jboss.netty:netty:jar:<span class="hljs-number">3.2</span>.19
+Found Banned Dependency: org.apache.thrift:libthrift:jar:<span class="hljs-number">0.9</span>.3
+Use <span class="hljs-string">'mvn dependency:tree'</span> to locate the source of the banned dependencies.</code></pre> 
+<p>最后根据插件排查下来的信息，一个个排除掉存在冲突的jar包即可。注意如果是parent pom当中的依赖冲突，要在parent pom中修改，否则无法排除。</p> 
+<p>福利：使用idea的同学，推荐使用maven helper插件排除冲突，一目了然，很好用。</p> 
+<p>enforcer插件参考文档：</p> 
+<p><a href="https://www.cnblogs.com/f-zhao/p/6961058.html" rel="nofollow">https://www.cnblogs.com/f-zhao/p/6961058.html</a></p> 
+<p><a href="http://www.tuicool.com/articles/RfIBfa" target="_blank" rel="nofollow">http://www.tuicool.com/articles/RfIBfa</a></p> 
+<p><a href="https://github.com/dimitri-koussa/maven-enforcer-duplicate-class-check" target="_blank" rel="nofollow">https://github.com/dimitri-koussa/maven-enforcer-duplicate-class-check</a></p> 
+<p><a href="http://www.mojohaus.org/extra-enforcer-rules/banDuplicateClasses.html" target="_blank" rel="nofollow">http://www.mojohaus.org/extra-enforcer-rules/banDuplicateClasses.html</a>&nbsp;</p>
+                                                    <div class="ad-wrap" style="margin-top: 12px;">
+                                                        <div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogdown" style="">
+<script async="" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/f(1).txt"></script>
+<!-- 博客详情页下方 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-7090564139599510" data-ad-slot="2321828009" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><iframe width="728" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:728px;height:90px;" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/saved_resource.html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<!--
+<script>
+    function success_jsonpCallback(data) {
+        var obj = eval(data);
+        if( obj.success ){
+            var contents = eval(obj.data[0].content);
+            if(contents.length > 0){
+                var content = contents[0];
+                $('#blog-title-ad').prepend("<a  href='"+ content.url +"' target='_blank' style='max-width:780px;'><img src='"+content.img+"'/></a>");
+                $('#blog-title-ad').show();
+            }
+            
+        }else {
+            $('#blog-title-ad').hide();
+        }
+    }
+    window.addEventListener("load", function() {
+         var url="  http://clickc.admaster.com.cn/c/a116493,b2949390,c3159,i0,m101,8a1,8b2,h";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            jsonp: "callback",
+            dataType: 'jsonp',
+            jsonpCallback: 'success_jsonpCallback',
+            contentType: "application/json; charset=utf-8",
+            success: function( response ) {
+                // do in callback
+            },
+            error:function(){
+                $('#blog-title-ad').hide();
+            }
+        });
+    }, false);
+</script>
+-->
+                                        </div>
+                                            </div>
+                    <div class="ui hidden divider"></div>
+                    <p style="text-align:center;">
+                                                    © 著作权归作者所有
+                                            </p>
+                </div>
+
+                                <div class="ui basic center aligned segment action">
+                    <div class="ui huge buttons">
+                                                    <a class="ui green button donate" donate="" data-id="1925799" data-obj-type="16344358" data-subject="maven-enforcer-plugin解决jar包冲突问题" data-donater="" data-author="1421030" data-return-url="https://my.oschina.net/u/1421030/blog/1925799" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                                 <i class="yen icon"></i>打赏</a>
+                                                <a class="ui basic button like article-like " data-id="1925799">
+                            <i class="thumbs up outline icon"></i>点赞 (<span data-article-like-count="">0</span>)
+                        </a>
+                        <a class="ui basic button collect-btn hover" data-id="1925799" data-user-id="1421030" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Maven"><i class="star outline icon"></i>收藏 (<span data-collect-count="" data-id="1925799" data-obj-type="3">0</span>)</a>
+                        <div class="ui basic dropdown share button bdsharebuttonbox reset dropdown-share bdshare-button-style0-16" data-tag="share-blog" tabindex="0" data-bd-bind="1561616393355">
+                            <i class="share icon"></i> <span>分享</span>
+                            <div class="menu" tabindex="-1">
+                                <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                                <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                                <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui basic segment">
+                        <a class="ban" style="cursor: pointer" ban-report="" data-id="1925799" data-obj-type="3" data-url="https://my.oschina.net/u/1421030/blog/1925799">
+                            <i class="flag red icon"></i>举报</a>
+                    </div>
+                </div>
+
+                                
+
+                                <div class="around-articles-wrap">
+                                                            <div class="around-item around-left">
+                        <i class="angle left icon"></i>
+                        <span class="text">上一篇：</span>
+                        <a class="link" href="https://my.oschina.net/u/1421030/blog/2221933">Linux 日志相关命令使用技巧</a>
+                    </div>
+                    
+                                                            <div class="around-item around-right">
+                        <span class="text">下一篇：</span>
+                        <a class="link" href="https://my.oschina.net/u/1421030/blog/1922515">在 Java 的反射中，Class.forName 和 ClassLoader 的区别</a>
+                        <i class="angle right icon"></i>
+                    </div>
+                                    </div>
+
+                                <div class="ui info message author-card">
+                    <div class="ui items">
+                        <div class="item author-card-item">
+                            <a class="ui avatar tiny image" href="https://my.oschina.net/u/1421030">
+                                                        <div class="osc-avatar large-portrait _80x80" title="叶易" data-user-id="1421030">
+                <img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/200x200" alt="叶易" title="叶易">
+            </div>
+                                        </a>
+                            <div class="content author-card-info">
+                                <div class="author-header clearfix">
+                                                                        <h3 class="author-name"><a class="__user" href="https://my.oschina.net/u/1421030">叶易</a></h3>
+                                                                                                        </div>
+                                <div class="ui horizontal list">
+                                    <div class="item">粉丝 <span class="followers-count" data-user-id="1421030" data-followers-count="22">22</span></div>
+                                    <div class="item">博文 24</div>
+                                    <div class="item">码字总数 30959</div>
+                                    <div class="item">作品 0</div>
+                                </div>
+                                <div class="ui hidden fitted clearing divider"></div>
+                                                                                                    <div class="ui horizontal list">
+                                                                                    <div class="item"><i class="map marker alternate icon"></i> 无锡</div>
+                                                                                                                    </div>
+                                                                                                    <div class="ui hidden fitted clearing divider"></div>
+                                                                                                                    <a class="ui green compact button follow-btn" data-user-id="1421030" data-follow-status="1"><i class="heart outline icon"></i><span class="text">关注</span></a>
+                                                                                                            <a class="ui green basic compact button send-message-btn" data-user-id="1421030" data-user-name="叶易"><i class="envelope outline icon"></i>私信</a>
+                                                                        <a class="ui green basic compact button" href="https://www.oschina.net/question/ask?user=1421030" target="_blank"><i class="comment outline icon"></i>提问</a>
+                                                            </div>
+                            <div class="content panel-skills-radar" style="">
+                                <div class="skills-radar">
+                                    <div class="radar-wrap" radar="" data-user-id="1421030" data-skills-num="5" data-detail-url="https://my.oschina.net/u/1421030/radar" data-container=".panel-skills-radar">
+                                        <div class="radar-map" style="position: relative;"><canvas width="350" height="152" style="width: 280px; height: 122px;"></canvas></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                                            </div>
+                        <div class="ui basic segment article-list">
+                <div class="scroll-tab hidden-scroll">
+                    <div class="ui green pointing secondary massive menu spaceBlog-tab">
+                        <a class="active item" data-tab="relArticleList">相关文章</a>
+                        <a class="item" data-tab="newArticleList">最新文章</a>
+                    </div>
+                </div>
+                <div class="ui basic segment active tab article-list" data-tab="relArticleList" id="relArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                    <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/2832823/blog/799717" target="_blank" title="maven 全局排除jar包">maven 全局排除jar包</a>
+                        <div class="description">
+                            <p class="line-clamp">大多数java应用源码构建和依赖管理是使用maven来实现的，我们的应用系统也都是基于maven构建的，maven虽然在依赖管理方面确实很便捷，但是也发现也有"死角"，它并不能很好地解决所有依赖的问...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">钟声已经敲响</div>
+                                <div class="item">2016/12/04</div>
+
+                                <div class="item"><i class="eye icon"></i> 282</div>
+                                <div class="item"><i class="comment outline icon"></i> 1</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://www.oschina.net/question/2686291_2159435" target="_blank" title="mvn install 出现错误">mvn install 出现错误</a>
+                        <div class="description">
+                            <p class="line-clamp">在mvn install -Dmaven.test.skip=true这一步的时候出现了这样的错误： [ERROR] Plugin org.apache.maven.plugins:maven-enforcer-plugin:1.4.1 or one of its dependencies could not be re......</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">雅翼_</div>
+                                <div class="item">2016/03/23</div>
+
+                                <div class="item"><i class="eye icon"></i> 683</div>
+                                <div class="item"><i class="comment outline icon"></i> 3</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/569848/blog/78241" target="_blank" title="onejar-maven-plugin把java类与lib打包为一个可运行jar">onejar-maven-plugin把java类与lib打包为一个可运行jar</a>
+                        <div class="description">
+                            <p class="line-clamp">1、问题背景 我们有时要开发一个Java Application，就是main来直接运行的那种，虽然有好多工具可以帮助我们打为jar。 但会有以下两个问题： 第一种是需要lib目录依赖一起来运行。（需要依赖文...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">NoahX</div>
+                                <div class="item">2012/09/12</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 8</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://yq.aliyun.com/articles/694575" target="_blank" title="蚂蚁金服 SOFAArk 0.6.0 新特性介绍 | 模块化开发容器">蚂蚁金服 SOFAArk 0.6.0 新特性介绍 | 模块化开发容器</a>
+                        <div class="description">
+                            <p class="line-clamp">SOFAStack Scalable Open Financial Architecture Stack 是蚂蚁金服自主研发的金融级分布式架构，包含了构建金融级云原生架构所需的各个组件，是在金融场景里锤炼出来的最佳实践。 蚂蚁金服在...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">技术小能手</div>
+                                <div class="item">03/21</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="https://yq.aliyun.com/articles/694575" target="_blank" title="蚂蚁金服 SOFAArk 0.6.0 新特性介绍 | 模块化开发容器">
+                                <img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/6ce369684ed0186f47efd63a54683d4196a05bcf.png" alt="" data-img-render="" style="width: auto; height: 100%;">
+                            </a>
+                        </div>
+                                    </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="http://www.jianshu.com/p/96f216e024d0" target="_blank" title="Maven 快速指南（二）">Maven 快速指南（二）</a>
+                        <div class="description">
+                            <p class="line-clamp">使用指导 如何添加外部依赖jar包 在Maven工程中添加依赖jar包，很简单，只要在POM文件中引入对应的标签即可。 参考下例： 标签最常用的四个属性标签： ：项目组织唯一的标识符，实际对应JAV...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">静默虚空</div>
+                                <div class="item">2017/11/10</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="http://www.jianshu.com/p/96f216e024d0" target="_blank" title="Maven 快速指南（二）">
+                                <img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/c6e4615df4243e1a2a472d7608a5ccbf7e8a73f5.png" alt="" data-img-render="" style="width: auto; height: 100%;">
+                            </a>
+                        </div>
+                                    </div>
+                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none;"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination" style="display: none;">
+            <a class="rel-pagination pagination__next" style="display: none" href="https://my.oschina.net/u/1421030/blog/widgets/_blog_detail_list_rel?obj=1925799&amp;p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+                <div class="ui basic segment tab article-list" data-tab="newArticleList" id="newArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                                        <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/wangshuaixin/blog/3066782" target="_blank" title="rocketmq之源码分析阶段总结（二十一）">rocketmq之源码分析阶段总结（二十一）</a>
+                            <div class="description">
+                                <p class="line-clamp">RocketMQ是队列模型的消息中间件，具有高性能，高可靠，高实时，分布式的特点。同时支持分布式事物的两阶段提交，实现在分布式环境的事物操作。 1，nameserv是分布式的部署，并且相互之间不通...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">wangshuaixin</div>
+                                    <div class="item">10分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/4144187/blog/3066779" target="_blank" title="小猿圈linux之在mac上安装 docker">小猿圈linux之在mac上安装 docker</a>
+                            <div class="description">
+                                <p class="line-clamp">docker极大提高了应用的运行效率，降低了云计算资源供应的成本，同时让应用的部署、测试和分发都变得前所未有的高效和轻松！docker是一个容器，不像kvm，他是真实的系统，启动时，KVM消耗的资...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">小猿圈加加</div>
+                                    <div class="item">15分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3217171/blog/3066776" target="_blank" title="spring aop 代理private方法 报错的问题分析">spring aop 代理private方法 报错的问题分析</a>
+                            <div class="description">
+                                <p class="line-clamp">spring aop 代理private方法报空指针的问题 这两天做aop切面日志时，发现private方法报空指针。 原切入点配置如下：     @Pointcut("@within(org.springframework.web.bind.annotation.RestC...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">my_juke</div>
+                                    <div class="item">20分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/zhoumj/blog/3066770" target="_blank" title="c 基础教程六：c 循环结构">c 基础教程六：c 循环结构</a>
+                            <div class="description">
+                                <p class="line-clamp">有的时候，我们可能需要多次执行同一块代码，c 语言提供了如下几种循环，各有特色。 while 循环 for 循环 do-while 循环 while 循环 只要给定的条件为真，C 语言中的 while 循环语句会重复执...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">故城以南丶思念不安</div>
+                                    <div class="item">39分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 4</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/2devil/blog/3066767" target="_blank" title="spark 常见操作">spark 常见操作</a>
+                            <div class="description">
+                                <p class="line-clamp">为spark DataFrom 添加一个为 空的新列，使用UDF函数 想产生一个IntegerType类型列为null的DataFrame该怎么做。 import org.apache.spark.sql.functions._import org.apache.spark.sql.type...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">蜉先生</div>
+                                    <div class="item">50分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 2</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination">
+            <a class="news-pagination pagination__next" style="display: none" href="https://my.oschina.net/u/1421030/blog/widgets/_blog_detail_list_news?p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+            </div>
+        </div>
+        <div class="two wide computer only column">
+                        <div class="ad-wrap">
+                                        <div data-traceid="blog_left_1" data-tracepid="blog_left">
+
+<script async="" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/f(1).txt"></script>
+<!-- ios-zone-home-120x600 -->
+<ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px" data-ad-client="ca-pub-7090564139599510" data-ad-slot="7907495427" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px;background-color:transparent;"><iframe width="120" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0px;width:120px;height:600px;" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/saved_resource(1).html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</div>
+                        </div>
+                    </div>
+    </div>
+</div>
+
+
+<div class="ui mini delete-blog modal">
+    <div class="header">删除文章</div>
+    <div class="content">
+        <p>文章删除后无法恢复，确定取消删除此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-self modal">
+    <div class="header">自荐文章</div>
+    <div class="content">
+        <p>亲，自荐的博客将通过私信方式通知管理员，优秀的博客文章审核通过后将在博客推荐列表中显示</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-blog modal">
+    <div class="header">推荐文章</div>
+    <div class="content">
+        <p>确定推荐此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-author modal">
+    <div class="header">推荐博主</div>
+    <div class="content">
+        <p>确定推荐此博主吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/blog" defer="defer"></script>
+<script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/space"></script>
+
+<script>
+    // 百度分享
+    window._bd_share_config = {
+        common : {
+            bdText : 'maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA',
+            bdDesc : 'jar包或者类冲突，一般日志中出现类似于： java.lang.NoClassDefFoundError，java.lang.NoSuchMethodError，java.lang.NoSuchFieldError，java.lang.NoSuchMethodException，java.lang.LinkageError，java.lang.C......',
+            bdUrl  : 'https://my.oschina.net/u/1421030/blog/1925799',
+            bdPic  : ''
+        },
+        share : [{
+            bdSize : 16
+        }]
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://static.oschina.net/new-osc/js/utils/plugins/bdshare_api/share.js?v='+~(-new Date()/36e5)];
+</script>
+    
+
+            </div>
+        </div>
+
+                <div id="footer" class="ui vertical footer segment mb-hide">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">OSCHINA 社区</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">关于我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">联系我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc#partners#" target="_blank">合作伙伴</a>
+                    <a class="item" href="https://www.oschina.net/openapi" target="_blank">Open API</a>
+                </div>
+            </div>
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">在线工具</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://gitee.com/?from=osc-bottom" target="_blank">码云 Gitee.com</a>
+                    <a class="item" href="https://gitee.com/enterprises?from=osc-bottom" target="_blank">企业研发管理</a>
+                    <a class="item" href="https://copycat.gitee.com/?from=osc-bottom" target="_blank">CopyCat-代码克隆检测</a>
+                    <a class="item" href="https://tool.oschina.net/" target="_blank">实用在线工具</a>
+                </div>
+            </div>
+            <div class="center aligned eight wide mobile two wide tablet two wide computer column">
+                <h4 class="ui header">微信公众号</h4>
+                <img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/wechat_qrcode.jpg" alt="微信公众号">
+            </div>
+            <div class="center aligned eight wide mobile six wide tablet six wide computer column">
+                <h3 class="ui header">OSCHINA APP</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <a href="https://www.oschina.net/app" target="_blank" class="ui large primary button">下载 APP</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="copyright">
+    <div class="ui container">
+        <div class="ui clearing basic segment">
+            <div class="ui left floated horizontal link list">
+                <div class="item">©OSCHINA(OSChina.NET)</div>
+                <div class="item mb-hide">工信部</div>
+                <a class="item mb-hide" href="http://www.copu.org.cn/" target="_blank" title="开源软件推进联盟">开源软件推进联盟</a>
+                <div class="item mb-hide">指定官方社区</div>
+            </div>
+            <div class="ui right floated horizontal link list">
+                <div class="item mb-hide">深圳市奥思网络科技有限公司版权所有</div>
+                <a href="http://beian.miit.gov.cn/" target="_blank" class="item">粤ICP备12009483号-3</a>
+            </div>
+        </div>
+    </div>
+</div>    </div>
+                                                        <div class="back-to-top back-to-top-toggle" style="display: block;">
+        <div class="icon"><img src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/back-to-top.svg" alt="返回顶部"></div>
+        <div class="text">顶部</div>
+    </div>
+
+        <script src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/semantic.min.js.下载"></script>
+    <script src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/jweixin-1.2.0.js.下载"></script>
+                <script type="text/javascript" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/space.12e0813f.js.下载"></script>                
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?a411c4d1664dd70048ee98afe7b28f0b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+                
+<script type="text/javascript">
+    !function(e,t,n,g,i){e[i]=e[i]||function(){(e[i].q=e[i].q||[]).push(arguments)},n=t.createElement("script"),tag=t.getElementsByTagName("script")[0],n.async=1,n.src=('https:'==document.location.protocol?'https://':'http://')+g,tag.parentNode.insertBefore(n,tag)}(window,document,"script","assets.growingio.com/2.1/gio.js","gio");
+    gio('init','89b266b986554bc7', {});
+    gio('send');
+</script>
+    
+
+<!-- Generated by oschina (init:1[ms],page:325[ms],ip:43.243.12.46) //--><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><ins id="aswift_2_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0px;width:0px;height:0px;" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/saved_resource(2).html"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_845410930660" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/saved_resource(3).html"></iframe></body><iframe id="google_shimpl" style="display: none;" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/saved_resource(4).html"></iframe><iframe id="google_esf" name="google_esf" src="./maven-enforcer-plugin解决jar包冲突问题 - 叶易的个人空间 - OSCHINA_files/zrt_lookup.html" data-ad-client="ca-pub-7090564139599510" style="display: none;"></iframe></html>

@@ -1,0 +1,12 @@
+body {
+background-attachment: scroll;
+background-size: 100%;
+background-repeat: repeat-y;
+background-image: url('https://www.cnblogs.com/images/cnblogs_com/it-taosir/1309716/o_%e6%97%a0%e5%90%8d2.jpg');
+}
+#home{
+opacity:.87
+}
+#blog-news>object{
+width:290px;
+}

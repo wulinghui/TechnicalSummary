@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)https://www.cnblogs.com/wangkongming/p/4968326.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>Linux命令--删除软连接 - KoMiles - 博客园</title>
+    <meta property="og:description" content="1，建立软链接ln -s 源文件 目标文件例如：ln -s /usr/hb/ /home/hb_link2，删除软链接正确的是：rm -rf hb_link错误的是：rm -rf hb_link/ 这">
+    <link type="text/css" rel="stylesheet" href="./Linux命令--删除软连接 - KoMiles - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Linux命令--删除软连接 - KoMiles - 博客园_files/bundle-darkgreentrip.css">
+<link type="text/css" rel="stylesheet" href="./Linux命令--删除软连接 - KoMiles - 博客园_files/129482.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Linux命令--删除软连接 - KoMiles - 博客园_files/bundle-darkgreentrip-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wangkongming/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wangkongming/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wangkongming/wlwmanifest.xml">
+    <script async="" src="./Linux命令--删除软连接 - KoMiles - 博客园_files/analytics.js.下载"></script><script src="./Linux命令--删除软连接 - KoMiles - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=129482;var currentBlogApp='wangkongming',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./Linux命令--删除软连接 - KoMiles - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./Linux命令--删除软连接 - KoMiles - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./Linux命令--删除软连接 - KoMiles - 博客园_files/f.txt"></script><script src="./Linux命令--删除软连接 - KoMiles - 博客园_files/pubads_impl_2019062001.js.下载" async=""></script></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/wangkongming/"><img id="blogLogo" src="./Linux命令--删除软连接 - KoMiles - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/wangkongming/">KoMiles  少壮不努力，长大搞IT。</a></h1>
+<h2>A young idler, grew up in IT.    常常因为自己不够优秀而感到恐慌
+<p style="display:none">现实逼迫自己不得不去学习，不然自己也只能做一个平庸的程序员。</p></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wangkongming/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li></li>
+<li>
+<!----></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/wangkongming/p/4968326.html">Linux命令--删除软连接</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>1，建立软链接</p>
+<p>ln -s 源文件 目标文件</p>
+<p>例如：ln -s /usr/hb/ /home/hb_link</p>
+<p>2，删除软链接</p>
+<p><span style="color: #ff0000;">正确的是：rm -rf hb_link</span></p>
+<p>错误的是：rm -rf hb_link/ 这个会把整个目录都删了</p>
+<p><span style="color: #ff0000;"><strong>备注：想要删除链接文件要用以下命令 rm &nbsp; /home/hb_link 只是少了一个“ / ” 删除的 就是链接文件, 也就是在文件的最后不要加上/</strong></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">文章参考：http://hbiao68.iteye.com/blog/2075994</span></p></div><div id="MySignature" style="display: block;">千里之行，始于足下。改变现在，就是改变未来。改变未来，从现在开始。
+个人网站：<a href="http://www.wangkongming.cn/" target="_blank">http://www.wangkongming.cn</a><br></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/wangkongming/category/490845.html" target="_blank">Linux</a></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/wangkongming/tag/Linux/">Linux</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4968326,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;1d59ba8a-a1c5-e111-aa3f-842b2b196315&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Linux命令--删除软连接 - KoMiles - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Linux命令--删除软连接 - KoMiles - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/wangkongming/" target="_blank"><img src="./Linux命令--删除软连接 - KoMiles - 博客园_files/u424368.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/wangkongming/">KoMiles</a><br>
+            <a href="https://home.cnblogs.com/u/wangkongming/followees">关注 - 268</a><br>
+            <a href="https://home.cnblogs.com/u/wangkongming/followers">粉丝 - 223</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;1d59ba8a-a1c5-e111-aa3f-842b2b196315&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4968326,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(4968326,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/wangkongming/p/4961827.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/wangkongming/p/4961827.html" title="发布于2015-11-13 12:54">切纸机,小回旋,大回旋</a><br><a href="https://www.cnblogs.com/wangkongming/p/4976724.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/wangkongming/p/4976724.html" title="发布于2015-11-19 10:08">需要学习的技术</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2015-11-16 10:57</span> <a href="https://www.cnblogs.com/wangkongming/">KoMiles</a> 阅读(<span id="post_view_count">12756</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=4968326" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/wangkongming/p/4968326.html#" onclick="AddToWz(4968326);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=129482,cb_entryId=4968326,cb_blogApp=currentBlogApp,cb_blogUserGuid='1d59ba8a-a1c5-e111-aa3f-842b2b196315',cb_entryCreatedDate='2015/11/16 10:57:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/wangkongming/p/4968326.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/wangkongming/p/4968326.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://gitee.com/enterprises?from=bky-1" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-gitee&#39;)">【推荐】码云企业版，高效的企业级软件协作开发管理平台</a><br><a href="https://q.cnblogs.com/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博问&#39;)">【推荐】程序员问答平台，解决您开发中遇到的技术难题</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./Linux命令--删除软连接 - KoMiles - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/beautiful-code/p/9257616.html" target="_blank" onclick="clickRecomItmem(9257616)">linux软链接的创建、删除和更新</a><br>·  <a href="https://www.cnblogs.com/webStyle/p/3868063.html" target="_blank" onclick="clickRecomItmem(3868063)">Linux的软连接与硬链接</a><br>·  <a href="https://www.cnblogs.com/zhoupeng-php/p/8567185.html" target="_blank" onclick="clickRecomItmem(8567185)">Linux 文件处理命令</a><br>·  <a href="https://www.cnblogs.com/xiaoliangxianshen/p/9152220.html" target="_blank" onclick="clickRecomItmem(9152220)">ln-s软连接</a><br>·  <a href="https://www.cnblogs.com/beautiful-code/p/9403319.html" target="_blank" onclick="clickRecomItmem(9403319)">linux软链接的创建、删除和更新</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block" style="display: none;">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;"></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/627526/" target="_blank">谷歌“电子书”专利曝光 拥有多片可翻页显示屏</a><br> ·  <a href="https://news.cnblogs.com/n/627525/" target="_blank">日本拆解P30 Pro：物料成本364美元、美企零件占比仅0.9%</a><br> ·  <a href="https://news.cnblogs.com/n/627524/" target="_blank">东芝工厂断电事故导致停产一个月 这下闪存麻烦大了</a><br> ·  <a href="https://news.cnblogs.com/n/627523/" target="_blank">科学家在肝脏和胰腺中发现大量长寿细胞和蛋白</a><br> ·  <a href="https://news.cnblogs.com/n/627522/" target="_blank">艾维的漫长离职路：2015年就已有迹象 每周仅去苹果总部2次</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="myTime"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="200" height="200" id="honehoneclock" align="middle" background-color:#666=""><param name="allowScriptAccess" value="always"><param name="movie" value="http://images.cnblogs.com/cnblogs_com/csharp/clock.swf"><param name="quality" value="high"><param name="bgcolor" value="#ffffff"><param name="wmode" value="transparent"><embed width="200" height="200" align="middle" src="http://images.cnblogs.com/cnblogs_com/csharp/clock.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></object><p id="timeRun">2019/6/28  17:09:56 星期五</p></div>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['1']();</script><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/wangkongming/">KoMiles</a><br>园龄：<a href="https://home.cnblogs.com/u/wangkongming/" title="入园时间：2012-07-04">6年11个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/wangkongming/followers/">223</a><br>关注：<a href="https://home.cnblogs.com/u/wangkongming/followees/">268</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;1d59ba8a-a1c5-e111-aa3f-842b2b196315&#39;)">+加关注</a></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script>window['__document_write_ajax_callbacks__']['2']();</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/05/01&#39;);return false;">&lt;</a></td><td align="center">2019年6月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/07/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td class="CalWeekendDay" align="center">1</td></tr><tr><td class="CalWeekendDay" align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalWeekendDay" align="center">8</td></tr><tr><td class="CalWeekendDay" align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td class="CalWeekendDay" align="center">15</td></tr><tr><td class="CalWeekendDay" align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td class="CalWeekendDay" align="center">22</td></tr><tr><td class="CalWeekendDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td class="CalTodayDay" align="center">28</td><td class="CalWeekendDay" align="center">29</td></tr><tr><td class="CalWeekendDay" align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/wangkongming/tag/Linux/">Linux</a>(103)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/php/">php</a>(49)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/Mysql/">Mysql</a>(25)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/javascript/">javascript</a>(21)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/Collect/">Collect</a>(20)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/ubuntu/">ubuntu</a>(19)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/git/">git</a>(17)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/%E7%94%9F%E6%B4%BB%E7%82%B9%E6%BB%B4/">生活点滴</a>(14)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/php%20Array/">php Array</a>(11)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Linux学习笔记</a>(10)</li><li><a href="https://www.cnblogs.com/wangkongming/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/wangkongming/category/422092.html">JavaScript(23)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/wangkongming/category/490845.html">Linux(174)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/wangkongming/category/699005.html">LinuxMint(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/wangkongming/category/429323.html">Mysql(31)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/wangkongming/category/421803.html">PHP(84)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/wangkongming/category/508897.html">Python(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/wangkongming/category/422321.html">tool(49)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/wangkongming/category/432646.html">xml(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/wangkongming/category/422332.html">程序人生(44)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/wangkongming/category/520657.html">网站架构与设计(4)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/wangkongming/archive/2019/05.html">2019年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/wangkongming/archive/2019/03.html">2019年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/wangkongming/archive/2018/07.html">2018年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/wangkongming/archive/2017/11.html">2017年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/wangkongming/archive/2017/10.html">2017年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/wangkongming/archive/2017/09.html">2017年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/wangkongming/archive/2017/07.html">2017年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/wangkongming/archive/2017/03.html">2017年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/wangkongming/archive/2017/02.html">2017年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/wangkongming/archive/2017/01.html">2017年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/wangkongming/archive/2016/12.html">2016年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/wangkongming/archive/2016/11.html">2016年11月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/wangkongming/archive/2016/09.html">2016年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/wangkongming/archive/2016/08.html">2016年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/wangkongming/archive/2016/07.html">2016年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/wangkongming/archive/2016/06.html">2016年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/wangkongming/archive/2016/05.html">2016年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="https://www.cnblogs.com/wangkongming/archive/2016/04.html">2016年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="https://www.cnblogs.com/wangkongming/archive/2016/03.html">2016年3月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="https://www.cnblogs.com/wangkongming/archive/2016/02.html">2016年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="https://www.cnblogs.com/wangkongming/archive/2016/01.html">2016年1月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="https://www.cnblogs.com/wangkongming/archive/2015/12.html">2015年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="https://www.cnblogs.com/wangkongming/archive/2015/11.html">2015年11月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="https://www.cnblogs.com/wangkongming/archive/2015/10.html">2015年10月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="https://www.cnblogs.com/wangkongming/archive/2015/09.html">2015年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="https://www.cnblogs.com/wangkongming/archive/2015/08.html">2015年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="https://www.cnblogs.com/wangkongming/archive/2015/07.html">2015年7月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_27" href="https://www.cnblogs.com/wangkongming/archive/2015/06.html">2015年6月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_28" href="https://www.cnblogs.com/wangkongming/archive/2015/05.html">2015年5月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_29" href="https://www.cnblogs.com/wangkongming/archive/2015/04.html">2015年4月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_30" href="https://www.cnblogs.com/wangkongming/archive/2015/03.html">2015年3月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_31" href="https://www.cnblogs.com/wangkongming/archive/2015/02.html">2015年2月 (17)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_32" href="https://www.cnblogs.com/wangkongming/archive/2015/01.html">2015年1月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_33" href="https://www.cnblogs.com/wangkongming/archive/2014/12.html">2014年12月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_34" href="https://www.cnblogs.com/wangkongming/archive/2014/11.html">2014年11月 (21)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_35" href="https://www.cnblogs.com/wangkongming/archive/2014/10.html">2014年10月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_36" href="https://www.cnblogs.com/wangkongming/archive/2014/09.html">2014年9月 (22)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_37" href="https://www.cnblogs.com/wangkongming/archive/2014/08.html">2014年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_38" href="https://www.cnblogs.com/wangkongming/archive/2014/07.html">2014年7月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_39" href="https://www.cnblogs.com/wangkongming/archive/2014/06.html">2014年6月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_40" href="https://www.cnblogs.com/wangkongming/archive/2014/05.html">2014年5月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_41" href="https://www.cnblogs.com/wangkongming/archive/2014/04.html">2014年4月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_42" href="https://www.cnblogs.com/wangkongming/archive/2014/03.html">2014年3月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_43" href="https://www.cnblogs.com/wangkongming/archive/2014/02.html">2014年2月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_44" href="https://www.cnblogs.com/wangkongming/archive/2014/01.html">2014年1月 (20)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_45" href="https://www.cnblogs.com/wangkongming/archive/2013/12.html">2013年12月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_46" href="https://www.cnblogs.com/wangkongming/archive/2013/11.html">2013年11月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_47" href="https://www.cnblogs.com/wangkongming/archive/2013/10.html">2013年10月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_48" href="https://www.cnblogs.com/wangkongming/archive/2013/09.html">2013年9月 (17)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_49" href="https://www.cnblogs.com/wangkongming/archive/2013/08.html">2013年8月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_50" href="https://www.cnblogs.com/wangkongming/archive/2013/07.html">2013年7月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_51" href="https://www.cnblogs.com/wangkongming/archive/2013/06.html">2013年6月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_52" href="https://www.cnblogs.com/wangkongming/archive/2013/05.html">2013年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_53" href="https://www.cnblogs.com/wangkongming/archive/2013/04.html">2013年4月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_54" href="https://www.cnblogs.com/wangkongming/archive/2013/03.html">2013年3月 (19)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_55" href="https://www.cnblogs.com/wangkongming/archive/2013/02.html">2013年2月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_56" href="https://www.cnblogs.com/wangkongming/archive/2013/01.html">2013年1月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_57" href="https://www.cnblogs.com/wangkongming/archive/2012/12.html">2012年12月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_58" href="https://www.cnblogs.com/wangkongming/archive/2012/11.html">2012年11月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_59" href="https://www.cnblogs.com/wangkongming/archive/2012/10.html">2012年10月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_60" href="https://www.cnblogs.com/wangkongming/archive/2012/09.html">2012年9月 (2)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_imagecategory" class="catListImageCategory sidebar-block">
+<h3 class="catListTitle">相册</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="https://www.cnblogs.com/wangkongming/gallery/416939.html" rel="nofollow">公司活动(1)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_links514228" class="catList sidebar-block">
+<h3 class="catListTitle">Linux</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_3_Link_0" href="https://www.cnblogs.com/52php/" rel="nofollow">钱运来博客</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_links493185" class="catList sidebar-block">
+<h3 class="catListTitle">友情链接</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_4_Link_0" href="http://www.wangkongming.cn/" rel="nofollow">个人博客</a> </li>
+
+<li><a id="CatList_LinkList_4_Link_1" href="http://www.hlbaozhuangji.cn/" rel="nofollow">厦门华鹭包装机</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	552197
+	</li>
+	<li class="liRank">
+		排名 -	306
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangkongming/p/4476933.html#4251635">1. Re:Linux查找含有某字符串的所有文件</a></li>
+        <li class="recent_comment_body">付款库</li>
+        <li class="recent_comment_author">--玄赞</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangkongming/p/4164516.html#4227390">2. Re:如何删除git远程分支</a></li>
+        <li class="recent_comment_body">？</li>
+        <li class="recent_comment_author">--reline</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangkongming/p/3674769.html#4215334">3. Re:Linux无法使用userdel删除用户和组的解决办法</a></li>
+        <li class="recent_comment_body">vipw -p 也删除</li>
+        <li class="recent_comment_author">--太阳升</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangkongming/p/4928919.html#4193702">4. Re:linux用命令删除重复行</a></li>
+        <li class="recent_comment_body">sort -u file1 &gt; file2也可以</li>
+        <li class="recent_comment_author">--364105854</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/wangkongming/p/3999125.html#4142565">5. Re:linux下面覆盖文件，如何实现直接覆盖，不提示</a></li>
+        <li class="recent_comment_body">感谢，第二个方法好啊，既可以使用之前那条，也可以直接覆盖</li>
+        <li class="recent_comment_author">--todomaru</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/wangkongming/p/4476933.html">1. Linux查找含有某字符串的所有文件(373091)</a></li><li><a href="https://www.cnblogs.com/wangkongming/p/4054774.html">2. PHP数据类型转换(123548)</a></li><li><a href="https://www.cnblogs.com/wangkongming/p/4305962.html">3. Linux中zip压缩和unzip解压缩命令详解(115827)</a></li><li><a href="https://www.cnblogs.com/wangkongming/p/3992644.html">4. JS设置cookie，删除cookie(114531)</a></li><li><a href="https://www.cnblogs.com/wangkongming/p/4531341.html">5. Linux查看系统信息的一些命令及查看已安装软件包的命令(101731)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/wangkongming/archive/2012/10/23/2735748.html">1. javascript实现键盘按下回车时触发(7)</a></li><li><a href="https://www.cnblogs.com/wangkongming/p/3821305.html">2. Windows下Git Bash中文乱码(5)</a></li><li><a href="https://www.cnblogs.com/wangkongming/p/3684950.html">3. mysql日志详细解析(5)</a></li><li><a href="https://www.cnblogs.com/wangkongming/p/4476933.html">4. Linux查找含有某字符串的所有文件(5)</a></li><li><a href="https://www.cnblogs.com/wangkongming/p/3511463.html">5. win7电脑安装wamp出现httpd.exe无法找到组件MSVCR100.dll的解决办法(4)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 KoMiles
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+<script type="text/javascript">
+ showTime();
+  function checkNum(num){
+    return num < 10 ? '0'+num : num;
+  }
+
+function showTime(){
+  var ODate = new Date();
+  var y = ODate.getFullYear();
+  var m = ODate.getMonth() +1 ;
+  var d = ODate.getDate();
+  var H = ODate.getHours();
+  var i = checkNum(ODate.getMinutes());
+  var s = checkNum(ODate.getSeconds());
+  var week = ODate.getDay();
+
+  var weekList = new Array(7);
+  weekList[0] = '星期日';
+  weekList[1] = '星期一';
+  weekList[2] = '星期二';
+  weekList[3] = '星期三';
+  weekList[4] = '星期四';
+  weekList[5] = '星期五';
+  weekList[6] = '星期六'; 
+
+  var time = y+'/'+m+'/'+d+'  '+  +H+':'+i+':'+s+' '+ weekList[week];
+
+  document.getElementById('timeRun').innerHTML = time;
+  setTimeout(showTime,500);
+}
+</script><script type="text/javascript">getFollowStatus('1d59ba8a-a1c5-e111-aa3f-842b2b196315')</script></body></html>

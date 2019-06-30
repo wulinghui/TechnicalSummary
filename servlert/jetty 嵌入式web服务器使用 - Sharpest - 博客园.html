@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://www.cnblogs.com/sharpest/p/7748366.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+    <title>jetty 嵌入式web服务器使用 - Sharpest - 博客园</title>
+<meta property="og:description" content="要说嵌入式运行Jetty，最常用的还应该是运行一个标准的war文件或者指定一个webapp目录。 0. 首先需要添加Jetty运行时webapp的依赖包，下面是一个完整的pom.xml文件 其实不需要">
+    <link type="text/css" rel="stylesheet" href="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/bundle-arrow.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/bundle-arrow-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/sharpest/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/sharpest/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/sharpest/wlwmanifest.xml">
+    <script src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/pubads_impl_rendering_2019043001.js.下载"></script><script async="" src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/analytics.js.下载"></script><script type="text/javascript" src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/encoder.js.下载"></script><script src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=266873;var currentBlogApp='sharpest',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/f.txt"></script><script src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/pubads_impl_2019043001.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/sharpest/">Sharpest</a><br>
+		感谢每一位互联网工作者。
+	</div>
+</div>
+
+</div>
+<div id="mylinks">
+<!--done-->
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/sharpest/">首页</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Sharpest">联系</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/sharpest/rss">订阅</a><a id="blog_nav_rss_image" href="https://www.cnblogs.com/sharpest/rss"><img src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/xml.gif" alt="订阅"></a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a>
+</div>
+<div id="mytopmenu">
+	
+		<div id="blog_stats">
+<div class="blogStats">随笔 - 2664&nbsp;
+文章 - 0&nbsp;评论 - 0&nbsp;trackbacks - 0
+</div></div>
+	
+</div>
+<div id="leftcontent">
+	
+		<div id="leftcontentcontainer">
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/04/01&#39;);return false;">&lt;</a></td><td align="center">2019年5月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/06/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td class="CalWeekendDay" align="center">4</td></tr><tr><td class="CalWeekendDay" align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td class="CalTodayDay" align="center">9</td><td align="center">10</td><td class="CalWeekendDay" align="center">11</td></tr><tr><td class="CalWeekendDay" align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td class="CalWeekendDay" align="center">18</td></tr><tr><td class="CalWeekendDay" align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td class="CalWeekendDay" align="center">25</td></tr><tr><td class="CalWeekendDay" align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td></tr><tr><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script><br>
+			
+<!--done-->
+<div class="newsItem">
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/sharpest/">Sharpest</a><br>园龄：<a href="https://home.cnblogs.com/u/sharpest/" title="入园时间：2016-02-16">3年2个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/sharpest/followers/">212</a><br>关注：<a href="https://home.cnblogs.com/u/sharpest/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;18df47aa-7ad4-e511-9fc1-ac853d9f53cc&#39;)">+加关注</a></div><script>getFollowStatus('18df47aa-7ad4-e511-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/sharpest/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/sharpest/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/sharpest/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/sharpest/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/sharpest/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_recentposts" class="sidebar-block">
+<h3 class="catListTitle">最新随笔</h3>
+<div class="RecentComment" id="RecentPosts">
+<ul style="word-break:break-all">
+<li><a href="https://www.cnblogs.com/sharpest/p/10788165.html">1. java高并发实战（三）——Java内存模型和线程安全</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10788162.html">2. java高并发实战（二）——线程（并行程序）基础</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10788161.html">3. java高并发实战（一）——为什么需要并发</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10788160.html">4. redis锁机制介绍与实例</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10787952.html">5. Java8 Base64</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10787947.html">6. Java 8 日期时间 API</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10787805.html">7. Java 8 Nashorn JavaScript</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10787800.html">8. Java 8 Optional 类</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10787786.html">9. Java 8 Stream</a></li><li><a href="https://www.cnblogs.com/sharpest/p/10787749.html">10. Java 8 默认方法</a></li>
+</ul>
+</div>
+</div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<!--done-->
+
+		<h1 class="catListTitle">随笔分类</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_0" class="listitem" href="https://www.cnblogs.com/sharpest/category/1252327.html">1tb等于多少g 1TB和500G有什么区别(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_1" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177246.html">AJAX(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_2" class="listitem" href="https://www.cnblogs.com/sharpest/category/1137978.html">angular(49)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_3" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178093.html">Apache HTTP Server(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_4" class="listitem" href="https://www.cnblogs.com/sharpest/category/1116475.html">axis_webservice(19)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_5" class="listitem" href="https://www.cnblogs.com/sharpest/category/1117630.html">Bracket前端开发工具(8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_6" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177181.html">BUG(31)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_7" class="listitem" href="https://www.cnblogs.com/sharpest/category/1174754.html">Chrome浏览器(8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_8" class="listitem" href="https://www.cnblogs.com/sharpest/category/1176929.html">CSS(18)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_9" class="listitem" href="https://www.cnblogs.com/sharpest/category/1155765.html">cxf_webservice(10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_10" class="listitem" href="https://www.cnblogs.com/sharpest/category/1147361.html">docker(30)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_11" class="listitem" href="https://www.cnblogs.com/sharpest/category/930933.html">Dojo学习笔记(28)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_12" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177286.html">dom4j(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_13" class="listitem" href="https://www.cnblogs.com/sharpest/category/1129317.html">dubbo(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_14" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177377.html">EASYUI(21)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_15" class="listitem" href="https://www.cnblogs.com/sharpest/category/1174888.html">eclipse(28)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_16" class="listitem" href="https://www.cnblogs.com/sharpest/category/1080840.html">ExtJs(99)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_17" class="listitem" href="https://www.cnblogs.com/sharpest/category/857155.html">FCKEditor(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_18" class="listitem" href="https://www.cnblogs.com/sharpest/category/1375384.html">FreeMarker(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_19" class="listitem" href="https://www.cnblogs.com/sharpest/category/1146517.html">GIT(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_20" class="listitem" href="https://www.cnblogs.com/sharpest/category/1341170.html">Google Guava(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_21" class="listitem" href="https://www.cnblogs.com/sharpest/category/1227336.html">google搜索引擎使用方法(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_22" class="listitem" href="https://www.cnblogs.com/sharpest/category/1176824.html">Hibernate(51)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_23" class="listitem" href="https://www.cnblogs.com/sharpest/category/1147400.html">HTML(42)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_24" class="listitem" href="https://www.cnblogs.com/sharpest/category/1121494.html">html基础(12)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_25" class="listitem" href="https://www.cnblogs.com/sharpest/category/1152737.html">HttpClient(7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_26" class="listitem" href="https://www.cnblogs.com/sharpest/category/1113767.html">IntelliJ IDEA(56)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_27" class="listitem" href="https://www.cnblogs.com/sharpest/category/921197.html">JasperReports报表学习笔记(9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_28" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177187.html">java(80)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_29" class="listitem" href="https://www.cnblogs.com/sharpest/category/1454710.html">java8新特性(10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_30" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177201.html">javascript(50)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_31" class="listitem" href="https://www.cnblogs.com/sharpest/category/954933.html">javascript教程(56)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_32" class="listitem" href="https://www.cnblogs.com/sharpest/category/930930.html">Javascript模块化编程(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_33" class="listitem" href="https://www.cnblogs.com/sharpest/category/1143083.html">javascript学习(48)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_34" class="listitem" href="https://www.cnblogs.com/sharpest/category/1356034.html">javaWeb(19)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_35" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177388.html">java工具类(17)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_36" class="listitem" href="https://www.cnblogs.com/sharpest/category/790408.html">java架构设计(19)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_37" class="listitem" href="https://www.cnblogs.com/sharpest/category/1354322.html">java网络编程(12)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_38" class="listitem" href="https://www.cnblogs.com/sharpest/category/1377361.html">Java微信公众平台开发(25)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_39" class="listitem" href="https://www.cnblogs.com/sharpest/category/1310107.html">java系列概念(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_40" class="listitem" href="https://www.cnblogs.com/sharpest/category/793273.html">java正则验证(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_41" class="listitem" href="https://www.cnblogs.com/sharpest/category/1109469.html">JAXB xml与javaBean的转换 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_42" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178664.html">JDK(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_43" class="listitem" href="https://www.cnblogs.com/sharpest/category/1071437.html">jeesite(12)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_44" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177418.html">jetty(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_45" class="listitem" href="https://www.cnblogs.com/sharpest/category/1124445.html">JPA(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_46" class="listitem" href="https://www.cnblogs.com/sharpest/category/1425688.html">jqGrid(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_47" class="listitem" href="https://www.cnblogs.com/sharpest/category/1162225.html">Jquery开发(56)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_48" class="listitem" href="https://www.cnblogs.com/sharpest/category/934776.html">jQuery实例教程(61)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_49" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177882.html">JSON(13)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_50" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177140.html">JSP(48)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_51" class="listitem" href="https://www.cnblogs.com/sharpest/category/1316094.html">Junit4(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_52" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178083.html">JVM(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_53" class="listitem" href="https://www.cnblogs.com/sharpest/category/1152235.html">Kubenetes(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_54" class="listitem" href="https://www.cnblogs.com/sharpest/category/787759.html">linux基础(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_55" class="listitem" href="https://www.cnblogs.com/sharpest/category/832807.html">Linux基础-Shell(8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_56" class="listitem" href="https://www.cnblogs.com/sharpest/category/1148324.html">linux学习(49)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_57" class="listitem" href="https://www.cnblogs.com/sharpest/category/836490.html">Log4j教程(10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_58" class="listitem" href="https://www.cnblogs.com/sharpest/category/1118119.html">lombok(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_59" class="listitem" href="https://www.cnblogs.com/sharpest/category/899150.html">luncene入门(12)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_60" class="listitem" href="https://www.cnblogs.com/sharpest/category/791307.html">maven(56)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_61" class="listitem" href="https://www.cnblogs.com/sharpest/category/1403696.html">MD5(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_62" class="listitem" href="https://www.cnblogs.com/sharpest/category/1113867.html">mongodb(15)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_63" class="listitem" href="https://www.cnblogs.com/sharpest/category/1404866.html">MQ(9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_64" class="listitem" href="https://www.cnblogs.com/sharpest/category/911795.html">My97DatePicker基本用法 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_65" class="listitem" href="https://www.cnblogs.com/sharpest/category/1176932.html">mybatis(24)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_66" class="listitem" href="https://www.cnblogs.com/sharpest/category/807544.html">MyBatis实战教程(8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_67" class="listitem" href="https://www.cnblogs.com/sharpest/category/1174924.html">myeclipse(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_68" class="listitem" href="https://www.cnblogs.com/sharpest/category/1151279.html">MYSQL(41)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_69" class="listitem" href="https://www.cnblogs.com/sharpest/category/803014.html">MYSQL学习-转载(17)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_70" class="listitem" href="https://www.cnblogs.com/sharpest/category/790284.html">MYSQL优化(11)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_71" class="listitem" href="https://www.cnblogs.com/sharpest/category/1377365.html">nat123(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_72" class="listitem" href="https://www.cnblogs.com/sharpest/category/893672.html">Nginx(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_73" class="listitem" href="https://www.cnblogs.com/sharpest/category/1377374.html">ngrok(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_74" class="listitem" href="https://www.cnblogs.com/sharpest/category/1132005.html">node.js(93)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_75" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178102.html">Notepad++(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_76" class="listitem" href="https://www.cnblogs.com/sharpest/category/1162177.html">Oracle(69)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_77" class="listitem" href="https://www.cnblogs.com/sharpest/category/1415632.html">Oracle基础(24)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_78" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178118.html">Postgresql(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_79" class="listitem" href="https://www.cnblogs.com/sharpest/category/1152863.html">PowerDesigner(9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_80" class="listitem" href="https://www.cnblogs.com/sharpest/category/1174768.html">putty(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_81" class="listitem" href="https://www.cnblogs.com/sharpest/category/828225.html">Redis(15)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_82" class="listitem" href="https://www.cnblogs.com/sharpest/category/1162199.html">Redis学习(9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_83" class="listitem" href="https://www.cnblogs.com/sharpest/category/1141656.html">requireJS(11)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_84" class="listitem" href="https://www.cnblogs.com/sharpest/category/882126.html">Shiro教程(9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_85" class="listitem" href="https://www.cnblogs.com/sharpest/category/881535.html">Shiro与SpringMVC整合(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_86" class="listitem" href="https://www.cnblogs.com/sharpest/category/1118500.html">SOAP(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_87" class="listitem" href="https://www.cnblogs.com/sharpest/category/1155024.html">SOAPUI 安装及破解(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_88" class="listitem" href="https://www.cnblogs.com/sharpest/category/1130505.html">SonarQube(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_89" class="listitem" href="https://www.cnblogs.com/sharpest/category/1175081.html">Spring(81)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_90" class="listitem" href="https://www.cnblogs.com/sharpest/category/1124700.html">Spring Data JPA(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_91" class="listitem" href="https://www.cnblogs.com/sharpest/category/842359.html">Spring3.0 教程(14)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_92" class="listitem" href="https://www.cnblogs.com/sharpest/category/1123477.html">Spring-boot(51)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_93" class="listitem" href="https://www.cnblogs.com/sharpest/category/801626.html">SpringMVC(56)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_94" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178870.html">springmvc+spring+hibernate(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_95" class="listitem" href="https://www.cnblogs.com/sharpest/category/1367432.html">SpringMVC+Spring+Mybatis(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_96" class="listitem" href="https://www.cnblogs.com/sharpest/category/1363674.html">SSH网上商城项目实战(30)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_97" class="listitem" href="https://www.cnblogs.com/sharpest/category/849688.html">SSM整合(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_98" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177206.html">Struts1(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_99" class="listitem" href="https://www.cnblogs.com/sharpest/category/1176772.html">Struts2(41)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_100" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178864.html">Struts2+Hibernate+Spring(7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_101" class="listitem" href="https://www.cnblogs.com/sharpest/category/840434.html">struts2-教程详细(46)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_102" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177217.html">SVN(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_103" class="listitem" href="https://www.cnblogs.com/sharpest/category/1353628.html">TCP/IP/HTTP(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_104" class="listitem" href="https://www.cnblogs.com/sharpest/category/1183885.html">thymeleaf模版(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_105" class="listitem" href="https://www.cnblogs.com/sharpest/category/1174778.html">tomcat(24)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_106" class="listitem" href="https://www.cnblogs.com/sharpest/category/868963.html">UML(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_107" class="listitem" href="https://www.cnblogs.com/sharpest/category/1148172.html">VMware虚拟机(7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_108" class="listitem" href="https://www.cnblogs.com/sharpest/category/1406169.html">vue.js(10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_109" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178638.html">WebLogic(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_110" class="listitem" href="https://www.cnblogs.com/sharpest/category/1367910.html">Windows操作(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_111" class="listitem" href="https://www.cnblogs.com/sharpest/category/1136922.html">windows下CURL命令(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_112" class="listitem" href="https://www.cnblogs.com/sharpest/category/1128062.html">Zookeeper(14)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_113" class="listitem" href="https://www.cnblogs.com/sharpest/category/912632.html">报表ireport教程(7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_114" class="listitem" href="https://www.cnblogs.com/sharpest/category/913314.html">报表TIBCO Jaspersoft Studio工具教程(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_115" class="listitem" href="https://www.cnblogs.com/sharpest/category/1141428.html">测试框架 Mocha(14)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_116" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178674.html">定时任务调度框架实现总结(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_117" class="listitem" href="https://www.cnblogs.com/sharpest/category/1329779.html">多线程(40)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_118" class="listitem" href="https://www.cnblogs.com/sharpest/category/1181613.html">福昕阅读器 添加下划线(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_119" class="listitem" href="https://www.cnblogs.com/sharpest/category/905587.html">关于项目数据库设计(11)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_120" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178689.html">火狐浏览器(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_121" class="listitem" href="https://www.cnblogs.com/sharpest/category/1116683.html">几种流行Webservice框架性能对比(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_122" class="listitem" href="https://www.cnblogs.com/sharpest/category/1178670.html">计算机常规操作(16)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_123" class="listitem" href="https://www.cnblogs.com/sharpest/category/1154136.html">接口测试工具Postman(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_124" class="listitem" href="https://www.cnblogs.com/sharpest/category/933246.html">九个Console命令，让js调试更简单 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_125" class="listitem" href="https://www.cnblogs.com/sharpest/category/1127893.html">开发流程图(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_126" class="listitem" href="https://www.cnblogs.com/sharpest/category/904918.html">利用JFreeChart生成简单柱状图(Java) (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_127" class="listitem" href="https://www.cnblogs.com/sharpest/category/1412562.html">瀑布开发模式和敏捷开发模式(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_128" class="listitem" href="https://www.cnblogs.com/sharpest/category/1341880.html">前端性能调优(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_129" class="listitem" href="https://www.cnblogs.com/sharpest/category/1366489.html">全国省市县数据库(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_130" class="listitem" href="https://www.cnblogs.com/sharpest/category/1139348.html">设计模式的六大原则(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_131" class="listitem" href="https://www.cnblogs.com/sharpest/category/791636.html">网页缓存技术(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_132" class="listitem" href="https://www.cnblogs.com/sharpest/category/1382802.html">微信小程序JAVA实战(76)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_133" class="listitem" href="https://www.cnblogs.com/sharpest/category/1110887.html">优化你的java代码性能 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_134" class="listitem" href="https://www.cnblogs.com/sharpest/category/1372132.html">邮件发送JavaMail(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_135" class="listitem" href="https://www.cnblogs.com/sharpest/category/1177210.html">正则表达式(8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_136" class="listitem" href="https://www.cnblogs.com/sharpest/category/790798.html">重构改善代码结构(59)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_137" class="listitem" href="https://www.cnblogs.com/sharpest/category/871958.html">主要还是运营、技术只是服务手段(1)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">随笔档案</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_0" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2019/04.html">2019年4月 (15)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_1" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2019/03.html">2019年3月 (67)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_2" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2019/02.html">2019年2月 (54)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_3" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2019/01.html">2019年1月 (119)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_4" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/12.html">2018年12月 (128)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_5" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/11.html">2018年11月 (73)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_6" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/10.html">2018年10月 (38)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_7" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/09.html">2018年9月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_8" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/08.html">2018年8月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_9" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/07.html">2018年7月 (5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_10" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/05.html">2018年5月 (10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_11" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/04.html">2018年4月 (14)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_12" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/03.html">2018年3月 (50)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_13" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/02.html">2018年2月 (96)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_14" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2018/01.html">2018年1月 (177)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_15" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/12.html">2017年12月 (192)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_16" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/11.html">2017年11月 (318)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_17" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/10.html">2017年10月 (202)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_18" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/09.html">2017年9月 (52)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_19" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/08.html">2017年8月 (79)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_20" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/07.html">2017年7月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_21" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/03.html">2017年3月 (22)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_22" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/02.html">2017年2月 (69)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_23" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2017/01.html">2017年1月 (99)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_24" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/12.html">2016年12月 (105)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_25" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/11.html">2016年11月 (93)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_26" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/10.html">2016年10月 (65)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_27" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/09.html">2016年9月 (18)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_28" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/08.html">2016年8月 (80)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_29" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/07.html">2016年7月 (74)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_30" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/06.html">2016年6月 (141)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_31" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/05.html">2016年5月 (74)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_32" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/04.html">2016年4月 (29)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_33" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/03.html">2016年3月 (51)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_34" class="listitem" href="https://www.cnblogs.com/sharpest/archive/2016/02.html">2016年2月 (47)</a></li>
+			
+				</ul>
+			
+	
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" style="display: none;">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"></div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/sharpest/p/7879377.html">1. Java时间日期格式转换Date转String和String转Date(221983)</a></li><li><a href="https://www.cnblogs.com/sharpest/p/7844533.html">2. java对象与json对象间的相互转换(106572)</a></li><li><a href="https://www.cnblogs.com/sharpest/p/7877712.html">3. java中如何将string 转化成long(99588)</a></li><li><a href="https://www.cnblogs.com/sharpest/p/7764662.html">4. Oracle触发器用法实例详解(74876)</a></li><li><a href="https://www.cnblogs.com/sharpest/p/7378097.html">5. 客户端连接oracle11出现提示ORA-12514:错误解决方法(70950)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap" style="display: none;">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/sharpest/p/8003905.html">1. 1.一个WEB应用的开发流程(8)</a></li><li><a href="https://www.cnblogs.com/sharpest/p/7764662.html">2. Oracle触发器用法实例详解(8)</a></li><li><a href="https://www.cnblogs.com/sharpest/p/6017983.html">3. 解决javax.servlet.jsp.JspException cannot be resolved to a type(5)</a></li><li><a href="https://www.cnblogs.com/sharpest/p/7877501.html">4. Dom4j完整教程(5)</a></li><li><a href="https://www.cnblogs.com/sharpest/p/7738444.html">5. 史上最全的Maven Pom文件标签详解(4)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script></div>		
+	
+</div>
+<div id="centercontent">
+	
+        <div id="post_detail">
+<!--done-->
+<div class="post">
+	<div class="postTitle">
+		<h1><a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/sharpest/p/7748366.html">jetty 嵌入式web服务器使用</a></h1>
+	</div>
+	<div id="cnblogs_post_body" class="blogpost-body"><p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">要说嵌入式运行Jetty，最常用的还应该是运行一个标准的war文件或者指定一个webapp目录。</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;"> 0. 首先需要添加Jetty运行时webapp的依赖包，下面是一个完整的pom.xml文件<br>
+</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">&nbsp;</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">project </span><span style="color: #ff0000;">xmlns</span><span style="color: #0000ff;">="http://maven.apache.org/POM/4.0.0"</span><span style="color: #ff0000;"> xmlns:xsi</span><span style="color: #0000ff;">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: #008080;"> 2</span> <span style="color: #ff0000;">    xsi:schemaLocation</span><span style="color: #0000ff;">="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 3</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">modelVersion</span><span style="color: #0000ff;">&gt;</span>4.0.0<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">modelVersion</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 4</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>com.google.code.garbagecan.jettystudy<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 5</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>jettystudy<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 6</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">packaging</span><span style="color: #0000ff;">&gt;</span>jar<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">packaging</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 7</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>1.0-SNAPSHOT<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 8</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>jettystudy<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">name</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">url</span><span style="color: #0000ff;">&gt;</span>http://maven.apache.org<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">url</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">10</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">build</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">11</span>         <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">plugins</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">12</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">plugin</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">13</span>                 <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>maven-compiler-plugin<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">14</span>                 <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">inherited</span><span style="color: #0000ff;">&gt;</span>true<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">inherited</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">15</span>                 <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>2.3.1<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">16</span>                 <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">17</span>                     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">source</span><span style="color: #0000ff;">&gt;</span>1.6<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">source</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">18</span>                     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">target</span><span style="color: #0000ff;">&gt;</span>1.6<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">target</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">19</span>                     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">debug</span><span style="color: #0000ff;">&gt;</span>true<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">debug</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">20</span>                 <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">configuration</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">21</span>             <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">plugin</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">22</span>         <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">plugins</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">23</span>     <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">build</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">24</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">dependencies</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">25</span>         <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> Spring support </span><span style="color: #008000;">--&gt;</span>
+<span style="color: #008080;">26</span>         <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">27</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>org.springframework<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">28</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>spring<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">29</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>2.5.6<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">30</span>         <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">31</span>         
+<span style="color: #008080;">32</span>         <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> Jetty </span><span style="color: #008000;">--&gt;</span>
+<span style="color: #008080;">33</span>         <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">34</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>org.eclipse.jetty.aggregate<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">35</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>jetty-all<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">36</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>8.0.4.v20111024<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">37</span>         <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">38</span> 
+<span style="color: #008080;">39</span>         <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> Jetty Webapp </span><span style="color: #008000;">--&gt;</span>
+<span style="color: #008080;">40</span>         <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">41</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>org.eclipse.jetty<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">42</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>jetty-webapp<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">43</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>8.0.4.v20111024<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">44</span>         <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">45</span> 
+<span style="color: #008080;">46</span>         <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> JSP Support </span><span style="color: #008000;">--&gt;</span>
+<span style="color: #008080;">47</span>         <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">48</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>org.glassfish.web<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">49</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>javax.servlet.jsp<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">50</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>2.2.3<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">51</span>         <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">52</span> 
+<span style="color: #008080;">53</span>         <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> EL Support </span><span style="color: #008000;">--&gt;</span>
+<span style="color: #008080;">54</span>         <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">55</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>org.glassfish.web<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">56</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>javax.el<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">57</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>2.2.3<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">58</span>         <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">59</span> 
+<span style="color: #008080;">60</span>         <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> JSTL Support </span><span style="color: #008000;">--&gt;</span>
+<span style="color: #008080;">61</span>         <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">62</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>org.glassfish.web<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">63</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>javax.servlet.jsp.jstl<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">64</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>1.2.1<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">65</span>             <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">exclusions</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">66</span>                 <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">exclusion</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">67</span>                     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>jstl-api<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">68</span>                     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>javax.servlet.jsp.jstl<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">69</span>                 <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">exclusion</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">70</span>             <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">exclusions</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">71</span>         <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">72</span>     <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">dependencies</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">73</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">project</span><span style="color: #0000ff;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<div class="dp-highlighter bg_html" style="font-family: Consolas,&#39;Courier New&#39;,Courier,mono,serif; width: 940.4971313476563px; overflow: hidden; padding-top: 1px; border-color: #cccccc; color: #555555; line-height: 35px; margin: 18px 0px!important;">&nbsp;</div>
+<p><span style="color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">其实不需要这么多依赖，maven的依赖只需要一个依赖就ok了</span></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">2</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>org.mortbay.jetty<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">groupId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">3</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>jetty-maven-plugin<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">artifactId</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">4</span>     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>8.1.16.v20140903<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">version</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008080;">5</span> <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">dependency</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p> <br>
+</p>
+<p><span style="color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;"><br>
+</span></p>
+<p><span style="color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">1. 运行标准的war文件</span></p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">&nbsp;</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">
+1.1 首先找一个完整的war包，这里使用了struts2自带的一个例子应用程序struts2-blank.war；</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">
+1.2 创建自己的Jetty Server启动类WebAppContextWithWarServer，其中指定了war文件的路径，并指定context路径为"/myapp"</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">&nbsp;</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span>  <span style="color: #0000ff;">package</span><span style="color: #000000;"> com.google.code.garbagecan.jettystudy.sample6;  
+</span><span style="color: #008080;"> 2</span>   
+<span style="color: #008080;"> 3</span> <span style="color: #0000ff;">import</span><span style="color: #000000;"> org.eclipse.jetty.server.Server;  
+</span><span style="color: #008080;"> 4</span> <span style="color: #0000ff;">import</span><span style="color: #000000;"> org.eclipse.jetty.webapp.WebAppContext;  
+</span><span style="color: #008080;"> 5</span>   
+<span style="color: #008080;"> 6</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> WebAppContextWithWarServer {  
+</span><span style="color: #008080;"> 7</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">void</span> main(String[] args) <span style="color: #0000ff;">throws</span><span style="color: #000000;"> Exception {  
+</span><span style="color: #008080;"> 8</span>         Server server = <span style="color: #0000ff;">new</span> Server(8080<span style="color: #000000;">);  
+</span><span style="color: #008080;"> 9</span>   
+<span style="color: #008080;">10</span>         WebAppContext context = <span style="color: #0000ff;">new</span><span style="color: #000000;"> WebAppContext();  
+</span><span style="color: #008080;">11</span>         context.setContextPath("/myapp"<span style="color: #000000;">);  
+</span><span style="color: #008080;">12</span>         context.setWar("E:/share/test/struts2-blank.war"<span style="color: #000000;">);  
+</span><span style="color: #008080;">13</span> <span style="color: #000000;">        server.setHandler(context);  
+</span><span style="color: #008080;">14</span>   
+<span style="color: #008080;">15</span> <span style="color: #000000;">        server.start();  
+</span><span style="color: #008080;">16</span> <span style="color: #000000;">        server.join();  
+</span><span style="color: #008080;">17</span> <span style="color: #000000;">    }  
+</span><span style="color: #008080;">18</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<div class="dp-highlighter bg_java" style="font-family: Consolas,&#39;Courier New&#39;,Courier,mono,serif; width: 940.4971313476563px; overflow: hidden; padding-top: 1px; border-color: #cccccc; color: #555555; line-height: 35px; margin: 18px 0px!important;">&nbsp;</div>
+<p><span style="color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;"><span style="color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">1.3 运行WebAppContextWithWarServer类，然后访问// http://localhost:8080/myapp/就可以看到struts2的例子界面了。</span></span></p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">&nbsp;</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;"> <br>
+</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">
+2. 运行一个webapp目录</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">
+2.1 还是用上面的struts2-blank.war，将这个war包解压后放到一个目录下；</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">
+2.2 创建自己的Jetty Server启动类WebAppContextWithFolderServer，其中指定了webapp目录，并指定context路径为"/myapp"</p>
+<p style="margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">&nbsp;</p>
+<div class="cnblogs_code"><div>按 Ctrl+C 复制代码</div><textarea style="width: 1215px; height: 465.6px; font-family: &quot;Courier New&quot;; font-size: 12px; line-height: 1.5;"></textarea><div>按 Ctrl+C 复制代码</div></div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="dp-highlighter bg_java" style="font-family: Consolas,&#39;Courier New&#39;,Courier,mono,serif; width: 940.4971313476563px; overflow: hidden; padding-top: 1px; border-color: #cccccc; line-height: 35px; margin: 18px 0px!important;"><br><span style="margin: 0px; padding: 0px; border: none; color: black;"><span style="margin: 0px; padding: 0px; border: none;"><span style="margin: 0px; padding: 0px; border: none; color: black;"><span style="margin: 0px; padding: 0px; border: none; color: black;"><span style="margin: 0px; padding: 0px; border: none; color: black;"><span style="margin: 0px; padding: 0px; border: none; color: black;"><span style="margin: 0px; padding: 0px; border: none; color: black;"><span style="margin: 0px; padding: 0px; border: none; color: black; background-color: inherit;">&nbsp;</span></span></span></span></span></span></span></span>
+</div>
+<p>
+<span style="color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">
+<span style="color: #555555; font-family: &#39;microsoft yahei&#39;; font-size: 15.454545021057129px; line-height: 35px;">2.3 运行WebAppContextWithFolderServer类，然后访问// http://localhost:8080/myapp/就可以看到struts2的例子界面</span></span></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/sharpest/category/1177418.html" target="_blank">jetty</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7748366,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;18df47aa-7ad4-e511-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/sharpest/" target="_blank"><img src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/sharpest/">Sharpest</a><br>
+            <a href="http://home.cnblogs.com/u/sharpest/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/sharpest/followers">粉丝 - 212</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;18df47aa-7ad4-e511-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7748366,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(7748366,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/sharpest/p/7748350.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/sharpest/p/7748350.html" title="发布于2017-10-28 22:18">java.security.AccessControlException: access denied ("java.lang.RuntimePermission" "getClassLoader")</a><br><a href="https://www.cnblogs.com/sharpest/p/7748438.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/sharpest/p/7748438.html" title="发布于2017-10-28 22:40">spring注解开发AnnotationConfigApplicationContext的使用</a><br></div>
+</div>
+
+
+	<div class="postDesc">posted on <span id="post-date">2017-10-28 22:21</span> <a href="https://www.cnblogs.com/sharpest/">Sharpest</a> 阅读(<span id="post_view_count">1526</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7748366" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/sharpest/p/7748366.html#" onclick="AddToWz(7748366);return false;">收藏</a></div>
+</div>
+<script type="text/javascript">var allowComments=false,cb_blogId=266873,cb_entryId=7748366,cb_blogApp=currentBlogApp,cb_blogUserGuid='18df47aa-7ad4-e511-9fc1-ac853d9f53cc',cb_entryCreatedDate='2017/10/28 22:21:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/sharpest/p/7748366.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/sharpest/p/7748366.html#top">返回顶部</a></div>
+<div id="comment_form_container">（评论功能已被禁用）</div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.bagevent.com/event/2195041?bag_track=13072958" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-看雪&#39;)">【活动】看雪2019安全开发者峰会，共话安全领域焦点</a><br><a href="https://ke.qq.com/adActivity.html?name=xiangxueketang2" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-享学&#39;)">【培训】Java程序员年薪40W，他1年走了别人5年的路</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CJ3RoOf5jeICFYK0lgodsL8H9g"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/bfchengnuo/p/8128035.html" target="_blank" onclick="clickRecomItmem(8128035)">Java使用Jetty实现嵌入式Web服务器及Servlet容器</a><br>·  <a href="https://www.cnblogs.com/langtianya/p/5218034.html" target="_blank" onclick="clickRecomItmem(5218034)">Java使用Jetty实现嵌入式Web服务器及Servlet容器</a><br>·  <a href="https://www.cnblogs.com/wdpp/archive/2012/02/06/2386206.html" target="_blank" onclick="clickRecomItmem(2386206)">Jetty实战之 嵌入式Jetty运行web app</a><br>·  <a href="https://www.cnblogs.com/qlqwjy/p/7574544.html" target="_blank" onclick="clickRecomItmem(7574544)">【jetty】jetty服务器的使用</a><br>·  <a href="https://www.cnblogs.com/yiwangzhibujian/p/5832597.html" target="_blank" onclick="clickRecomItmem(5832597)">Jetty使用教程（一）——开始使用Jetty</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CJ7RoOf5jeICFYK0lgodsL8H9g"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true" src="./jetty 嵌入式web服务器使用 - Sharpest - 博客园_files/saved_resource(1).html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/625033/" target="_blank">杨元庆：希望联想投资的企业未来成为联想的核心业务</a><br> ·  <a href="https://news.cnblogs.com/n/625032/" target="_blank">这所大学地下真有“矿”，带你穿越40亿年看地球</a><br> ·  <a href="https://news.cnblogs.com/n/625031/" target="_blank">爱奇艺回应裁员20%：未裁员 优化部分绩效不达标员工</a><br> ·  <a href="https://news.cnblogs.com/n/625030/" target="_blank">金融诈骗中男性受害者超7成 广东最多</a><br> ·  <a href="https://news.cnblogs.com/n/625029/" target="_blank">腾讯“疯起来”连自己都打：原来内部有个技术军团</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"><b>历史上的今天:</b><br>2016-10-28 <a href="https://www.cnblogs.com/sharpest/p/6009740.html">class path resource [applicationContext.xml] cannot be opened because it does not exis</a><br>2016-10-28 <a href="https://www.cnblogs.com/sharpest/p/6009732.html">web.xml 配置中classpath: 与classpath*:的区别</a><br>2016-10-28 <a href="https://www.cnblogs.com/sharpest/p/6009064.html">&lt;input type="radio"&gt;单选按钮</a><br></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	
+<!--done-->
+<div class="footer">
+	
+	Copyright ©2019 Sharpest Powered by: <a href="http://www.cnblogs.com/" class="footerlink">博客园</a> 模板提供：<a href="http://blog.hjenglish.com/" class="footerlink">沪江博客</a><br>
+</div>
+</div>
+
+
+
+
+
+
+</body></html>

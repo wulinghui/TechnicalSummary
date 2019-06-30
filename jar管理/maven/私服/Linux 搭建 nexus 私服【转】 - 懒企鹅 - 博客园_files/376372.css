@@ -1,0 +1,45 @@
+#home {
+    margin: 0 auto;
+    width: 100%;
+}
+
+#sideBar {
+    min-height: 200px;
+    padding: 0 5px 0 5px;
+    margin-left: 80%;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    _margin-left: 0;
+    _width: 240px;
+    padding-bottom: 20px;
+}
+
+#mainContent {
+    min-height: 200px;
+    *padding-top: 10px;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    float: left;
+    width: 80%;
+    background: #fff;
+}
+
+#navigator {
+    background-color: #333;
+    height: 60px;
+    clear: both;
+    margin-top: 10px;
+    position: relative;
+}
+body {
+    color: #000;
+    background: #fff;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    min-height: 101%;
+    background: url(//www.cnblogs.com/skins/BlackLowKey/images/body_bg.jpg) top center no-repeat #000;
+}

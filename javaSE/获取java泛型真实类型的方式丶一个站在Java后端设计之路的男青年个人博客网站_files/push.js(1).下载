@@ -1,0 +1,48 @@
+/** 百度抓取连接 **/
+window.onload=function(){
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+	/** 百度统计 **/
+	var _hmt = _hmt || [];
+	(function() {
+		var hm = document.createElement("script");
+		hm.src = "https://hm.baidu.com/hm.js?2da484c6a515f0ee441c6a5703948fbe";
+		var s = document.getElementsByTagName("script")[0]; 
+		s.parentNode.insertBefore(hm, s);
+	})();
+}
+/** 找查bt文章 **/
+function searchBtArticle() {
+	var kw = $("#kw").val();
+	if (kw == null || kw == "") {
+		return;
+	} else {
+		window.location.href = "sbt-" + kw + "-1.html";
+	}
+}
+
+/** 统计广告点击率 **/ 
+function addAdvertLog() {
+	$.ajax({
+		type : "post",
+		url : "/addAdvertLog.ajax",
+		asyn :true,
+		data : {
+			target : name
+			},
+		dataType : "json",
+		success : function(json) {
+			
+		}
+	});
+}

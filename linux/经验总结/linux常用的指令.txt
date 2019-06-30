@@ -1,0 +1,396 @@
+### 常用指令[^a]
+### vim的使用[^b]
+### 常用的设置[^c]
+### 常见的问题[^d]
+
+[^a]: 常用指令
+- 查看帮助文档 `ls --help`
+- 帮助手册`man ls`
+- 历史命令 `history`  历史命令的调用`!150`
+- 查看文件信息：`ls -alh`
+- 输出重定向命令：`ls > a.txt`
+- 分屏显示 `more a.txt`
+- 管道：| `ls -alh | more`
+- 清屏：`clear` Ctrl + l 
+- 切换工作目录： cd
+```
+cd    切换到当前用户的主目录(/home/用户目录)，用户登陆的时候，默认的目录就是用户的主目录。
+cd ~ 切换到当前用户的主目录(/home/用户目录)
+cd .  切换到当前目录
+cd .. 切换到上级目录
+cd - 可进入上次所在的目录
+```
+- 显示当前路径：`pwd`
+- 创建目录：`mkdir -p a/b/c/d`
+- 以目录树方式显示 `tree`
+- 删除文件或目录 `rm -ifr a/b/c/d`
+- 建立链接文件 
+```
+ln -s a.txt a-soft.txt #软连接
+ln a.txt a-copy.txt   #硬链接,只能是文件
+```
+- 查看或者合并文件内容：`cat a.txt b.txt >> ab.txt`
+- 查看文件内容
+```
+cat file 
+more file 可以翻页,下翻页(空格)    上翻一页(b)  退出(q)
+less file    可以翻页,下翻页(空格)    上翻一页(b)  退出(q) 上一行(↑) 下一行(↓)  搜索关键字(/keyword  #n 下一个)
+tail -10  file 查看日志文件尾部10行，
+tail -f file     按照文件uuid，改名后还是跟踪之前的文件
+tail -F file    按照文件名跟踪
+head -10 file 查看头部
+```
+- 文本搜索     
+```
+grep -nvi 'a' a.txt # -v 显示不包含匹配文本的所有行（相当于求反） -n 显示匹配行及行号 -i 忽略大小写
+```
+- 查找文件 
+```
+find ./ -name a.txt   #查找当前目录下所有名为test.sh的文件
+find ./ -name '*.sh'  #查找当前目录下所有后缀为.sh的文件
+find /tmp -size 2M  #查找在/tmp 目录下等于2M的文件
+find /tmp -size +4k -size -5M #查找当前目录下大于4k，小于5M的文件
+find ./ -perm 0777 #查找当前目录下权限为 777 的文件或目录
+```
+- 拷贝文件 
+```
+-a 该选项通常在复制目录时使用，它保留链接、文件属性，并递归地复制目录，简单而言，保持文件原有属性。
+-f 已经存在的目标文件而不提示
+-i 交互式复制，在覆盖目标文件之前将给出提示要求用户确认
+-r 若给出的源文件是目录文件，则cp将递归复制该目录下的所有子目录和文件，目标文件必须为一个目录名。
+-v 显示拷贝进度
+[root@awstats ~]# mkdir -p ./storage-provisioner-v1.8.1 && cp Dockerfile "$_"   #linux下cp命令的目标路径不存在时会自动创建吗
+[root@awstats ~]# cp -ivr ./b/c a-cp
+[root@awstats ~]# cp /etc/yum.conf{,.`date +%F`}        # - 百度:bash之花括号展开（brace expansion）
+-rw-r--r-- 1 root root 969 Apr 14 16:19 /etc/yum.conf
+-rw-r--r-- 1 root root 969 Apr 14 16:19 /etc/yum.conf.20150414
+```
+- 移动文件或重命名 `mv -fv a.txt aNew.txt `
+- 批量重命名 `rename -vf .repo .repo.bak *`
+- 归档管理 
+```
+-c 生成档案文件，创建打包文件
+-v 列出归档解档的详细过程，显示进度
+-f 指定档案文件名称，f后面一定是.tar文件，所以必须放选项最后
+-t 列出档案中包含的文件
+-x 解开档案文件
+注意：除了f需要放在参数的最后，其它参数的顺序任意。
+tar -cvf a.tar * 
+tar -xvf a.tar
+```
+- 文件压缩解压 gzip
+```
+gzip -r test.tar test.tar.gz
+gzip -d test.tar.gz
+# tar这个命令并没有压缩的功能，它只是一个打包的命令，但是在tar命令中增加一个选项(-z)可以调用gzip实现了一个压缩的功能，实行一个先打包后压缩的过程。
+tar -zcvf test.tar.gz *
+tar -zxvf test.tar.gz
+tar -zxvf test.tar.gz -C /tmp/ 
+```
+- 文件压缩解压：bzip2 同上`tar -jcvf bizip.tar.bz2 *.c`
+- 文件压缩解压：zip、unzip 
+```zip myzip *
+unzip -d ./test myzip.zip
+```
+- 查看命令位置`which ls`
+
+--------------------   
+- 查看当前用户 `whoami`
+- 查看登录用户 `who -mqu`
+- 退出登录账户 `exit`
+- 添加用户账号 
+```
+useradd -d /home/a a -g test -m #创建一个用户名字叫a，主目录在/home/a，如果主目录不存在，就自动创建主目录，同时用户属于test组
+useradd -dmg my root
+cat /etc/passwd
+# EOF .... EOF 之间的内容，当成临时文件，放到cat里面。再重定向到 /etc/profile
+
+cat >> /etc/profile << EOF
+
+export JAVA_HOME=/usr/local/jdk1.7.0_45
+
+export PATH=\$PATH:\$JAVA_HOME/bin
+
+EOF
+```
+- 设置用户密码：`sudo passwd my`
+- 删除用户 `userdel -r my #删除用户，同时删除用户的主目录 `
+- 切换用户：`su - my #切换到对应的用户时会将当前的工作目录自动转换到切换后的用户主目录`
+- 查看有哪些用户组 `cat /etc/group `
+- 添加、删除组账号：`groupadd my;groupdel my`
+- 修改用户所在组 `usermod -g my wlh`
+- 查看用户在哪些组 `groups wlh`
+- 为创建的普通用户添加sudo权限
+```
+sudo usermod -a -G adm 用户名
+sudo usermod -a -G sudo 用户名
+```
+- 修改文件权限`chmod -R 751 test/ # 递归 test 目录下所有文件加 777 权限 `
+- 修改文件所有者 `chown wlh tets.txt`
+- 修改文件所属组 `chgrp my test.txt`
+
+----------------------------------------
+- 查看当前日历 `cat -y`
+- 显示或设置时间 `date `
+- 查看进程信息 `ps -auwx;ps -auwr`
+- 动态显示进程
+```
+top -d 10
+M根据内存使用量来排序
+P根据CPU占有率来排序
+T根据进程运行时间的长短来排序
+U可以根据后面输入的用户名来筛选进程
+K可以根据后面输入的PID来杀死进程。
+q退出
+h获得帮助
+```
+- 终止进程 `kill -9 pid`
+- 关机重启：reboot、shutdown、init 
+
+```
+reboot 重新启动操作系统
+shutdown –r now 重新启动操作系统，shutdown会给别的用户提示
+shutdown -h now 立刻关机，其中now相当于时间为0的状态
+shutdown -h 20:25 系统在今天的20:25 会关机
+shutdown -h +10 系统再过十分钟后自动关机
+init 0 关机
+init 6 重启
+```
+- 挂载和解挂
+```
+mkdir /mnt/cdrom/ #创建一个目录
+mount -t iso9660 -o ro /dev/cdrom /mnt/cdrom/ 将/dev/cdrom挂载到/mnt/cdrom/
+make && make install
+
+```
+- 查看文件信息`file a.txt`
+- 查看系统信息`uname -a`
+- 检测磁盘空间`df -mh`
+- 检测目录所占磁盘空间 `du -hs build/`
+- 查看或配置网卡信息：`ifconfig ens 192.168.1.108#修改ens的ip`
+- 测试远程主机连通性：`ping www.baidu.com`
+- 设置工具 `setup`
+- 查看端口 `netstat -nltp`
+- 重启网卡。 `service network restart`
+- 系统服务管理
+```
+service --status-all  #查看所有服务
+service network status # 查看指定服务状态。
+service network stop #停止网络服务。
+service network start #开启网络服务。
+service network restart #重启指定服务
+chkconfig  #查看所有后台服务的自启动
+chkconfig iptables off # 关闭自启动
+chkconfig iptables on  # 开启自启动
+```
+- 系统启动级别管理
+vi /etc/inittab
+- 安装软件
+```
+wget http://..... #通过网络下载到本地
+wget -Px /root/a/b/c 网址
+
+```
+
+--------------------------
+
+[^b]: vim基础操作
+- 插入模式
+```
+i: 插入光标前一个字符 
+
+I: 插入行首 
+
+a: 插入光标后一个字符 
+
+A: 插入行未 
+
+o: 向下新开一行,插入行首 
+
+O: 向上新开一行,插入行首
+```
+- 
+```
+移动光标:
+h: 左移 
+
+j: 下移 
+
+k: 上移 
+
+l: 右移
+
+M: 光标移动到中间行 
+
+L: 光标移动到屏幕最后一行行首 
+
+G: 移动到指定行,行号 -G
+
+w: 向后一次移动一个字 
+
+b: 向前一次移动一个字
+
+{: 按段移动,上移 
+
+}: 按段移动,下移
+
+Ctr-d: 向下翻半屏 
+
+Ctr-u: 向上翻半屏
+
+Ctr-f: 向下翻一屏 
+
+Ctr-b: 向上翻一屏
+
+gg: 光标移动文件开头 
+
+G: 光标移动到文件末尾
+删除命令:
+x: 删除光标后一个字符,相当于 Del 
+
+X: 删除光标前一个字符,相当于 Backspace
+
+dd: 删除光标所在行,n dd 删除指定的行数 D: 删除光标后本行所有内容,包含光标所在字符 
+
+d0: 删除光标前本行所有内容,不包含光标所在字符
+
+dw: 删除光标开始位置的字,包含光标所在字符
+撤销命令:
+u: 一步一步撤销 
+
+
+Ctr-r: 反撤销
+重复命令:
+.: 重复上一次操作的命令
+文本行移动:
+>>: 文本行右移 
+
+<<: 文本行左移
+复制粘贴:
+yy: 复制当前行,n yy 复制 n 行 
+
+p: 在光标所在位置向下新开辟一行,粘贴
+可视模式:
+v: 按字符移动,选中文本 
+
+V: 按行移动,选中文本可视模式可以配合 d, y, >>, << 实现对文本块的删除,复制,左右移动
+替换操作:
+r: 替换当前字符 
+
+R: 替换当前行光标后的字符
+查找命令:
+/: str查找
+n: 下一个
+N：上一个
+替换命令：  vim 全局替换
+把abc全部替换成123
+末行模式下，将光标所在行的abc替换成123
+:%s/abc/123/g
+
+末行模式下，将第一行至第10行之间的abc替换成123
+:1, 10s/abc/123/g
+末行模式下，把整个文件中的old的每次出现都改为new
+:1,$s/old/new/g
+```
+
+
+
+[^c]: 常用的设置
+- 设置静态ip
+```shell
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth0 # 设备号
+TYPE=Ethernet #类型
+ONBOOT=yes #开机自启
+BOOTPROTO=static #静态
+IPADDR=192.168.0.101
+NETMASK=255.255.255.0
+#如果网关不是默认的1的话就需要配置一下
+#GATEWAY=192.168.0.1
+#这个当出现  ping: www.baidu.com: 未知的名称或服务  的时候需要配置  。  在win7 中 ipconfig -all查看好用的dns给配上。
+DNS1=202.106.0.20
+DNS2=202.106.196.115
+service network restart
+```
+
+- 修改主机名
+```shell
+vi /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=server1.itcast.cn
+```
+
+- 安装jdk的过程
+```
+**解压安装包
+ tar -zxvf jdk-7u45-linux-x64.tar.gz -C apps/
+
+**然后修改环境变量
+vi /etc/profile
+
+在文件最后添加
+
+export JAVA_HOME=/root/apps/jdk1.7.0_45
+
+export PATH=$PATH:$JAVA_HOME/bin
+
+保存退出
+
+
+**然后重新加载环境变量
+
+source /etc/profile
+```
+[^d]:常见的问题
+- 解决虚拟机克隆后eth0不见的问题  
+```
+直接修改  /etc/sysconfig/network-script/ifcfg-eth0
+
+删掉UUID  HWADDR
+
+配置静态地址
+
+然后：rm -rf 　/etc/udev/rules.d/70-persistent-net.rules
+
+然后 reboot
+```
+- YUM源配置文件
+```
+mkdir /var/iso
+mount -o loop CentOS-6.7-x86_64-bin-DVD1.iso /var/iso
+cd /etc/yum.repos.d/
+rename .repo .repo.bak *
+vi CentOS-Local.repo
+
+[base]
+name=CentOS-Local
+baseurl=file:///var/iso #本地
+gpgcheck=1
+enabled=1   #很重要，1才启用
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+
+yum clean all
+yum repolist
+yum install -y httpd
+service httpd start
+umount /var/iso
+```
+- centos卸载软件方法
+    1. yum安装：yum remove xxx
+    2. rpm包安装：rpm -e xxx
+    3. tar包安装：直接删除文件或make uninstall xxx
+- [curl 命令参数详解](https://blog.csdn.net/huangzx3/article/details/80625080)
+- [Linux curl常用实例](https://www.cnblogs.com/duhuo/p/5695256.html)
+- [Linux curl常用实例](https://blog.csdn.net/chen8238065/article/details/53304300)
+
+- [ping: www.baidu.com: 未知的名称或服务]
+`ping ip可以ping通，dns解析没开`
+- 调试sh。sh -vx helloWorld.sh 
+- Linux Sftp 下载整个文件目录`get -r CPIIS/.`
+- [Linux用shell一次性杀指定进程的方法和Linux命令杀掉符合条件的所有进程](https://blog.csdn.net/baidu_20183817/article/details/84037634)
+` ps -ef | grep =C | grep -v 'grep' | cut -d ' ' -f 2 | xargs kill -9 & sh sci.sh `
+- cut 有多个空格分割   利用tr转化一下
+`docker images | grep gcr.io | tr -s ' ' | cut -d ' ' -f 3`
+- [bash之花括号展开（brace expansion）](https://blog.csdn.net/astrotycoon/article/details/50886676)
+- [linux shell脚本监控进程是否存在 ](https://www.cnblogs.com/anitinaj/p/7457000.html)
+- [Linux下使Shell 命令脱离终端在后台运行 2种方式和区别](https://www.cnblogs.com/jackhub/p/3549644.html)

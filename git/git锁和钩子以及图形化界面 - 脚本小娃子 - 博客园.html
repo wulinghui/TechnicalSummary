@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)https://www.cnblogs.com/shengulong/p/8325302.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="never">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园</title>
+    <meta property="og:description" content="1、锁机制 Locking Options 严格锁（strict locking）：一个时刻，只有一个人可以占用资源。 乐观锁（optimistic locking）：允许多个人同时修改同一文件。乐观">
+    <link type="text/css" rel="stylesheet" href="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/bundle-coffee.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/bundle-coffee-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/shengulong/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/shengulong/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/shengulong/wlwmanifest.xml">
+    <script src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/pubads_impl_rendering_2019061701.js.下载"></script><script async="" src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/analytics.js.下载"></script><script src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=205945;var currentBlogApp='shengulong',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/f.txt"></script><script src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/pubads_impl_2019061701.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/shengulong/"><img id="blogLogo" src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/shengulong/">沧海一粟，何以久远</a></h1>
+<h2>---------------------------心恒方远</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/shengulong/">首页</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E8%84%9A%E6%9C%AC%E5%B0%8F%E5%A8%83%E5%AD%90">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/shengulong/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/shengulong/rss"><img src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/xml.gif" alt="订阅"></a></li>
+</ul>
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats">
+<!--done-->
+随笔- 954&nbsp;
+文章- 0&nbsp;
+评论- 26&nbsp;
+</div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/shengulong/p/8325302.html">git锁和钩子以及图形化界面</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="font-size: 18px;">1、</span><span style="color: #0000ff; font-size: 18pt;">锁机制 Locking Options</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 15px;">　　严格锁（strict locking）：一个时刻，只有一个人可以占用资源。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 15px;">　　乐观锁（optimistic locking）：允许多个人同时修改同一文件。乐观锁基于一个假定：大多数时候，这种并发修改不会引起冲突。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;">2、Git可以定制一些钩子，这些钩子可以在特定的情况下被执行，分为Client端的钩子和Server端的钩子。Client端钩子被operation触发，比如commit，merge等，Server端钩子被网络动作触发，比如pushed commits。 <br></span></p>
+<p><span style="font-size: 18px;">那么钩子是放在哪的呢？</span></p>
+<p><span style="font-size: 18px;">在.git/hooks/文件夹下。当你init一个仓库的时候，下边会有一些钩子的例子，以.sample结尾，都是些sh文件</span></p>
+<p><span style="font-size: 18px;"><img src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/692500-20180121191741334-543363896.png" alt=""></span></p>
+<p>&nbsp;</p>
+<p>3、在某个分支下使用命令gitk，可以看到这个分支的提交信息</p>
+<p><img src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/692500-20180121194738318-1942867877.png" alt=""></p>
+<p>使用git gui命令可以看到git的图形化用户界面</p>
+<p><img src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/692500-20180121194833428-1160154088.png" alt=""></p>
+<p>&nbsp;</p>
+<div id="nei" class="article_body" style="padding: 20px 5px 25px; margin-bottom: 0px; overflow-x: hidden; word-wrap: break-word; word-break: break-all; min-height: 340px; font-size: 16px; line-height: 1.7em; color: #333333; font-family: &#39;Helvetica Neue&#39;,Helvetica,Tahoma,Arial,STXihei,&#39;Microsoft YaHei&#39;,微软雅黑,sans-serif;">
+<div style="line-height: 1.7em;">
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">除了 Git 命令，权限控制也是 Git 中极为重要的组成部分，本文主要介绍 GitLab 系统提供的最常用的权限控制功能。</p>
+<h2 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t10"></a> 分配成员角色</h2>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">首先来了解下，Git 中的五种角色：</p>
+<table class="table table-bordered" style="max-width: 100%; border-spacing: 0px; width: 682px; margin-bottom: 1.5em; border-width: 1px 1px 1px 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-top-color: #dddddd; border-right-color: #dddddd; border-bottom-color: #dddddd; border-left-style: initial; border-left-color: initial; font-size: 14px; line-height: 1.3em;">
+<thead>
+<tr style="line-height: 1.3em;"><th style="padding: 8px; line-height: 1.5em; text-align: left; vertical-align: bottom; border-top: 0px; border-left: 1px solid #dddddd;">角色</th><th style="padding: 8px; line-height: 1.5em; text-align: left; vertical-align: bottom; border-top: 0px; border-left: 1px solid #dddddd;">描述</th></tr>
+</thead>
+<tbody>
+<tr style="line-height: 1.3em;">
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Owner</td>
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Git 系统管理员</td>
+</tr>
+<tr style="line-height: 1.3em;">
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Master</td>
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Git 项目管理员</td>
+</tr>
+<tr style="line-height: 1.3em;">
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Developer</td>
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Git 项目开发人员</td>
+</tr>
+<tr style="line-height: 1.3em;">
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Reporter</td>
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Git 项目测试人员</td>
+</tr>
+<tr style="line-height: 1.3em;">
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">Guest</td>
+<td style="padding: 8px; line-height: 1.3em; vertical-align: top; border-top: 1px solid #dddddd; border-left: 1px solid #dddddd; font-size: 14px;">访客</td>
+</tr>
+</tbody>
+</table>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">每一种角色所拥有的权限都不同，如下图：</p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;"><img class="alignCenter" style="max-width: 96%; height: auto; vertical-align: middle; border: 0px none; margin: 0px auto 10px; text-align: center; display: block;" src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/7n63uyI.png!web" alt=""></p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">我们需要做的是，为项目成员分配恰当的角色，以限制其权限。</p>
+<h2 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t11"></a> 锁定受保护分支</h2>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">在对 Git 不熟悉的时候，时常苦恼于各个分支不受约束，任何开发人员都可以向任何分支直接推送任何提交，各种未经审查的代码、花样百出的 Bug 就这样流窜在预发布分支上。</p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">其实我们可以通过 GitLab 的&nbsp;<strong style="text-indent: 0px;">受保护分支（Protected Branches）</strong>&nbsp;功能解决该问题，该功能可用于：</p>
+<ul style="padding: 0px; margin: 0px 0px 0.75em 25px; list-style-type: none; line-height: 1.7em;">
+<li style="line-height: 1.7em; list-style-type: disc;">阻止 Master 角色以外的开发人员直接向此类分支推送代码，保持稳定分支的安全性；</li>
+<li style="line-height: 1.7em; list-style-type: disc;">在向受保护分支合并代码前，强制进行代码审查。</li>
+</ul>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">接下来我们就使用这项功能，锁定我们的受保护分支——主分支&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">master</code>&nbsp;和预发布分支&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">release-*</code>&nbsp;，以阻止 Developer 直接向这两类分支中推送代码：</p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;"><img class="alignCenter" style="max-width: 96%; height: auto; vertical-align: middle; border: 0px none; margin: 0px auto 10px; text-align: center; display: block;" src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/mAB3iiU.png!web" alt=""></p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">锁定后，Developer 推送代码将会报错：</p>
+<div style="line-height: 1.7em;">
+<div style="line-height: 1.7em;">
+<pre name="code" class="prettyprint hljs vim">$ git push origin master
+Counting object<span class="hljs-variable" style="color: #bc6060;">s: <span class="hljs-number" style="color: #880000;">4, done.
+Delta compression using <span class="hljs-keyword" style="color: #333333; font-weight: bold;">up <span class="hljs-keyword" style="color: #333333; font-weight: bold;">to <span class="hljs-number" style="color: #880000;">4 threads.
+Compressing object<span class="hljs-variable" style="color: #bc6060;">s: <span class="hljs-number" style="color: #880000;">100% (<span class="hljs-number" style="color: #880000;">2/<span class="hljs-number" style="color: #880000;">2), done.
+Writing object<span class="hljs-variable" style="color: #bc6060;">s: <span class="hljs-number" style="color: #880000;">100% (<span class="hljs-number" style="color: #880000;">3/<span class="hljs-number" style="color: #880000;">3), <span class="hljs-number" style="color: #880000;">283 bytes | <span class="hljs-number" style="color: #880000;">0 bytes/s, done.
+Total <span class="hljs-number" style="color: #880000;">3 (delta <span class="hljs-number" style="color: #880000;">1), reused <span class="hljs-number" style="color: #880000;">1 (delta <span class="hljs-number" style="color: #880000;">0)
+remote: GitLa<span class="hljs-variable" style="color: #bc6060;">b: You are not allowed <span class="hljs-keyword" style="color: #333333; font-weight: bold;">to access master!
+remote: error: hook declined <span class="hljs-keyword" style="color: #333333; font-weight: bold;">to <span class="hljs-keyword" style="color: #333333; font-weight: bold;">update refs/heads/master
+To git@website:project.git
+ ! [remote rejected] master -&gt; master (hook declined)
+error: failed <span class="hljs-keyword" style="color: #333333; font-weight: bold;">to push some refs <span class="hljs-keyword" style="color: #333333; font-weight: bold;">to <span class="hljs-string" style="color: #880000;">'git@website:project.git'
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+</div>
+</div>
+<h2 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t12"></a> 发起合并请求</h2>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">锁定受保护分支后，要么 Master 需要时刻、主动关注各特性分支的进度，要么 Developer 需要线下、口头向 Master 汇报其特性分支的进度，这两种做法都非常不便于 Master 管理每个预发布分支的合并，尤其在团队大、分支多的情况。</p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">我们可以通过 GitLab 的&nbsp;<strong style="text-indent: 0px;">发起合并请求（Merge Request）</strong>&nbsp;功能解决该问题，这样既可以让 Developer 更自如的掌控自己分支进度，在必要的时候才主动发起合并请求；又可以减轻 Master 的合并工作量和沟通成本，可谓一举两得。</p>
+<h2 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t13"></a> 新建合并请求</h2>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">第一步，按表单要求填写合并请求。注意，对于 Developer 而言：</p>
+<ul style="padding: 0px; margin: 0px 0px 0.75em 25px; list-style-type: none; line-height: 1.7em;">
+<li style="line-height: 1.7em; list-style-type: disc;"><code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">From</code>&nbsp;是你的特性分支&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">feature-*</code>&nbsp;；</li>
+<li style="line-height: 1.7em; list-style-type: disc;"><code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">To</code>&nbsp;只可能是预发布分支&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">release-*</code>&nbsp;；</li>
+<li style="line-height: 1.7em; list-style-type: disc;"><code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Title</code>&nbsp;和&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Description</code>&nbsp;要填写恰当的分支描述；</li>
+<li style="line-height: 1.7em; list-style-type: disc;"><code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Assign to</code>&nbsp;是该项目的 Master。</li>
+</ul>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;"><img class="alignCenter" style="max-width: 96%; height: auto; vertical-align: middle; border: 0px none; margin: 0px auto 10px; text-align: center; display: block;" src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/ZFrArqi.png!web" alt=""></p>
+<h2 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t14"></a> 审查合并请求</h2>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">第二步，Master 收到合并请求后，进行代码审查。逐一查看&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Commits</code>&nbsp;一栏提交的内容即可，对于需要改进的代码，可以直接在该行添加注释，非常方便。</p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;"><img class="alignCenter" style="max-width: 96%; height: auto; vertical-align: middle; border: 0px none; margin: 0px auto 10px; text-align: center; display: block;" src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/qiYZnmN.png!web" alt=""></p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">如果对整个请求还有疑问的地方，还可以通过底部的&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Discussion</code>&nbsp;功能进行线上讨论。</p>
+<h2 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t15"></a> 处理合并请求</h2>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">第三步，针对审查结果进行相应处理：</p>
+<h3 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t16"></a> 关闭</h3>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">对于完全不合格的垃圾代码、或者废弃的特性分支的合并请求，Master 点击右上角的&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Close</code>按钮即可。合并请求将被关闭，相当于扔进回收站。</p>
+<h3 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t17"></a> 改进</h3>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">对于分支内需改进的代码，Developer 直接修正并推送即可，合并请求将会自动包含最新的推送提交。</p>
+<h3 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t18"></a> 接受</h3>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">Master 审查无误后，可以接受该次合并请求。点击&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Accept Merge Request</code>&nbsp;按钮将自动合并分支，勾选&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Remove source-branch</code>&nbsp;将同时删除该特性分支。</p>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">整个自动合并过程如果以命令形式手工执行的话，步骤如下：</p>
+<div style="line-height: 1.7em;">
+<div style="line-height: 1.7em;">
+<pre name="code" class="prettyprint hljs makefile"><span class="hljs-comment" style="color: #888888;">#Step 1. Update the repo and checkout the branch we are going to merge 
+<span class="hljs-comment" style="color: #888888;">git fetch origin
+<span class="hljs-comment" style="color: #888888;">git checkout -b <span class="hljs-comment" style="color: #888888;">test<span class="hljs-comment" style="color: #888888;"> origin/feature-test
+
+<span class="hljs-comment" style="color: #888888;">#Step 2. Merge the branch and push the changes to GitLab 
+<span class="hljs-comment" style="color: #888888;">git checkout release-<span class="hljs-comment" style="color: #888888;">2016.4<span class="hljs-comment" style="color: #888888;">.<span class="hljs-comment" style="color: #888888;">7
+<span class="hljs-comment" style="color: #888888;">git merge --no-ff feature-test
+<span class="hljs-comment" style="color: #888888;">git push origin release-<span class="hljs-comment" style="color: #888888;">2016.4<span class="hljs-comment" style="color: #888888;">.<span class="hljs-comment" style="color: #888888;">7
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+</div>
+</div>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">以非快进式合并完成后，祖先图谱（graph）的展现结果如下：</p>
+<div style="line-height: 1.7em;">
+<div style="line-height: 1.7em;">
+<pre name="code" class="prettyprint hljs vim">*   be512fa (HEAD, origin/release-<span class="hljs-number" style="color: #880000;">2016.4.<span class="hljs-number" style="color: #880000;">7, release-<span class="hljs-number" style="color: #880000;">2016.4.<span class="hljs-number" style="color: #880000;">7)  Merge branch <span class="hljs-string" style="color: #880000;">'test' into <span class="hljs-string" style="color: #880000;">'release-2016.4.7'
+|\
+| * <span class="hljs-number" style="color: #880000;">1f52adf 测试
+|/
+*   a4febbb (<span class="hljs-keyword" style="color: #333333; font-weight: bold;">ta<span class="hljs-variable" style="color: #bc6060;">g: <span class="hljs-number" style="color: #880000;">1.0.<span class="hljs-number" style="color: #880000;">0, origin/master) 格式化货币保留两位小数
+</span></span></span></span></span></span></span></span></span></span></span></pre>
+</div>
+</div>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">最后需要注意的是，只有&nbsp;<code style="padding: 2px 4px; font-family: Menlo,Monaco,Consolas,&#39;Courier New&#39;,monospace; border: none; font-weight: 600; font-size: 14px;">Assignee</code>&nbsp;才能够接受合并请求，其它人只会被通知：</p>
+<div style="line-height: 1.7em;">
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">You don’t have permission to merge this MR</p>
+</div>
+<h2 style="margin: 0px 0px 0.5em; font-family: inherit; line-height: 1.6em; color: inherit; font-size: 18px; text-indent: 1em;"><a name="t19"></a> 总结</h2>
+<p style="margin-top: 0px; margin-bottom: 0.75em; line-height: 1.7em; text-indent: 1em;">GitLab 提供的上述功能非常实用，为项目的源码管理提供了有力的支持。</p>
+</div>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;http://blog.csdn.net/hongchangfirst/article/details/46693237</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/shengulong/tag/git%E9%92%A9%E5%AD%90%E5%92%8C%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2/">git钩子和图形化界面</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(8325302,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;06617898-516b-e411-b908-9dcfd8948a71&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/shengulong/" target="_blank"><img src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/20150823083925.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/shengulong/">脚本小娃子</a><br>
+            <a href="https://home.cnblogs.com/u/shengulong/followees">关注 - 4</a><br>
+            <a href="https://home.cnblogs.com/u/shengulong/followers">粉丝 - 62</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;06617898-516b-e411-b908-9dcfd8948a71&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(8325302,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(8325302,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/shengulong/p/8324764.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/shengulong/p/8324764.html" title="发布于2018-01-21 17:02">sonar做代码检测时如何忽略一些代码文件</a><br><a href="https://www.cnblogs.com/shengulong/p/8325491.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/shengulong/p/8325491.html" title="发布于2018-01-21 20:56">功能超级强大的网络工具nc</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2018-01-21 20:22</span> <a href="https://www.cnblogs.com/shengulong/">脚本小娃子</a> 阅读(<span id="post_view_count">1974</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=8325302" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/shengulong/p/8325302.html#" onclick="AddToWz(8325302);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=205945,cb_entryId=8325302,cb_blogApp=currentBlogApp,cb_blogUserGuid='06617898-516b-e411-b908-9dcfd8948a71',cb_entryCreatedDate='2018/1/21 20:22:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/shengulong/p/8325302.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/shengulong/p/8325302.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://gitee.com/enterprises?from=bky-1" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-gitee&#39;)">【推荐】码云企业版，高效的企业级软件协作开发管理平台</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./git锁和钩子以及图形化界面 - 脚本小娃子 - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none; width: 300px; height: 250px;"></div></div>
+</div>
+<div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/changxue/p/10591632.html" target="_blank" onclick="clickRecomItmem(10591632)">Sourcetree使用-git图形化工具（三）</a><br>·  <a href="https://www.cnblogs.com/shuaishuaidejun/p/8124137.html" target="_blank" onclick="clickRecomItmem(8124137)">git 应用</a><br>·  <a href="https://www.cnblogs.com/anliven/p/6354612.html" target="_blank" onclick="clickRecomItmem(6354612)">Git - 分支</a><br>·  <a href="https://www.cnblogs.com/helinzi/p/4429162.html" target="_blank" onclick="clickRecomItmem(4429162)">git - 简易指南</a><br>·  <a href="https://www.cnblogs.com/cc0720/p/6438367.html" target="_blank" onclick="clickRecomItmem(6438367)">git常用操作命令</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CJ6ewtiO-uICFcGylgodVJsFcQ"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none; width: 468px; height: 60px;"></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/627195/" target="_blank">统计显示美国全球芯片产业市场份额超50% 国产份额仅3%</a><br> ·  <a href="https://news.cnblogs.com/n/627193/" target="_blank">自研达芬奇架构NPU加持！一图看懂华为麒麟810</a><br> ·  <a href="https://news.cnblogs.com/n/627194/" target="_blank">阿里P10、腾讯T4、华为18，互联网公司职级、薪资、股权大揭秘</a><br> ·  <a href="https://news.cnblogs.com/n/627192/" target="_blank">菲律宾电信巨头推出东南亚首个5G服务 华为是核心供应商</a><br> ·  <a href="https://news.cnblogs.com/n/627191/" target="_blank">东芝：3D闪存工厂遭遇断电事故 将尽快恢复生产</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"><b>历史上的今天:</b><br>2017-01-21 <a href="https://www.cnblogs.com/shengulong/p/6337316.html">显示Mysql中的所有用户</a><br>2017-01-21 <a href="https://www.cnblogs.com/shengulong/p/6337288.html">MySQL 用户管理及权限管理</a><br>2017-01-21 <a href="https://www.cnblogs.com/shengulong/p/6337270.html">常用密码词典</a><br></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/shengulong/">脚本小娃子</a><br>园龄：<a href="https://home.cnblogs.com/u/shengulong/" title="入园时间：2014-11-14">4年7个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/shengulong/followers/">62</a><br>关注：<a href="https://home.cnblogs.com/u/shengulong/followees/">4</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;06617898-516b-e411-b908-9dcfd8948a71&#39;)">+加关注</a></div><script>getFollowStatus('06617898-516b-e411-b908-9dcfd8948a71')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/05/01&#39;);return false;">&lt;</a></td><td align="center">2019年6月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/07/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td class="CalWeekendDay" align="center">1</td></tr><tr><td class="CalWeekendDay" align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center"><a href="https://www.cnblogs.com/shengulong/archive/2019/06/06.html"><u>6</u></a></td><td align="center"><a href="https://www.cnblogs.com/shengulong/archive/2019/06/07.html"><u>7</u></a></td><td class="CalWeekendDay" align="center"><a href="https://www.cnblogs.com/shengulong/archive/2019/06/08.html"><u>8</u></a></td></tr><tr><td class="CalWeekendDay" align="center"><a href="https://www.cnblogs.com/shengulong/archive/2019/06/09.html"><u>9</u></a></td><td align="center"><a href="https://www.cnblogs.com/shengulong/archive/2019/06/10.html"><u>10</u></a></td><td align="center"><a href="https://www.cnblogs.com/shengulong/archive/2019/06/11.html"><u>11</u></a></td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td class="CalWeekendDay" align="center">15</td></tr><tr><td class="CalWeekendDay" align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td class="CalTodayDay" align="center">21</td><td class="CalWeekendDay" align="center">22</td></tr><tr><td class="CalWeekendDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalWeekendDay" align="center">29</td></tr><tr><td class="CalWeekendDay" align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/shengulong/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/shengulong/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/shengulong/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/shengulong/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/shengulong/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass(&#39;itemListLink&#39;, &#39;itemListLin_con&#39;);return false;" href="https://www.cnblogs.com/shengulong/p/8325302.html#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/shengulong/tag/mac/">mac</a>(4)</li><li><a href="https://www.cnblogs.com/shengulong/tag/python/">python</a>(3)</li><li><a href="https://www.cnblogs.com/shengulong/tag/keepalived/">keepalived</a>(2)</li><li><a href="https://www.cnblogs.com/shengulong/tag/dubbo%E5%8E%8B%E6%B5%8B/">dubbo压测</a>(2)</li><li><a href="https://www.cnblogs.com/shengulong/tag/wifiphisher/">wifiphisher</a>(2)</li><li><a href="https://www.cnblogs.com/shengulong/tag/python%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95/">python读取大文件的方法</a>(2)</li><li><a href="https://www.cnblogs.com/shengulong/tag/supervisor/">supervisor</a>(2)</li><li><a href="https://www.cnblogs.com/shengulong/tag/supervisord%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E8%AE%BE%E7%BD%AE/">supervisord的环境变量的设置</a>(1)</li><li><a href="https://www.cnblogs.com/shengulong/tag/supervisor%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/">supervisor开机自启动设置方法</a>(1)</li><li><a href="https://www.cnblogs.com/shengulong/tag/svg%E5%9B%BE%E5%BD%A2%E5%88%B6%E4%BD%9C/">svg图形制作</a>(1)</li><li><a href="https://www.cnblogs.com/shengulong/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/shengulong/category/944149.html">apache系列</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/shengulong/category/1123988.html">bash/sh脚本学习(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/shengulong/category/998878.html">burpsuite系列(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/shengulong/category/929695.html">Cassandra安全系列(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/shengulong/category/1026352.html">css系列(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/shengulong/category/993246.html">c语言系列(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/shengulong/category/1349359.html">Django系列(26)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/shengulong/category/982849.html">docker系列(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/shengulong/category/1149647.html">dubbo系列(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/shengulong/category/975134.html">flask系列(57)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/shengulong/category/1244653.html">git系列: gitlab/github/gitbook(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/shengulong/category/1150489.html">golang系列(14)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/shengulong/category/1064775.html">html系列(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/shengulong/category/944338.html">javascript系列(57)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/shengulong/category/1024080.html">java系列(39)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/shengulong/category/979453.html">jenkins系列(29)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="https://www.cnblogs.com/shengulong/category/942763.html">kali linux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="https://www.cnblogs.com/shengulong/category/942159.html">linux安全系列(14)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="https://www.cnblogs.com/shengulong/category/983755.html">linux使用系列(104)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="https://www.cnblogs.com/shengulong/category/990772.html">mac系列(18)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="https://www.cnblogs.com/shengulong/category/966872.html">maven系列(22)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="https://www.cnblogs.com/shengulong/category/934964.html">mybatis(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="https://www.cnblogs.com/shengulong/category/940422.html">mysql系列(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_23" href="https://www.cnblogs.com/shengulong/category/973675.html">nginx系列(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_24" href="https://www.cnblogs.com/shengulong/category/1084626.html">node+react+webpack+npm(47)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_25" href="https://www.cnblogs.com/shengulong/category/1116097.html">python爬虫系列(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_26" href="https://www.cnblogs.com/shengulong/category/943452.html">python系列(149)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_27" href="https://www.cnblogs.com/shengulong/category/1238748.html">scala系列(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_28" href="https://www.cnblogs.com/shengulong/category/1194209.html">shell系列(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_29" href="https://www.cnblogs.com/shengulong/category/979454.html">sonar系列(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_30" href="https://www.cnblogs.com/shengulong/category/1239880.html">Spring boot 2.0(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_31" href="https://www.cnblogs.com/shengulong/category/895094.html">sqlmap系列文章(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_32" href="https://www.cnblogs.com/shengulong/category/1018100.html">sublime text(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_33" href="https://www.cnblogs.com/shengulong/category/944151.html">tomcat系列(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_34" href="https://www.cnblogs.com/shengulong/category/920534.html">web安全(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_35" href="https://www.cnblogs.com/shengulong/category/943124.html">wifi安全(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_36" href="https://www.cnblogs.com/shengulong/category/943594.html">wireshark系列</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_37" href="https://www.cnblogs.com/shengulong/category/944152.html">xampp系列(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_38" href="https://www.cnblogs.com/shengulong/category/895095.html">Zap系列文章(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_39" href="https://www.cnblogs.com/shengulong/category/1149700.html">zookeeper系列(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_40" href="https://www.cnblogs.com/shengulong/category/1059513.html">测试技术(21)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_41" href="https://www.cnblogs.com/shengulong/category/1231110.html">大数据(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_42" href="https://www.cnblogs.com/shengulong/category/1197239.html">工具系列(62)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_43" href="https://www.cnblogs.com/shengulong/category/1063284.html">机器学习和深度学习(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_44" href="https://www.cnblogs.com/shengulong/category/1198285.html">监控系统(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_45" href="https://www.cnblogs.com/shengulong/category/940415.html">密码系列(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_46" href="https://www.cnblogs.com/shengulong/category/1192396.html">前端3D、游戏动画(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_47" href="https://www.cnblogs.com/shengulong/category/1186019.html">区块链(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_48" href="https://www.cnblogs.com/shengulong/category/926936.html">软件安装问题(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_49" href="https://www.cnblogs.com/shengulong/category/974057.html">软件使用过程故障处理(39)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_50" href="https://www.cnblogs.com/shengulong/category/1387357.html">数据结构</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_51" href="https://www.cnblogs.com/shengulong/category/1331785.html">数据库调优(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_52" href="https://www.cnblogs.com/shengulong/category/1354508.html">算法(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_53" href="https://www.cnblogs.com/shengulong/category/1101604.html">性能测试技术系列(37)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/shengulong/archive/2019/06.html">2019年6月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/shengulong/archive/2019/05.html">2019年5月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/shengulong/archive/2019/04.html">2019年4月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/shengulong/archive/2019/03.html">2019年3月 (27)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/shengulong/archive/2019/02.html">2019年2月 (23)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/shengulong/archive/2019/01.html">2019年1月 (45)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/shengulong/archive/2018/12.html">2018年12月 (46)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/shengulong/archive/2018/11.html">2018年11月 (50)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/shengulong/archive/2018/10.html">2018年10月 (20)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/shengulong/archive/2018/09.html">2018年9月 (20)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/shengulong/archive/2018/08.html">2018年8月 (32)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/shengulong/archive/2018/07.html">2018年7月 (29)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/shengulong/archive/2018/06.html">2018年6月 (34)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/shengulong/archive/2018/05.html">2018年5月 (43)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/shengulong/archive/2018/04.html">2018年4月 (39)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/shengulong/archive/2018/03.html">2018年3月 (26)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/shengulong/archive/2018/02.html">2018年2月 (32)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="https://www.cnblogs.com/shengulong/archive/2018/01.html">2018年1月 (74)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="https://www.cnblogs.com/shengulong/archive/2017/12.html">2017年12月 (60)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="https://www.cnblogs.com/shengulong/archive/2017/11.html">2017年11月 (32)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="https://www.cnblogs.com/shengulong/archive/2017/10.html">2017年10月 (22)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="https://www.cnblogs.com/shengulong/archive/2017/09.html">2017年9月 (37)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="https://www.cnblogs.com/shengulong/archive/2017/08.html">2017年8月 (40)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="https://www.cnblogs.com/shengulong/archive/2017/07.html">2017年7月 (32)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="https://www.cnblogs.com/shengulong/archive/2017/06.html">2017年6月 (21)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="https://www.cnblogs.com/shengulong/archive/2017/05.html">2017年5月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="https://www.cnblogs.com/shengulong/archive/2017/04.html">2017年4月 (52)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_27" href="https://www.cnblogs.com/shengulong/archive/2017/03.html">2017年3月 (24)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_28" href="https://www.cnblogs.com/shengulong/archive/2017/02.html">2017年2月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_29" href="https://www.cnblogs.com/shengulong/archive/2017/01.html">2017年1月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_30" href="https://www.cnblogs.com/shengulong/archive/2016/12.html">2016年12月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_31" href="https://www.cnblogs.com/shengulong/archive/2016/10.html">2016年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_32" href="https://www.cnblogs.com/shengulong/archive/2016/09.html">2016年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_33" href="https://www.cnblogs.com/shengulong/archive/2016/08.html">2016年8月 (20)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_34" href="https://www.cnblogs.com/shengulong/archive/2016/07.html">2016年7月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_35" href="https://www.cnblogs.com/shengulong/archive/2016/06.html">2016年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_36" href="https://www.cnblogs.com/shengulong/archive/2016/05.html">2016年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_37" href="https://www.cnblogs.com/shengulong/archive/2016/02.html">2016年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_38" href="https://www.cnblogs.com/shengulong/archive/2015/09.html">2015年9月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_39" href="https://www.cnblogs.com/shengulong/archive/2015/08.html">2015年8月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/shengulong/p/9978895.html#4278946">1. Re:如何把rc.local里执行的shell脚本的日志内容放到其他位置</a></li>
+        <li class="recent_comment_body">666666666666666666</li>
+        <li class="recent_comment_author">--规格严格-功夫到家</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/shengulong/p/9965733.html#4276427">2. Re:intellij idea 注释行如何自动缩进?</a></li>
+        <li class="recent_comment_body">good</li>
+        <li class="recent_comment_author">--TryXD</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/shengulong/p/7892266.html#4255122">3. Re:python的super用法及含义</a></li>
+        <li class="recent_comment_body">很详细</li>
+        <li class="recent_comment_author">--郭楷丰</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/shengulong/p/8280993.html#4234419">4. Re:maven dependency:tree中反斜杠的含义</a></li>
+        <li class="recent_comment_body">讲的不错，终于搜到了，好像是这个意思</li>
+        <li class="recent_comment_author">--lijunwyf</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/shengulong/p/7701099.html#4207524">5. Re:查找python项目依赖并生成requirements.txt</a></li>
+        <li class="recent_comment_body">使用工具：pip-tools 进行 requirements.txt 冻结就不会有偏差，维护一个 requirements.in 文件，用来生成 requirements.txt 。</li>
+        <li class="recent_comment_author">--Owlet</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/shengulong/p/6367343.html">1. 如何获取隔壁wifi密码，非暴力破解(64592)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/7097869.html">2. python读写csv时中文乱码问题解决办法(44383)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/7267278.html">3. python的dict如何排序(38928)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/8303454.html">4. dubbo-admin安装和使用(33703)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/8064352.html">5. pycharm整体缩进的快捷键(20237)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/shengulong/p/6562291.html">1. maven+jenkins+jmeter性能测试：maven把项目依赖拷贝到项目指定位置(3)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/8303454.html">2. dubbo-admin安装和使用(3)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/6758370.html">3. jenkins报：反向代理设置有误(2)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/7449927.html">4. Chrome的Waterfall(2)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/8143440.html">5. SQLAlchemy的group_by和order_by的区别(2)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/shengulong/p/6367343.html">1. 如何获取隔壁wifi密码，非暴力破解(2)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/7892266.html">2. python的super用法及含义(2)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/7443806.html">3. 浏览器的DNS缓存查看和清除(2)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/7267278.html">4. python的dict如何排序(2)</a></li><li><a href="https://www.cnblogs.com/shengulong/p/8987446.html">5. Mysql数据库中CURRENT_TIMESTAMP和ON UPDATE CURRENT_TIMESTAMP区别(2)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 脚本小娃子
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

@@ -1,0 +1,39 @@
+$(function() {
+    function getHostName(target) {
+        var curUrl = target.indexOf('://') === -1 ? new URL('https://' + target) : new URL(target);
+        return curUrl.hostname;
+    }
+    function isWhiteList(target) {
+        if (/^#/.test(target)){
+            return true;
+        }
+        var whiteList = [
+            'github.com',
+            'stackoverflow.com',
+            'gitbook.cn',
+        ]
+        var curHostName = getHostName(target);
+        var result = curHostName.indexOf('.csdn.net') > -1;
+        // 不是本站链接情况下判断是否是白名单外链
+        return result ? result : whiteList.indexOf(curHostName) > -1;
+    }
+    var id = !!window["articleId"] ? articleId : fileName;
+    var filter = !!window["fileName"] ? 'a[rel="nofollow"]' : 'a[target="_blank"][rel="nofollow"]';
+    $("#content_views").find(filter).click(function(e) {
+        var curTarget = $(this);
+        var targetUrl = curTarget.attr('href');
+        if (!isWhiteList(targetUrl)) {
+            var url = 'http://www.csdn.net/link?' 
+            + 'target_url=' + encodeURIComponent(targetUrl)
+            + '&id=' + id;
+            if(!!window["fileName"]){
+                window.open(url, '_self');
+            } else {
+                window.open(url);
+            }
+
+            return false;
+        }
+        return true;
+    })
+})

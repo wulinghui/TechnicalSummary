@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://my.oschina.net/qiangzigege/blog/819496 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="referrer" content="always">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA</title>
+            <meta name="keywords" content="Spring Boot,强子1985,qiangzigege,SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥,OSCHINA博客">
+                <meta name="description" content="jdb org.springframework.boot.loader.JarLauncher
+stop in org.springframework.boot.loader.JarLauncher.main
+run 我们先看看 new JarLauncher() 的启动过程。 ----------------------------------------- 在这个对象构造过程中，比较重要的一个函数是 this.archive = createArchive(); 那么这个函数到底执行了什么呢？...">
+        <link rel="stylesheet" type="text/css" href="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/semantic.min.css">
+                <link type="text/css" rel="stylesheet" href="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/space.54daa6ce.css">        <script src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/osd.js.下载"></script><script async="" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/gio.js.下载"></script><script src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/hm.js.下载"></script><script src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/push.js.下载"></script><script src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/ca-pub-7090564139599510.js.下载"></script><script type="text/javascript">window.__STATIC_DOMAIN = "https://static.oschina.net";</script>
+    <script src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jquery.min.js.下载"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.oschina.net/new-osc/img/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="最新开源项目" href="https://www.oschina.net/project/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新开源资讯" href="https://www.oschina.net/news/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新问题列表" href="https://www.oschina.net/question/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新翻译列表" href="https://www.oschina.net/translate/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新博客列表" href="https://www.oschina.net/blog/rss">
+    <link rel="alternate" type="application/rss+xml" title="推荐博客列表" href="https://www.oschina.net/blog/rss?show=more">
+    <link rel="alternate" type="application/rss+xml" title="推荐软件列表" href="https://www.oschina.net/project/rss?show=recomms">
+    <link rel="alternate" type="application/rss+xml" title="最新代码分享列表" href="https://www.oschina.net/code/rss">
+    <link rel="alternate" type="application/rss+xml" title="OSCHINA - 源码列表" href="https://www.oschina.net/code/source_rss">
+<link rel="preload" href="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/f.txt" as="script"><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/f.txt"></script><link rel="preload" href="https://pagead2.googlesyndication.com/pagead/js/r20190619/r20190131/show_ads_impl.js" as="script"><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/radarChart.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/vue.min.js.下载"></script><link rel="stylesheet" type="text/css" href="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/viewer.min.css"><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/viewer.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/vue.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jquery-viewer.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jquery.caret.min.js.下载"></script><script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jquery.atwho.min.js.下载"></script></head>
+<body class="pushable"><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="oicon-world" viewBox="0 0 1024 1024"><path d="M921.6 204.8h-1.024A510.464 510.464 0 0 0 512 0C229.696 0 0 229.696 0 512s229.696 512 512 512c167.04 0 315.072-80.64 408.576-204.8h1.024v-1.28C985.6 732.416 1024 626.816 1024 512s-38.4-220.416-102.4-305.92V204.8zM358.4 891.456A409.984 409.984 0 0 1 102.4 512c0-17.408 1.408-34.432 3.52-51.2H153.6l51.2 102.4v102.4L307.2 768l51.2 51.2v72.256zM512 921.6a408.32 408.32 0 0 1-96.448-11.904L460.8 819.2l51.2-102.4V614.4H409.6l-51.2-51.2h-51.2L256 460.8l51.2-102.4 51.2-51.2 51.2-51.2 51.2-102.4v-47.68c16.768-2.112 33.792-3.52 51.2-3.52a407.04 407.04 0 0 1 256 90.368V256l-51.2 102.4 51.2 51.2v51.2l-102.4 51.2-51.2 52.032 51.2 50.368 51.2 51.2 51.2 102.4 33.472 33.472A408.32 408.32 0 0 1 512 921.6z"></path></symbol><symbol id="oicon-setting" viewBox="0 0 1162 1024"><path d="M1055.479204 128.810127H442.676311c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.31103 97.21519H53.815552c-10.415913 0-19.095841 8.679928-19.095841 20.831826s8.679928 20.831826 20.831826 20.831826h156.238698c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h611.066907c12.151899 0 20.831826-8.679928 20.831827-20.831826s-8.679928-20.831826-20.831827-20.831826zM328.101266 224.289331c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364zM1055.479204 840.564195H637.106691c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831827s8.679928 20.831826 20.831826 20.831826h348.933092c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519H1055.479204c12.151899 0 20.831826-8.679928 20.831827-20.831826 0-10.415913-8.679928-20.831826-20.831827-20.831827z m-534.683544 97.21519c-41.663653 0-76.383363-34.719711-76.383363-76.383363 0-41.663653 34.719711-76.383363 76.383363-76.383364 41.663653 0 76.383363 34.719711 76.383364 76.383364-1.735986 41.663653-34.719711 76.383363-76.383364 76.383363zM1055.479204 484.687161h-67.703435c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831826s8.679928 20.831826 20.831826 20.831827h699.60217c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h67.703435c12.151899 0 20.831826-8.679928 20.831827-20.831827s-8.679928-20.831826-20.831827-20.831826z m-184.014466 97.21519c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364z"></path></symbol><symbol id="oicon-gitee" viewBox="0 0 1024 1024"><path d="M966.524718 400.672821H456.520205c-24.497231 0-44.347077 19.954872-44.347077 44.557128v133.540102c0 24.602256 19.849846 44.530872 44.347077 44.530872h288.295385c33.266872 0 44.320821 11.132718 44.347077 44.530872 0.026256 89.035487-50.884923 133.566359-133.041231 133.566359h-376.779487c-24.602256 0-44.530872-19.954872-44.530872-44.530872v-400.67282c0-73.780513 59.575795-133.592615 133.014974-133.592616h598.593641c24.470974 0 44.320821-19.928615 44.320821-44.504615V44.530872C1010.740513 19.928615 990.916923 0 966.419692 0H367.826051C171.979487 0 13.128205 159.455179 13.128205 356.168205v623.32718C13.128205 1004.045128 32.978051 1024 57.475282 1024h598.646154c196.187897 0 352.439795-170.325333 354.619077-367.327179 0.131282-11.106462 0.131282-200.33641 0.131282-211.442872a44.478359 44.478359 0 0 0-44.347077-44.530872z"></path></symbol><symbol id="oicon-trending" viewBox="0 0 1106 1024"><path d="M0 290.766798m55.308301 0l0 0q55.308301 0 55.3083 55.3083l0 608.391307q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-608.391307q0-55.308301 55.308301-55.3083Z" fill="#F5A623"></path><path d="M331.849803 14.225295m55.308301 0l0 0q55.308301 0 55.308301 55.3083l0 884.93281q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-884.93281q0-55.308301 55.308301-55.3083Z" fill="#F5A623" opacity=".8"></path><path d="M663.699607 401.383399m55.3083 0l0 0q55.308301 0 55.308301 55.3083l0 497.774706q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.3083-55.3083l0-497.774706q0-55.308301 55.3083-55.3083Z" fill="#F5A623" opacity=".6"></path><path d="M995.54941 124.841896m55.308301 0l0 0q55.308301 0 55.3083 55.308301l0 774.316208q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-774.316208q0-55.308301 55.308301-55.308301Z" fill="#F5A623" opacity=".4"></path></symbol></svg>
+        <val data-name="space_user_url" data-value="https://my.oschina.net/qiangzigege"></val>      <val data-name="g_user_url" data-value=""></val>      <val data-name="api_prefix" data-value="/action"></val>      <val data-name="g_user_code" data-value=""></val>     <val data-name="g_user_id" data-value=""></val>     <val data-name="g_user" data-value=""></val>     <val data-name="login_page" data-value="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819496"></val>     
+    
+                <val data-name="weixinAppId" data-value="wx880def15e694b905"></val>
+        <val data-name="weixinTimestamp" data-value="1561458438829"></val>
+        <val data-name="weixinNonceStr" data-value="93770649-21a3-4cf4-8890-80b5145493f0"></val>
+        <val data-name="weixinSignature" data-value="27973c109af084d8458ed77c3d7dcc0af225faf6"></val>
+        <val data-name="weixinShareUrl" data-value="https://my.oschina.net/qiangzigege/blog/819496"></val>                             
+                <val data-name="is_detail_page" data-value="true"></val>
+
+        
+        <div class="ui left inverted sidebar vertical menu" id="mobileNavSidebar">
+        <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+        <a href="https://www.oschina.net/question" class="item question">问答</a>
+        <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+        <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+        <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+        <a href="https://www.oschina.net/news" class="item news">资讯</a>
+        <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云</a>
+        <a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+        <a href="https://www.oschina.net/event/ych" class="item meetup">源创会</a>
+        <a href="https://www.oschina.net/event" class="item">活动</a>
+        <a href="https://job.oschina.net/" class="item" target="_blank">求职/招聘</a>
+        <a href="https://www.oschina.net/question/topic/masteronline" class="item">高手问答</a>
+        <a href="https://www.oschina.net/question/topic/osc-interview" class="item">开源访谈</a>
+        <a href="https://my.oschina.net/editorial-story" class="item">周刊</a>
+        <a href="https://www.oschina.net/company" class="item">公司开源导航页</a>
+    </div>
+        <div class="ui right inverted sidebar vertical menu" id="mobileUserSidebar">
+                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819496">登录</a>
+            <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819496">注册</a>
+            </div>
+
+        <div class="ui vertical inverted right sidebar menu" id="sideMenu">
+    <div class="header">
+        <b>文档章节</b>
+    </div>
+    <div class="ui basic segment" id="sideMenuBody"></div>
+</div>
+<div class="ui black big launch right attached fixed button" id="sideMenuLauncher">
+    <i class="list icon"></i>
+    <span class="text">文档章节</span>
+</div>
+
+
+        <div class="pusher  mobile-disabled-fixed-menu  ">
+                <div class="ui secondary inverted fixed menu" id="headerNavMenu">
+            <a class="item logo" href="https://www.oschina.net/" title="OSCHINA"><img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/logo_new.svg" alt="OSCHINA"></a>
+                                                <form action="https://www.oschina.net/search" class="item search-item">
+                <div class="ui icon input">
+                    <input type="hidden" name="scope" value="blog">
+                    <input placeholder="大家都在搜...." id="keyword" name="q" size="24" value="" type="text">
+                    <i class="search link icon"></i>
+                </div>
+                <div class="results"></div>
+            </form>
+            <div class="item download-item">
+                <a class="ui primary button" id="btnDownloadApp" href="https://www.oschina.net/app" target="_blank">下载APP</a>
+            </div>
+            <div class="ui popup top left transition hidden" id="btnDownloadAppContent">
+                <h3 class="header">OSCHINA App —— <br>关注技术领域的头条文章</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <img width="200" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/osc_app_download_qrcode.png" alt="下载APP">
+            </div>
+            <div class="ui secondary text menu" id="menuList">
+                <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+                <a href="https://www.oschina.net/question" class="item question">问答</a>
+                <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+                <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+                <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+                <a href="https://www.oschina.net/news" class="item news">资讯</a>
+                <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云<span class="floating ui red label giteetip">代码托管</span></a>
+                <a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+                <a href="https://www.oschina.net/event" class="item event">活动</a>
+            </div>
+            <div class="ui dropdown item" id="moreMenu" tabindex="0">
+                更多 <i class="dropdown icon" tabindex="0"><div class="menu" tabindex="-1"></div></i>
+                <div class="menu" tabindex="-1">
+                    <a href="https://www.oschina.net/event/ych" class="item meetup"><i class="world icon"></i>源创会</a>
+                    <a href="https://job.oschina.net/" class="item" target="_blank"><i class="address card outline icon"></i>求职/招聘</a>
+                    <a href="https://www.oschina.net/question/topic/masteronline" class="item"><i class="spy icon"></i>高手问答</a>
+                    <a href="https://www.oschina.net/question/topic/osc-interview" class="item"><i class="coffee icon"></i>开源访谈</a>
+                    <a href="https://my.oschina.net/editorial-story" class="item"><i class="calendar outline icon"></i>周刊</a>
+                    <a href="https://www.oschina.net/company" class="item"><i class="building outline icon"></i>公司开源导航页</a>
+                </div>
+            </div>
+            <div class="right menu">
+                                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819496">登录</a>
+                    <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fqiangzigege%2Fblog%2F819496">注册</a>
+                            </div>
+        </div>
+                <div class="ui secondary inverted fixed menu" id="mobileHeaderNavMenu">
+            <a class="icon item toggle-mobile-nav-sidebar">
+                <i class="large content icon"></i>
+            </a>
+            <div class="logo back-to-top-toggle"><img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/logo_new.svg" alt="OSCHINA"></div>
+            <a class="icon item toggle-mobile-user-sidebar">
+                                    <i class="large user outline icon"></i>
+                            </a>
+        </div>
+                <div id="mainScreen">
+            <div class="ui container">
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+<x-foo-define data-define="space-blog-detail"></x-foo-define> 
+<val data-name="objId" data-value="819496"></val> <val data-name="author_id" data-value="1382024"></val> <val data-name="space_user_id" data-value="1382024"></val> 
+<val data-name="fetchCommentsUrl" data-value="?type=comments"></val>              <val data-name="publishCommentUrl" data-value="/space/blog/add_comment"></val>    <val data-name="replyCommentUrl" data-value="/space/blog/add_comment"></val>      <val data-name="deleteCommentUrl" data-value="/space/blog/delete_blog_comments"></val>  
+<val data-name="weixinShareTitle" data-value="SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件"></val> <val data-name="weixinShareImgUrl" data-value="https://static.oschina.net/uploads/space/2017/0606/104418_CPLl_2733728.png"></val> 
+<div class="ui internally grid blog-detail bg-wrap">
+    <div class="row">
+        <div class="two wide computer only column" style="height: 3284px; min-height: 338px;">
+            <div class="ui sticky float-menu fixed top" id="floatMenu" style="width: 128px !important; height: 338px !important; margin-top: 200px; left: 149.6px;">
+                <div class="ui vertical large compact menu">
+                                            <a class="item donate" donate="" data-id="819496" data-obj-type="16344358" data-subject="SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件" data-donater="" data-author="1382024" data-return-url="https://my.oschina.net/qiangzigege/blog/819496" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                             <i class="yen icon"></i>打赏</a>
+                                        <a class="item comment-btn" href="https://my.oschina.net/qiangzigege/blog/819496#comments" title="共有 0 条评论"><i class="comment outline icon"></i>评论</a>
+                    <a class="item collect-btn " data-id="819496" data-user-id="1382024" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Spring Boot"><i class="star outline icon"></i>收藏</a>
+                    <a class="item like article-like " data-id="819496"><i class="thumbs up outline icon"></i>点赞</a>
+                    <h5 class="ui item inverted brown header">分享文章</h5>
+                    <div class="bdsharebuttonbox reset left-menu" data-tag="share-news">
+                        <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                        <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                        <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column body-container">
+            <div class="float-menu-content">
+                <div class="ui large breadcrumb">
+                    <a class="section" href="https://my.oschina.net/qiangzigege">强子哥哥</a>
+                                                                <i class="right chevron icon divider"></i>
+                        <a class="section" href="https://my.oschina.net/qiangzigege?tab=newest&amp;catalogId=4036915">Web动1:网络引擎Springboot|Netty|Assert|Firefly|Juneau</a>
+                                        <i class="right chevron icon divider"></i>
+                    <div class="active section">正文</div>
+                </div>
+                <div class="article-detail">
+                                            <div class="ad-wrap">
+                                                    <div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogdown" style="">
+<a href="http://clickc.admaster.com.cn/c/a128310,b3471905,c3159,i0,m101,8a1,8b2,h" target="_blank" style="max-width:780px;"><img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/f14a125502042a0f2a0428469f31828aeaa.jpg"></a>
+</div>
+
+<!--
+<script>
+    function success_jsonpCallback(data) {
+        var obj = eval(data);
+        if( obj.success ){
+            var contents = eval(obj.data[0].content);
+            if(contents.length > 0){
+                var content = contents[0];
+                $('#blog-title-ad').prepend("<a  href='"+ content.url +"' target='_blank' style='max-width:780px;'><img src='"+content.img+"'/></a>");
+                $('#blog-title-ad').show();
+            }
+            
+        }else {
+            $('#blog-title-ad').hide();
+        }
+    }
+    window.addEventListener("load", function() {
+         var url="  http://clickc.admaster.com.cn/c/a116493,b2949390,c3159,i0,m101,8a1,8b2,h";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            jsonp: "callback",
+            dataType: 'jsonp',
+            jsonpCallback: 'success_jsonpCallback',
+            contentType: "application/json; charset=utf-8",
+            success: function( response ) {
+                // do in callback
+            },
+            error:function(){
+                $('#blog-title-ad').hide();
+            }
+        });
+    }, false);
+</script>
+-->
+                                    </div>
+                                        <h2 class="header">
+                        SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件
+                                                                                                    <div class="ui teal label horizontal" data-tooltip="原创">原</div>
+                                                                                            </h2>
+                    <div class="extra ui horizontal list meta-wrap">
+                        <div class="item">
+                            <a href="https://my.oschina.net/qiangzigege" class="__user">                        <div class="osc-avatar small-portrait _35x35 avatar" title="强子1985" data-user-id="1382024">
+                <img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/1382024_50.jpeg" alt="强子1985" title="强子1985">
+            </div>
+            &nbsp;<span>强子1985</span></a>
+                            发布于 2017/01/05 20:12</div>
+                        <div class="item">字数 487</div>
+                        <div class="item">阅读 357</div>
+                        <div class="item collect-btn " data-id="819496" data-user-id="1382024" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Spring Boot">收藏 <span data-collect-count="" data-id="819496" data-obj-type="3">1</span></div>
+                        <div class="item"><a class="normal like article-like " data-id="819496">点赞 <span data-article-like-count="">0</span></a></div>
+                        <div class="item comment-count"><a href="https://my.oschina.net/qiangzigege/blog/819496#comments" class="normal"><i class="comment outline icon"></i> 评论 <span data-article-reply-count="">0</span></a></div>
+                                            </div>
+                                                                        <div class="tags">
+                                <a class="ui horizontal label" href="https://my.oschina.net/qiangzigege?q=Spring%20Boot">Spring Boot</a>                            </div>
+                                                                <div class="content" id="articleContent">
+                                                    <div class="ad-wrap">
+                                                        <p style="margin:0 0 10px 0;"><a data-traceid="blog_detail_above_text_link_1" data-tracepid="blog_detail_above_text_link" style="color:#A00;font-weight:bold;" href="https://my.oschina.net/u/2663968/blog/3051541" target="_blank">为什么80%的码农都做不了架构师？&gt;&gt;&gt; </a>  <img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/hot3.png" align="absmiddle" style="max-height: 32px; max-width: 32px;"></p>
+                                        </div>
+                                                <pre><code class="hljs css"><span class="hljs-selector-tag">jdb</span> <span class="hljs-selector-tag">org</span><span class="hljs-selector-class">.springframework</span><span class="hljs-selector-class">.boot</span><span class="hljs-selector-class">.loader</span><span class="hljs-selector-class">.JarLauncher</span>
+<span class="hljs-selector-tag">stop</span> <span class="hljs-selector-tag">in</span> <span class="hljs-selector-tag">org</span><span class="hljs-selector-class">.springframework</span><span class="hljs-selector-class">.boot</span><span class="hljs-selector-class">.loader</span><span class="hljs-selector-class">.JarLauncher</span><span class="hljs-selector-class">.main</span>
+<span class="hljs-selector-tag">run</span></code></pre> 
+<p>我们先看看</p> 
+<p>new JarLauncher() 的启动过程。</p> 
+<p>-----------------------------------------</p> 
+<p>在这个对象构造过程中，比较重要的一个函数是</p> 
+<pre><code class="hljs java"><span class="hljs-keyword">this</span>.archive = createArchive();</code></pre> 
+<p>那么这个函数到底执行了什么呢？</p> 
+<p>我把debug过程中的每个值都打印出来了，如下</p> 
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">final</span> Archive <span class="hljs-title">createArchive</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+		<span class="hljs-comment">//</span>
+		<span class="hljs-comment">//</span>
+		<span class="hljs-comment">//main[1] print protectionDomain</span>
+		<span class="hljs-comment">// protectionDomain = "ProtectionDomain  (file:/root/springboot_tomcat_jetty_zipkin_brave_debug/ &lt;no signer certificates&gt;)</span>
+		<span class="hljs-comment">// sun.misc.Launcher$AppClassLoader@18b4aac2</span>
+		<span class="hljs-comment">// &lt;no principals&gt;</span>
+		 <span class="hljs-comment">//java.security.Permissions@73a8dfcc (</span>
+		<span class="hljs-comment">// ("java.io.FilePermission" "/root/springboot_tomcat_jetty_zipkin_brave_debug/-" "read")</span>
+		<span class="hljs-comment">// ("java.lang.RuntimePermission" "exitVM")</span>
+		<span class="hljs-comment">//)</span>
+		ProtectionDomain protectionDomain = getClass().getProtectionDomain();
+		<span class="hljs-comment">//</span>
+		<span class="hljs-comment">//main[1] print codeSource</span>
+		<span class="hljs-comment">//codeSource = "(file:/root/springboot_tomcat_jetty_zipkin_brave_debug/ &lt;no signer certificates&gt;)"</span>
+		CodeSource codeSource = protectionDomain.getCodeSource();
+		<span class="hljs-comment">//</span>
+		<span class="hljs-comment">//main[1] print location</span>
+		<span class="hljs-comment">// location = "file:/root/springboot_tomcat_jetty_zipkin_brave_debug/"</span>
+		URI location = (codeSource == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">null</span> : codeSource.getLocation().toURI());
+		<span class="hljs-comment">//</span>
+		<span class="hljs-comment">//main[1] print path</span>
+		<span class="hljs-comment">//path = "/root/springboot_tomcat_jetty_zipkin_brave_debug/"</span>
+		String path = (location == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">null</span> : location.getSchemeSpecificPart());
+		<span class="hljs-keyword">if</span> (path == <span class="hljs-keyword">null</span>) {
+			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Unable to determine code source archive"</span>);
+		}
+		<span class="hljs-comment">//</span>
+		<span class="hljs-comment">//main[1] print root</span>
+		<span class="hljs-comment">//root = "/root/springboot_tomcat_jetty_zipkin_brave_debug"</span>
+		File root = <span class="hljs-keyword">new</span> File(path);
+		<span class="hljs-comment">////</span>
+		<span class="hljs-keyword">if</span> (!root.exists()) {
+			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(
+					<span class="hljs-string">"Unable to determine code source archive from "</span> + root);
+		}
+		<span class="hljs-comment">//</span>
+		<span class="hljs-keyword">return</span> (root.isDirectory() ? <span class="hljs-keyword">new</span> ExplodedArchive(root)
+				: <span class="hljs-keyword">new</span> JarFileArchive(root));
+	}</code></pre> 
+<p>---接下来，我们看到最后一行是有2个分支，</p> 
+<p>其实就是说这个类是哪个哪个地方来的，目录就走分支1，jar包就走分支2，</p> 
+<p>平时是从jar包，我这里是从debug文件夹来的，所有就走分支1，下面开始debug分支1.</p> 
+<p>反正原理都是大差不离的。</p> 
+<p>===接下来，在构造ExplodedArchive对象的过程中，最重要的细节是读取MANIFEST文件，</p> 
+<p>见源码：</p> 
+<pre><code class="hljs java"><span class="hljs-comment">/**
+	 * Create a new {<span class="hljs-doctag">@link</span> ExplodedArchive} instance.
+	 * <span class="hljs-doctag">@param</span> root the root folder
+	 * <span class="hljs-doctag">@param</span> recursive if recursive searching should be used to locate the manifest.
+	 * Defaults to {<span class="hljs-doctag">@code</span> true}, folders with a large tree might want to set this to {code
+	 * false}.
+	 */</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ExplodedArchive</span><span class="hljs-params">(File root, <span class="hljs-keyword">boolean</span> recursive)</span> </span>{
+		<span class="hljs-comment">//</span>
+		<span class="hljs-keyword">if</span> (!root.exists() || !root.isDirectory()) {
+			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Invalid source folder "</span> + root);
+		}
+		<span class="hljs-comment">//</span>
+		<span class="hljs-keyword">this</span>.root = root;
+		<span class="hljs-keyword">this</span>.recursive = recursive;
+		<span class="hljs-comment">//</span>
+		<span class="hljs-keyword">this</span>.manifestFile = getManifestFile(root);
+	}
+
+	<span class="hljs-function"><span class="hljs-keyword">private</span> File <span class="hljs-title">getManifestFile</span><span class="hljs-params">(File root)</span> </span>{
+		File metaInf = <span class="hljs-keyword">new</span> File(root, <span class="hljs-string">"META-INF"</span>);
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> File(metaInf, <span class="hljs-string">"MANIFEST.MF"</span>);
+	}</code></pre> 
+<p>这个就不用解释了吧，已经拿到了MANIFEST.MF文件。</p> 
+<p>直接复制这个文件的内容，如下所示：</p> 
+<pre><code class="hljs java">Manifest-Version: <span class="hljs-number">1.0</span>
+Built-By: travis
+Start-Class: zipkin.server.ZipkinServer
+Spring-Boot-Classes: BOOT-INF/classes/
+Spring-Boot-Lib: BOOT-INF/lib/
+Spring-Boot-Version: <span class="hljs-number">1.4</span>.3.RELEASE
+Created-By: Apache Maven <span class="hljs-number">3.3</span>.9
+Build-Jdk: <span class="hljs-number">1.8</span>.0_111
+Main-Class: org.springframework.boot.loader.JarLauncher</code></pre> 
+<p>然后就正式进入了new JarLauncher().launch(args);的.launch(args)部分，放在下一节讲解。</p>
+                                                    <div class="ad-wrap" style="margin-top: 12px;">
+                                                        <div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogdown" style="">
+<script async="" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/f(1).txt"></script>
+<!-- 博客详情页下方 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-7090564139599510" data-ad-slot="2321828009" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><iframe width="728" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:728px;height:90px;" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/saved_resource.html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<!--
+<script>
+    function success_jsonpCallback(data) {
+        var obj = eval(data);
+        if( obj.success ){
+            var contents = eval(obj.data[0].content);
+            if(contents.length > 0){
+                var content = contents[0];
+                $('#blog-title-ad').prepend("<a  href='"+ content.url +"' target='_blank' style='max-width:780px;'><img src='"+content.img+"'/></a>");
+                $('#blog-title-ad').show();
+            }
+            
+        }else {
+            $('#blog-title-ad').hide();
+        }
+    }
+    window.addEventListener("load", function() {
+         var url="  http://clickc.admaster.com.cn/c/a116493,b2949390,c3159,i0,m101,8a1,8b2,h";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            jsonp: "callback",
+            dataType: 'jsonp',
+            jsonpCallback: 'success_jsonpCallback',
+            contentType: "application/json; charset=utf-8",
+            success: function( response ) {
+                // do in callback
+            },
+            error:function(){
+                $('#blog-title-ad').hide();
+            }
+        });
+    }, false);
+</script>
+-->
+                                        </div>
+                                            </div>
+                    <div class="ui hidden divider"></div>
+                    <p style="text-align:center;">
+                                                    © 著作权归作者所有
+                                            </p>
+                </div>
+
+                                <div class="ui basic center aligned segment action">
+                    <div class="ui huge buttons">
+                                                    <a class="ui green button donate" donate="" data-id="819496" data-obj-type="16344358" data-subject="SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件" data-donater="" data-author="1382024" data-return-url="https://my.oschina.net/qiangzigege/blog/819496" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                                 <i class="yen icon"></i>打赏</a>
+                                                <a class="ui basic button like article-like " data-id="819496">
+                            <i class="thumbs up outline icon"></i>点赞 (<span data-article-like-count="">0</span>)
+                        </a>
+                        <a class="ui basic button collect-btn hover" data-id="819496" data-user-id="1382024" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="Spring Boot"><i class="star outline icon"></i>收藏 (<span data-collect-count="" data-id="819496" data-obj-type="3">1</span>)</a>
+                        <div class="ui basic dropdown share button bdsharebuttonbox reset dropdown-share" data-tag="share-blog" tabindex="0">
+                            <i class="share icon"></i> <span>分享</span>
+                            <div class="menu" tabindex="-1">
+                                <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                                <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                                <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui basic segment">
+                        <a class="ban" style="cursor: pointer" ban-report="" data-id="819496" data-obj-type="3" data-url="https://my.oschina.net/qiangzigege/blog/819496">
+                            <i class="flag red icon"></i>举报</a>
+                    </div>
+                </div>
+
+                                
+
+                                <div class="around-articles-wrap">
+                                                            <div class="around-item around-left">
+                        <i class="angle left icon"></i>
+                        <span class="text">上一篇：</span>
+                        <a class="link" href="https://my.oschina.net/qiangzigege/blog/819513"> SpringBoot-Loader源码分析系列2：启动 new JarLauncher().launch(args)的.launch(args)部分</a>
+                    </div>
+                    
+                                                            <div class="around-item around-right">
+                        <span class="text">下一篇：</span>
+                        <a class="link" href="https://my.oschina.net/qiangzigege/blog/819035">Zipkin-1.19.0学习系列2：Nodejs范例(Client Send,Client Receive))</a>
+                        <i class="angle right icon"></i>
+                    </div>
+                                    </div>
+
+                                <div class="ui info message author-card">
+                    <div class="ui items">
+                        <div class="item author-card-item">
+                            <a class="ui avatar tiny image" href="https://my.oschina.net/qiangzigege">
+                                                        <div class="osc-avatar large-portrait _80x80" title="强子1985" data-user-id="1382024">
+                <img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/1382024_200.jpeg" alt="强子1985" title="强子1985">
+            </div>
+                                        </a>
+                            <div class="content author-card-info">
+                                <div class="author-header clearfix">
+                                                                        <h3 class="author-name"><a class="__user" href="https://my.oschina.net/qiangzigege">强子1985</a></h3>
+                                                                                                                <div class="ui mini images medals">
+                                                                                                                                                                                                        <img class="ui image popup-oscer" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/slogo1541992849287.png" alt="">
+                                                        <div class="ui flowing popup hidden items">
+                                                            <div class="medal-popup-box item">
+                                                                <img class="ui image" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/logo1541993136198.png">
+                                                                <div class="content">
+                                                                    <h3 class="header">开源项目作者</h3>
+                                                                    <div class="desc text">作为一个开源项目作者，是时候站出来拯救世界了！</div>
+                                                                    <div class="extra text">
+                                                                        领取时间：2016/04/15
+                                                                        <div class="text">领取条件：开源项目被开源中国收录的开发者可领取</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                                                                                                                                                                                                                                                            <img class="ui image popup-oscer" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/slogo1541993993487.png" alt="">
+                                                        <div class="ui flowing popup hidden items">
+                                                            <div class="medal-popup-box item">
+                                                                <img class="ui image" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/logo1541403423905.png">
+                                                                <div class="content">
+                                                                    <h3 class="header">初出茅庐</h3>
+                                                                    <div class="desc text">我们都是从 Hello World 开始的！</div>
+                                                                    <div class="extra text">
+                                                                        领取时间：2019/04/17
+                                                                        <div class="text">领取条件：技能积分大于 200，且被推荐的博客数量大于 3 篇。</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                                                                                                                                        </div>
+                                                                    </div>
+                                <div class="ui horizontal list">
+                                    <div class="item">粉丝 <span class="followers-count" data-user-id="1382024" data-followers-count="904">904</span></div>
+                                    <div class="item">博文 1338</div>
+                                    <div class="item">码字总数 974206</div>
+                                    <div class="item">作品 9</div>
+                                </div>
+                                <div class="ui hidden fitted clearing divider"></div>
+                                                                                                    <div class="ui horizontal list">
+                                                                                    <div class="item"><i class="map marker alternate icon"></i> 南京</div>
+                                                                                                                            <div class="item"><i class="address card outline icon"></i> 架构师</div>
+                                                                            </div>
+                                                                                                    <div class="ui hidden fitted clearing divider"></div>
+                                                                                                                    <a class="ui green compact button follow-btn" data-user-id="1382024" data-follow-status="1"><i class="heart outline icon"></i><span class="text">关注</span></a>
+                                                                                                            <a class="ui green basic compact button send-message-btn" data-user-id="1382024" data-user-name="强子1985"><i class="envelope outline icon"></i>私信</a>
+                                                                        <a class="ui green basic compact button" href="https://www.oschina.net/question/ask?user=1382024" target="_blank"><i class="comment outline icon"></i>提问</a>
+                                                            </div>
+                            <div class="content panel-skills-radar" style="">
+                                <div class="skills-radar">
+                                    <div class="radar-wrap" radar="" data-user-id="1382024" data-skills-num="5" data-detail-url="https://my.oschina.net/qiangzigege/radar" data-container=".panel-skills-radar">
+                                        <div class="radar-map" style="position: relative;"><canvas width="350" height="152" style="width: 280px; height: 122px;"></canvas></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                                            </div>
+                        <div class="ui basic segment article-list">
+                <div class="scroll-tab hidden-scroll">
+                    <div class="ui green pointing secondary massive menu spaceBlog-tab">
+                        <a class="active item" data-tab="relArticleList">相关文章</a>
+                        <a class="item" data-tab="newArticleList">最新文章</a>
+                    </div>
+                </div>
+                <div class="ui basic segment active tab article-list" data-tab="relArticleList" id="relArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                    <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/3386278/blog/3065793" target="_blank" title="SpringBoot系列文章简介">SpringBoot系列文章简介</a>
+                        <div class="description">
+                            <p class="line-clamp">　　SpringBoot系列文章简介 　　 　　SpringBoot源码阅读辅助篇： 　　 　　Spring IoC容器与应用上下文的设计与实现 　　 　　SpringBoot启动流程源码分析： 　　 　　SpringBoot启动流程分...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">SEOwhywhy</div>
+                                <div class="item">今天</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="http://www.jianshu.com/p/4ccd4512700f" target="_blank" title="第五十章：SpringBoot2.0新特性 - 岂止至今最简单redis缓存集成">第五十章：SpringBoot2.0新特性 - 岂止至今最简单redis缓存集成</a>
+                        <div class="description">
+                            <p class="line-clamp">自从升级到了版本后集成作为缓存就更为简单了，我们只需要配置相关的链接信息以及使用注解开启缓存，这样我们就直接可以在项目内使用缓存相关的内容。 由于最近这段时间一直在研发公司的持久...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">恒宇少年</div>
+                                <div class="item">2018/04/15</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="http://www.jianshu.com/p/4ccd4512700f" target="_blank" title="第五十章：SpringBoot2.0新特性 - 岂止至今最简单redis缓存集成">
+                                <img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/2668d4a987ab914954e488a31098ed156a917e9a.png" alt="" data-img-render="" style="width: auto; height: 100%;">
+                            </a>
+                        </div>
+                                    </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="http://www.importnew.com/30542.html" target="_blank" title="SpringBoot系列一：SpringBoot入门">SpringBoot系列一：SpringBoot入门</a>
+                        <div class="description">
+                            <p class="line-clamp">原文出处：晴枫 1 SpringBoot HelloWorld 功能：浏览器发送 sayHello 请求，服务器接受请求并处理，响应 Hello。 1.1 创建一个maven工程 com.seagetechspringboot-helloworld1.0.0 1.2 下载官...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">晴枫</div>
+                                <div class="item">2018/11/21</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="http://www.importnew.com/30542.html" target="_blank" title="SpringBoot系列一：SpringBoot入门">
+                                <img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/10914cc00bb4ecc4b2684878cbf9dba6bd3cbb3a.png" alt="" data-img-render="" style="width: 100%; height: auto;">
+                            </a>
+                        </div>
+                                    </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/3048852/blog/1814889" target="_blank" title="SpringBoot 2.0 系列006 --启动实战之注解使用">SpringBoot 2.0 系列006 --启动实战之注解使用</a>
+                        <div class="description">
+                            <p class="line-clamp">SpringBoot 2.0 系列006 --启动实战之注解使用 一些误区说明 网上很多教程默认使用SpringBootApplcation注解，且只用这个即可扫描启动类包下所有的bean。 而官方默认教程使用的是@EnableAuto...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">路上有你0314</div>
+                                <div class="item">2018/05/18</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="http://www.jianshu.com/p/472379565c79" target="_blank" title="【SpringBoot专题】快速体验">【SpringBoot专题】快速体验</a>
+                        <div class="description">
+                            <p class="line-clamp">前言 在Spring 4推出来之前，我们的编码是存在一些问题，比如：大量的xml配置存在项目中，配置相当繁琐；整合第三方框架非常麻烦；开发效率和部署效率不高等问题。正是因为这些问题，Spring开...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">张丰哲</div>
+                                <div class="item">2018/08/05</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="http://www.jianshu.com/p/472379565c79" target="_blank" title="【SpringBoot专题】快速体验">
+                                <img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/b80d2221929c6bb5a1e1d363bee2e80ccff08cd0.png" alt="" data-img-render="" style="width: auto; height: 100%;">
+                            </a>
+                        </div>
+                                    </div>
+                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none;"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination" style="display: none;">
+            <a class="rel-pagination pagination__next" style="display: none" href="https://my.oschina.net/qiangzigege/blog/widgets/_blog_detail_list_rel?obj=819496&amp;p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+                <div class="ui basic segment tab article-list" data-tab="newArticleList" id="newArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                                        <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3847203/blog/3066082" target="_blank" title="哨兵作用">哨兵作用</a>
+                            <div class="description">
+                                <p class="line-clamp">https://www.cnblogs.com/kaleidoscope/p/9636496.html</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">Java搬砖工程师</div>
+                                    <div class="item">25分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/530504/blog/3066081" target="_blank" title="好程序员web前端教程分享CSS技巧！">好程序员web前端教程分享CSS技巧！</a>
+                            <div class="description">
+                                <p class="line-clamp">好程序员web前端教程分享CSS技巧！现在学web人越来越多，小白的问题也越来越多，那么今天就为大家分享一下CSS学习技巧！在web前端工作中离不开css的使用。为了帮助大家提高自己的css使用技巧...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">好程序员IT</div>
+                                    <div class="item">28分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/2544569/blog/3066079" target="_blank" title="PhpStudy升级MySQL5.5到5.7记录">PhpStudy升级MySQL5.5到5.7记录</a>
+                            <div class="description">
+                                <p class="line-clamp">1.下载mysql 5.7 https://cdn.mysql.com/archives/mysql-5.7/mysql-5.7.25-winx64.zip 2.备份目前的数据库数据，可以导出数据库文件，作为备份。 3.备份 PhpStudy 下的 MySQL 文件夹、以防升...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">win_ball</div>
+                                    <div class="item">29分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/u/2544569/blog/3066079" target="_blank" title="PhpStudy升级MySQL5.5到5.7记录">
+                                    <img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/11bedce18e0045a48a2b8e2e1ad617941e8.jpg" alt="" data-img-render="" style="width: 100%; height: auto;">
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/xiaominmin/blog/3066078" target="_blank" title="Java8 JVM参数解读">Java8 JVM参数解读</a>
+                            <div class="description">
+                                <p class="line-clamp">摘要： 我们知道java虚拟机启动时会带有很多的启动参数，Java命令本身就是一个多参数的启动命令。那么具体JVM启动包含哪些参数呢？这篇文章针对java8的情况做一篇汇总解读，包含大多数常见和...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">xiaomin0322</div>
+                                    <div class="item">32分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3020519/blog/3066075" target="_blank" title="maven中关于scope依赖范围">maven中关于scope依赖范围</a>
+                            <div class="description">
+                                <p class="line-clamp">既然，Maven的生命周期存在编译、测试、运行这些过程，那么显然有些依赖只用于测试，比如junit；有些依赖编译用不到，只有运行的时候才能用到，比如mysql的驱动包在编译期就用不到（编译期用...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">syso_Null</div>
+                                    <div class="item">35分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 1</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination">
+            <a class="news-pagination pagination__next" style="display: none" href="https://my.oschina.net/qiangzigege/blog/widgets/_blog_detail_list_news?p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+            </div>
+        </div>
+        <div class="two wide computer only column">
+                        <div class="ad-wrap">
+                                        <div data-traceid="blog_left_1" data-tracepid="blog_left">
+
+<script async="" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/f(1).txt"></script>
+<!-- ios-zone-home-120x600 -->
+<ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px" data-ad-client="ca-pub-7090564139599510" data-ad-slot="7907495427" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px;background-color:transparent;"><iframe width="120" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0px;width:120px;height:600px;" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/saved_resource(1).html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</div>
+                        </div>
+                    </div>
+    </div>
+</div>
+
+
+<div class="ui mini delete-blog modal">
+    <div class="header">删除文章</div>
+    <div class="content">
+        <p>文章删除后无法恢复，确定取消删除此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-self modal">
+    <div class="header">自荐文章</div>
+    <div class="content">
+        <p>亲，自荐的博客将通过私信方式通知管理员，优秀的博客文章审核通过后将在博客推荐列表中显示</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-blog modal">
+    <div class="header">推荐文章</div>
+    <div class="content">
+        <p>确定推荐此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-author modal">
+    <div class="header">推荐博主</div>
+    <div class="content">
+        <p>确定推荐此博主吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/blog" defer="defer"></script>
+<script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/space"></script>
+
+<script>
+    // 百度分享
+    window._bd_share_config = {
+        common : {
+            bdText : 'SpringBoot-Loader源码分析系列1：启动&读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA',
+            bdDesc : 'jdb org.springframework.boot.loader.JarLauncher
+stop in org.springframework.boot.loader.JarLauncher.main
+run 我们先看看 new JarLauncher() 的启动过程。 ----------------------------------------- 在这个对象构造过程中，比较重要的一个函数是 this.archive = createArchive(); 那么这个函数到底执行了什么呢？...',
+            bdUrl  : 'https://my.oschina.net/qiangzigege/blog/819496',
+            bdPic  : ''
+        },
+        share : [{
+            bdSize : 16
+        }]
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://static.oschina.net/new-osc/js/utils/plugins/bdshare_api/share.js?v='+~(-new Date()/36e5)];
+</script>
+                        <div name="detail_show_footer" data-traceid="detail_show" data-tracepid="detail_show_footer">
+                <style>
+    .detail_banner_ad {
+        display: none;
+        position: fixed;
+        margin: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10001;
+        width: 100%;
+    }
+    .detail_banner_ad_bg {
+        position: relative;
+        height: 73px;
+        width: 727px;
+        margin: 0 auto;
+        background: url("https://oscimg.oschina.net/oscnet/a29ade34c37e5f68bd05fabb5c5b71dc642.jpg") no-repeat left bottom;
+        background-size: 727px 73px;
+    }
+    .detail_banner_ad_close {
+        position: absolute;
+        right: 0px;
+        bottom: 20px;
+        width: 30px;
+        height: 30px;
+        margin: auto;
+        background: url("https://oscimg.oschina.net/oscnet/6e950de938e3a23b855cd156e69ede85583.jpg") no-repeat left;
+        background-size: 30px;
+        cursor: pointer;
+    }
+    @media screen and (max-width: 768px) {
+        .detail_banner_ad {
+            /* display: none !important; */
+        }
+        .detail_banner_ad_bg {
+            height: 10vw; /* 75/750:10/100vw */
+            width: 100%;
+            background: url("https://oscimg.oschina.net/oscnet/507b4852109bf9e997e4862af2876d965d7.jpg") no-repeat left bottom;
+            background-size: 100%;
+        }
+        .detail_banner_ad_close {
+            /* bottom: 25px!important; */
+            bottom: 5vw!important;
+            right: 1px!important;
+            /* width: 16px; */
+            /* height: 16px; */
+            width: 4.267vw;
+            height: 4.267vw;
+            background-size: 100%;
+        }
+    }
+</style>
+<div class="detail_banner_ad" style="display: block;">
+    <a href="https://oschina.gitee.io/6th?utm_source=oschina-dl" target="_blank">
+            <div class="detail_banner_ad_bg"><span class="detail_banner_ad_close"></span></div>
+    </a>
+</div>
+<!-- <script src="https://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script> -->
+<script src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/js.cookie.min.js.下载"></script>
+<script type="text/javascript">
+    (function () {
+        function loadScript(src, callback) {
+            var script = document.createElement('script'),
+                head = document.getElementsByTagName('head')[0];
+            script.type = 'text/javascript';
+            script.charset = 'UTF-8';
+            script.src = src;
+            if (script.addEventListener) {
+                script.addEventListener('load', function () {
+                    callback();
+                }, false);
+            } else if (script.attachEvent) {
+                script.attachEvent('onreadystatechange', function () {
+                    var target = window.event.srcElement;
+                    if (target.readyState == 'loaded') {
+                        callback();
+                    }
+                });
+            }
+            head.appendChild(script);
+        }
+        function loadAd() {
+            var leftPeople = $('.detail_banner_ad');
+            var cookieName = 'visit-detail-banner-ad-0603-my6th';
+            var isVisit = Cookies.get(cookieName);
+            if (isVisit == 1) {
+                leftPeople.hide();
+            } else {
+                leftPeople.show();
+            }
+            $('.detail_banner_ad_close').on('click', function (e) {
+                e.preventDefault();
+                Cookies.set(cookieName, 1, {expires: 90, path: '/'});
+                leftPeople.slideUp();
+            })
+        };
+        // if (window.innerWidth >= 768) {
+            if (window.jQuery) {
+                loadAd();
+            } else {
+                loadScript('https://www.oschina.net/public/bower_components/jquery/dist/jquery.min.js', function () {
+                    loadAd();
+                });
+            }
+        // }
+    })();
+</script>
+            </div>
+            
+
+            </div>
+        </div>
+
+                <div id="footer" class="ui vertical footer segment mb-hide">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">OSCHINA 社区</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">关于我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">联系我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc#partners#" target="_blank">合作伙伴</a>
+                    <a class="item" href="https://www.oschina.net/openapi" target="_blank">Open API</a>
+                </div>
+            </div>
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">在线工具</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://gitee.com/?from=osc-bottom" target="_blank">码云 Gitee.com</a>
+                    <a class="item" href="https://gitee.com/enterprises?from=osc-bottom" target="_blank">企业研发管理</a>
+                    <a class="item" href="https://copycat.gitee.com/?from=osc-bottom" target="_blank">CopyCat-代码克隆检测</a>
+                    <a class="item" href="https://tool.oschina.net/" target="_blank">实用在线工具</a>
+                </div>
+            </div>
+            <div class="center aligned eight wide mobile two wide tablet two wide computer column">
+                <h4 class="ui header">微信公众号</h4>
+                <img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/wechat_qrcode.jpg" alt="微信公众号">
+            </div>
+            <div class="center aligned eight wide mobile six wide tablet six wide computer column">
+                <h3 class="ui header">OSCHINA APP</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <a href="https://www.oschina.net/app" target="_blank" class="ui large primary button">下载 APP</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="copyright">
+    <div class="ui container">
+        <div class="ui clearing basic segment">
+            <div class="ui left floated horizontal link list">
+                <div class="item">©OSCHINA(OSChina.NET)</div>
+                <div class="item mb-hide">工信部</div>
+                <a class="item mb-hide" href="http://www.copu.org.cn/" target="_blank" title="开源软件推进联盟">开源软件推进联盟</a>
+                <div class="item mb-hide">指定官方社区</div>
+            </div>
+            <div class="ui right floated horizontal link list">
+                <div class="item mb-hide">深圳市奥思网络科技有限公司版权所有</div>
+                <a href="http://beian.miit.gov.cn/" target="_blank" class="item">粤ICP备12009483号-3</a>
+            </div>
+        </div>
+    </div>
+</div>    </div>
+                                                        <div class="back-to-top back-to-top-toggle" style="display: none;">
+        <div class="icon"><img src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/back-to-top.svg" alt="返回顶部"></div>
+        <div class="text">顶部</div>
+    </div>
+
+        <script src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/semantic.min.js.下载"></script>
+    <script src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/jweixin-1.2.0.js.下载"></script>
+                <script type="text/javascript" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/space.12e0813f.js.下载"></script>                
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?a411c4d1664dd70048ee98afe7b28f0b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+                
+<script type="text/javascript">
+    !function(e,t,n,g,i){e[i]=e[i]||function(){(e[i].q=e[i].q||[]).push(arguments)},n=t.createElement("script"),tag=t.getElementsByTagName("script")[0],n.async=1,n.src=('https:'==document.location.protocol?'https://':'http://')+g,tag.parentNode.insertBefore(n,tag)}(window,document,"script","assets.growingio.com/2.1/gio.js","gio");
+    gio('init','89b266b986554bc7', {});
+    gio('send');
+</script>
+    
+
+<!-- Generated by oschina (init:0[ms],page:271[ms],ip:43.243.12.46) //--><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><ins id="aswift_2_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0px;width:0px;height:0px;" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/saved_resource(2).html"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_5923341287448" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/saved_resource(3).html"></iframe></body><iframe id="google_shimpl" style="display: none;" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/saved_resource(4).html"></iframe><iframe id="google_esf" name="google_esf" src="./SpringBoot-Loader源码分析系列1：启动&amp;读取MANIFEST.MF文件 - 强子哥哥 - OSCHINA_files/zrt_lookup.html" data-ad-client="ca-pub-7090564139599510" style="display: none;"></iframe></html>

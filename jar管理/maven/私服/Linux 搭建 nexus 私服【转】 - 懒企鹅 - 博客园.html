@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.cnblogs.com/lanqie/p/7592472.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="never">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园</title>
+    <meta property="og:description" content="第8章 私服nexus 本章详细介绍了nexus的安装过程，设置maven从私服下载构件，以及发布构件至nexus。 8.1 什么是nexus nexus是一个web版的仓库管理软件 8.2 nexu">
+    <link type="text/css" rel="stylesheet" href="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/bundle-BlackLowKey.css">
+<link type="text/css" rel="stylesheet" href="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/376372.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/bundle-BlackLowKey-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/lanqie/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/lanqie/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/lanqie/wlwmanifest.xml">
+    <script src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/pubads_impl_rendering_2019061701.js.下载"></script><script async="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/analytics.js.下载"></script><script src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=376372;var currentBlogApp='lanqie',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/default.min.css"><link rel="preload" href="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/f.txt"></script><script src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/pubads_impl_2019061701.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-33/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/lanqie/"><img id="blogLogo" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/lanqie/">懒企鹅</a></h1>
+<h2>quieter and hear more</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/lanqie/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E6%87%92%E4%BC%81%E9%B9%85">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/lanqie/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/lanqie/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 187&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 14</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/lanqie/p/7592472.html">Linux 搭建 nexus 私服【转】</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><a name="_labelTop"></a><div id="navCategory"><ul><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label0">8.1 什么是nexus</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label1">8.2 nexus安装</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label2">8.3 nexus仓库设置</a><ul><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label2_0">8.3.1 登录系统，修改密码</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label2_1">8.3.2 nexus内置仓库介绍</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label2_2">8.3.3 索引</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label2_3">8.3.4 创建宿主仓库</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label2_4">8.3.5 仓库组设置</a></li></ul></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label3">8.4 配置maven从私服下载构件</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label4">8.5 maven的镜像配置</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label5">8.6 发布构件至nexus</a><ul><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label5_0">8.6.1 配置distributionManagement</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_label5_1">8.6.2 设置用户</a></li></ul></li></ul></div><p>&nbsp;</p><pre name="code" class="plain"><span style="font-size: 14px;">原文：https://yq.aliyun.com/articles/5981</span></pre>
+<h1 id="1">第8章 私服nexus</h1>
+<blockquote>
+<p>本章详细介绍了nexus的安装过程，设置maven从私服下载构件，以及发布构件至nexus。</p>
+</blockquote>
+<div style="text-align: right"><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_labelTop">回到顶部</a><a name="_label0"></a></div><h2 id="2">8.1 什么是nexus</h2>
+<p>nexus是一个web版的仓库管理软件</p>
+<div style="text-align: right"><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_labelTop">回到顶部</a><a name="_label1"></a></div><h2 id="3">8.2 nexus安装</h2>
+<p>nexus安装非常简单。 <br>
+下载地址：<a href="http://www.sonatype.org/nexus/go" target="_blank">http://www.sonatype.org/nexus/go</a></p>
+<p>本文以Linux环境为例，安装nexus： <br>
+1. 首先在/usr/local下建nexus目录 <br>
+2. 将下载的zip包解压，将其中的nexus-2.11.4-01解压至nexus如图：</p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2wqjlhXXXXXbiXpXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<ol>
+<li>进入bin目录，将nexus设置为可执行权限：</li>
+
+
+</ol>
+<p><code>cd bin</code></p>
+<p><code>chmod +x nexus</code></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2jzjphXXXXXaWXpXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<ol>
+<li>
+<p>设置root可执行nexus <br>
+默认的nexus是不让root用户直接启动的，会报出如下错误</p>
+<pre><code class="hljs delphi">`WARNING - <span class="hljs-keyword">NOT</span> RECOMMENDED <span class="hljs-keyword">TO</span> RUN <span class="hljs-keyword">AS</span> ROOT`
+`<span class="hljs-keyword">If</span> you insist running <span class="hljs-keyword">as</span> root, <span class="hljs-keyword">then</span> <span class="hljs-keyword">set</span> the environment variable RUN_AS_USER=root before running this script.`
+</code></pre>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2LrvLhXXXXXX1XXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+</li>
+</ol>
+<p>需要设置root执行权限 <br>
+<code>export set RUN_AS_USER=root</code> <br>
+此语句仅临时设置root变量，重启linux后会无效，如需持久设置，需要修改环境变量，见以下步骤。</p>
+<ol>
+<li>此时执行<code>./nexus start</code>即可启动nexus。 </li>
+
+
+</ol>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2p5_zhXXXXXbWXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<ol>
+<li>停止nexus</li>
+
+
+</ol>
+<p><code>./nexus stop</code></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB23DTMhXXXXXXyXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<ol>
+<li>
+<p>配置环境变量，设置开机启动</p>
+<ul>
+<li>设置环境变量：</li>
+
+
+</ul>
+
+
+
+</li>
+
+
+</ol>
+<p><code>vim /etc/profile</code></p>
+<p>在最后一行添加<code>export set RUN_AS_USER=root</code></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2vnbGhXXXXXacXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<ul>
+<li>设置开机启动 <br>
+进入到配置目录：</li>
+
+
+</ul>
+<p><code>cd /etc/init.d</code></p>
+<p>复制脚本<code>cp /usr/local/nexus/bin/nexus nexus</code></p>
+<p>添加系统服务：<code>chkconfig --add nexus</code></p>
+<p>设置启动级别为345：<code>chkconfig --levels 345 nexus on</code></p>
+<p>查看是否添加成功：<code>chkconfig --list|grep nexus</code>，如图</p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2cxjHhXXXXXaHXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<ul>
+<li>修改脚本</li>
+
+
+</ul>
+<p><code>vim /etc/init.d/nexus</code></p>
+<p>第一行添加： <br>
+<code>RUN_AS_USER="root"</code></p>
+<p>然后，将<code>NEXUS_HOME=".."</code>修改为<code>NEXUS_HOME="/usr/local/nexus"</code></p>
+<p>如图：<img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2CvHBhXXXXXchXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<ul>
+<li>重启Linux <br>
+<code>reboot</code></li>
+<li>访问地址：<code>http://&lt;LinuxIP&gt;:8081/nexus/#welcome</code></li>
+
+
+</ul>
+<p><strong>注意：重启Linux需要一段时间，不断刷新此地址即可。</strong></p>
+<pre><code class="hljs markdown">查看nexus是否启动，<span class="hljs-code">`ps –ef|grep nexus`</span>。
+
+
+![<span class="hljs-string">Alt text</span>](<span class="hljs-link">https://img.alicdn.com/imgextra/i2/653726111/TB2Kpa_hXXXXXXRXFXXXXXXXXXX_!!653726111.png</span>)
+</code></pre>
+<div style="text-align: right"><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_labelTop">回到顶部</a><a name="_label2"></a></div><h2 id="4">8.3 nexus仓库设置</h2>
+<a name="_label2_0"></a><h3 id="5">8.3.1 登录系统，修改密码</h3>
+<p>nexus默认的管理员密码是admin/admin123，为了安全起见，第一件事就是上来修改管理员密码。</p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB23S2EhXXXXXa2XXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2KmYahXXXXXXlXFXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2C0bPhXXXXXXaXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2S_YahXXXXXXAXFXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<a name="_label2_1"></a><h3 id="6">8.3.2 nexus内置仓库介绍</h3>
+<h4 id="7">1、 仓库类型介绍</h4>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2.abzhXXXXXctXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<table>
+<thead>
+<tr><th>仓库类型</th><th>介绍</th></tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">group</td>
+<td align="left">仓库组</td>
+</tr>
+<tr>
+<td align="right">hosted</td>
+<td align="left">宿主仓库</td>
+</tr>
+<tr>
+<td align="right">proxy</td>
+<td align="left">代理仓库</td>
+</tr>
+<tr>
+<td align="right">virtual</td>
+<td align="left">虚拟仓库</td>
+</tr>
+</tbody>
+</table>
+<h4 id="8">2、 仓库介绍</h4>
+<table>
+<thead>
+<tr><th>仓库</th><th>介绍</th></tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">3rd party</td>
+<td align="left">这是一个策略为Releases的宿主仓库，用来部署无法从公共仓库获得的第三方发布版本构件</td>
+</tr>
+<tr>
+<td align="right">Apache Snapshots</td>
+<td align="left">这是一个策略为Snapshots的代理仓库，用来代理ApacheMaven仓库的快照版本构件</td>
+</tr>
+<tr>
+<td align="right">Central</td>
+<td align="left">这是一个策略为Releases的代理仓库，用来代理maven中央仓库中发布的版本构件</td>
+</tr>
+<tr>
+<td align="right">Central M1 shadow</td>
+<td align="left">这是一个策略为Releases的虚拟仓库，用来提供中央仓库中M1格式的发布版本的构件</td>
+</tr>
+<tr>
+<td align="right">Codehaus Snapshots</td>
+<td align="left">这是一个策略为Snapshots的代理仓库，用来代理Codehaus Snapshots仓库的快照版本构件的仓库</td>
+</tr>
+<tr>
+<td align="right">Releases</td>
+<td align="left">这是一个策略为Releases的宿主仓库，用来部署管理内部的发布版本构件</td>
+</tr>
+<tr>
+<td align="right">Snapshots</td>
+<td align="left">这是一个策略为Snapshots的宿主仓库，用来部署管理内部的快照版本构件</td>
+</tr>
+</tbody>
+</table>
+<a name="_label2_2"></a><h3 id="9">8.3.3 索引</h3>
+<ul>
+<li>
+<p><strong>开启远程索引</strong> <br>
+一个新搭建的nexus，是一个空的仓库，nexus默认是关闭远程索引下载，打开步骤如图：</p>
+<p><strong>注意：3个proxy类型的远程索引都需要打开</strong></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2h3TahXXXXXX4XFXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<p>然后在3个proxy类型的仓库上，点击右键，Repair Index，nexus就会去下载远程的索引文件。</p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2MNbChXXXXXblXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<p>测试</p>
+<p>在Browse Remote 中搜索任意jar</p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2gKLEhXXXXXa6XXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+
+
+
+</li>
+
+
+</ul>
+<a name="_label2_3"></a><h3 id="10">8.3.4 创建宿主仓库</h3>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB26g2DhXXXXXbFXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2g3PxhXXXXXcCXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<a name="_label2_4"></a><h3 id="11">8.3.5 仓库组设置</h3>
+<ul>
+<li>什么是仓库组？</li>
+
+
+</ul>
+<p>仓库组是将多个仓库聚合成一个仓库地址，为maven提供服务。maven配置中，只需要配置仓库组的链接，即可同时得到多个仓库的构件。 <br>
+仓库组中仓库的顺序决定了仓库组遍历其所含仓库的次序，所以应该将常用的仓库放在前面。</p>
+<pre><code class="hljs vhdl">仓库组设置很简单：
+点击<span class="hljs-keyword">type</span>为<span class="hljs-keyword">group</span>类型的仓库，<span class="hljs-keyword">configuration</span>标签页中Ordered <span class="hljs-keyword">Group</span> Repositories为当前组包含仓库，available repositories为可继续添加的仓库。
+</code></pre>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2mYzAhXXXXXbKXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<div style="text-align: right"><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_labelTop">回到顶部</a><a name="_label3"></a></div><h2 id="12">8.4 配置maven从私服下载构件</h2>
+<p>前面安装了nexus，目的就是让开发人员的maven链接私服下载构件。</p>
+<p>修改maven配置文件<strong>setting.xml</strong></p>
+<p>找到profiles标签，设置代码：</p>
+<pre class="prettyprint language-xml"><code class="hljs language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">profiles</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">profile</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">repositories</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">repository</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">name</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>crop-nexus<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">name</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>http://你的NexusIP:8081/nexus/content/groups/public/<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">releases</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+                <span class="token comment"><span class="hljs-comment">&lt;!-- true表示开启仓库发布版本下载，false表示禁止 --&gt;</span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">enabled</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>true<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">enabled</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">releases</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">snapshots</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token comment"><span class="hljs-comment">&lt;!-- true表示开启仓库快照版本下载，false表示禁止 --&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">enabled</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>true<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">enabled</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">snapshots</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">repository</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">repositories</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">pluginRepositories</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">pluginRepository</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span> http://你的NexusIP:8081/nexus/content/groups/public/<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">releases</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">enabled</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>true<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">enabled</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">releases</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">snapshots</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+                <span class="token comment"><span class="hljs-comment">&lt;!-- 禁止快照版本，防止不稳定的插件影响项目构建 --&gt;</span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">enabled</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>false<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">enabled</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">snapshots</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">pluginRepository</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">pluginRepositories</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">profile</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">profiles</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+<span class="token comment"><span class="hljs-comment">&lt;!-- 激活nexus私服 --&gt;</span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">activeProfiles</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">activeProfile</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">activeProfile</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">activeProfiles</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<p>这样配置，maven就可以从私服下载构件了，但是会有个问题，他还会时不时的请求中央仓库，如果想完全让maven访问nexus私服，需要设置镜像mirrors来支持。</p>
+<div style="text-align: right"><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_labelTop">回到顶部</a><a name="_label4"></a></div><h2 id="13">8.5 maven的镜像配置</h2>
+<p>maven配置镜像后，所有的构件都只会从镜像服务器下载。</p>
+<pre class="prettyprint language-xml"><code class="hljs language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">mirrors</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">mirror</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">mirrorOf</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>*<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">mirrorOf</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">name</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>crop-nexus<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">name</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>http://你的nexusIP:8081/nexus/content/groups/public/<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">mirror</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">mirrors</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<div style="text-align: right"><a href="https://www.cnblogs.com/lanqie/p/7592472.html#_labelTop">回到顶部</a><a name="_label5"></a></div><h2 id="14">8.6 发布构件至nexus</h2>
+<a name="_label5_0"></a><h3 id="15">8.6.1 配置distributionManagement</h3>
+<p>发布仓库一般分为Releases版和snapshot版，所以要配置2个仓库地址 <br>
+注意：这个是在项目的<strong>pom.xml</strong>中配置的</p>
+<pre class="prettyprint language-xml"><code class="hljs language-xml"><span class="token comment"><span class="hljs-comment">&lt;!-- 发布构件至私服nexus --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">distributionManagement</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">repository</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus-releases<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">name</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>corp nexus-releases<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">name</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>http://你的nexusIP:8081/nexus/content/repositories/releases/<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">repository</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">snapshotRepository</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus-snapshot<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">name</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>corp nexus-snapshot<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">name</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>http://你的nexusIP:8081/nexus/content/repositories/snapshots/<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">url</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">snapshotRepository</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">distributionManagement</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<a name="_label5_1"></a><h3 id="16">8.6.2 设置用户</h3>
+<p>配置好pom.xml后，需要指定发布用户，在<strong>setting.xml</strong>中设置：</p>
+<pre class="prettyprint language-xml"><code class="hljs language-xml">
+<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">servers</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+
+    <span class="token comment"><span class="hljs-comment">&lt;!-- 发布Releases版的账号，ID要与distributionManagement中的Releases ID一致 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">server</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus-releases<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">username</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>admin<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">username</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">password</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>******<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">password</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">server</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+    <span class="token comment"><span class="hljs-comment">&lt;!-- 发布snapshot版的账号，ID要与distributionManagement中的snapshot ID一致 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">server</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>nexus-snapshot<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">id</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">username</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>admin<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">username</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;<span class="hljs-name">password</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>******<span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">password</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">server</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+
+ <span class="token tag"><span class="token tag"><span class="token punctuation"><span class="hljs-tag">&lt;/<span class="hljs-name">servers</span></span><span class="token punctuation"><span class="hljs-tag">&gt;</span>
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+<p>设置完成，使用命令发布至nexus</p>
+<p><code>mvn deploy</code></p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2uq_vhXXXXXXeXpXXXXXXXXXX_!!653726111.png" alt="Alt text"></p>
+<p>在nexus中查看</p>
+<p><img title="" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/TB2C9bxhXXXXXctXXXXXXXXXXXX_!!653726111.png" alt="Alt text"></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/lanqie/category/1066420.html" target="_blank">01 工具使用</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7592472,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;8d5b323b-63fd-4232-92f2-08d49c352df3&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/lanqie/" target="_blank"><img src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/20170825113226.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/lanqie/">懒企鹅</a><br>
+            <a href="https://home.cnblogs.com/u/lanqie/followees">关注 - 7</a><br>
+            <a href="https://home.cnblogs.com/u/lanqie/followers">粉丝 - 8</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;8d5b323b-63fd-4232-92f2-08d49c352df3&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7592472,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(7592472,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/lanqie/p/7592446.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/lanqie/p/7592446.html" title="发布于2017-09-25 16:18">maven阿里云镜像</a><br><a href="https://www.cnblogs.com/lanqie/p/7592489.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/lanqie/p/7592489.html" title="发布于2017-09-25 16:23">TeamCity 和 Nexus 的使用</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-09-25 16:21</span> <a href="https://www.cnblogs.com/lanqie/">懒企鹅</a> 阅读(<span id="post_view_count">1462</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7592472" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/lanqie/p/7592472.html#" onclick="AddToWz(7592472);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=376372,cb_entryId=7592472,cb_blogApp=currentBlogApp,cb_blogUserGuid='8d5b323b-63fd-4232-92f2-08d49c352df3',cb_entryCreatedDate='2017/9/25 16:21:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/lanqie/p/7592472.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/lanqie/p/7592472.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://gitee.com/enterprises?from=bky-1" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-gitee&#39;)">【推荐】码云企业版，高效的企业级软件协作开发管理平台</a><br><a href="https://q.cnblogs.com/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博问&#39;)">【推荐】程序员问答平台，解决您开发中遇到的技术难题</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CMOZrOTFieMCFUVliwodApcErQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/yuanermen/p/4574473.html" target="_blank" onclick="clickRecomItmem(4574473)">私服 Nexus 的配置</a><br>·  <a href="https://www.cnblogs.com/wawahaha/p/4903000.html" target="_blank" onclick="clickRecomItmem(4903000)">Maven入门指南⑤：使用Nexus搭建Maven私服</a><br>·  <a href="https://www.cnblogs.com/hujihon/p/5679617.html" target="_blank" onclick="clickRecomItmem(5679617)">maven--私服的搭建（Nexus的使用）</a><br>·  <a href="https://www.cnblogs.com/itommy/p/10610438.html" target="_blank" onclick="clickRecomItmem(10610438)">Maven入门指南11：使用Nexus搭建Maven私服</a><br>·  <a href="https://www.cnblogs.com/qdhxhz/p/9801325.html" target="_blank" onclick="clickRecomItmem(9801325)">【Maven】---Linux搭建Nexus3.X私服</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CMSZrOTFieMCFUVliwodApcErQ"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true" src="./Linux 搭建 nexus 私服【转】 - 懒企鹅 - 博客园_files/saved_resource(1).html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/627478/" target="_blank">花5200万美元去空间站度假？现实可能远不如想象中美好</a><br> ·  <a href="https://news.cnblogs.com/n/627477/" target="_blank">大力水手没骗人，多吃蔬菜果真有不同</a><br> ·  <a href="https://news.cnblogs.com/n/627476/" target="_blank">高通孟樸：5G的到来为人类开启了“发明时代”</a><br> ·  <a href="https://news.cnblogs.com/n/627475/" target="_blank">全国多地上线电子社保卡 微信10秒即可申领</a><br> ·  <a href="https://news.cnblogs.com/n/627474/" target="_blank">今年9月将辞任董事长 阿里接班人计划为马云退休做好准备</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/lanqie/">懒企鹅</a><br>园龄：<a href="https://home.cnblogs.com/u/lanqie/" title="入园时间：2017-08-25">1年10个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/lanqie/followers/">8</a><br>关注：<a href="https://home.cnblogs.com/u/lanqie/followees/">7</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;8d5b323b-63fd-4232-92f2-08d49c352df3&#39;)">+加关注</a></div><script>getFollowStatus('8d5b323b-63fd-4232-92f2-08d49c352df3')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block"></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/lanqie/category/1462360.html">01 java 并发(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/lanqie/category/1461313.html">01 java 基础(24)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/lanqie/category/1461314.html">01 JVM(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/lanqie/category/1066420.html">01 工具使用(17)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/lanqie/category/1066142.html">01 数据库(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/lanqie/category/1461316.html">02 dubbo(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/lanqie/category/1462377.html">02 mybatis,hibernate,spring data jpa(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/lanqie/category/1461315.html">02 spring,spring boot,spring cloud(14)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/lanqie/category/1461317.html">02 设计模式(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/lanqie/category/1461324.html">03 MQ(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/lanqie/category/1462382.html">03 netty(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/lanqie/category/1462357.html">03 zookeeper(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="https://www.cnblogs.com/lanqie/category/1461318.html">04 es,docker,k8s(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="https://www.cnblogs.com/lanqie/category/1462389.html">04 nginx(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="https://www.cnblogs.com/lanqie/category/1066097.html">05 linux(26)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="https://www.cnblogs.com/lanqie/category/1462372.html">05 计算机系统(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="https://www.cnblogs.com/lanqie/category/1461319.html">05 网络，安全(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="https://www.cnblogs.com/lanqie/category/1066421.html">06 算法(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="https://www.cnblogs.com/lanqie/category/1066417.html">android(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="https://www.cnblogs.com/lanqie/category/1066095.html">html/js(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="https://www.cnblogs.com/lanqie/category/1066143.html">jni(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="https://www.cnblogs.com/lanqie/category/1066099.html">matlab(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="https://www.cnblogs.com/lanqie/category/1066100.html">python(32)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_23" href="https://www.cnblogs.com/lanqie/category/1066103.html">其他(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_24" href="https://www.cnblogs.com/lanqie/category/1171576.html">直播(5)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/lanqie/archive/2019/06.html">2019年6月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/lanqie/archive/2019/05.html">2019年5月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/lanqie/archive/2019/04.html">2019年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/lanqie/archive/2019/03.html">2019年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/lanqie/archive/2019/02.html">2019年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/lanqie/archive/2019/01.html">2019年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/lanqie/archive/2018/12.html">2018年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/lanqie/archive/2018/10.html">2018年10月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/lanqie/archive/2018/09.html">2018年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/lanqie/archive/2018/08.html">2018年8月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/lanqie/archive/2018/06.html">2018年6月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/lanqie/archive/2018/05.html">2018年5月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/lanqie/archive/2018/04.html">2018年4月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/lanqie/archive/2018/03.html">2018年3月 (20)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/lanqie/archive/2018/02.html">2018年2月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/lanqie/archive/2018/01.html">2018年1月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/lanqie/archive/2017/12.html">2017年12月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="https://www.cnblogs.com/lanqie/archive/2017/11.html">2017年11月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="https://www.cnblogs.com/lanqie/archive/2017/10.html">2017年10月 (28)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="https://www.cnblogs.com/lanqie/archive/2017/09.html">2017年9月 (23)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="https://www.cnblogs.com/lanqie/archive/2017/08.html">2017年8月 (16)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/lanqie/p/8675533.html#4233511">1. Re:xadmin后台页面定制和添加服务器监控组件</a></li>
+        <li class="recent_comment_body">pydash这个插件支持django2.0不？</li>
+        <li class="recent_comment_author">--糖宝虫</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/lanqie/p/8675533.html#4194193">2. Re:xadmin后台页面定制和添加服务器监控组件</a></li>
+        <li class="recent_comment_body">同四楼</li>
+        <li class="recent_comment_author">--ligvxi</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/lanqie/p/7427787.html#4191190">3. Re:java调用matlab绘图</a></li>
+        <li class="recent_comment_body">我在win10系统 下调用matlab作图，图框出不来但能返回结果，不清楚是什么情况</li>
+        <li class="recent_comment_author">--情人节最后的礼物</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/lanqie/p/8675533.html#4101979">4. Re:xadmin后台页面定制和添加服务器监控组件</a></li>
+        <li class="recent_comment_body">同3楼，我也遇到需要定制页面的需求了，希望楼主能提供一下页面定制的教程。万分感谢</li>
+        <li class="recent_comment_author">--ck-lao</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/lanqie/p/8675533.html#4100684">5. Re:xadmin后台页面定制和添加服务器监控组件</a></li>
+        <li class="recent_comment_body">楼主可否出个教程，对xadmin的定制化开发的内容，发现使用xamin是很不错，但是遇到定制化的需求是很麻烦，不知怎么下手，而且文档也很有限</li>
+        <li class="recent_comment_author">--kakaok</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/lanqie/p/7804466.html">1. SRS+flv.js打造兼容性较高的直播、点播平台(6179)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7771180.html">2. kali linux 安装QQ(4910)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7667450.html">3. SRS服务器搭建,ffmpeg 本地推流,srs从本地拉流(4127)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7693467.html">4. Ajax文件上传并添加Bootstrap进度条(3507)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/8267498.html">5. Netty实现简单UDP服务器(3483)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/lanqie/p/8675533.html">1. xadmin后台页面定制和添加服务器监控组件(6)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/8340215.html">2. xadmin插件开发(3)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7638431.html">3. Netty+SpringBoot写一个基于Http协议的文件服务器(2)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/8574532.html">4. 设计模式笔记--模板(1)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/8086459.html">5. Java HashMap工作原理及实现[转](1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/lanqie/p/8086459.html">1. Java HashMap工作原理及实现[转](1)</a></li><li><a href="https://www.cnblogs.com/lanqie/p/7804466.html">2. SRS+flv.js打造兼容性较高的直播、点播平台(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2019 懒企鹅
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+<!--PageEndHtml Block Begin-->
+<script language="javascript" type="text/javascript">
+function GenerateContentList()
+{
+    var mainContent = $('#cnblogs_post_body');
+    var h2_list = $('#cnblogs_post_body h2');//如果你的章节标题不是h2,只需要将这里的h2换掉即可
+
+    if(mainContent.length < 1)
+        return;
+ 
+    if(h2_list.length>0)
+    {
+        var content = '<a name="_labelTop"></a>';
+        content += '<div id="navCategory">';
+        content += '<ul>';
+        for(var i=0; i<h2_list.length; i++)
+        {
+            var go_to_top = '<div style="text-align: right"><a href="#_labelTop">回到顶部</a><a name="_label' + i + '"></a></div>';
+            $(h2_list[i]).before(go_to_top);
+            
+            var h3_list = $(h2_list[i]).nextAll("h3");
+            var li3_content = '';
+            for(var j=0; j<h3_list.length; j++)
+            {
+                var tmp = $(h3_list[j]).prevAll('h2').first();
+                if(!tmp.is(h2_list[i]))
+                    break;
+                var li3_anchor = '<a name="_label' + i + '_' + j + '"></a>';
+                $(h3_list[j]).before(li3_anchor);
+                li3_content += '<li><a href="#_label' + i + '_' + j + '">' + $(h3_list[j]).text() + '</a></li>';
+            }
+            
+            var li2_content = '';
+            if(li3_content.length > 0)
+                li2_content = '<li><a href="#_label' + i + '">' + $(h2_list[i]).text() + '</a><ul>' + li3_content + '</ul></li>';
+            else
+                li2_content = '<li><a href="#_label' + i + '">' + $(h2_list[i]).text() + '</a></li>';
+            content += li2_content;
+        }
+        content += '</ul>';
+        content += '</div><p>&nbsp;</p>';
+        if($('#cnblogs_post_body').length != 0 )
+        {
+            $($('#cnblogs_post_body')[0]).prepend(content);
+        }
+    }   
+
+}
+
+GenerateContentList();
+</script>
+<!--PageEndHtml Block End-->
+
+
+</body></html>

@@ -1,0 +1,23 @@
+#! /bin/sh 先安装jdk或者有jdk的yum源，
+# @see  https://pkg.jenkins.io/debian/
+# [如何在Ubuntu 16.04上安装Jenkins](https://www.jianshu.com/p/845f267aec52)
+# 1.将存储库密钥添加
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+# 2. 
+echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+# 3.更新源和安装 
+sudo apt-get update
+sudo apt-get install jenkins
+
+# 4.
+sudo service jenkins start
+sudo service jenkins status
+
+# 开启端口
+sudo ufw allow 8080
+
+# 
+echo 'jenkins的密码为:'
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+

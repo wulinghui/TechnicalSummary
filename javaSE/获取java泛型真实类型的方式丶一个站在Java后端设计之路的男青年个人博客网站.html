@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://www.liangzl.com/get-article-detail-39595.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/hm.js.下载"></script><script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/push.js.下载"></script><script charset="utf-8" async="" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/snippetcacher.php"></script>
+	
+	<title>获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站</title>
+	<meta name="keywords" content="个人博客,个人博客网站,个人网站制作,个人博客网站制作,个人网站欣赏,个人博客模板,java面试题,java教程,java,spring,springmvc,kindeditor">
+	<meta name="description" content="获取java泛型真实类型的方式丶一个站在web后端设计之路的男青年个人博客网站">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0,minimal-ui">
+	<link rel="shortcut icon" href="https://www.liangzl.com/img/favicon.ico" title="Favicon">
+<link rel="stylesheet" href="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/font-awesome.min.css">
+<script type="text/javascript" async="" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/auto_ds"></script><script type="text/javascript" async="" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/pr.js.下载" id="icwaeayz"></script><script type="text/javascript" async="" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/cwaeayz.js.下载"></script><script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/jquery.min.js.下载"></script>
+<script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/jquery.lazyload.min.js.下载"></script>
+<script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/jquery-migrate.min.js.下载"></script>
+<script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/layer.js.下载"></script><link rel="stylesheet" href="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/layer.css" id="layui_layer_skinlayercss" style="">
+	<link rel="stylesheet" href="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/style.css">
+<!-- 		<link rel='stylesheet' href='css/blog.min.css'/> -->
+		<link rel="stylesheet" href="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/zenburn.css">
+	<!-- 设置Css -->
+	<style>
+		body {
+			background: #d9d3c1 url('img/blog/bigbannerpic_01.png') no-repeat center 0;
+		}
+		.loading-bar {
+			background: #db1e1e;
+		}
+		.recentcomments a {
+			display: inline !important;
+			padding: 0 !important;
+			margin: 0 !important;
+		}
+	</style>
+	<script type="application/ld+json">
+        {
+            "@context": "https://ziyuan.baidu.com/contexts/cambrian.jsonld",
+            "@id": "https://www.liangzl.com/get-article-detail-39595.html",
+            "appid": "1585571422106716",
+            "title": "获取java泛型真实类型的方式,一个站在Java后端设计之路的男青年个人博客网站",
+            "images": [
+                "https://www.liangzl.com/editorImages/WebLogo.jpg"
+            ], 
+            "pubDate": "2019-01-22T11:01:48" 
+        }
+    </script>
+<link rel="stylesheet" href="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/layer(1).css" id="layuicss-skinlayercss"></head>
+
+<body class="single single-post single-format-standard ajax_load glass_nav widget_fixed"><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/o.html" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div>
+    <!--头部-->
+<!--头部-->
+<header id="header" class="glass_w" style="background: #d9d3c1 url(&#39;img/blog/bigbannerpic_01.png&#39;) no-repeat center 0;">
+	<div class="header-mask-sd m_hide">
+		<div class="header-mask-blur">
+			<div class="header-mask" style="background: #d9d3c1 url(&#39;img/blog/bigbannerpic_01.png&#39;) no-repeat center 0;"></div>
+			<div class="header-mask-bg"></div>
+		</div>
+	</div>
+	<div class="header-inner">
+		<div class="container clearfix">
+			<!--logo-->
+			<div class="header-logo">
+				<div class="logo">
+					<a href="https://www.liangzl.com/get-article-detail-39595.html#" title="logo"><img alt="个人博客" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/logo.png" class="ajax_gif"> </a>
+				</div>
+			</div>
+			<!--头部导航-->
+			<nav class="header-menu">
+				<div class="header-menu-wrapper">
+					<ul class="header-menu-list">
+							<li class="menu-item menu-item-type-post_type menu-item-object-page">
+								<a href="https://www.liangzl.com/index.html">首页</a>
+							</li>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page">
+								<a target="_blank" href="https://www.liangzl.com/get-mood.html">心情</a>
+							</li>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page">
+								<a target="_blank" href="https://www.liangzl.com/get-about-me.html">关于我</a>
+							</li>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page">
+								<a target="_blank" href="https://www.liangzl.com/get-comment-.html">留言板</a>
+							</li>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page">
+								<a target="_blank" href="https://www.liangzl.com/get-friend-link.html">优秀个人博客</a>
+							</li>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page">
+								<a target="_blank" href="javascript:void(window.open(&#39;//shang.qq.com/wpa/qunwpa?idkey=577c85f4111461519c509938378107086615a31f15407cb8592ec5bba270cf01&#39;))">web技术交流QQ群:172816590</a>
+							</li>
+					</ul>
+				</div>
+			</nav>
+			<ul class="header-tool header-menu-list">
+				<a href="javascript:void(0)" class="menu-toggle"></a>
+				<li class="navbar-login menu-item-has-children m_hide">
+					<a href="https://www.liangzl.com/get-article-detail-39595.html#" onclick="return false;" style="color: yellow" class="navbar-btn">友链申请</a>
+				</li>
+				<li class="navbar-skin menu-item-has-children m_hide">
+					<a href="javascript:void(0)" class="skin-btn" style="color: #990033">皮肤</a>
+				</li>
+				<!-- 搜索栏 -->
+				<li class="search m_hide">
+					<input type="text" class="search-form-input text" style="border-color: red;" onkeydown="if(event.keyCode==13)searchWord()" id="keyWord" name="tittle" placeholder="站内文章查找..."> 
+					<a href="javaScript:void(0)" onclick="searchWord()" style="color: yellow"> 搜索</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="header-modal" class="with-tooltip m_hide" data-tooltip="茶馆、岛、慵懒的猫...都是美好的时光..."></div>
+</header>
+<!-- 椰子右下角广告 -->
+    <!-- bt搜索 -->
+	<section id="content" style="margin-top: -100px">
+		<div class="container">
+			<div class="content-inner">
+				<div class="main_header colbox m_hide">
+					<!--显示评论数目-->
+<div class="avatar_box col">
+	<div class="me_img">
+		<div class="me_avatar">
+			<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/default-avatar.png" class="ajax_gif">
+		</div>
+		<ul class="me_name">
+			<li>
+				<p class="me_num">46423</p>
+				<p class="me_title">文章</p>
+			</li>
+			<li>
+				<p class="me_num">413</p>
+				<p class="me_title">评论</p>
+			</li>
+			<li>
+				<p class="me_num">35</p>
+				<p class="me_title">友链</p>
+			</li>
+		</ul>
+	</div>
+	<div class="bulletin">
+		<ul class="bulletin_list">
+			<li style="display: none;">最近新加了换肤功能，大家多来逛逛吧~~~~</li>
+			<li style="display: none;">喜欢这个网站的朋友可以加一下QQ群,我们一起交流技术。</li>
+		</ul>
+	</div>
+</div>					<!--小菜单-->
+<div class="main-menu col">
+	<div class="header-menu-wrapper">
+		<ul class="header-menu-list">
+							<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children">
+					<a target="_blank" href="https://www.liangzl.com/get-main-page-6-%E6%85%A2%E7%94%9F%E6%B4%BB-.html" style="color:#990033;font-weight: bold;">慢生活</a>
+				</li>
+				<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children">
+					<a target="_blank" href="https://www.liangzl.com/get-main-page-7-%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83-.html" style="color:#990033;font-weight: bold;">学无止境</a>
+				</li>
+				<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children">
+					<a target="_blank" href="https://www.liangzl.com/get-main-page-8-%E6%A8%A1%E6%9D%BF%E5%88%86%E4%BA%AB-.html" style="color:#990033;font-weight: bold;">模板分享</a>
+				</li>
+				<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children">
+					<a target="_blank" href="https://www.liangzl.com/get-main-page-9-%E9%9D%A2%E8%AF%95%E9%A2%98%E5%BA%93-.html" style="color:#990033;font-weight: bold;">面试题库</a>
+				</li>
+				<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children">
+					<a target="_blank" href="https://www.liangzl.com/get-main-page-10-%E7%AB%99%E9%95%BF%E6%96%B0%E9%97%BB-.html" style="color:#990033;font-weight: bold;">站长新闻</a>
+				</li>
+				<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children">
+					<a target="_blank" href="https://www.liangzl.com/get-main-page-32-IT%E8%B5%84%E8%AE%AF-.html" style="color:#990033;font-weight: bold;">IT资讯</a>
+				</li>
+		</ul>
+	</div>
+</div>				</div>
+ 				<div class="main_body colbox">
+					<!--pc端left star-->
+					<aside id="sidebar" class="sidebar-pc">
+						<!--left 自我介绍-->
+						<div class="m_hide"><div id="about">
+	<p class="me_content">
+		Hi，欢迎来到梁钟霖个人博客网站。本博客是自己通过代码构建的。前端html，后端java技术。对这些技术有兴趣的朋友可以加入qq群<span style="color: red">172816590</span>，我们一起学习进步。嘿嘿，欢迎来到梁子个人博客！~<br><span style="color: blue">投稿邮箱:419400980@qq.com</span></p>
+	<div class="social_link">
+		<ul class="clearfix">
+			<li>
+				<a href="javascript:void(0)" class="tooltip tooltip-bottom" data-tooltip="微博：...."><i class="fa fa-weibo"></i></a>
+			</li>
+			<li>
+				<a href="https://wpa.qq.com/msgrd?v=3&amp;uin=419400980&amp;site=qq&amp;menu=yes" target="target" class="tooltip tooltip-bottom" data-tooltip="QQ：419400980"><i class="fa fa-qq"></i></a>
+			</li>
+			<li>
+				<a href="javascript:void(0)" class="tooltip tooltip-bottom" data-tooltip="微信：fakeyou0007"><i class="fa fa-weixin"></i></a>
+			</li>
+			<li>
+				<a href="javascript:void(0)" class="tooltip tooltip-bottom" data-tooltip="Github：...."><i class="fa fa-github"></i></a>
+			</li>
+			<li>
+				<a href="javascript:void(0)" class="tooltip tooltip-bottom" data-tooltip="...."><i class="fa fa-dribbble"></i></a>
+			</li>
+		</ul>
+	</div>
+</div></div>
+						<div id="widget" class="widgets">
+							<!--返利群-->
+<!-- 							<aside id="tag_cloud-2" class="widget widget_tag_cloud"> 
+	<h5 class="widget-title"><span style="color: red;font-weight: bold;">淘宝返利微信群，扫码入群!</span></h5>
+	<div class="tagcloud">
+		<img alt="" src="/img/rebate.png">
+	</div>
+</aside> -->
+							<!--阿里广告-->
+<aside class="textwidget cs_widget_slider">
+	<div id="widget_slider" class="nivoSlider">
+		<img class="ajax_gif" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/guangaozhaozu.png" data-thumb="img/blog/guangaozhaozu.png" title="" style="width: 277.4px;">
+		<img class="ajax_gif" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" data-thumb="img/blog/daixie.png" title="" style="width: 277.4px;">
+	<img class="nivo-main-image" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="height: 105.763px;"><div class="nivo-caption"></div><div class="nivo-directionNav"><a class="nivo-prevNav"></a><a class="nivo-nextNav"></a></div><div class="nivo-slice" name="0" style="left: 0px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-0px;"></div><div class="nivo-slice" name="1" style="left: 18px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-18px;"></div><div class="nivo-slice" name="2" style="left: 36px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-36px;"></div><div class="nivo-slice" name="3" style="left: 54px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-54px;"></div><div class="nivo-slice" name="4" style="left: 72px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-72px;"></div><div class="nivo-slice" name="5" style="left: 90px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-90px;"></div><div class="nivo-slice" name="6" style="left: 108px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-108px;"></div><div class="nivo-slice" name="7" style="left: 126px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-126px;"></div><div class="nivo-slice" name="8" style="left: 144px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-144px;"></div><div class="nivo-slice" name="9" style="left: 162px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-162px;"></div><div class="nivo-slice" name="10" style="left: 180px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-180px;"></div><div class="nivo-slice" name="11" style="left: 198px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-198px;"></div><div class="nivo-slice" name="12" style="left: 216px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-216px;"></div><div class="nivo-slice" name="13" style="left: 234px; width: 18px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-234px;"></div><div class="nivo-slice" name="14" style="left: 252px; width: 25.3875px; height: 105.763px; opacity: 1; overflow: hidden; top: 0px;"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/daixie.png" style="position:absolute; width:277.3999938964844px; height:auto; display:block !important; top:0; left:-252px;"></div></div><div class="nivo-controlNav"><a class="nivo-control" rel="0">1</a><a class="nivo-control active" rel="1">2</a></div>
+</aside>	
+							<!--广告2-->
+<aside class="widget widget_categories" id="newArticle">
+	<h5 class="widget-title"><span style="color: red;font-weight: bold;">网站标签</span></h5>
+	<div id="_2n5dsvg0nur" style=""><div><div id="slijpkgjw" style="padding-right:0px;"><div id="khknwr" style="margin:0px;"><iframe width="270" frameborder="0" height="400" scrolling="no" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/s.html"></iframe></div></div></div></div><script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/h458.js.下载"></script>
+</aside>
+<script>
+	$(function() {
+		changeColor(2);
+	});
+	// 动态改变颜色
+	function changeColor(type) {
+		type = parseInt(type);
+		setTimeout(function(){
+			if (type == 1) {
+				$("#advertColor").attr("style","color:" + getRandomColor() + ";font-weight: bold;");
+				$("#advertColor").text("友情链接");
+				changeColor(2);
+			} else if (type == 2) {
+				$("#advertColor").attr("style","color:" + getRandomColor() + ";font-weight: bold;");
+				$("#advertColor").text("友情链接");
+				changeColor(3);
+			} else if (type == 3) {
+				$("#advertColor").attr("style","color:" + getRandomColor() + ";font-weight: bold;");
+				$("#advertColor").text("友情链接");
+				changeColor(4);
+			} else if (type == 4) {
+				$("#advertColor").attr("style","color:" + getRandomColor() + ";font-weight: bold;");
+				$("#advertColor").text("友情链接");
+				changeColor(5);
+			} else if (type == 5) {
+				$("#advertColor").attr("style","color:" + getRandomColor() + ";font-weight: bold;");
+				$("#advertColor").text("友情链接");
+				changeColor(1);
+			}
+		},200);
+	}
+	// 随机颜色
+	function getRandomColor() {
+		var c = '#';
+		var cArray = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
+				'B', 'C', 'D', 'E', 'F' ];
+		for (var i = 0; i < 6; i++) {
+			var cIndex = Math.round(Math.random() * 15);
+			c += cArray[cIndex];
+		}
+		return c;
+	}
+</script>							<!--标签-->
+<aside id="tag_cloud-2" class="widget widget_tag_cloud"> 
+	<h5 class="widget-title"><span style="color: #89DCC9;font-weight: bold;">相关推荐</span></h5>
+	<div class="tagcloud">
+					<a href="https://www.liangzl.com/get-search-page-centos-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="centos">centos</a>
+			<a href="https://www.liangzl.com/get-search-page-vmware-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="vmware">vmware</a>
+			<a href="https://www.liangzl.com/get-search-page-linux-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="linux">linux</a>
+			<a href="https://www.liangzl.com/get-search-page-ajax-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="ajax">ajax</a>
+			<a href="https://www.liangzl.com/get-search-page-mysql-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="mysql">mysql</a>
+			<a href="https://www.liangzl.com/get-search-page-xmanager-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="xmanager">xmanager</a>
+			<a href="https://www.liangzl.com/get-search-page-java-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="java">java</a>
+			<a href="https://www.liangzl.com/get-search-page-html%E6%A8%A1%E6%9D%BF-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="html模板">html模板</a>
+			<a href="https://www.liangzl.com/get-search-page-%E9%82%AE%E7%AE%B1-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="邮箱">邮箱</a>
+			<a href="https://www.liangzl.com/get-search-page-ip-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="ip">ip</a>
+			<a href="https://www.liangzl.com/get-search-page-%E9%98%B2%E7%81%AB%E5%A2%99-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="防火墙">防火墙</a>
+			<a href="https://www.liangzl.com/get-search-page-JDK-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="JDK">JDK</a>
+			<a href="https://www.liangzl.com/get-search-page-%E5%85%B3%E9%94%AE%E8%AF%8D-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="关键词">关键词</a>
+			<a href="https://www.liangzl.com/get-search-page-java%E6%95%99%E7%A8%8B-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="java教程">java教程</a>
+			<a href="https://www.liangzl.com/get-search-page-static-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="static">static</a>
+			<a href="https://www.liangzl.com/get-search-page-%E5%86%92%E6%B3%A1-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="冒泡">冒泡</a>
+	</div>
+</aside>							<!--点击排行-->
+<aside class="widget widget_categories" id="ranking">
+	<h5 class="widget-title"><span style="color: #E41637;font-weight: bold;">点击排行</span></h5>
+	<ul>
+					<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-26668.html">汇编跳转指令: JMP、JECXZ、JA、JB、JG、JL、JE、JZ、JS、JC、JO、JP 等</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-525.html">分布式事务之TCC事务</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-7.html">2019年125条常见的java面试笔试题汇总(三)</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-10.html">2019年125条常见的java面试笔试题汇总(五)</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-15383.html">Angular - ng-repeat高级用法</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-17693.html">入坑Flutter ,弃坑React-Native(简单体验)</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-3879.html">十问 TiDB ：关于架构设计的一些思考</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-16472.html">SpringBoot 2.x 集成QQ邮箱、网易系邮箱、Gmail邮箱发送邮件</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-3812.html">java软件工程师简历中项目经验怎么写？</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-6462.html">大家真的把手里的USDT当成USD了吗？| 7.1易乐行情分析</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-11780.html">华硕fx60vm安装macOS10.13.6和Windows10双系统</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-18538.html">获取某个地址的utxo的三种方法</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-820.html">swagger注释@API详细说明</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-114916.html">idea 2019最新注册码（激活码）永久破解</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-8844.html">开源监控利器Prometheus初探</a>
+			</li>
+	</ul>
+</aside>
+							<!--最新文章-->
+<aside class="widget widget_categories" id="newArticle">
+	<h5 class="widget-title"><span style="color: #4ec431;font-weight: bold;">最新文章</span></h5>
+	<ul>
+					<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128120.html">微软开源分散式身份识别工具 ION</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128119.html">谷歌：Android TV智能电视主屏加入广告</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128118.html">开源 java CMS - FreeCMS2.8 自定义标签 channelSon</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128117.html">微软开源基于区块链的分散式身份识别工具 ION</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128116.html">Reactor-Guice 0.0.9 发布 ，支持返回 byte[] 类型，去掉默认JSON包装</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128115.html">开源中国 APP 4.7.0版本更新丨「软件分类」全新导航页</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128114.html">谷歌表示，所有新版 Chromebook 都将支持 Linux</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128113.html">除了 async 速度翻 10 倍，JavaScript 还带来了什么？</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128112.html">Uber 上市了，国内对标的“滴滴”有什么开源软件？</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128111.html">govcl 1.2.3 正式发布，跨平台 Go 语言 GUI 库</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128110.html">Syncthing 1.1.4-rc.1 发布，持续文件同步工具</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128109.html">Vant 1.6.18 发布，轻量级移动端 Vue 组件库</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128108.html">Ant Design 3.18.1 发布，企业级 UI 设计语言</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128107.html">PostgreSQL 12 首个版本说明草案发布</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128106.html">Swift for TensorFlow 0.3.1 发布，专为 TensorFlow 设计的编程模型</a>
+			</li>
+	</ul>
+</aside>
+							<!--博客统计-->
+<aside id="efanblogstat-2" class="widget widget_blogstat">
+	<h5 class="widget-title"><span style="color: #1692e4;font-weight: bold;">每日站长统计</span></h5>
+	<ul>
+		<li>总数&nbsp;    &nbsp;&nbsp;IP：4638 条</li>
+		<li>移动&nbsp;    &nbsp;&nbsp;IP：1431 条</li>
+		<li>电脑&nbsp;    &nbsp;&nbsp;IP：3207 条</li>
+		<li>操作总数：14312 条</li>
+		<li>运行天数：879 天</li>
+		<li>建站时间：2016-12-28</li>
+		<li>最后更新：2019-05-14 </li>
+	</ul>
+</aside>							<!--最新评论-->
+<aside class="widget cs_widget_comment">
+	<h5 class="widget-title"><span style="color: #9A08EF;font-weight: bold;">最新评论</span></h5>
+	<div class="textwidget" id="comment-list">
+		<ul>
+							<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/73.png" height="64" width="64" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/73.png">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-128049.html" data-tooltip="java 读取文件">
+							<span class="s_name">barnett:</span>
+							<span class="s_desc">你怎么今天一天都在发博客</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/134.png" height="64" width="64" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/134.png">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-29559.html" data-tooltip="Ubuntu 开机启动 jar 程序">
+							<span class="s_name">十年:</span>
+							<span class="s_desc">修改了，ubuntu系统的电脑启动都启动不了</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/170.png" height="64" width="64" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/170.png">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-17693.html" data-tooltip="入坑Flutter ,弃坑React-Native(简单体验)">
+							<span class="s_name">吴亦凡:</span>
+							<span class="s_desc">非常666</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/176.png" height="64" width="64" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/176.png">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-5955.html" data-tooltip="普元EOS 案例">
+							<span class="s_name">东风:</span>
+							<span class="s_desc">您好，看到您的文章质量非常高，有收获。安利个eos钱包开发教程：http://t.cn/EoD3NmF，看是否有机会可以合作下？</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/39.png" height="64" width="64" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/39.png">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-240.html" data-tooltip="企业官网，门户，商城论坛，java毕业设计等，代写，定制。加Q419400980">
+							<span class="s_name">顺天意:</span>
+							<span class="s_desc">珍惜这时间吧！
+
+中华民族在历史上，走过了秦、汉、三国、晋 、南北朝、隋、唐、宋、元、明、清、民国等朝代，历朝历代都是这样更迭表演着；每个朝代都想永远统治江山，但每个朝代最后都逃脱不了被历史淘汰的命运；一个朝代结束，另一个朝代又来；朝朝如此，代代相续；中华民族就这样沧桑而又茁壮的走过了五千年 。
+
+今天的中国红朝政权也到了大清朝末期的末期的最后一刻。国库已空，无官不贪，无民不刁，无处不拆，民怨极大，军民思变，动乱频传，贫富巨差，官民对立，种种丑态，种种乱象。红朝崩溃、政权灭亡的时间到来了。
+
+然上天有好生之德，不忍心生灵涂炭，想尽量避免历朝历代所出现的血腥场面，意让这个崩溃的政权从内部清洗、自我过渡到新朝、新代、新政权。
+
+民间舆论，海内外精英包括体制内有识之士，已经发出惊呼：改革(改良的希望)已死，革命必来。
+
+清醒吧，不要对邪恶的流氓集团再抱有任何幻想。
+
+中华民族的淘汰旧王朝，进入新朝代的历史轮回时刻又一次来到了。
+
+顺天意者得天下，方有未来。如此，众生喜之，天地欣之。
+
+自救方式：从退出共党及其附属组织开始。珍惜这时间吧！
+
+是到了改朝换代的时期了</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/257.png" height="64" width="64" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/257.png">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-240.html" data-tooltip="企业官网，门户，商城论坛，java毕业设计等，代写，定制。加Q419400980">
+							<span class="s_name">善恶:</span>
+							<span class="s_desc">中国人讲仁、义、理、智、信，讲顺天敬地，是信神的，相信善恶有报；道家讲修真，返本归真，做个真人；佛家讲善、讲慈悲，看着众生都在苦海中受苦，要人通过修炼而觉悟，从而脱离苦海，踏上永生与幸福的彼岸。
+法  轮  功是一门佛家修炼方法，修炼者是做一个善良的好人。可是江 ×民之流为了迫害法  轮  功，自编自导了“天安 门 自 焚”丑剧，恶意诬陷、抹黑法  轮  功。卑鄙邪恶，人神共愤。
+一些学员被虐杀，更多的学员被抄家、劳教和判刑。法  轮  功修炼者甚至被作为活体器官库，由此制造了这个星球从未有过的罪恶——活 摘 器官的罪行。这是赤裸裸的酷刑罪、屠杀罪、反人类罪。</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy ajax_gif" data-original="img/user/71.png" data-echo="img/user/71.png" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-16324.html" data-tooltip="OpenTSDB安装与使用">
+							<span class="s_name">王军豪:</span>
+							<span class="s_desc">opentsdb需要关闭或者重启咋办？</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy ajax_gif" data-original="img/user/275.png" data-echo="img/user/275.png" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-17135.html" data-tooltip="ubuntu使用shadowsocks">
+							<span class="s_name">DearY:</span>
+							<span class="s_desc">如何在ubuntu上使用代理翻墙上网呢？ 这个好像是server端的吧</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy ajax_gif" data-original="img/user/179.png" data-echo="img/user/179.png" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-16573.html" data-tooltip="从王者荣耀聊聊游戏的帧同步">
+							<span class="s_name">JediKing:</span>
+							<span class="s_desc">楼主牛批！</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy ajax_gif" data-original="img/user/15.png" data-echo="img/user/15.png" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="https://www.liangzl.com/get-article-detail-27774.html" data-tooltip="斗鱼入驻微博，直播社交融合升级">
+							<span class="s_name">繁荣提供和:</span>
+							<span class="s_desc">放赶紧换人头费</span>
+						</a>
+					</p>
+				</li>
+		</ul>
+	</div>
+</aside>							<!--774广告-->
+<aside class="textwidget cs_widget_slider " style="position: relative;width: 100%;height: auto;overflow: hidden;z-index: 0">
+<!-- <aside class="widget_tag_cloud"> -->
+<!-- 	<div class="nivoSlider" > -->
+<!-- 		<a href="javaScript:void(0)" target="_black"> -->
+						<!-- 广告位：左边 -->
+<!-- 					<img class="" src="img/blog/advert_01.jpg" data-thumb="img/blog/advert_01.jpg" title="" /> -->
+<!-- 			<script src="https://j.qiqivv.com:4433/blog/showdetail.php?z=127181"></script> -->
+<!-- 		</a> -->
+<!--  		<a href="javaScript:void(0)" target="_black">  -->
+<!-- 					<img class="" src="img/blog/advert_01.jpg" data-thumb="img/blog/advert_01.jpg" title="" /> -->
+<!-- 			<script src="https://j.qiqivv.com:4433/blog/showdetail.php?z=127181"></script> -->
+<!-- 		</a> -->
+<!-- <script src="https://j.qiqivv.com:4433/blog/showdetail.php?z=127192"></script> -->
+<!-- 	</div> -->
+</aside>
+<!-- <script type="text/javascript" src="//unioncode.liangzl.com/snftkwwcfqum.js"></script> -->
+						</div>
+					</aside>
+					<!--pc端left end-->
+					<!--内容主体 star-->
+					<aside id="sidebar" class="sidebar-phone" style="margin-top: 70px">
+						<div id="widget" class="widgets">
+							<!--导航-->
+<aside class="widget cs_widget_comment">
+	<h5 class="widget-title"><span style="color: #E41637;font-weight: bold;">博客导航栏</span></h5>
+	<div class="textwidget" id="comment-list">
+		<ul>
+			<li class="search">
+				<form method="get" id="">
+					<input type="text" style="width: 80%" class="search-form-input text" onkeydown="if(event.keyCode==13)searchWordPhone()" id="keyWordPhone" placeholder="站内文章查找..."> 
+					<a href="javascript:void(0)" onclick="searchWordPhone()" style="color: black" class="skin-btn">搜索</a>
+				</form>
+			</li>
+							<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/default-avatar.png" data-echo="img/blog/default-avatar.png" class="avatar ajax_gif" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a class="with-tooltip" href="https://www.liangzl.com/get-main-page-6-%E6%85%A2%E7%94%9F%E6%B4%BB-.html" data-tooltip="">
+							<span class="s_name">:</span>
+							</a><a style="color: dodgerblue" class="s_desc" href="https://www.liangzl.com/get-main-page-6-%E6%85%A2%E7%94%9F%E6%B4%BB-.html">&nbsp;&nbsp;&nbsp;慢生活</a>
+						
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/default-avatar.png" data-echo="img/blog/default-avatar.png" class="avatar ajax_gif" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a class="with-tooltip" href="https://www.liangzl.com/get-main-page-7-%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83-.html" data-tooltip="">
+							<span class="s_name">:</span>
+							</a><a style="color: dodgerblue" class="s_desc" href="https://www.liangzl.com/get-main-page-7-%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83-.html">&nbsp;&nbsp;&nbsp;学无止境</a>
+						
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/default-avatar.png" data-echo="img/blog/default-avatar.png" class="avatar ajax_gif" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a class="with-tooltip" href="https://www.liangzl.com/get-main-page-8-%E6%A8%A1%E6%9D%BF%E5%88%86%E4%BA%AB-.html" data-tooltip="">
+							<span class="s_name">:</span>
+							</a><a style="color: dodgerblue" class="s_desc" href="https://www.liangzl.com/get-main-page-8-%E6%A8%A1%E6%9D%BF%E5%88%86%E4%BA%AB-.html">&nbsp;&nbsp;&nbsp;模板分享</a>
+						
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/default-avatar.png" data-echo="img/blog/default-avatar.png" class="avatar ajax_gif" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a class="with-tooltip" href="https://www.liangzl.com/get-main-page-9-%E9%9D%A2%E8%AF%95%E9%A2%98%E5%BA%93-.html" data-tooltip="">
+							<span class="s_name">:</span>
+							</a><a style="color: dodgerblue" class="s_desc" href="https://www.liangzl.com/get-main-page-9-%E9%9D%A2%E8%AF%95%E9%A2%98%E5%BA%93-.html">&nbsp;&nbsp;&nbsp;面试题库</a>
+						
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/default-avatar.png" data-echo="img/blog/default-avatar.png" class="avatar ajax_gif" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a class="with-tooltip" href="https://www.liangzl.com/get-main-page-10-%E7%AB%99%E9%95%BF%E6%96%B0%E9%97%BB-.html" data-tooltip="">
+							<span class="s_name">:</span>
+							</a><a style="color: dodgerblue" class="s_desc" href="https://www.liangzl.com/get-main-page-10-%E7%AB%99%E9%95%BF%E6%96%B0%E9%97%BB-.html">&nbsp;&nbsp;&nbsp;站长新闻</a>
+						
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/default-avatar.png" data-echo="img/blog/default-avatar.png" class="avatar ajax_gif" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a class="with-tooltip" href="https://www.liangzl.com/get-main-page-32-IT%E8%B5%84%E8%AE%AF-.html" data-tooltip="">
+							<span class="s_name">:</span>
+							</a><a style="color: dodgerblue" class="s_desc" href="https://www.liangzl.com/get-main-page-32-IT%E8%B5%84%E8%AE%AF-.html">&nbsp;&nbsp;&nbsp;IT资讯</a>
+						
+					</p>
+				</li>
+		</ul>
+	</div>
+</aside>						</div>
+					</aside>
+					<!--内容主体 star-->
+					<!-- 引入对联广告 -->
+					<div id="main" class="main-content">
+						<div class="main-inner">
+							<div id="posts-box">
+								<div class="posts clearfix">
+									<article class="post type-post status-publish format-standard hentry category-wordpress tag-owl tag-wordpress">
+										<div class="post-wrap">
+											<div class="post-inner">
+												<div class="post-body">
+													<a onclick="addAdvertLog()" href="http://v.i9.org/" target="_blank" ref="nofollow"><img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/O1CN01jg21UI29a3vVMl87D_!!3458028083.png" class="ajax_gif"><br></a>
+													<header>
+														<h2 class="entry-title"><a style="color: black;font-weight: bold;" href="javascritp:void(0)" title="获取java泛型真实类型的方式">获取java泛型真实类型的方式</a></h2>
+														<input type="hidden" value="39595" id="articleId">
+														<input type="hidden" value="获取java泛型真实类型的方式" id="articleTittle">
+														<input type="hidden" value="" id="downUrl">
+													</header>
+													<div class="post-content">
+														<div class="content clearfix">
+															<blockquote>
+																<p>
+																	喜欢本站的朋友可以收藏本站,或者加入QQ群:<span style="color: red;font-weight: bold;">172816590<a target="_blank" href="https://shang.qq.com/wpa/qunwpa?idkey=577c85f4111461519c509938378107086615a31f15407cb8592ec5bba270cf01"><img border="0" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/group.png" alt="Web网页设计师" title="Web网页设计师" class="ajax_gif"></a></span>,我们大家一起来交流技术!
+																</p>
+															</blockquote>
+															<!-- 引入SEO自我介绍页面 -->
+<span style="font-size:14px;color: red ">
+	<strong>欢迎来到梁钟霖个人博客网站。本<a href="https://www.liangzl.com/get-article-detail-152.html" target="target">个人博客</a>网站提供最新的站长新闻,各种互联网资讯。
+	还提供个人博客模板,最新最全的java教程,java面试题。在此我将尽我最大所能将此个人博客网站做的最好!
+	谢谢大家,愿大家一起进步!</strong>
+</span>															<br><br>
+															<!-- 判断是不是模板 -->
+															<div class="content" id="articleContent">  
+ <h1>获取java泛型真实类型的方式</h1> 
+ <p>获取泛型的真实类型，分为以下两种形式：</p> 
+ <h2>1、获取类的泛型的真实类型</h2> 
+ <p>假设，我们有一个<code>Generic&lt;T&gt;</code>类和<code>Main</code>类</p> 
+ <pre class="hljs java"><code class="language-java">class Generic&lt;T&gt; {
+
+}
+public class Main extends Generic&lt;String&gt; {
+
+}
+</code></pre> 
+ <p>如何在Main类中获取到父类泛型的实际类型呢？</p> 
+ <p>可以通过如下方式获取：</p> 
+ <pre class="hljs java"><code class="language-java">class Generic&lt;T&gt; {
+
+}
+
+public class Main extends Generic&lt;String&gt; {
+
+    public static void main(String[] args) {
+        // 具体参数类型
+        Main testClass = new Main();
+        System.out.println(getGenericType(testClass.getClass()));
+    }
+    /**
+     * 获取所继承类的泛型实际类型
+     *
+     * @param declaredClass 传入Class实例
+     * @return 泛型实际类型
+     */
+    private static Class getGenericType(Class declaredClass) {
+        ParameterizedType parameterizedType = (ParameterizedType) declaredClass.getGenericSuperclass();
+        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        return (Class) actualTypeArguments[0];
+    }
+
+}
+</code></pre> 
+ <p>还有另一种情况，我们有一个<code>Person&lt;T&gt;</code>类</p> 
+ <pre class="hljs java"><code class="language-java">public class Person&lt;T&gt; {
+
+}
+</code></pre> 
+ <p>如何获取到当前类上的泛型呢？</p> 
+ <p>可以通过如下方式获取到定义在类上的泛型名称，下面代码会打印出T。</p> 
+ <pre class="hljs java"><code class="language-java">public class Person&lt;T&gt; {
+
+    public static void main(String[] args){
+        TypeVariable[] parameters = Person.class.getTypeParameters();
+        for (TypeVariable typeVariable : parameters) {
+            System.out.println(typeVariable);
+        }
+    }
+
+}
+</code></pre> 
+ <p>但是，我们要获取向下面代码中的泛型，暂时没有找到解决方案</p> 
+ <pre class="hljs java"><code class="language-java">Person&lt;String&gt; person = new Person&lt;&gt;();
+</code></pre> 
+ <p>不过，通过查看编译后的字节码文件，发现类型信息保留在字节码中，可以通过字节码反推的形式获取到，那就很复杂了。</p> 
+ <h2>2、获取类字段上泛型的真实类型</h2> 
+ <p>对于在字段上，复杂形式的泛型，我们可以通过Spring-core中的<code>ResolvableType</code>类帮助我们解析。</p> 
+ <pre class="hljs java"><code class="language-java">public class Main {
+
+    private List&lt;Map&lt;String, List&lt;Object&gt;&gt;&gt; list = new ArrayList&lt;&gt;();
+
+    public static void main(String[] args) throws NoSuchFieldException {
+        // 获取成员泛型参数类型
+        Field field = Main.class.getDeclaredField("list");
+        ResolvableType resolvableType = ResolvableType.forField(field);
+        System.out.println(resolvableType.getGeneric(0));
+    }
+
+}
+</code></pre> 
+ <p>具体使用可以查看<code>ResolvableType</code>源码中的示例。</p>  
+ <h6><br>&nbsp;转载至链接:https://my.oschina.net/u/3226414/blog/3004371。</h6> 
+</div>
+															<br>
+															<!-- 京东的广告 -->
+															<script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/7225.js.下载" charset="utf8"></script><div id="5pat5nws"></div>
+<script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/ni.ashx"></script><script class="ydxykmde" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/nc1.ashx"></script>
+
+<div style="display:none"><script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/z_stat.php" language="JavaScript"></script><script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/core.php" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1276812595" target="_blank" title="站长统计">站长统计</a></div>
+
+
+									                    </div>
+											        </div>
+											    </div>
+											</div>
+									        <div class="post-copyright m_hide">
+												<!-- 百度联盟 广告位：详情页尾部 -->
+												<script>
+												(function() {
+												    var s = "_" + Math.random().toString(36).slice(2);
+												    document.write('<div id="' + s + '"></div>');
+												    (window.slotbydup=window.slotbydup || []).push({
+												        id: '6186251',
+												        container: s,
+												        size: '760,90',
+												        display: 'inlay-fix'
+												    });
+												})();
+												</script><div id="_7r23ulbyeuw"><iframe id="iframe6186251_0" name="iframe6186251_0" onload="BAIDU_SSP_cacheRequest(&#39;46617d03b095e846&#39;, this);" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/kckm.html" width="760" height="90" align="center,center" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" style="border:0;vertical-align:bottom;margin:0;width:760px;height:90px" allowtransparency="true"></iframe></div>
+												<!-- 百度联盟 -->
+												<script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/os.js.下载"></script><script charset="utf-8" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/kckm"></script><br>
+										    	<a href="javascritot:void(0)" style="color: green;font-weight: bold;" title="梁钟霖个人博客www.liangzl.com">转载原创文章请注明出处,转载至: 梁钟霖个人博客www.liangzl.com</a><br><br>
+										    	<!-- 引入打赏页面 -->
+												
+<style>
+.zhifu{
+	width:100%
+}
+.zhifu ul{
+	width:100%;
+	list-style:none;
+	margin:0 10%;
+}
+.zhifu ul li{
+	float:left;
+	width:40%;
+	text-align:center;
+}
+
+</style>
+<center class="zhifu">
+<!-- 	<div class="m_hide"><script type="text/javascript" src="http://unioncode.liangzl.com/ytlzqcclvwai.js"></script></div> -->
+  	<p style="color: red;font-weight: bold;">
+  		您觉喜欢本网站,或者觉得本文章对您有帮助，那么可以选择打赏。<br>
+                       打赏多少，您高兴就行，谢谢您对梁钟霖这小子的支持！ ~(@^_^@)~ 
+  	</p>
+  	<ul>
+  		<li>
+  			<p style="color: blue">微信扫一扫</p>
+  			<img class="wechat ajax_gif" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/weixinpay.png" style="display: none" alt="微信打赏" width="160" height="162">
+  		</li>
+  		<li>
+  			<p style="color: blue">支付宝扫一扫</p>
+  			<img class="alipay ajax_gif" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/zhifubaopay.png" alt="支付宝打赏" width="160" height="162">
+  		</li>
+  	</ul>
+</center>	<br>
+										    </div>
+											<div class="post-related m_hide">
+									        	<ul class="related_box clearfix">
+									                <li class="related_box">
+									                    <div class="r_pic">
+									                    	<a href="javaScript:void(0)" title="获取java泛型真实类型的方式">
+									                    	<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/20170222193904_255.jpg" alt="图片" class="thumbnail ajax_gif">
+									                    </a>
+									                    </div>
+									                </li>
+									            </ul>
+									        </div>
+											<ul class="bottom_meta clearfix">
+												<li class="mate-time fl"><i class="fa fa-clock-o"></i><a>2019-01-22 11:34:48</a></li>
+												<li class="mate-cat fl m_hide">
+													<i class="fa fa-bookmark"></i>
+													<a href="javaScript:void(0)" rel="category tag">梁钟霖</a>
+												</li>
+									            <li class="meta_tabs fl m_hide">
+									            	<i class="fa fa-tags"></i>
+															<a href="https://www.liangzl.com/get-main-page-6-%E6%85%A2%E7%94%9F%E6%B4%BB-.html" rel="tag" style="color: dodgerblue;">慢生活</a>
+															<a href="https://www.liangzl.com/get-main-page-7-%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83-.html" rel="tag" style="color: dodgerblue;">学无止境</a>
+															<a href="https://www.liangzl.com/get-main-page-8-%E6%A8%A1%E6%9D%BF%E5%88%86%E4%BA%AB-.html" rel="tag" style="color: dodgerblue;">模板分享</a>
+															<a href="https://www.liangzl.com/get-main-page-9-%E9%9D%A2%E8%AF%95%E9%A2%98%E5%BA%93-.html" rel="tag" style="color: dodgerblue;">面试题库</a>
+															<a href="https://www.liangzl.com/get-main-page-10-%E7%AB%99%E9%95%BF%E6%96%B0%E9%97%BB-.html" rel="tag" style="color: dodgerblue;">站长新闻</a>
+															<a href="https://www.liangzl.com/get-main-page-32-IT%E8%B5%84%E8%AE%AF-.html" rel="tag" style="color: dodgerblue;">IT资讯</a>
+									            </li>
+									            <li class="meta_like fr">
+													<span style="color: red;font-weight: bold;">点赞  →&nbsp;<a href="javaScript:savePraise()" class="jm-post-like" data-post_id="3392" title="Like">
+														 <i class="fa fa-heart-o"></i><span id="praiseCount">0</span>
+													</a>                                                    
+									            </span></li>
+									        </ul>
+									 	</div>
+									</article>
+								</div>
+<!-- 评论 -->
+<div id="comment-jump" class="comments">
+	<div id="comments" class="clearfix">
+		<h3 id="comments-title">0条评论</h3>
+		<div id="loading-comments" class="hide"><span><i class="fa fa-spinner fa-pulse"></i> Loading...</span></div>
+			<ul class="commentlist comdot" id="commentTarget">
+			<div class="clearfix"></div>
+		</ul>
+		<br>
+		<br>
+		<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">发表评论 <small><div id="cancel-comment-reply-link" style="display:none;"><i class="icon-remove-sign"></i> </div></small></h3>
+			<form method="post" id="commentform" class="comment-form">
+				<p class="comment-notes"><span id="email-notes">电子邮件地址不会被公开。</span> 必填项已用<span class="required">*</span>标注</p>
+				<p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label> <input id="author" name="author" type="text" value="" placeholder="请输入您的名字!" size="30" maxlength="10" aria-required="true" required="required"></p>
+				<p class="comment-form-email"><label for="email">电子邮件 <span class="required">*</span></label> <input id="email" name="email" type="text" value="" placeholder="博主回复你会通知到此邮箱!" size="30" maxlength="30" aria-describedby="email-notes" aria-required="true" required="required"></p>
+				<p class="comment-form-url"><label for="url">站点</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200"></p>
+				<p class="comment-form-comment"><label for="comment">评论</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" placeholder="上述电子邮件地址不会被公开,只作为博主回复联系方式!" required="required"></textarea></p>
+				<p class="form-submit">
+					<input name="submit" type="button" onclick="saveComment()" id="submit" class="submit" value="发表评论"> 
+				</p>
+			</form>
+		</div>
+		<!-- #respond -->
+	</div>
+</div>							</div>
+						</div>
+					</div>
+					<!--内容主体 end-->
+					<!--phone端left star-->
+ 					<aside id="sidebar" class="sidebar-phone">
+						<div id="widget" class="widgets">
+							<!--标签-->
+<aside id="tag_cloud-2" class="widget widget_tag_cloud"> 
+	<h5 class="widget-title"><span style="color: #89DCC9;font-weight: bold;">相关推荐</span></h5>
+	<div class="tagcloud">
+					<a href="https://www.liangzl.com/get-search-page-centos-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="centos">centos</a>
+			<a href="https://www.liangzl.com/get-search-page-vmware-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="vmware">vmware</a>
+			<a href="https://www.liangzl.com/get-search-page-linux-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="linux">linux</a>
+			<a href="https://www.liangzl.com/get-search-page-ajax-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="ajax">ajax</a>
+			<a href="https://www.liangzl.com/get-search-page-mysql-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="mysql">mysql</a>
+			<a href="https://www.liangzl.com/get-search-page-xmanager-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="xmanager">xmanager</a>
+			<a href="https://www.liangzl.com/get-search-page-java-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="java">java</a>
+			<a href="https://www.liangzl.com/get-search-page-html%E6%A8%A1%E6%9D%BF-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="html模板">html模板</a>
+			<a href="https://www.liangzl.com/get-search-page-%E9%82%AE%E7%AE%B1-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="邮箱">邮箱</a>
+			<a href="https://www.liangzl.com/get-search-page-ip-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="ip">ip</a>
+			<a href="https://www.liangzl.com/get-search-page-%E9%98%B2%E7%81%AB%E5%A2%99-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="防火墙">防火墙</a>
+			<a href="https://www.liangzl.com/get-search-page-JDK-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="JDK">JDK</a>
+			<a href="https://www.liangzl.com/get-search-page-%E5%85%B3%E9%94%AE%E8%AF%8D-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="关键词">关键词</a>
+			<a href="https://www.liangzl.com/get-search-page-java%E6%95%99%E7%A8%8B-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="java教程">java教程</a>
+			<a href="https://www.liangzl.com/get-search-page-static-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="static">static</a>
+			<a href="https://www.liangzl.com/get-search-page-%E5%86%92%E6%B3%A1-.html" target="_blank" class="tag-link-31 tag-link-position-1 with-tooltip" style="font-size: 12px;" data-tooltip="冒泡">冒泡</a>
+	</div>
+</aside>							<!--点击排行-->
+<aside class="widget widget_categories" id="ranking">
+	<h5 class="widget-title"><span style="color: #E41637;font-weight: bold;">点击排行</span></h5>
+	<ul>
+					<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-26668.html">汇编跳转指令: JMP、JECXZ、JA、JB、JG、JL、JE、JZ、JS、JC、JO、JP 等</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-525.html">分布式事务之TCC事务</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-7.html">2019年125条常见的java面试笔试题汇总(三)</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-10.html">2019年125条常见的java面试笔试题汇总(五)</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-15383.html">Angular - ng-repeat高级用法</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-17693.html">入坑Flutter ,弃坑React-Native(简单体验)</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-3879.html">十问 TiDB ：关于架构设计的一些思考</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-16472.html">SpringBoot 2.x 集成QQ邮箱、网易系邮箱、Gmail邮箱发送邮件</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-3812.html">java软件工程师简历中项目经验怎么写？</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-6462.html">大家真的把手里的USDT当成USD了吗？| 7.1易乐行情分析</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-11780.html">华硕fx60vm安装macOS10.13.6和Windows10双系统</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-18538.html">获取某个地址的utxo的三种方法</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-820.html">swagger注释@API详细说明</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-114916.html">idea 2019最新注册码（激活码）永久破解</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-8844.html">开源监控利器Prometheus初探</a>
+			</li>
+	</ul>
+</aside>
+							<!--最新文章-->
+<aside class="widget widget_categories" id="newArticle">
+	<h5 class="widget-title"><span style="color: #4ec431;font-weight: bold;">最新文章</span></h5>
+	<ul>
+					<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128120.html">微软开源分散式身份识别工具 ION</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128119.html">谷歌：Android TV智能电视主屏加入广告</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128118.html">开源 java CMS - FreeCMS2.8 自定义标签 channelSon</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128117.html">微软开源基于区块链的分散式身份识别工具 ION</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128116.html">Reactor-Guice 0.0.9 发布 ，支持返回 byte[] 类型，去掉默认JSON包装</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128115.html">开源中国 APP 4.7.0版本更新丨「软件分类」全新导航页</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128114.html">谷歌表示，所有新版 Chromebook 都将支持 Linux</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128113.html">除了 async 速度翻 10 倍，JavaScript 还带来了什么？</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128112.html">Uber 上市了，国内对标的“滴滴”有什么开源软件？</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128111.html">govcl 1.2.3 正式发布，跨平台 Go 语言 GUI 库</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128110.html">Syncthing 1.1.4-rc.1 发布，持续文件同步工具</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128109.html">Vant 1.6.18 发布，轻量级移动端 Vue 组件库</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128108.html">Ant Design 3.18.1 发布，企业级 UI 设计语言</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128107.html">PostgreSQL 12 首个版本说明草案发布</a>
+			</li>
+			<li class="cat-item cat-item-1">
+				<a target="_blank" href="https://www.liangzl.com/get-article-detail-128106.html">Swift for TensorFlow 0.3.1 发布，专为 TensorFlow 设计的编程模型</a>
+			</li>
+	</ul>
+</aside>
+							<!--博客统计-->
+<!-- 							<aside id="efanblogstat-2" class="widget widget_blogstat">
+	<h5 class="widget-title"><span style="color: #1692e4;font-weight: bold;">每日站长统计</span></h5>
+	<ul>
+		<li>总数&nbsp;    &nbsp;&nbsp;IP：4638 条</li>
+		<li>移动&nbsp;    &nbsp;&nbsp;IP：1431 条</li>
+		<li>电脑&nbsp;    &nbsp;&nbsp;IP：3207 条</li>
+		<li>操作总数：14312 条</li>
+		<li>运行天数：879 天</li>
+		<li>建站时间：2016-12-28</li>
+		<li>最后更新：2019-05-14 </li>
+	</ul>
+</aside> -->
+							<!--最新评论-->
+<!-- 							<aside class="widget cs_widget_comment">
+	<h5 class="widget-title"><span style="color: #9A08EF;font-weight: bold;">最新评论</span></h5>
+	<div class="textwidget" id="comment-list">
+		<ul>
+							<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/73.png" data-echo="img/user/73.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-128049.html" data-tooltip="java 读取文件">
+							<span class="s_name">barnett:</span>
+							<span class="s_desc">你怎么今天一天都在发博客</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/134.png" data-echo="img/user/134.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-29559.html" data-tooltip="Ubuntu 开机启动 jar 程序">
+							<span class="s_name">十年:</span>
+							<span class="s_desc">修改了，ubuntu系统的电脑启动都启动不了</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/170.png" data-echo="img/user/170.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-17693.html" data-tooltip="入坑Flutter ,弃坑React-Native(简单体验)">
+							<span class="s_name">吴亦凡:</span>
+							<span class="s_desc">非常666</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/176.png" data-echo="img/user/176.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-5955.html" data-tooltip="普元EOS 案例">
+							<span class="s_name">东风:</span>
+							<span class="s_desc">您好，看到您的文章质量非常高，有收获。安利个eos钱包开发教程：http://t.cn/EoD3NmF，看是否有机会可以合作下？</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/39.png" data-echo="img/user/39.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-240.html" data-tooltip="企业官网，门户，商城论坛，java毕业设计等，代写，定制。加Q419400980">
+							<span class="s_name">顺天意:</span>
+							<span class="s_desc">珍惜这时间吧！
+
+中华民族在历史上，走过了秦、汉、三国、晋 、南北朝、隋、唐、宋、元、明、清、民国等朝代，历朝历代都是这样更迭表演着；每个朝代都想永远统治江山，但每个朝代最后都逃脱不了被历史淘汰的命运；一个朝代结束，另一个朝代又来；朝朝如此，代代相续；中华民族就这样沧桑而又茁壮的走过了五千年 。
+
+今天的中国红朝政权也到了大清朝末期的末期的最后一刻。国库已空，无官不贪，无民不刁，无处不拆，民怨极大，军民思变，动乱频传，贫富巨差，官民对立，种种丑态，种种乱象。红朝崩溃、政权灭亡的时间到来了。
+
+然上天有好生之德，不忍心生灵涂炭，想尽量避免历朝历代所出现的血腥场面，意让这个崩溃的政权从内部清洗、自我过渡到新朝、新代、新政权。
+
+民间舆论，海内外精英包括体制内有识之士，已经发出惊呼：改革(改良的希望)已死，革命必来。
+
+清醒吧，不要对邪恶的流氓集团再抱有任何幻想。
+
+中华民族的淘汰旧王朝，进入新朝代的历史轮回时刻又一次来到了。
+
+顺天意者得天下，方有未来。如此，众生喜之，天地欣之。
+
+自救方式：从退出共党及其附属组织开始。珍惜这时间吧！
+
+是到了改朝换代的时期了</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/257.png" data-echo="img/user/257.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-240.html" data-tooltip="企业官网，门户，商城论坛，java毕业设计等，代写，定制。加Q419400980">
+							<span class="s_name">善恶:</span>
+							<span class="s_desc">中国人讲仁、义、理、智、信，讲顺天敬地，是信神的，相信善恶有报；道家讲修真，返本归真，做个真人；佛家讲善、讲慈悲，看着众生都在苦海中受苦，要人通过修炼而觉悟，从而脱离苦海，踏上永生与幸福的彼岸。
+法  轮  功是一门佛家修炼方法，修炼者是做一个善良的好人。可是江 &times;民之流为了迫害法  轮  功，自编自导了&ldquo;天安 门 自 焚&rdquo;丑剧，恶意诬陷、抹黑法  轮  功。卑鄙邪恶，人神共愤。
+一些学员被虐杀，更多的学员被抄家、劳教和判刑。法  轮  功修炼者甚至被作为活体器官库，由此制造了这个星球从未有过的罪恶&mdash;&mdash;活 摘 器官的罪行。这是赤裸裸的酷刑罪、屠杀罪、反人类罪。</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/71.png" data-echo="img/user/71.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-16324.html" data-tooltip="OpenTSDB安装与使用">
+							<span class="s_name">王军豪:</span>
+							<span class="s_desc">opentsdb需要关闭或者重启咋办？</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/275.png" data-echo="img/user/275.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-17135.html" data-tooltip="ubuntu使用shadowsocks">
+							<span class="s_name">DearY:</span>
+							<span class="s_desc">如何在ubuntu上使用代理翻墙上网呢？ 这个好像是server端的吧</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/179.png" data-echo="img/user/179.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-16573.html" data-tooltip="从王者荣耀聊聊游戏的帧同步">
+							<span class="s_name">JediKing:</span>
+							<span class="s_desc">楼主牛批！</span>
+						</a>
+					</p>
+				</li>
+				<li class="colbox">
+					<p class="col avatar-box avatar">
+						<img class="lazy" data-original="img/user/15.png" data-echo="img/user/15.png" class="avatar" height="64" width="64">
+					</p>
+					<p class="col comment_box">
+						<a target="_blank" class="with-tooltip" href="/get-article-detail-27774.html" data-tooltip="斗鱼入驻微博，直播社交融合升级">
+							<span class="s_name">繁荣提供和:</span>
+							<span class="s_desc">放赶紧换人头费</span>
+						</a>
+					</p>
+				</li>
+		</ul>
+	</div>
+</aside> -->
+							<!--广告-->
+<aside class="textwidget cs_widget_slider " style="position: relative;width: 100%;height: auto;overflow: hidden;z-index: 0">
+<!-- <aside class="widget_tag_cloud"> -->
+<!-- 	<div class="nivoSlider" > -->
+<!-- 		<a href="javaScript:void(0)" target="_black"> -->
+						<!-- 广告位：左边 -->
+<!-- 					<img class="" src="img/blog/advert_01.jpg" data-thumb="img/blog/advert_01.jpg" title="" /> -->
+<!-- 			<script src="https://j.qiqivv.com:4433/blog/showdetail.php?z=127181"></script> -->
+<!-- 		</a> -->
+<!--  		<a href="javaScript:void(0)" target="_black">  -->
+<!-- 					<img class="" src="img/blog/advert_01.jpg" data-thumb="img/blog/advert_01.jpg" title="" /> -->
+<!-- 			<script src="https://j.qiqivv.com:4433/blog/showdetail.php?z=127181"></script> -->
+<!-- 		</a> -->
+<!-- <script src="https://j.qiqivv.com:4433/blog/showdetail.php?z=127192"></script> -->
+<!-- 	</div> -->
+</aside>
+<!-- <script type="text/javascript" src="//unioncode.liangzl.com/snftkwwcfqum.js"></script> -->
+						</div>
+					</aside>
+					<!--phone端left end-->
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--底部-->
+<!--底部-->
+<footer id="footer">
+	<div class="footer-end">
+		<div class="container clearfix">
+			© CopyRight© 2016-2019版权所有  ICP备案号：闽ICP备16034451号 
+			<a href="javaScript:void(0)">商务合作QQ:419400980 </a><a style="color: blue" href="javaScript:void(0)">投稿:419400980@qq.com </a><a href="https://www.liangzl.com/get-article-detail.html?id=158" style="color: red"> 免责声明</a>
+		</div>
+	</div>
+</footer>	<!--返回顶部-->
+<!--返回顶部-->
+<div id="footer_btn" class="m_hide" style="display: none;">
+	<ul>
+		<li>
+			<a href="https://www.liangzl.com/get-article-detail-39595.html#totop" class="scrolltotop icon">
+				<i class="hand fa fa-chevron-up"></i>
+			</a>
+		</li>
+		<li>
+			<a class="icon" href="javascript:void(0)">
+				<i class="fa fa-qrcode"></i>
+			</a>
+			<div class="show-box">
+				<div class="wx-show footer-show">
+					<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/qrcode.png" class="ajax_gif">
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>	<!--皮肤-->
+<div class="skin_switcher m_hide">
+	<div class="skin_header clearfix">
+		<div class="container clearfix">
+			<span class="fl">自定义皮肤</span>
+<!-- 			<span class="skin_fx layout_btn hand fl" date-fx="layout"> -->
+<!-- 				<i class="fa fa-toggle-on" aria-hidden="true"></i>单栏布局 -->
+<!-- 			</span> -->
+<!-- 			<span class="skin_fx glass_btn hand fl" date-fx="glass"> -->
+<!-- 				<i class="fa fa-toggle-on" aria-hidden="true"></i>玻璃菜单 -->
+<!-- 			</span> -->
+<!-- 			<span class="skin_fx main_btn hand fl" date-fx="main"> -->
+<!-- 				<i class="fa fa-toggle-on" aria-hidden="true"></i>主体内容背景 -->
+<!-- 			</span> -->
+			<span class="col_skin hand fr">
+				<i class="fa fa-times"></i>
+			</span>
+		</div>
+	</div>
+	<div class="container skin_list">
+		<ul class="clearfix">
+			<li data-banner=" #d9d3c1 url(&#39;img/blog/bigbannerpic_01.png&#39;) no-repeat center -10px" class="current" data-body="#d9d3c1" data-menu="i_glass_w">
+				<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/smallbannerpic_01.png" class="">
+				<span class="text-ellipsis">闹市重声(默认)</span>
+			</li>
+			<li data-banner=" #0f0f11 url(&#39;img/blog/bigbannerpic_02.png&#39;) no-repeat center -10px" data-body=" #0f0f11 url(&#39;&#39;)  center center fixed" data-menu="i_glass_b">
+				<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/smallbannerpic_02.png" height="96" width="96" class="">
+				<span class="text-ellipsis">守望先锋</span>
+			</li>
+			<li data-banner=" #1f160f url(&#39;img/blog/bigbannerpic_03.png&#39;) no-repeat center -10px" data-body=" #1f160f url(&#39;&#39;)  center center fixed" data-menu="i_glass_w">
+				<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/smallbannerpic_03.png" height="96" width="96" class="">
+				<span class="text-ellipsis">水滴玻璃</span>
+			</li>
+			<li data-banner=" #ffffff url(&#39;img/blog/bigbodypic_01.jpg&#39;) no-repeat center -10px" data-body=" #ffffff url(&#39;img/blog/bigbodypic_01.jpg&#39;)  center center fixed" data-menu="i_glass_w">
+				<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/smallbodypic_01.jpg" height="96" width="96" class="">
+				<span class="text-ellipsis">黄金分割</span>
+			</li>
+			<li data-banner=" #edc28d url(&#39;img/blog/bigbannerpic_04.png&#39;) no-repeat center -10px" data-body=" #edc28d url(&#39;&#39;)  center center fixed" data-menu="i_glass_w">
+				<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/smallbannerpic_04.png" height="96" width="96" class="">
+				<span class="text-ellipsis">黄昏花丛</span>
+			</li>
+			<li data-banner=" #faf4e4 url(&#39;img/blog/bigbannerpic_05.png&#39;) no-repeat center -10px" data-body=" #faf4e4 url(&#39;&#39;)  center center " data-menu="i_glass_w">
+				<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/smallbannerpic_05.png" height="96" width="96" class="">
+				<span class="text-ellipsis">我的后宫</span>
+			</li>
+			<li data-banner=" #ede5d8 url(&#39;img/blog/bigbannerpic_06.png&#39;) no-repeat center -10px" data-body=" #ede5d8 url(&#39;&#39;)  center center fixed" data-menu="i_glass_w">
+				<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/smallbannerpic_06.png" height="96" width="96" class="">
+				<span class="text-ellipsis">死萝莉控</span>
+			</li>
+			<li data-banner=" #ffeed9 url(&#39;img/blog/bigbannerpic_07.png&#39;) no-repeat center -10px" data-body=" #ffeed9 url(&#39;&#39;)  center center fixed" data-menu="i_glass_w">
+				<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/smallbannerpic_07.png" height="96" width="96" class="">
+				<span class="text-ellipsis">末花未名</span>
+			</li>
+		</ul>
+	</div>
+</div>	<!--登录-->
+<!--登录-->
+<div class="cd-user-modal login-modal m_hide">
+	<a href="https://www.liangzl.com/get-article-detail-39595.html#" class="cd-close-form"></a>
+	<div class="cd-user-modal-container">
+		<div class="login-img"></div>
+		<div class="login-form">
+			<form name="login-form" id="login-form" action="https://www.liangzl.com/get-article-detail-39595.html#" method="post">
+				<p class="login-links">
+					<span class="fl">
+	                    <a href="https://www.liangzl.com/get-article-detail-39595.html#" style="color: red">网站地址,必须以http或者https开头，格式为https://www.liangzl.com</a>
+	                </span>
+				</p>
+				<p class="login-username">
+					<label for="user_login">网站地址</label>
+					<input type="text" name="log" id="friendLink" placeholder="网站地址,格式为https://www.liangzl.com" class="input" value="" size="20">
+				</p>
+				<p class="login-password">
+					<label for="user_pass">网站名称</label>
+					<input type="text" name="pwd" id="LinkName" placeholder="网站名称,长度在1-10之间" class="input" value="" size="20">
+				</p>
+				<p class="login-submit">
+					<input type="button" onclick="addApplyFriendLink()" name="wp-submit" id="wp-submit" class="button-primary" value="提交申请">
+					<input type="hidden" name="redirect_to" value="#">
+				</p>
+			</form>
+			<p class="login-links clearfix">
+				<span class="fl">
+                    <a href="https://www.liangzl.com/get-article-detail-39595.html#" style="color: red">请在申请前 先添加本站为友情链接。<br>地址：https://www.liangzl.com  <br>名称：梁钟霖个人博客</a>
+                </span>
+			</p>
+		</div>
+	</div>
+</div>	<!--等待界面-->
+<div id="loadPage" style="display:none;position:absolute; left:-1px; top:1px; width:100%; height:100%;position: fixed;moz-opacity: 0.3;filter:Alpha(opacity=50); opacity: 0.3; background-color:#555; z-index:1000;">
+	<img src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/wait.gif" style="position: fixed;left: 48%;top:35%;" class="ajax_gif">
+</div>	<script src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/layer.js(1).下载"></script>
+	<script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/plugins.js.下载"></script>
+	<script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/custom.js.下载"></script><div id="mouse-tooltip" class="mouse-tooltip mouse-tooltip--hidden" style="left: 901px; top: 123px;">茶馆、岛、慵懒的猫...都是美好的时光...</div>
+	<script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/common.js.下载"></script>
+	<script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/articleCommon.js.下载"></script>
+	<script type="text/javascript" src="./获取java泛型真实类型的方式丶一个站在Java后端设计之路的男青年个人博客网站_files/push.js(1).下载"></script>
+	<script type="text/javascript">
+		jQuery(window).load(function() {
+			jQuery('.nivoSlider').nivoSlider({
+				effect: 'fold',
+				boxCols: 10,
+				boxRows: 5,
+				animSpeed: 300,
+				prevText: '',
+				nextText: '',
+			});
+		});
+	</script>
+
+</body></html>

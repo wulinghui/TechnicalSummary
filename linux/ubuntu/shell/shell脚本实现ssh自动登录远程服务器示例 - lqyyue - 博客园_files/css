@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Noto Sans SC Light'), local('NotoSansSC-Light'), url(https://fonts.gstatic.com/l/font?kit=k3kIo84MPvpLmixcA63oeALZhaCt9D2V3oK1KyZiBTaD0mU3QuusdbSJpesP22u0r9jwI_TVS9X3kjxs_QKldtK0LIz6dSHMB9M5VKpjk7rnXEyZEXF_USXwz3yn_bMjIAKrp4djcU-8rvcqrIERYNDRnUuYig5qm7JiTe0iZDeoZXA&skey=f4a268e2294618a0&v=v8) format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Noto Sans SC Regular'), local('NotoSansSC-Regular'), url(https://fonts.gstatic.com/l/font?kit=k3kXo84MPvpLmixcA63oeALhLJDm3SHRwp1-o61iBx2D1m82efOsepaJoOUP23O0ucfwJubVSvT3qz1s9D6ldeq0La76ahLMDdM5VLFjkpTka3GZEmZ_Thjwxn6n-JQjIAeqr5VjcXi8ktQqqYMeSOfRtleYigNqm6dje9IiVj4&skey=cf0bb10b5602fdc3&v=v8) format('woff2');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Noto Sans SC Bold'), local('NotoSansSC-Bold'), url(https://fonts.gstatic.com/l/font?kit=k3kIo84MPvpLmixcA63oeALZlaet9D2V3oK1KyZiBTaD0mU3QuusdbSJpesP22u0r9jwI_TVS9X3kjxs_QKldtK0LIz6dSHMB9M5VKpjk7rnXEyZEXF_USXwz3yn_bMjIAKrp4djcU-8rvcqrIERYNDRnUuYig5qm7JiTe0iZDeoZXA&skey=1685d19e676f33b8&v=v8) format('woff2');
+}

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="referrer" content="always">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>JUnit高级用法之@RunWith - 摆渡者 - OSCHINA</title>
+            <meta name="keywords" content="JUnit,摆渡者,itblog,JUnit高级用法之@RunWith - 摆渡者,OSCHINA博客">
+                <meta name="description" content="在Java系列的开发工作中，单元测试框架用的最多的应该就是JUnit了。但是我们通常使用到的大多是@Test，@Ignore，@Before，@BeforeClass，@After，@AfterClass等注解，其功能也相对简单。其实JUnit还有一些很好用的功能。">
+        <link rel="stylesheet" type="text/css" href="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/semantic.min.css">
+                <link type="text/css" rel="stylesheet" href="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/space.f5c12dec.css">        <script src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/osd.js.下载"></script><script async="" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/gio.js.下载"></script><script src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/hm.js.下载"></script><script src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/push.js.下载"></script><script src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/ca-pub-7090564139599510.js.下载"></script><script type="text/javascript">window.__STATIC_DOMAIN = "https://static.oschina.net";</script>
+    <script src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jquery.min.js.下载"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.oschina.net/new-osc/img/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="最新开源项目" href="https://www.oschina.net/project/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新开源资讯" href="https://www.oschina.net/news/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新问题列表" href="https://www.oschina.net/question/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新翻译列表" href="https://www.oschina.net/translate/rss">
+    <link rel="alternate" type="application/rss+xml" title="最新博客列表" href="https://www.oschina.net/blog/rss">
+    <link rel="alternate" type="application/rss+xml" title="推荐博客列表" href="https://www.oschina.net/blog/rss?show=more">
+    <link rel="alternate" type="application/rss+xml" title="推荐软件列表" href="https://www.oschina.net/project/rss?show=recomms">
+    <link rel="alternate" type="application/rss+xml" title="最新代码分享列表" href="https://www.oschina.net/code/rss">
+    <link rel="alternate" type="application/rss+xml" title="OSCHINA - 源码列表" href="https://www.oschina.net/code/source_rss">
+<script src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/share.js.下载"></script><link rel="preload" href="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/f.txt" as="script"><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/f.txt"></script><link rel="preload" href="https://pagead2.googlesyndication.com/pagead/js/r20190506/r20190131/show_ads_impl.js" as="script"><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/radarChart.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jquery.serialize-object.min.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/vue.min.js.下载"></script><link rel="stylesheet" type="text/css" href="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/viewer.min.css"><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/viewer.min.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/vue.min.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/osc-message.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jquery-viewer.min.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jquery.caret.min.js.下载"></script><script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jquery.atwho.min.js.下载"></script></head>
+<body class="pushable"><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="oicon-world" viewBox="0 0 1024 1024"><path d="M921.6 204.8h-1.024A510.464 510.464 0 0 0 512 0C229.696 0 0 229.696 0 512s229.696 512 512 512c167.04 0 315.072-80.64 408.576-204.8h1.024v-1.28C985.6 732.416 1024 626.816 1024 512s-38.4-220.416-102.4-305.92V204.8zM358.4 891.456A409.984 409.984 0 0 1 102.4 512c0-17.408 1.408-34.432 3.52-51.2H153.6l51.2 102.4v102.4L307.2 768l51.2 51.2v72.256zM512 921.6a408.32 408.32 0 0 1-96.448-11.904L460.8 819.2l51.2-102.4V614.4H409.6l-51.2-51.2h-51.2L256 460.8l51.2-102.4 51.2-51.2 51.2-51.2 51.2-102.4v-47.68c16.768-2.112 33.792-3.52 51.2-3.52a407.04 407.04 0 0 1 256 90.368V256l-51.2 102.4 51.2 51.2v51.2l-102.4 51.2-51.2 52.032 51.2 50.368 51.2 51.2 51.2 102.4 33.472 33.472A408.32 408.32 0 0 1 512 921.6z"></path></symbol><symbol id="oicon-setting" viewBox="0 0 1162 1024"><path d="M1055.479204 128.810127H442.676311c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.31103 97.21519H53.815552c-10.415913 0-19.095841 8.679928-19.095841 20.831826s8.679928 20.831826 20.831826 20.831826h156.238698c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h611.066907c12.151899 0 20.831826-8.679928 20.831827-20.831826s-8.679928-20.831826-20.831827-20.831826zM328.101266 224.289331c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364zM1055.479204 840.564195H637.106691c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831827s8.679928 20.831826 20.831826 20.831826h348.933092c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519H1055.479204c12.151899 0 20.831826-8.679928 20.831827-20.831826 0-10.415913-8.679928-20.831826-20.831827-20.831827z m-534.683544 97.21519c-41.663653 0-76.383363-34.719711-76.383363-76.383363 0-41.663653 34.719711-76.383363 76.383363-76.383364 41.663653 0 76.383363 34.719711 76.383364 76.383364-1.735986 41.663653-34.719711 76.383363-76.383364 76.383363zM1055.479204 484.687161h-67.703435c-10.415913-55.551537-57.287523-97.21519-116.311031-97.21519-57.287523 0-105.895118 41.663653-116.311031 97.21519H55.551537c-12.151899 0-20.831826 8.679928-20.831826 20.831826s8.679928 20.831826 20.831826 20.831827h699.60217c10.415913 55.551537 57.287523 97.21519 116.311031 97.21519 57.287523 0 105.895118-41.663653 116.311031-97.21519h67.703435c12.151899 0 20.831826-8.679928 20.831827-20.831827s-8.679928-20.831826-20.831827-20.831826z m-184.014466 97.21519c-41.663653 0-76.383363-34.719711-76.383364-76.383364 0-41.663653 34.719711-76.383363 76.383364-76.383363 41.663653 0 76.383363 34.719711 76.383363 76.383363 0 41.663653-34.719711 76.383363-76.383363 76.383364z"></path></symbol><symbol id="oicon-gitee" viewBox="0 0 1024 1024"><path d="M966.524718 400.672821H456.520205c-24.497231 0-44.347077 19.954872-44.347077 44.557128v133.540102c0 24.602256 19.849846 44.530872 44.347077 44.530872h288.295385c33.266872 0 44.320821 11.132718 44.347077 44.530872 0.026256 89.035487-50.884923 133.566359-133.041231 133.566359h-376.779487c-24.602256 0-44.530872-19.954872-44.530872-44.530872v-400.67282c0-73.780513 59.575795-133.592615 133.014974-133.592616h598.593641c24.470974 0 44.320821-19.928615 44.320821-44.504615V44.530872C1010.740513 19.928615 990.916923 0 966.419692 0H367.826051C171.979487 0 13.128205 159.455179 13.128205 356.168205v623.32718C13.128205 1004.045128 32.978051 1024 57.475282 1024h598.646154c196.187897 0 352.439795-170.325333 354.619077-367.327179 0.131282-11.106462 0.131282-200.33641 0.131282-211.442872a44.478359 44.478359 0 0 0-44.347077-44.530872z"></path></symbol><symbol id="oicon-trending" viewBox="0 0 1106 1024"><path d="M0 290.766798m55.308301 0l0 0q55.308301 0 55.3083 55.3083l0 608.391307q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-608.391307q0-55.308301 55.308301-55.3083Z" fill="#F5A623"></path><path d="M331.849803 14.225295m55.308301 0l0 0q55.308301 0 55.308301 55.3083l0 884.93281q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-884.93281q0-55.308301 55.308301-55.3083Z" fill="#F5A623" opacity=".8"></path><path d="M663.699607 401.383399m55.3083 0l0 0q55.308301 0 55.308301 55.3083l0 497.774706q0 55.308301-55.308301 55.3083l0 0q-55.308301 0-55.3083-55.3083l0-497.774706q0-55.308301 55.3083-55.3083Z" fill="#F5A623" opacity=".6"></path><path d="M995.54941 124.841896m55.308301 0l0 0q55.308301 0 55.3083 55.308301l0 774.316208q0 55.308301-55.3083 55.3083l0 0q-55.308301 0-55.308301-55.3083l0-774.316208q0-55.308301 55.308301-55.308301Z" fill="#F5A623" opacity=".4"></path></symbol></svg>
+        <val data-name="space_user_url" data-value="https://my.oschina.net/itblog"></val>      <val data-name="g_user_url" data-value=""></val>      <val data-name="api_prefix" data-value="/action"></val>      <val data-name="g_user_code" data-value=""></val>     <val data-name="g_user_id" data-value=""></val>     <val data-name="g_user" data-value=""></val>     <val data-name="login_page" data-value="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fitblog%2Fblog%2F1550753%3Ftdsourcetag%3Ds_pctim_aiomsg"></val>     
+    
+                <val data-name="weixinAppId" data-value="wx880def15e694b905"></val>
+        <val data-name="weixinTimestamp" data-value="1557370792446"></val>
+        <val data-name="weixinNonceStr" data-value="313cf115-3a26-4b18-8555-acd737a8d733"></val>
+        <val data-name="weixinSignature" data-value="78547e817c137ccdedbcbab43d39915f22dd3f39"></val>
+        <val data-name="weixinShareUrl" data-value="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg"></val>                             
+                <val data-name="is_detail_page" data-value="true"></val>
+
+        
+        <div class="ui left inverted sidebar vertical menu" id="mobileNavSidebar">
+        <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+        <a href="https://www.oschina.net/question" class="item question">问答</a>
+        <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+        <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+        <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+        <a href="https://www.oschina.net/news" class="item news">资讯</a>
+        <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云</a>
+        <a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+        <a href="https://www.oschina.net/event/ych" class="item meetup">源创会</a>
+        <a href="https://www.oschina.net/event" class="item">活动</a>
+        <a href="https://job.oschina.net/" class="item" target="_blank">求职/招聘</a>
+        <a href="https://www.oschina.net/question/topic/masteronline" class="item">高手问答</a>
+        <a href="https://www.oschina.net/question/topic/osc-interview" class="item">开源访谈</a>
+        <a href="https://my.oschina.net/editorial-story" class="item">周刊</a>
+        <a href="https://www.oschina.net/company" class="item">公司开源导航页</a>
+    </div>
+        <div class="ui right inverted sidebar vertical menu" id="mobileUserSidebar">
+                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fitblog%2Fblog%2F1550753%3Ftdsourcetag%3Ds_pctim_aiomsg">登录</a>
+            <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fitblog%2Fblog%2F1550753%3Ftdsourcetag%3Ds_pctim_aiomsg">注册</a>
+            </div>
+
+        <div class="ui vertical inverted right sidebar menu" id="sideMenu">
+    <div class="header">
+        <b>文档章节</b>
+    </div>
+    <div class="ui basic segment" id="sideMenuBody"><ul><li><a href="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg#h2_1">@RunWith</a></li>
+<li><a href="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg#h2_2">@RunWith(Suite.class)</a></li>
+<li><a href="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg#h2_3">@RunWith(Parameterized.class)</a></li>
+<li><a href="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg#h2_4">@RunWith(Categories.class)</a></li>
+<li><a href="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg#h2_5">@RunWith(Theories.class)</a></li>
+<li><a href="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg#h2_6">总结</a></li>
+</ul></div>
+</div>
+<div class="ui black big launch right attached fixed button" id="sideMenuLauncher" style="display: block;">
+    <i class="list icon"></i>
+    <span class="text">文档章节</span>
+</div>
+
+
+        <div class="pusher  mobile-disabled-fixed-menu  ">
+                <div class="ui secondary inverted fixed menu" id="headerNavMenu">
+            <a class="item logo" href="https://www.oschina.net/" title="OSCHINA"><img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/logo_new.svg" alt="OSCHINA"></a>
+                                                <form action="https://www.oschina.net/search" class="item search-item">
+                <div class="ui icon input">
+                    <input type="hidden" name="scope" value="blog">
+                    <input placeholder="大家都在搜...." id="keyword" name="q" size="24" value="" type="text">
+                    <i class="search link icon"></i>
+                </div>
+                <div class="results"></div>
+            </form>
+            <div class="item download-item">
+                <a class="ui primary button" id="btnDownloadApp" href="https://www.oschina.net/app" target="_blank">下载APP</a>
+            </div>
+            <div class="ui popup top left transition hidden" id="btnDownloadAppContent">
+                <h3 class="header">OSCHINA App —— <br>关注技术领域的头条文章</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <img width="200" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/osc_app_download_qrcode.png" alt="下载APP">
+            </div>
+            <div class="ui secondary text menu" id="menuList">
+                <a href="https://www.oschina.net/project" class="item project">开源软件</a>
+                <a href="https://www.oschina.net/question" class="item question">问答</a>
+                <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+                <a href="https://www.oschina.net/blog" class="item blog">博客</a>
+                <a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+                <a href="https://www.oschina.net/news" class="item news">资讯</a>
+                <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云<span class="floating ui red label giteetip">代码托管</span></a>
+                <a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+                <a href="https://www.oschina.net/event" class="item event">活动</a>
+            </div>
+            <div class="ui dropdown item" id="moreMenu" tabindex="0">
+                更多 <i class="dropdown icon" tabindex="0"><div class="menu" tabindex="-1"></div></i>
+                <div class="menu" tabindex="-1">
+                    <a href="https://www.oschina.net/event/ych" class="item meetup"><i class="world icon"></i>源创会</a>
+                    <a href="https://job.oschina.net/" class="item" target="_blank"><i class="address card outline icon"></i>求职/招聘</a>
+                    <a href="https://www.oschina.net/question/topic/masteronline" class="item"><i class="spy icon"></i>高手问答</a>
+                    <a href="https://www.oschina.net/question/topic/osc-interview" class="item"><i class="coffee icon"></i>开源访谈</a>
+                    <a href="https://my.oschina.net/editorial-story" class="item"><i class="calendar outline icon"></i>周刊</a>
+                    <a href="https://www.oschina.net/company" class="item"><i class="building outline icon"></i>公司开源导航页</a>
+                </div>
+            </div>
+            <div class="right menu">
+                                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fitblog%2Fblog%2F1550753%3Ftdsourcetag%3Ds_pctim_aiomsg">登录</a>
+                    <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fitblog%2Fblog%2F1550753%3Ftdsourcetag%3Ds_pctim_aiomsg">注册</a>
+                            </div>
+        </div>
+                <div class="ui secondary inverted fixed menu" id="mobileHeaderNavMenu">
+            <a class="icon item toggle-mobile-nav-sidebar">
+                <i class="large content icon"></i>
+            </a>
+            <div class="logo back-to-top-toggle"><img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/logo_new.svg" alt="OSCHINA"></div>
+            <a class="icon item toggle-mobile-user-sidebar">
+                                    <i class="large user outline icon"></i>
+                            </a>
+        </div>
+                <div id="mainScreen">
+            <div class="ui container">
+                
+
+
+
+
+
+
+
+
+
+
+
+<x-foo-define data-define="space-blog-detail"></x-foo-define> 
+<val data-name="objId" data-value="1550753"></val> <val data-name="author_id" data-value="1434710"></val> <val data-name="space_user_id" data-value="1434710"></val> 
+<val data-name="fetchCommentsUrl" data-value="?type=comments"></val>              <val data-name="publishCommentUrl" data-value="/space/blog/add_comment"></val>    <val data-name="replyCommentUrl" data-value="/space/blog/add_comment"></val>      <val data-name="deleteCommentUrl" data-value="/space/blog/delete_blog_comments"></val>  
+<val data-name="weixinShareTitle" data-value="JUnit高级用法之@RunWith"></val> <val data-name="weixinShareImgUrl" data-value="https://static.oschina.net/uploads/space/2017/0606/104418_CPLl_2733728.png"></val> 
+<div class="ui internally grid blog-detail bg-wrap">
+    <div class="row">
+        <div class="two wide computer only column" style="height: 7720px; min-height: 338px;">
+            <div class="ui sticky float-menu fixed top" id="floatMenu" style="left: 149.6px; width: 128px !important; height: 338px !important; margin-top: 200px;">
+                <div class="ui vertical large compact menu">
+                                            <a class="item donate" donate="" data-id="1550753" data-obj-type="16344358" data-subject="JUnit高级用法之@RunWith" data-donater="" data-author="1434710" data-return-url="https://my.oschina.net/itblog/blog/1550753" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                             <i class="yen icon"></i>打赏</a>
+                                        <a class="item comment-btn" href="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg#comments" title="共有 0 条评论"><i class="comment outline icon"></i>评论</a>
+                    <a class="item collect-btn " data-id="1550753" data-user-id="1434710" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="JUnit"><i class="star outline icon"></i>收藏</a>
+                    <a class="item like article-like " data-id="1550753"><i class="thumbs up outline icon"></i>点赞</a>
+                    <h5 class="ui item inverted brown header">分享文章</h5>
+                    <div class="bdsharebuttonbox reset left-menu bdshare-button-style0-16" data-tag="share-news" data-bd-bind="1557370796447">
+                        <a class="item" data-cmd="tsina" title="分享到新浪微博"><i class="weibo icon"></i>微博</a>
+                        <a class="item" data-cmd="sqq" title="分享到QQ好友"><i class="qq icon"></i>QQ</a>
+                        <a class="item" data-cmd="weixin" title="分享到微信"><i class="weixin icon"></i>微信</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column body-container">
+            <div class="float-menu-content">
+                <div class="ui large breadcrumb">
+                    <a class="section" href="https://my.oschina.net/itblog">摆渡者</a>
+                                                                <i class="right chevron icon divider"></i>
+                        <a class="section" href="https://my.oschina.net/itblog?tab=newest&amp;catalogId=5697439">工具类库</a>
+                                        <i class="right chevron icon divider"></i>
+                    <div class="active section">正文</div>
+                </div>
+                <div class="article-detail">
+                                            <div class="ad-wrap">
+                                                    <div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogup" style="">
+<script async="" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/f(1).txt"></script>
+<!-- oschina-blog-728x90 -->
+<ins class="adsbygoogle" style="display: block; width: 824px; height: 90px;" data-ad-client="ca-pub-7090564139599510" data-ad-slot="5590362768" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:824px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:824px;background-color:transparent;"><iframe width="824" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:824px;height:90px;" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/saved_resource.html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                                    </div>
+                                        <h2 class="header">
+                        JUnit高级用法之@RunWith
+                                                                            <div class="ui teal label horizontal" data-tooltip="原创">原</div>
+                                                                                            </h2>
+                    <div class="extra ui horizontal list meta-wrap">
+                        <div class="item">
+                            <a href="https://my.oschina.net/itblog" class="__user">                        <div class="osc-avatar small-portrait _35x35 avatar" title="摆渡者" data-user-id="1434710">
+                <img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/1434710_50.jpeg" alt="摆渡者" title="摆渡者">
+            </div>
+            &nbsp;<span>摆渡者</span></a>
+                            发布于 2017/10/14 22:02</div>
+                        <div class="item">字数 1720</div>
+                        <div class="item">阅读 2107</div>
+                        <div class="item collect-btn " data-id="1550753" data-user-id="1434710" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="JUnit">收藏 <span data-collect-count="" data-id="1550753" data-obj-type="3">1</span></div>
+                        <div class="item"><a class="normal like article-like " data-id="1550753">点赞 <span data-article-like-count="">0</span></a></div>
+                        <div class="item comment-count"><a href="https://my.oschina.net/itblog/blog/1550753?tdsourcetag=s_pctim_aiomsg#comments" class="normal"><i class="comment outline icon"></i> 评论 <span data-article-reply-count="">0</span></a></div>
+                                            </div>
+                                                                        <div class="tags">
+                                <a class="ui horizontal label" href="https://my.oschina.net/itblog?q=JUnit">JUnit</a>                            </div>
+                                                                <div class="content" id="articleContent">
+                                                    <div class="ad-wrap">
+                                                        <p style="margin:0 0 10px 0;"><a data-traceid="blog_detail_above_text_link_1" data-tracepid="blog_detail_above_text_link" style="color:#A00;font-weight:bold;" href="https://my.oschina.net/u/2663968/blog/3041208" target="_blank">面试：你懂什么是分布式系统吗？Redis分布式锁都不会？&gt;&gt;&gt; </a>&nbsp;&nbsp;<img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/hot3.png" align="absmiddle" style="max-height: 32px; max-width: 32px;"></p>
+                                        </div>
+                                                <span id="OSC_h2_1"></span>
+<h2 id="h2_1"><strong>@RunWith</strong></h2> 
+<p>关于@RunWith注解，官方文档是这么描述的：</p> 
+<blockquote> 
+ <p>When a class is annotated with&nbsp;<code>@RunWith</code>&nbsp;or extends a class annotated with&nbsp;<code>@RunWith</code>, JUnit will invoke the class it references to run the tests in that class instead of the runner built into JUnit.</p> 
+</blockquote> 
+<p>JUnit用例都是在Runner（运行器）来执行的。通过它，可以为这个测试类指定一个特定的Runner。那么大多数时候我们都没有使用@RunWith这个注解，这是为什么呢？其实，JUnit中有一个默认的Runner，它的名字叫BlockJunit4ClassRunner，但这是在JUnit4.4之后才引入的，对于4.4之前版本的JUnit，它的名字叫Junit4ClassRunner。在新版本的源代码中已经添加了注释来说明这个问题：</p> 
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@deprecated</span> Included for backwards compatibility with JUnit 4.4. Will be
+ *             removed in the next major release. Please use
+ *             {<span class="hljs-doctag">@link</span> BlockJUnit4ClassRunner} in place of {<span class="hljs-doctag">@link</span> JUnit4ClassRunner}.
+ */</span>
+<span class="hljs-meta">@Deprecated</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JUnit4ClassRunner</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Runner</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Filterable</span>, <span class="hljs-title">Sortable</span> </span>{
+...</code></pre> 
+<p>写过关于Spring项目的单元测试的同学可能见过这样的写法，就是用JUnit加载Spring的配置文件以完成Context的初始化，然后从Context中取出Bean并完成测试：</p> 
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;
+<span class="hljs-keyword">import</span> org.springframework.test.context.ContextConfiguration;
+<span class="hljs-keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+<span class="hljs-meta">@RunWith</span>(SpringJUnit4ClassRunner.class)
+<span class="hljs-meta">@ContextConfiguration</span>(locations = { <span class="hljs-string">"classpath:applicationContext.xml"</span> })
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserManagerTest</span> </span>{
+　　<span class="hljs-meta">@Autowired</span>
+　　ApplicationContext ctx;
+
+　　<span class="hljs-meta">@Test</span>
+　　<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAddUser</span><span class="hljs-params">()</span> </span>{
+　　　　<span class="hljs-keyword">try</span> {
+　　　　　　UserManager userManager = ctx.getBean(UserManager.class); 
+　　　　　　userManager.addUser();
+　　　　} <span class="hljs-keyword">catch</span> (Exception e) {
+　　　　　　e.printStackTrace();
+　　　　}
+　　}
+}</code></pre> 
+<p>注意这里使用了@RunWith注解，表明这个类中的测试用例需要使用SpringJUnit4ClassRunner类来执行。</p> 
+<span id="OSC_h2_2"></span>
+<h2 id="h2_2"><strong>@RunWith(Suite.class)</strong></h2> 
+<p>其作用是使用JUnit执行一个测试套件。Suite类是JUnit自带的，意为套件，顾名思义，就是一套东西。通过它，可以把多个相关的测试类看做一个测试套件一起测试。看个例子：</p> 
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+<span class="hljs-keyword">import</span> org.junit.runners.Suite;
+
+<span class="hljs-meta">@RunWith</span>(Suite.class)
+<span class="hljs-meta">@Suite</span>.SuiteClasses({ TestA.class, TestB.class, <span class="hljs-comment">/*Any test class you want to run*/</span>})
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestSuite</span> </span>{
+    <span class="hljs-comment">// Please note this case won't run. It will only run cases which</span>
+    <span class="hljs-comment">// are configured in @Suite.SuiteClasses</span>
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testPrint</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"Hello"</span>);
+    }
+}</code></pre> 
+<p>@RunWith指定了Suite类，说明这个TestSuite类是一个套件。通过@Suite.SuiteClasses指定了要执行的测试类（这些类中的所有用例都会执行）。</p> 
+<p>需要注意的是，这个TestSuite类本身用例则不会执行了（如上面的testPrint()方法）。</p> 
+<span id="OSC_h2_3"></span>
+<h2 id="h2_3"><strong>@RunWith(Parameterized.class)</strong></h2> 
+<p>Parameterized类也是JUnit自带的，用于使用多个参数组合多次执行同一个测试用例。看下面的例子：</p> 
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.junit.Assert.assertEquals;
+<span class="hljs-keyword">import</span> java.util.Arrays;
+<span class="hljs-keyword">import</span> java.util.List;
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+<span class="hljs-keyword">import</span> org.junit.runners.Parameterized;
+<span class="hljs-keyword">import</span> org.junit.runners.Parameterized.Parameters;
+
+<span class="hljs-meta">@RunWith</span>(Parameterized.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestParameterized</span> </span>{
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> expected;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> first;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> second;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TestParameterized</span><span class="hljs-params">(<span class="hljs-keyword">int</span> expected, <span class="hljs-keyword">int</span> firstNumber, <span class="hljs-keyword">int</span> secondNumber)</span> </span>{
+        <span class="hljs-keyword">this</span>.expected = expected;
+        <span class="hljs-keyword">this</span>.first = firstNumber;
+        <span class="hljs-keyword">this</span>.second = secondNumber;
+    }
+    
+    <span class="hljs-comment">/**
+     * Note: <span class="hljs-doctag">@Parameters</span> annotated method must be public static,
+     * otherwise an Exception will thrown.
+     */</span>
+    <span class="hljs-meta">@Parameters</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;Integer[]&gt; parameters() {
+        <span class="hljs-keyword">return</span> Arrays.asList(<span class="hljs-keyword">new</span> Integer[][]{{<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>}, {<span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}, {<span class="hljs-number">7</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>}, {<span class="hljs-number">9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>}});
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAdd</span><span class="hljs-params">()</span> </span>{
+        String format = <span class="hljs-string">"Using parameters: expect=%d, first=%d, second=%d"</span>;
+        System.out.println(String.format(format, expected, first, second));
+        
+        Feature feature = <span class="hljs-keyword">new</span> Feature();
+        assertEquals(expected, feature.add(first, second));
+    }
+    
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testPrint</span><span class="hljs-params">()</span> </span>{
+        String format = <span class="hljs-string">"Print ----------: expect=%d, first=%d, second=%d"</span>;
+        System.out.println(String.format(format, expected, first, second));
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Feature</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i1, <span class="hljs-keyword">int</span> i2)</span> </span>{
+        <span class="hljs-keyword">return</span> i1 + i2;
+    }
+}</code></pre> 
+<p>执行结果如下：</p> 
+<p><img height="234" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/200112_9Eua_1434710.png" width="709" class="zoom-in-cursor"></p> 
+<p>可以看到，虽然TestParameterized类中只有两个测试用例testAdd和testPrint，但是结果输出了8行，即每个用例都执行了4遍。</p> 
+<p>使用Parameterized注解需要注意几点：</p> 
+<ul> 
+ <li>该方法要有构造函数</li> 
+ <li>有一个public static的方法被@Parameters标注，并且该方法只能返回Iterable类型或数组类型的数据（源代码是如下处理的）</li> 
+</ul> 
+<pre><code class="hljs java"><span class="hljs-keyword">if</span> (parameters <span class="hljs-keyword">instanceof</span> Iterable) {
+    <span class="hljs-keyword">return</span> (Iterable&lt;Object&gt;) parameters;
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (parameters <span class="hljs-keyword">instanceof</span> Object[]) {
+    <span class="hljs-keyword">return</span> Arrays.asList((Object[]) parameters);
+} <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">throw</span> parametersMethodReturnedWrongType();
+}</code></pre> 
+<p>因为上面的方式使用了构造方法来初始化数据，其实也可以使用字段注入来代替构造方法，只需稍加改变TestParameterized类即可：</p> 
+<ol> 
+ <li>用Parameter参数来修饰属性。注意：索引从0开始</li> 
+ <li>属性要用public修饰</li> 
+</ol> 
+<pre><code class="hljs java"><span class="hljs-meta">@Parameter</span>(<span class="hljs-number">0</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> expected;
+<span class="hljs-meta">@Parameter</span>(<span class="hljs-number">1</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> first;
+<span class="hljs-meta">@Parameter</span>(<span class="hljs-number">2</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> second;</code></pre> 
+<span id="OSC_h2_4"></span>
+<h2 id="h2_4"><strong>@RunWith(Categories.class)</strong></h2> 
+<p>顾名思义，执行一个“类别”。和Suite类似，只是Suite是执行指定类中的所有用例，而Categories执行的范围更小，是在Suite的基础上只执行指定的“类别”的用例。这就需要事先在各个测试用例上用@Category标注该用例属于那些“类别”，之后便可以通过类别来选择执行某些用例。看例子：</p> 
+<pre><code class="hljs java"><span class="hljs-comment">/*-----TestA.java-----*/</span>
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.junit.experimental.categories.Category;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Feature1</span> </span>{}
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Feature2</span> </span>{}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestA</span> </span>{
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-meta">@Category</span>(Feature1.class)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAdd</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"A.testAdd"</span>);
+    }
+    
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-meta">@Category</span>(Feature2.class)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAdd2</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"A.testAdd2"</span>);
+    }
+    
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-meta">@Category</span>({Feature1.class, Feature2.class})
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAdd3</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"A.testAdd3"</span>);
+    }
+}
+
+<span class="hljs-comment">/*-----TestCategory.java-----*/</span>
+<span class="hljs-keyword">import</span> org.junit.experimental.categories.Categories;
+<span class="hljs-keyword">import</span> org.junit.experimental.categories.Categories.ExcludeCategory;
+<span class="hljs-keyword">import</span> org.junit.experimental.categories.Categories.IncludeCategory;
+<span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+<span class="hljs-keyword">import</span> org.junit.runners.Suite;
+
+<span class="hljs-meta">@RunWith</span>(Categories.class)
+<span class="hljs-meta">@IncludeCategory</span>(Feature1.class)
+<span class="hljs-meta">@ExcludeCategory</span>(Feature2.class)
+<span class="hljs-meta">@Suite</span>.SuiteClasses({ TestA.class, <span class="hljs-comment">/*Any test class you want to run*/</span>})
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCategory</span> </span>{
+    <span class="hljs-comment">// Do nothing</span>
+}</code></pre> 
+<p>其中，Feature1和Feature2代表两个不同的“类型”，TestA类中通过@Category标注了各个用例（可以为一个用例指定多个Category，例如上方的testAdd3方法）。@IncludeCategory指明了需要执行的类型，而@ExcludeCategory指明了不希望执行的类型，这个注解对于过滤类似testAdd3这样有多个类型的用例很有效。以下是执行结果：</p> 
+<p><img height="94" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/212810_3qWR_1434710.png" width="679" class="zoom-in-cursor"></p> 
+<p>可以看到，只有标注了Feature1的用例执行了，而且带有Feature2的则被过滤掉了，所以只剩下testAdd这一个用例了。</p> 
+<span id="OSC_h2_5"></span>
+<h2 id="h2_5"><strong>@RunWith(Theories.class)</strong></h2> 
+<p>提供一组参数的<strong>排列组合值</strong>作为待测方法的输入参数。同时注意到在使用Theories这个Runner的时候，我们的待测方法可以拥有输入参数，而这在其它的Runner中的测试方法是不行的。下面是一个例子：</p> 
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.experimental.theories.DataPoint;
+<span class="hljs-keyword">import</span> org.junit.experimental.theories.Theories;
+<span class="hljs-keyword">import</span> org.junit.experimental.theories.Theory;
+<span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+
+<span class="hljs-meta">@RunWith</span>(Theories.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestTheories</span> </span>{
+    <span class="hljs-meta">@DataPoint</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String nameValue1 = <span class="hljs-string">"Tony"</span>;
+    <span class="hljs-meta">@DataPoint</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String nameValue2 = <span class="hljs-string">"Jim"</span>;
+    <span class="hljs-meta">@DataPoint</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> ageValue1 = <span class="hljs-number">10</span>;
+    <span class="hljs-meta">@DataPoint</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> ageValue2 = <span class="hljs-number">20</span>;
+    
+    <span class="hljs-meta">@Theory</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMethod</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> age)</span></span>{
+        System.out.println(String.format(<span class="hljs-string">"%s's age is %s"</span>, name, age));
+    }
+}</code></pre> 
+<p>上面的代码的意思是，将”Tony”、”Jim”、10、20四个参数以类型合法的排列组合传给待测方法。因此输出的结果必然也有2x2=4种。下面是执行结果：</p> 
+<p><img height="140" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/214755_IuDl_1434710.png" width="662" class="zoom-in-cursor"></p> 
+<p>不过，为了简单，我们除了可以使用@DataPoint注解来提供参数之外，还可以通过@DataPoints注解来提供参数，参照上述代码，只需要将@DataPoint注解标注的四个字段参数替换为如下的两个即可：</p> 
+<pre><code class="hljs java"><span class="hljs-meta">@DataPoints</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String[] names = {<span class="hljs-string">"Tony"</span>, <span class="hljs-string">"Jim"</span>};
+<span class="hljs-meta">@DataPoints</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>[] ageValue1 = {<span class="hljs-number">10</span>, <span class="hljs-number">20</span>};</code></pre> 
+<span id="OSC_h2_6"></span>
+<h2 id="h2_6"><strong>总结</strong></h2> 
+<p>介绍了这么几种Runner，现在回过头来看看一开始提到的SpringJUnit4ClassRunner，其实这个类继承与JUnit默认的运行器BlockJUnit4ClassRunner，来看看源代码中的声明（<a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/junit4/SpringJUnit4ClassRunner.html" rel="nofollow">官方文档</a>）：</p> 
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringJUnit4ClassRunner</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BlockJUnit4ClassRunner</span> </span>{</code></pre> 
+<p>继承的好处就是可以完全保留默认的功能，并且提供了一套支持Spring上下文的框架，正如官方文档所说：</p> 
+<blockquote> 
+ <p><code>SpringJUnit4ClassRunner</code> is a custom extension of JUnit's <code>BlockJUnit4ClassRunner</code> which provides functionality of the <em>Spring TestContext Framework</em> to standard JUnit tests by means of the <code>TestContextManager</code> and associated support classes and annotations.</p> 
+</blockquote> 
+<p>&nbsp;</p> 
+<p>参考地址：</p> 
+<p><a href="https://github.com/junit-team/junit4/wiki" rel="nofollow">https://github.com/junit-team/junit4/wiki</a></p> 
+<p><a href="http://www.cnblogs.com/yepei/p/5649352.html" rel="nofollow">http://www.cnblogs.com/yepei/p/5649352.html</a></p>
+                                                    <div class="ad-wrap" style="margin-top: 12px;">
+                                                        <div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogdown" style="">
+<script async="" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/f(1).txt"></script>
+<!-- 博客详情页下方 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-7090564139599510" data-ad-slot="2321828009" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent;"><iframe width="728" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0px;width:728px;height:90px;" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/saved_resource(1).html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<!--
+<script>
+    function success_jsonpCallback(data) {
+        var obj = eval(data);
+        if( obj.success ){
+            var contents = eval(obj.data[0].content);
+            if(contents.length > 0){
+                var content = contents[0];
+                $('#blog-title-ad').prepend("<a  href='"+ content.url +"' target='_blank' style='max-width:780px;'><img src='"+content.img+"'/></a>");
+                $('#blog-title-ad').show();
+            }
+            
+        }else {
+            $('#blog-title-ad').hide();
+        }
+    }
+    window.addEventListener("load", function() {
+         var url="  http://clickc.admaster.com.cn/c/a116493,b2949390,c3159,i0,m101,8a1,8b2,h";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            jsonp: "callback",
+            dataType: 'jsonp',
+            jsonpCallback: 'success_jsonpCallback',
+            contentType: "application/json; charset=utf-8",
+            success: function( response ) {
+                // do in callback
+            },
+            error:function(){
+                $('#blog-title-ad').hide();
+            }
+        });
+    }, false);
+</script>
+-->
+                                        </div>
+                                            </div>
+                    <div class="ui hidden divider"></div>
+                    <p style="text-align:center;">
+                                                    © 著作权归作者所有
+                                            </p>
+                </div>
+
+                                <div class="ui basic center aligned segment action">
+                    <div class="ui huge buttons">
+                                                    <a class="ui green button donate" donate="" data-id="1550753" data-obj-type="16344358" data-subject="JUnit高级用法之@RunWith" data-donater="" data-author="1434710" data-return-url="https://my.oschina.net/itblog/blog/1550753" data-notify-url="https://my.oschina.net/action/donate/paySuccess">                                 <i class="yen icon"></i>打赏</a>
+                                                <a class="ui basic button like article-like " data-id="1550753">
+                            <i class="thumbs up outline icon"></i>点赞 (<span data-article-like-count="">0</span>)
+                        </a>
+                        <a class="ui basic button collect-btn hover" data-id="1550753" data-user-id="1434710" data-obj-type="3" data-max="99" data-tag-required="" data-current-user-id="" data-recommend-tags="JUnit"><i class="star outline icon"></i>收藏 (<span data-collect-count="" data-id="1550753" data-obj-type="3">1</span>)</a>
+                        <div class="ui basic dropdown share button bdsharebuttonbox reset dropdown-share bdshare-button-style0-16" data-tag="share-blog" tabindex="0" data-bd-bind="1557370796447">
+                            <i class="share icon"></i> <span>分享</span>
+                            <div class="menu" tabindex="-1">
+                                <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                                <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                                <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui basic segment">
+                        <a class="ban" style="cursor: pointer" ban-report="" data-id="1550753" data-obj-type="3" data-url="https://my.oschina.net/itblog/blog/1550753">
+                            <i class="flag red icon"></i>举报</a>
+                    </div>
+                </div>
+
+                                
+
+                                <div class="around-articles-wrap">
+                                                            <div class="around-item around-left">
+                        <i class="angle left icon"></i>
+                        <span class="text">上一篇：</span>
+                        <a class="link" href="https://my.oschina.net/itblog/blog/1570552">Git for Windows需要输入账户和密码</a>
+                    </div>
+                    
+                                                            <div class="around-item around-right">
+                        <span class="text">下一篇：</span>
+                        <a class="link" href="https://my.oschina.net/itblog/blog/1536121">JVM运行时数据区</a>
+                        <i class="angle right icon"></i>
+                    </div>
+                                    </div>
+
+                                <div class="ui info message author-card">
+                    <div class="ui items">
+                        <div class="item author-card-item">
+                            <a class="ui avatar tiny image" href="https://my.oschina.net/itblog">
+                                                        <div class="osc-avatar large-portrait _80x80" title="摆渡者" data-user-id="1434710">
+                <img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/1434710_200.jpeg" alt="摆渡者" title="摆渡者">
+            </div>
+                                        </a>
+                            <div class="content author-card-info">
+                                <div class="author-header clearfix">
+                                                                        <h3 class="author-name"><a class="__user" href="https://my.oschina.net/itblog">摆渡者</a></h3>
+                                                                                                        </div>
+                                <div class="ui horizontal list">
+                                    <div class="item">粉丝 <span class="followers-count" data-user-id="1434710" data-followers-count="339">339</span></div>
+                                    <div class="item">博文 171</div>
+                                    <div class="item">码字总数 206342</div>
+                                    <div class="item">作品 0</div>
+                                </div>
+                                <div class="ui hidden fitted clearing divider"></div>
+                                                                                                    <div class="ui horizontal list">
+                                                                                    <div class="item"><i class="map marker alternate icon"></i> 浦东</div>
+                                                                                                                            <div class="item"><i class="address card outline icon"></i> 程序员 </div>
+                                                                            </div>
+                                                                                                    <div class="ui hidden fitted clearing divider"></div>
+                                                                                                                    <a class="ui green compact button follow-btn" data-user-id="1434710" data-follow-status="1"><i class="heart outline icon"></i><span class="text">关注</span></a>
+                                                                                                            <a class="ui green basic compact button send-message-btn" data-user-id="1434710" data-user-name="摆渡者"><i class="envelope outline icon"></i>私信</a>
+                                                                        <a class="ui green basic compact button" href="https://www.oschina.net/question/ask?user=1434710" target="_blank"><i class="comment outline icon"></i>提问</a>
+                                                            </div>
+                            <div class="content panel-skills-radar" style="">
+                                <div class="skills-radar">
+                                    <div class="radar-wrap" radar="" data-user-id="1434710" data-skills-num="5" data-detail-url="https://my.oschina.net/itblog/radar" data-container=".panel-skills-radar">
+                                        <div class="radar-map" style="position: relative;"><canvas width="350" height="152" style="width: 280px; height: 122px;"></canvas></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                                            </div>
+                        <div class="ui basic segment article-list">
+                <div class="scroll-tab hidden-scroll">
+                    <div class="ui green pointing secondary massive menu spaceBlog-tab">
+                        <a class="active item" data-tab="relArticleList">相关文章</a>
+                        <a class="item" data-tab="newArticleList">最新文章</a>
+                    </div>
+                </div>
+                <div class="ui basic segment active tab article-list" data-tab="relArticleList" id="relArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                    <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://www.oschina.net/question/2276679_2189844" target="_blank" title="关于maven下 使用Spring 集成Junit版本问题">关于maven下 使用Spring 集成Junit版本问题</a>
+                        <div class="description">
+                            <p class="line-clamp">maven建立的测试项目，今天在做测试dao接口的时候，在Spring环境中使用Junit，发现@RunWith(SpringJUnit4ClassRunner.class)这句话报错了，网上找些资料看，说可能是maven默认使用的是3.8.1...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">Zain丶酱</div>
+                                <div class="item">2016/07/29</div>
+
+                                <div class="item"><i class="eye icon"></i> 1K</div>
+                                <div class="item"><i class="comment outline icon"></i> 4</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/870846/blog/144495" target="_blank" title="JUnit框架功能详细——JUnit学习（一）">JUnit框架功能详细——JUnit学习（一）</a>
+                        <div class="description">
+                            <p class="line-clamp">是著名的单元测试框架，在JUnit4中所有的测试用例采用@Annotation标注，这比JUnit3的通过类继承和特定方法名带来更大的灵活性。在花了一周多的时间学习JUnit4使用及原码后发现自己以往只用到...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">gangzz</div>
+                                <div class="item">2013/07/13</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 8</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/251225/blog/307039" target="_blank" title="JMockit+JUnit单元测试初始化问题">JMockit+JUnit单元测试初始化问题</a>
+                        <div class="description">
+                            <p class="line-clamp">一、项目环境： WIN7 64位，Eclipse 4.2，JDK1.6，JUnit 4.11，JMockit 1.10 二、示例代码： 使用JUnit + JMockit进行单元测试，运行JUnit Case时，抛出以下错误： java.lang.IllegalStateEx...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">dexterman</div>
+                                <div class="item">2014/08/27</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/3378039/blog/1843832" target="_blank" title="JUnit4单元测试的两种形式">JUnit4单元测试的两种形式</a>
+                        <div class="description">
+                            <p class="line-clamp">特点： JUnit 是一个开放的资源框架，用于编写和运行测试。 提供注释来识别测试方法。 提供断言来测试预期结果。 提供测试运行来运行测试。 JUnit 测试允许你编写代码更快，并能提高质量。 ...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">恋码之子</div>
+                                <div class="item">2018/07/10</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/3471412/blog/2870181" target="_blank" title="Spring Boot（十二）单元测试JUnit">Spring Boot（十二）单元测试JUnit</a>
+                        <div class="description">
+                            <p class="line-clamp">一、介绍 JUnit是一款优秀的开源Java单元测试框架，也是目前使用率最高最流行的测试框架，开发工具Eclipse和IDEA对JUnit都有很好的支持，JUnit主要用于白盒测试和回归测试。 白盒测试：把测试...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">王磊的博客</div>
+                                <div class="item">2018/11/05</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none;"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination" style="display: none;">
+            <a class="rel-pagination pagination__next" style="display: none" href="https://my.oschina.net/itblog/blog/widgets/_blog_detail_list_rel?obj=1550753&amp;p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+                <div class="ui basic segment tab article-list" data-tab="newArticleList" id="newArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                                        <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3748375/blog/3047364" target="_blank" title="java项目http变更为https">java项目http变更为https</a>
+                            <div class="description">
+                                <p class="line-clamp">1. 创建 keystore 文件 ，使用管理员用户运行cmd黑窗口 执行 keytool -genkey -alias tomcat -keyalg RSA 证书名称 -keyalg RSA 这样就在用户的主目录下创建了一个 .keystore 文件 2. 配置 ...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">平凡三度</div>
+                                    <div class="item">10分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/u/3748375/blog/3047364" target="_blank" title="java项目http变更为https">
+                                    <img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/a64cd1566facb0e409b790e198e4c27e2fe.jpg" alt="" data-img-render="" style="width: 100%; height: auto;">
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/gugudu/blog/3047363" target="_blank" title="在ubuntu kylin优麒麟中安装达芬奇视频编辑调色软件davinci resolve 16">在ubuntu kylin优麒麟中安装达芬奇视频编辑调色软件davinci resolve 16</a>
+                            <div class="description">
+                                <p class="line-clamp">1、软硬件环境 根据官方文档介绍，davinci resolve目前仅支持nvidia显卡，因为要用到cuda，那……什么是cuda？请自行搜索。 根据nvidia的官方文档介绍，目前linux驱动支持的显卡至少是gefor...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">gugudu</div>
+                                    <div class="item">13分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 2</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/gugudu/blog/3047363" target="_blank" title="在ubuntu kylin优麒麟中安装达芬奇视频编辑调色软件davinci resolve 16">
+                                    <img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/78b7764cb1806def890a1fdf680ffe13595.jpg" alt="" data-img-render="" style="width: 100%; height: auto;">
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/maojindaoGG/blog/3047362" target="_blank" title="springboot + aop 判断用户权限">springboot + aop 判断用户权限</a>
+                            <div class="description">
+                                <p class="line-clamp">1、pom添加aop配置         &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;        &lt;/depende......</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">卯金刀GG</div>
+                                    <div class="item">15分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3308739/blog/3047359" target="_blank" title="Linux快速入门打开你的学习之道">Linux快速入门打开你的学习之道</a>
+                            <div class="description">
+                                <p class="line-clamp">相信看到这篇文章的你一定是想要学习Linux，或者已经在学习Linux的人了，那我们就可以一起探讨一下，学习Linux如何快速入门呢？ 首先，希望大家弄清楚自己为什么要学习Linux，有的人是因为兴...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">linux-tao</div>
+                                    <div class="item">18分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/u/3308739/blog/3047359" target="_blank" title="Linux快速入门打开你的学习之道">
+                                    <img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/f0bd93631a079abb86b665c7c24a5ecd920.jpg" alt="" data-img-render="" style="width: 100%; height: auto;">
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/yaohonv/blog/3047357" target="_blank" title="Mac上超好用代理工具，抓取HTTP协议数据（和谐版）">Mac上超好用代理工具，抓取HTTP协议数据（和谐版）</a>
+                            <div class="description">
+                                <p class="line-clamp">解压 将 Charles.app 拖至 应用程序 文件夹 先打开一次 关闭 复制 charles.jar 至 /Applications/Charles.app/Contents/Java/ 打开 进入注册窗口 使用 SN.txt 中的序列码 激活成功 下载地址：...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">echx</div>
+                                    <div class="item">21分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination">
+            <a class="news-pagination pagination__next" style="display: none" href="https://my.oschina.net/itblog/blog/widgets/_blog_detail_list_news?p=2&amp;type=ajax">下一页</a>
+        </p>
+                    </div>
+            </div>
+        </div>
+        <div class="two wide computer only column">
+                        <div class="ad-wrap">
+                                        <div data-traceid="blog_left_1" data-tracepid="blog_left">
+
+<script async="" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/f(1).txt"></script>
+<!-- ios-zone-home-120x600 -->
+<ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px" data-ad-client="ca-pub-7090564139599510" data-ad-slot="7907495427" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px;background-color:transparent;"><ins id="aswift_2_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px;background-color:transparent;"><iframe width="120" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0px;width:120px;height:600px;" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/saved_resource(2).html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</div>
+                        </div>
+                    </div>
+    </div>
+</div>
+
+
+<div class="ui mini delete-blog modal">
+    <div class="header">删除文章</div>
+    <div class="content">
+        <p>文章删除后无法恢复，确定取消删除此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-self modal">
+    <div class="header">自荐文章</div>
+    <div class="content">
+        <p>亲，自荐的博客将通过私信方式通知管理员，优秀的博客文章审核通过后将在博客推荐列表中显示</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-blog modal">
+    <div class="header">推荐文章</div>
+    <div class="content">
+        <p>确定推荐此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-author modal">
+    <div class="header">推荐博主</div>
+    <div class="content">
+        <p>确定推荐此博主吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/blog" defer="defer"></script>
+<script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/space"></script>
+
+<script>
+    // 百度分享
+    window._bd_share_config = {
+        common : {
+            bdText : 'JUnit高级用法之@RunWith - 摆渡者 - OSCHINA',
+            bdDesc : '在Java系列的开发工作中，单元测试框架用的最多的应该就是JUnit了。但是我们通常使用到的大多是@Test，@Ignore，@Before，@BeforeClass，@After，@AfterClass等注解，其功能也相对简单。其实JUnit还有一些很好用的功能。',
+            bdUrl  : 'https://my.oschina.net/itblog/blog/1550753',
+            bdPic  : 'https://static.oschina.net/uploads/space/2017/1014/200112_9Eua_1434710.png'
+        },
+        share : [{
+            bdSize : 16
+        }]
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://static.oschina.net/new-osc/js/utils/plugins/bdshare_api/share.js?v='+~(-new Date()/36e5)];
+</script>
+    
+
+            </div>
+        </div>
+
+                <div id="footer" class="ui vertical footer segment mb-hide">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">OSCHINA 社区</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">关于我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">联系我们</a>
+                    <a class="item" href="https://www.oschina.net/home/aboutosc#partners#" target="_blank">合作伙伴</a>
+                    <a class="item" href="https://www.oschina.net/openapi" target="_blank">Open API</a>
+                </div>
+            </div>
+            <div class="eight wide mobile four wide tablet four wide computer column">
+                <h4 class="ui header">在线工具</h4>
+                <div class="ui link list">
+                    <a class="item" href="https://gitee.com/?from=osc-bottom" target="_blank">码云 Gitee.com</a>
+                    <a class="item" href="https://gitee.com/enterprises?from=osc-bottom" target="_blank">企业研发管理</a>
+                    <a class="item" href="https://copycat.gitee.com/?from=osc-bottom" target="_blank">CopyCat-代码克隆检测</a>
+                    <a class="item" href="https://tool.oschina.net/" target="_blank">实用在线工具</a>
+                </div>
+            </div>
+            <div class="center aligned eight wide mobile two wide tablet two wide computer column">
+                <h4 class="ui header">微信公众号</h4>
+                <img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/wechat_qrcode.jpg" alt="微信公众号">
+            </div>
+            <div class="center aligned eight wide mobile six wide tablet six wide computer column">
+                <h3 class="ui header">OSCHINA APP</h3>
+                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+                <a href="https://www.oschina.net/app" target="_blank" class="ui large primary button">下载 APP</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="copyright">
+    <div class="ui container">
+        <div class="ui clearing basic segment">
+            <div class="ui left floated horizontal link list">
+                <div class="item">©OSCHINA(OSChina.NET)</div>
+                <div class="item mb-hide">工信部</div>
+                <a class="item mb-hide" href="http://www.copu.org.cn/" target="_blank" title="开源软件推进联盟">开源软件推进联盟</a>
+                <div class="item mb-hide">指定官方社区</div>
+            </div>
+            <div class="ui right floated horizontal link list">
+                <div class="item mb-hide">深圳市奥思网络科技有限公司版权所有</div>
+                <a href="http://beian.miit.gov.cn/" target="_blank" class="item">粤ICP备12009483号-3</a>
+            </div>
+        </div>
+    </div>
+</div>    </div>
+                                                        <div class="back-to-top back-to-top-toggle" style="display: block;">
+        <div class="icon"><img src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/back-to-top.svg" alt="返回顶部"></div>
+        <div class="text">顶部</div>
+    </div>
+
+        <script src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/semantic.min.js.下载"></script>
+    <script src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/jweixin-1.2.0.js.下载"></script>
+                <script type="text/javascript" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/space.0a02abac.js.下载"></script>                
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?a411c4d1664dd70048ee98afe7b28f0b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+                
+<script type="text/javascript">
+    !function(e,t,n,g,i){e[i]=e[i]||function(){(e[i].q=e[i].q||[]).push(arguments)},n=t.createElement("script"),tag=t.getElementsByTagName("script")[0],n.async=1,n.src=('https:'==document.location.protocol?'https://':'http://')+g,tag.parentNode.insertBefore(n,tag)}(window,document,"script","assets.growingio.com/2.1/gio.js","gio");
+    gio('init','89b266b986554bc7', {});
+    gio('send');
+</script>
+    
+
+<!-- Generated by oschina (init:1[ms],page:782[ms],ip:61.135.24.218) //--><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_3_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><ins id="aswift_3_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;border:0px;width:0px;height:0px;" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/saved_resource(3).html"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_400202078508" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/saved_resource(4).html"></iframe></body><iframe id="google_shimpl" style="display: none;" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/saved_resource(5).html"></iframe><iframe id="google_esf" name="google_esf" src="./JUnit高级用法之@RunWith - 摆渡者 - OSCHINA_files/zrt_lookup.html" data-ad-client="ca-pub-7090564139599510" style="display: none;"></iframe></html>
