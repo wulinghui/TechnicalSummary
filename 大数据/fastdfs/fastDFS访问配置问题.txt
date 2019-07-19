@@ -1,7 +1,0 @@
-1. javaClient 一访问就是连接被拒绝，一开始以为是防火墙网络的问题，后来找了好久才知道是配置问题，具体如下:
-最关键的问题就是ip地址和group_name问题
-
-fastDFS访问配置问题 之前外网不能访问主要是由于storage.conf 和 tracker.conf的配置不对导致的，bind_addr=  这里不要绑定具体地址 store_group=group1
-（是group1不是group2之前配置有问题，要与storage.conf的group name对应)  。
-storage.conf 配置：group_name=group1 bind_addr=不要绑定地址 tracker_server=39.105.142.3(公网地址):22122
-

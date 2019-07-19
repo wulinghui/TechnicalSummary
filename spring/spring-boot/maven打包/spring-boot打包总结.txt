@@ -1,1 +1,0 @@
-spring-boot-maven-plugin的repackage是在打包之后在进行一次重新打包。

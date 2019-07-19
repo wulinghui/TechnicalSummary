@@ -1,5 +1,0 @@
-克隆系统
-win gost   --- Mondo Rescue（以下简称Mondo）
-Ghost         win克隆系统
-Clonezilla   离线linux克隆系统
-Linux　分区克隆神器　FSArchiver

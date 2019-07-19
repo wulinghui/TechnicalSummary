@@ -1,1 +1,0 @@
-document.write('error 0x006！请联系客服！')

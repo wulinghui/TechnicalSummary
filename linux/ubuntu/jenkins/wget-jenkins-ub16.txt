@@ -1,7 +1,0 @@
-#! /bin/sh 
-# 改名为jenkins.war
-# wget -O jenkins.war http://mirrors.jenkins.io/war-stable/latest/jenkins.war
-
-# 下载到指定路径
-wget -P /var/lib/tomcat8/webapps/ http://mirrors.jenkins.io/war-stable/latest/jenkins.war
-
