@@ -1,0 +1,357 @@
+---
+title: Istio
+date: 2022-07-04 15:28:55
+permalink: /pages/28696f/
+categories:
+  - Kubernetes
+tags:
+  - 
+author: 
+  name: wulinghui
+  link: https://gitee.com/hellowllh/projects
+---
+# ServiceMesh介绍
+微服务面临的问题： 服务间的网络通信是最大的问题。（延迟、可靠、带宽有限、拓扑结构会变、网络可能异构）  
+如何管理和控制网络间的通信 ： 服务注册/发现、路由/流量转移、弹性能力（熔断、超时、重试）、安全、可观测性
+
+## 演进过程 
+- 阶段一 :  各自实现,网络控制逻辑和业务逻辑耦合再一起。 
+- 阶段二 :  公共库,如spring-cloud-alibaba。 缺点: 语音绑定、仍有侵入。 开发处理网络的问题。
+- 阶段三 :  网络代理, 功能简陋(可以看成每个应用对应一个apisix)
+- 阶段四 :  边车模式（将应用功能从应用本身剥离出来作为单独进程的方式）, 代理入口是统一的。
+- 阶段五 :  Service Mesh,基于边车模式的网络拓扑模式。这些轻量级网络代理与应用程序代码一起部署，交织访问。
+
+## 主要功能
+服务发现、负载均衡、故障恢复、度量和监控等。服务网格通常还有更复杂的运维需求，比如 A/B 测试、金丝雀发布、速率限制、访问控制和端到端认证。
+- 流量控制: 路由、流量转移、超时重试、熔断、故障注入、流量镜像、弹性、测试
+- 策略配置: 限流、黑白名单
+- 网络安全: 授权和身份认证
+- 可观察性: 指标、日志、追踪
+
+
+## 和Kubernetes关系
+- k8s解决pod的生命周期的调度管理，为Service Mesh提供基础。
+- k8s只是他底层的支持，k8s可以用其他的替换，如swarm等。
+- Istio  在运维层面解决了，网络和流量管理的问题。 更多承担是的网络代理框架的角色。
+
+## 和API网关关系
+- 功能有重叠。
+- 边界不同: mesh是在应用内部的，网关是外部的。
+
+
+## 产品: 
+- linkerd ： 被淘汰
+- envoy ： 被istio收编
+- istio :  技术成熟，就是性能的瓶颈是个问题(目前正在解决)。
+- mosn : 阿里开源的。 经过双11 大促几十万容器的生产级验证。 集成 Envoy 作为网络库，具备高性能、易扩展的特点。 MOSN 可以和 Istio 集成构建 Service Mesh，也可以作为独立的四、七层负载均衡，API Gateway
+
+
+# Istio 介绍
+他是一个应用，也是一个平台。可以和其他系统轻松集成。可以高效的运行微服务框架。
+
+
+
+## 优势：
+- 轻松构建服务网格
+- 应用代码无需修改
+- 功能强大
+管理公共库，可以使用不同的语言开发。
+本身也有问题，如性能，ebfp，cilium。
+自带摇测，监控日志。
+
+
+## 架构
+![组成每个平面的不同组件](https://istio.io/latest/zh/docs/ops/deployment/architecture/arch.svg)
+> Istio 服务网格从逻辑上分为数据平面(由一组智能代理Envoy组成，被部署为 Sidecar)和控制平面(istiod)。
+> Sidecar（模式）、Envoy（项目）、istio-proxy（具体的实现） 这3个是一个概念。都是数据平面
+> ingress(入口) -> serviceA -> istio-proxy -> istiod(控制平面) -> serviceB -> egress
+
+
+
+## 安装 
+- 下载安装脚本并安装
+- 用istioctl快速安装。 
+- 给命名空间添加标签（ istio-injection=enabled ），指示 Istio 在部署应用的时候，自动注入 Envoy 边车/Sidecar代理，再每个pod里面都会多这一个代理容器。
+> 同时有这个标签的叫 网格空间，没有的叫非网格空间。
+
+
+# 流量管理使用
+
+- 配置请求路由： 如何将请求动态路由到微服务的多个版本。
+
+- 故障注入 ： 此任务说明如何注入故障并测试应用程序的弹性。
+
+- 流量转移 ： 展示如何将流量从旧版本迁移到新版本的服务。
+
+- TCP 流量转移 ： 展示如何将一个服务的 TCP 流量从旧版本迁移到新版本。
+
+- 设置请求超时 ： 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
+
+- 熔断 ： 本任务展示如何为连接、请求以及异常检测配置熔断。
+
+- 镜像 ： 此任务演示了 Istio 的流量镜像/影子功能。
+
+- 地域负载均衡 ： 本系列任务演示如何在 Istio 中配置地域负载均衡。
+
+- Ingress ： 控制 Istio 服务网格的入口流量。
+
+- Egress ： 控制 Istio 服务网格的出口流量。
+
+
+嵌入istio 后 bookinfo 的每个微服务都会新增一个 Envoy，这个 Envoy 就是所谓的 sidecar。
+它会接管跟它配对的微服务的所有网络进、出口流量。
+
+
+应用场景: 
+- 按照版本路由 
+- 按比例切分流量
+- 根据匹配规则路由
+- 负载均衡/连接池各种策略   
+
+
+## 虚拟服务
+虚拟服务使我们可以配置如何将请求路由到 Istio 服务网格中的服务。
+把所有服务都定义为单个的虚拟服务点。
+作用: 定义路由规则、描述满足条件的请求去个具体的子集。
+使用: route.destination.subset  和 目标规则定义的子集对应
+
+## 目标规则
+目标规则有助于我们控制到达目标的流量，例如，按版本对服务实例进行分组。
+对每个虚拟服务的目标点的目标地址
+作用: 定义子集(需要在目标规则中定义可用的版本)、策略; 描述到达目标的请求怎么处理
+使用: spec.host 和 k8s的服务对应;  labels 的键值对对应于 Kubernetes 中标签一致的 pod
+
+
+## 流量转移
+将流量从微服务的一个版本逐步迁移到另一个版本。
+就是修改VirtualService的子集对应的内容。
+
+
+手工使用kublet edit xxx 修改weght权重，就可以实现 AB测试、蓝绿发布、金丝雀发布了(一般有工具，也是采用这个原理)。
+
+
+## 故障注入
+故障注入是一种将错误引入系统以确保系统能够承受并从错误条件中恢复的测试方法。
+使用故障注入特别有用，能确保故障恢复策略不至于不兼容或者太严格，这会导致关键服务不可用。
+使用:  两种故障模式
+- 延时： 配置路由和延时时间（fault.delay.fixedDelay），流量比例（fault.delay.percentage.value） 
+- 终止： 通常以 HTTP 错误码或 TCP 连接失败的形式出现。
+
+## 超时和重试
+分布式系统在出现故障时的提升系统弹性的方法： 超时和重试 
+都是配置再VirtualService上的。 提供方上配置
+
+### 超时
+超时是 Envoy 代理等待来自给定服务的答复的时间量，以确保服务不会因为等待答复而无限期的挂起，并在可预测的时间范围内调用成功或失败。
+使用:  spec.http.route.timeout  默认15秒。
+
+### 重试
+HTTP 请求的默认重试行为是在返回错误之前重试两次。  自适应熔断:重试之间的间隔（25ms+）是可变的，并由 Istio 自动确定。使用: spec.http.route.retries.attempts 尝试次数   spec.http.route.retries.perTryTimeout 尝试时间。
+
+## 服务熔断、限流和服务降级
+概念: 
+- 熔断： 服务发起方为了保护系统整体的可用性，可以临时暂停对服务提供方的调用，这种牺牲局部，保全整体的措施就叫做熔断。
+- 限流: 限流就是限制系统的输入和输出流量已达到保护系统的目的。一旦达到的需要限制的阈值，就需要限制流量并采取一些措施以完成限制流量的目的。比如：延迟处理，拒绝处理，或者部分拒绝处理等等。
+- 服务降级 : 关闭部分非核心功能。
+
+
+配置熔断器：
+在DestinationRule目标规则中配置。调用方中配置。
+
+两种配置：
+ConnectionPoolSettings
+配置连接的数量
+控制请求的最大数量，挂起请求，重试或者超时；
+maxConnections 为 并发的连接 ，
+httpMaxPendingRequests 为 请求数超过，
+maxRequestsPerConnection 为 预先连接数。
+
+
+OutlierDetection 
+控制从负载均衡池中剔除不健康的实例。
+可以设置最小逐出时间和最大逐出百分比。consecutiveErrors ： 熔断里面的失败计数器，到达后，启动熔断
+Interval ：  熔断的间隔时间
+baseEjectionTime ： 主机被逐出的基准时间。 实际时间等于基本时间乘以主机被逐出的次数。
+maxEjectionPercent ： 最大可被驱逐的实例。
+
+
+
+## 流量镜像（影子流量）
+实时复制请求到镜像服务。
+应用于: 线上问题排查、观察生产压力、复制真实流量进行分析
+
+使用:
+VirtualService中配置http.route.mirror 影子路由 和  http.route.mirrorPercent 影子流量占比。
+
+注意:
+- 请求将发送到镜像服务中，并在 headers 中的 Host/Authority 属性值上追加 -shadow。例如 cluster-1 变为 cluster-1-shadow。- 镜像请求的响应会被丢弃。
+
+
+## 总结
+功能总结
+- 路由，流量转移 ： 可以实现，蓝绿、灰度、A/B 测试
+- 弹性能力 ：  超时重试、熔断
+- 调试 ： 流量镜像，故障注入
+
+
+CRD 资源总结
+• Vs-Dr （虚拟服务-目标规则）
+• Gateway
+• Service Entry 
+• SideCar
+ 
+
+# Ingress Gateway
+gateway 可以定义: ingress、Egress；这2者的用法定义一致，用途不一样。
+描述运行在网格边界的负载均衡器，负责接收传入的 HTTP/TCP 连接。其中配置了对外暴露的端口、协议等。
+使用: 
+- 创建 Istio Gateway。kind: Gateway
+- 为通过 Gateway 的入口流量配置路由 ：  kind: VirtualService ， 在spec.gateways配置上面定义的name.
+
+
+# 访问外部服务
+内部访问其他的网络情况策略。
+
+Istio 有一个安装选项， global.outboundTrafficPolicy.mode，它配置 sidecar 对外部服务的处理方式。
+ALLOW_ANY （默认）:  允许调用未知的服务。
+REGISTRY_ONLY ： 会阻止任何没有在网格中定义的HTTP 服务或 service entry 的主机
+
+
+这个任务向你展示了四种访问外部服务的方法：
+1. 允许 Envoy 代理将请求传递到未在网格内配置过的服务  [完全不控制]。
+2. 配置 service entries 以提供对外部服务的受控访问。 (推荐的方法)   [SE控制外部提供的IP(用DV、DS可以控制外部的流量)]
+3. 对于特定范围的 IP，完全绕过 Envoy 代理。    [不控制特定IP]
+4. 配置 Egress 网关。     [网关]
+
+
+ServiceEntry： 
+servicer entrty 把外部ip资源，映射到内部做统一管理。
+定义可以访问，没有定义无法访问。
+定义 ServiceEntry 访问外部的服务 ： kind: ServiceEntry ；
+
+定义虚拟服务-管理到外部服务的流量： spec.http.route.destination.host
+
+# Egress 出口流量
+Egress gateway 是一个与 Ingress gateway 对称的概念，它定义了网格的出口。
+Egress gateway 允许您将 Istio 的功能（例如，监视和路由规则）应用于网格的出站流量。
+使用: kind: VirtualService ， spec.http.match.gateways 对应定义的出口Gateway
+
+发起 HTTPS 请求： 需要再ServiceEntry、egress Gateway 和 VirtualService 中指定 TLS 协议 和 端口 443 
+
+注意事项: Istio 无法强制 让所有出站流量都经过 egress gateway，Istio 只是通过 sidecar 代理实现了这种流向。
+
+
+# [安全性](https://istio.io/latest/zh/docs/concepts/security/)
+需求： 抵御中间人攻击的流量加密；细粒度的访问策略；审计工具
+
+组件： 用于密钥和证书管理的证书颁发机构（CA）； 配置 API 服务器分发给代理；一组 Envoy 代理扩展，用于管理遥测和审计
+
+身份： Istio 身份模型使用 service identity （服务身份）来确定一个请求源端的身份。 
+服务器端，可以根据他们使用的工作负载向客户收费，并拒绝任何未能支付账单的客户访问工作负载
+可以有多种类型： Kubernetes service account； GCP service account；用户帐户、自定义服务帐户、服务名称、Istio 服务帐户； 
+
+公钥基础设施 (PKI) ： 每个 Envoy 代理的 istio-agent 和 istiod 一起协作来大规模进行自动化密钥和证书轮换。
+公钥（PKI）获得流程：   proxy -> agent -> 请求istiod -》 CA 获得秘钥 -> agent -> SVB就能使用。
+
+## 认证
+管控网格服务间的双向 TLS 和终端用户的身份认证。
+两种类型Peer authentication（服务到服务的认证）、Request authentication（最终用户认证）
+Istio 的认证机制支持宽容模式，不强制要求认证。
+
+安全命名: 包括服务名字和访问此服务的身份,2者结合认证，将服务器身份映射到服务名称。 对于非 HTTP/HTTPS 流量，安全命名不能保护其免于 DNS 欺骗。
+控制平面istioed:  策略下发服务，ssl证书自我自动颁发和认证。
+认证范围 : 1.  整个mesh网络   2. namespace级别 3. service级别的认证。
+
+
+认证策略：
+需要再DetinationRule中设置 TLSSettings。
+request认证: 要求token 和 不要求token。
+Istio 几乎实时将新策略推送到工作负载。所以可以随时更改认证策略。
+
+
+使用:
+- kind: "PeerAuthentication" 或者  kind: "RequestAuthentication"; 
+- selector 字段来指定该策略适用的工作负载的标签。 注意: 如果您没有为 selector 字段提供值，则 Istio 会将策略与策略存储范围内的所有工作负载进行匹配。
+- 多个策略时，Istio 将选择最旧的策略。
+
+
+
+### PeerAuthentication
+
+如果未设置模式，将继承父作用域的模式。
+
+3中认证模式:   （spec.mtls.mode）
+- PERMISSIVE 宽容模式（默认），再mesh和非mesh网络之间走http协议非安全。中间权衡内部https外部http  
+- disables 模式 全部都是http 
+- STRICT 严格模式，都是https模式。
+
+策略优先级:  越具体的设置，优先级别越高;  全局配置<全部 namespace<具体应用<具体端口
+
+### Request authentication 
+指定验证 JSON Web Token（JWT）所需的值(请求中的位置、请求的issuer、JWKS)
+当请求不带有令牌时，默认情况下将接受它们。
+
+
+
+## 授权
+优点： 工作负载的授权；简单的 API；灵活的语义；高性能；高兼容性（tcp、http、http2）；
+授权架构 :  Envoy 代理中有授权引擎，用于控制。拒绝策略优先于允许策略。
+隐式启用 ： 默认放行所有请求。
+授权策略 ： 需要先创建AuthorizationPolicy自定义资源。
+策略目标 ： selector用于指定策略的范围或目标。
+值匹配   ： 完全匹配、前缀匹配、后缀匹配、存在匹配
+排除匹配  ： notValues、notPorts、notIpBlocks
+自定义条件 ： 使用 when 部分指定其他条件
+认证与未认证身份 ： 如果要使工作负载可公开访问，则需要将 source 部分留空
+TCP协议上使用Istio授权 ： 
+
+
+说明: 
+- https本身是双向认证的。
+
+
+# 可观察性
+
+
+## kiali 使用
+kiali 是一款 istio 服务网格可视化工具，提供了服务拓补图、全链路跟踪、指标遥测、配置校验、健康检查等功能。
+界面: Overview（概观）; Application（应用维度）;	workloads（负载维度） ;Services（服务维度） ; Istio Config（配置维度）
+架构: 需要先安装Prometheus； 数据从Prometheus、Istio、Jaeger里面获得。
+
+
+## 监控-指标
+默认是通过自带的 Promethuse 和 Grafana 组件来完成指标的收集和展示 ，本身不提供监控系统， 把现有的监控系统和 Istio 整合在一起是最好的解决方案。
+流程: grafana展示访问。 envory(每个pod都有)、istiod 推到prometheus里面。
+
+
+Istio 提供2个接口：  /metrics：提供 Istio 自身运行状况的指标信息； /stats/prometheus：Envoy 提供的接口，可获取网络流量相关的指标
+
+三大类指标: 代理级别指标 、服务级别指标、控制平面指标。
+
+
+Prometheus 配置方式 ： 静态配置（不推荐使用）； 动态配置（服务发现机制） 、再配置上面的2个接口。
+Grafana 查看
+
+## 分布式追踪
+可以使用istio结合skywalking进行链路追踪。
+Jaeger : 端到端的分布式跟踪系统，istio原生支持。可以替换skywaking （不建议，需要改代码。）
+## 访问日志
+
+操作步骤: 
+- 获取 Envoy 访问日志:  修改istio配置，开启 Envoy 访问日志
+- 安装 ELK 套件，去收集 Istio Envoy 的 log 数据
+- Deployment 有: kibana、elasticsearch(PVC)、
+- domenset : 日志采集filebeat ； envoy的日志就是json格式了，不需要用插件做格式化了。
+
+
+#########################
+
+
+
+
+# 参考资料
+- [Sidecar模式：下一代微服务架构的关键](https://www.jianshu.com/p/330b00dc40d7)
+> Sidecar模式是一种将应用功能从应用本身剥离出来作为单独进程的方式。该模式允许我们向应用无侵入添加多种功能，避免了为满足第三方组件需求而向应用添加额外的配置代码。
+- [Service Mesh演进史](https://zhuanlan.zhihu.com/p/422552982)
+- [Egress-访问外部服务](https://istio.io/latest/zh/docs/tasks/traffic-management/egress/egress-control/)
+- [Working with Istio](https://skywalking.apache.org/docs/main/latest/en/setup/istio/readme/)
