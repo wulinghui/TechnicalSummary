@@ -29,6 +29,9 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
     // 导航配置
     nav: [
       { text: '首页', link: '/' },
+	  { text: 'go', link: '/pages/goVersion181/' },
+	  { text: 'java', link: '/categories/?category=spring' },
+	  { text: 'Kubernetes', link: '/pages/Kubernetes/' },
       {
         text: '更多',
         // link: '/more/',
@@ -272,7 +275,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
           repo: 'TechnicalSummary', // GitHub 仓库
           owner: 'wulinghui', // GitHub仓库所有者
           admin: ['wulinghui'], // 对仓库有写权限的人
-          // distractionFreeMode: true,
+          distractionFreeMode: false  ,
           pagerDirection: 'last', // 'first'正序 | 'last'倒序
           id: '<%- (frontmatter.permalink || frontmatter.to.path).slice(-16) %>', //  页面的唯一标识,长度不能超过50
           title: '「评论」<%- frontmatter.title %>', // GitHub issue 的标题
