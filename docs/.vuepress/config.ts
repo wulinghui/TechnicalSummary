@@ -12,8 +12,8 @@ const DOMAIN_NAME = 'xugaoyi.com' // 域名 (不带https)
 const WEB_SITE = `https://${DOMAIN_NAME}` // 网址
 
 export default defineConfig4CustomTheme<VdoingThemeConfig>({
-  theme: 'vdoing', // 使用npm主题包
-  // theme: resolve(__dirname, '../../vdoing'), // 使用本地主题包
+  // theme: 'vdoing', // 使用npm主题包
+  theme: resolve(__dirname, '../../vdoing'), // 使用本地主题包
 
   locales: {
     '/': {
@@ -46,7 +46,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
         // link: '/more/',
         items: [
 		//  { text: '关于', link: '/about/' },
-          { text: '随笔', link: '/categories/?category=随笔' },
+        //  { text: '随笔', link: '/categories/?category=随笔' },
 		  { text: '设计模式详解', link: '/pages/853b5b/' },
 		  { text: '数据结构与算法', link: '/pages/ebc515/' },
 		  { text: '前端', link: '/pages/57778e/' },
@@ -157,9 +157,9 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
 
     // 页脚信息
     footer: {
-      createYear: 2020, // 博客创建年份
+      createYear: 2021, // 博客创建年份
       copyrightInfo:
-        'Wu lingui | <a href="" target="_blank">MIT License</a>', // 博客版权信息、备案信息等，支持a标签或换行标签</br>
+        'Wu lingui | <a href="" target="_blank"></a>', // 博客版权信息、备案信息等，支持a标签或换行标签</br>
     },
 
     // 扩展自动生成frontmatter。（当md文件的frontmatter不存在相应的字段时将自动添加。不会覆盖已有的数据。）
