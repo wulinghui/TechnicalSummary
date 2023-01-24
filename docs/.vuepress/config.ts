@@ -30,14 +30,29 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
     nav: [
       { text: '首页', link: '/' },
 	  { text: 'go', link: '/pages/goVersion181/' },
-	  { text: 'java', link: '/categories/?category=spring' },
+	  { text: 'java', link: '/pages/springFramework/' },
 	  { text: 'Kubernetes', link: '/pages/Kubernetes/' },
+	  {
+        text: '数据库',
+        link: '/pages/410b25/',
+        items: [
+		  { text: 'mysql', link: '/pages/00291d/' },
+          { text: 'redis', link: '/pages/846ee6/' },
+		  { text: 'MongoDB', link: '/pages/5465c3/' },
+        ],
+      },
       {
         text: '更多',
         // link: '/more/',
         items: [
 		//  { text: '关于', link: '/about/' },
           { text: '随笔', link: '/categories/?category=随笔' },
+		  { text: '设计模式详解', link: '/pages/853b5b/' },
+		  { text: '数据结构与算法', link: '/pages/ebc515/' },
+		  { text: '前端', link: '/pages/57778e/' },
+		  { text: '项目', link: '/pages/282cd0/' },
+		  { text: '理论基础', link: '/pages/2cd810/' },
+		  { text: '运营', link: '/pages/6acd46/' },
         ],
       },
       {
@@ -105,7 +120,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
 
     // 博主信息 (显示在首页侧边栏)
     blogger: {
-      avatar: 'https://fastly.jsdelivr.net/gh/xugaoyi/image_store/blog/20200103123203.jpg',
+      avatar: '',
       name: 'linghui Wu',
       slogan: '一只努力学飞的鱼',
     },
@@ -297,7 +312,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
 
   markdown: {
     lineNumbers: true,
-    extractHeaders: ['h2', 'h3', 'h4', 'h5', 'h6'], // 提取标题到侧边栏的级别，默认['h2', 'h3']
+    extractHeaders: ['h1','h2', 'h3', 'h4', 'h5', 'h6'], // 提取标题到侧边栏的级别，默认['h2', 'h3']
   },
 
   // 监听文件变化并重新构建
