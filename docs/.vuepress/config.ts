@@ -31,7 +31,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
       { text: '首页', link: '/' },
 	  { text: 'go', link: '/pages/goVersion181/' },
 	  { text: 'java', link: '/pages/springFramework/' },
-	  { text: 'Kubernetes', link: '/pages/Kubernetes/' },
+	  { text: '云原生', link: '/pages/e5d517/' },
 	  {
         text: '数据库',
         link: '/pages/410b25/',
