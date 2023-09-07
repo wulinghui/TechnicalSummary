@@ -1,26 +1,55 @@
-# npm
-package-lock.json
-node_modules
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
 
-# yarn
-yarn.lock
-yarn-error.log
 
-# pnpm
-pnpm-lock.yaml
 
-# vscode
-.vscode
+# Eclipse
+.classpath
+.project
+.settings/
 
-# vuepress
-docs/.vuepress/dist
-
-# 百度链接推送
-urls.txt
-
-# mac
+# Intellij
+.idea/
+*.iml
+*.iws
+xf-ms-dao/*.iml/
+xf-ms-model/*.iml/
+xf-ms-service/*.iml/
+xf-ms-utils/*.iml/
+xf-ms-web/*.iml/
+xf-ms-timer/*.iml/
+# Mac
 .DS_Store
-*.mjs
+
+# Maven
+xf-ms-dao/target/
+xf-ms-model/target/
+xf-ms-service/target/
+xf-ms-utils/target/
+xf-ms-web/target/
+xf-ms-timer/target/
+# log
+logs/
+log/
+
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
 
 
 
@@ -181,3 +210,37 @@ selenium-debug.log
 #			ys 后端规范:
 ##################################################################################
 webDownLoad
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##################################################
+##    Golang项目常用 .gitignore 模板
+##    https://blog.csdn.net/weixin_44778151/article/details/122204407
+##################################################
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+# Test binary, built with `go test -c`
+*.test
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+*.apk
+
+
