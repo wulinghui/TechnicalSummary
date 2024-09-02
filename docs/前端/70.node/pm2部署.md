@@ -28,11 +28,38 @@ module.exports = {
             },
             instances: 'max', // 'max' 根据 CPU 核数启动实例数量,  //1 确保只启动一个实例：建议模式为fork，也就是单线程工作。
             autorestart: true, // 自动重启。
+            restartDelay: 3000,// 在这里设置重启间隔时间，例如设置为5秒（5000毫秒）
             watch: false,
             max_memory_restart: '1G',
         },
     ],
 };
+
+
+
+module.exports = {
+    apps: [
+        {
+            name: 'tg-bot', // 应用程序的名称
+            script: 'dist/index.js', // 要运行的脚本文件
+            instances: '1', // 实例数量。'max'表示使用所有CPU核心数
+            exec_mode: 'cluster', // 运行模式，此处为集群模式
+            increment_var: 'PORT', // 在集群模式下递增的端口变量名
+            // 在这里设置重启间隔时间，例如设置为5秒（5000毫秒）
+            restartDelay: 3000,
+            env: {
+                NODE_ENV: 'product', // 设置环境变量，此处为生产环境
+            },
+            watch: true, // 是否监视文件变化，如果文件发生变化，pm2会重新加载应用程序
+            ignore_watch: ["logs/*.log"], // 指定要忽略的文件或文件夹的匹配模式。这样可以排除日志文件或其他不希望触发重启的文件,否则会一直重启服务。
+            // 合并日志输出到单一文件。  必须指定否则合并没有用。
+            log       : './logs/combined.log',
+            merge_logs: true, // 这一行确保了stdout和stderr被合并
+            log_date_format: 'YYYY-MM-DD HH:mm:ss.SSS', // 将输出时间格式化的日志，否则就没有对应时间输出。
+        },
+    ],
+};
+
 ```
 以上定义：集群模式，将产生多个实例,并存在服务器上。    
 使用：    
@@ -62,6 +89,7 @@ module.exports = {
 
 - 抱错日志和代码内容不一致的问题
 > 缓存，需要 stop ， delete ， reset ，甚至删除 ~/.pm2 整个文件。
+> 哈哈哈，其实本质是他将报错,调试日志放到不同的文件中，你删除对应文件，获得不理他就行。
 
 
 ## 部署Fastify项目踩的坑。
@@ -70,3 +98,20 @@ module.exports = {
 - 因为cluster模式下，端口冲突的问题，多实例启动不了，改成 `instances : 1`
 - 因为cluster模式下，日志不打印的问题。 改成` exec_mode: 'fork' `模式就行。
 - 如需多实例并自定义日志，来实现多线程的操作，应采用nginx等反向代理来实现。 不要使用pm2的集群模式。
+
+
+## 日志轮换插件
+pm2-logrotate插件允许你同时配置日志文件的大小限制和时间间隔，以确保日志文件不会无限制增长，同时定期轮换日志文件。
+```bash
+# 安装
+pm2 install pm2-logrotate
+# 配置
+## 按文件大小轮换，并且按时间间隔轮换。 2者满足一个就轮换
+pm2 set pm2-logrotate:max_size 10M     # 设置每个日志文件的最大大小为 10MB
+pm2 set pm2-logrotate:retain 10        # 保留最近的 10 个日志文件
+pm2 set pm2-logrotate:compress true    # 启用日志压缩
+pm2 set pm2-logrotate:dateFormat YYYY-MM-DD_HH-mm-ss   # 设置日期格式
+pm2 set pm2-logrotate:rotateInterval '0 0 * * *'       # 每天轮换一次日志
+# 生效
+pm2 restart all
+```
