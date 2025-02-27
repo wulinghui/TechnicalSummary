@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[166],{529:function(t,n,s){"use strict";s.r(n);var o=s(7),e=Object(o.a)({},(function(){var t=this._self._c;return t("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}},[t("p",[this._v("spring commons 定义了微服务各个组件的接口规范。")])])}),[],!1,null,null,null);n.default=e.exports}}]);
