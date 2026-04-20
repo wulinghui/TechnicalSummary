@@ -30,6 +30,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
     nav: [
       { text: '首页', link: '/' },
 	  { text: 'go', link: '/pages/goVersion181/' },
+	  { text: 'rust', link: '/pages/rust001/' },
 	  { text: 'java', link: '/pages/springFramework/' },
 	  { text: '云原生', link: '/pages/e5d517/' },
 	  {
